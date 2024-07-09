@@ -1,5 +1,7 @@
-﻿  game.cpp
-  main.cpp
-  코드를 생성하고 있습니다...
-  Tetrhythm_sourcecode.vcxproj -> E:\제로부터시작하는게임개발_테트리듬_소스코드_깃\Tetrhythm\Tetrhythm_sourcecode\x64\Debug\Tetrhythm_sourcecode.exe
+﻿  Tetrhythm_sourcecode.vcxproj -> E:\제로부터시작하는게임개발_테트리듬_소스코드_깃\Tetrhythm\Tetrhythm_sourcecode\x64\Debug\Tetrhythm_sourcecode.exe
           1개 파일이 복사되었습니다.
+  지정된 경로를 찾을 수 없습니다.
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.CppCommon.targets(155,5): error MSB3073: "copy "E:\제로부터시작하는게임개발_테트리듬_소스코드_깃\Tetrhythm\Tetrhythm_sourcecode\SDL2-2.30.5\lib\x64\SDL2.dll" "E:\제로부터시작하는게임개발_테트리듬_소스코드_깃\Tetrhythm\Tetrhythm_sourcecode\x64\Debug\"
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.CppCommon.targets(155,5): error MSB3073: copy "E:\제로부터시작하는게임개발_테트리듬_소스코드_깃\Tetrhythm\Tetrhythm_sourcecode\\리소스 파일\SDL_image\lib\x64\SDL2_image.dll" "E:\제로부터시작하는게임개발_테트리듬_소스코드_깃\Tetrhythm\Tetrhythm_sourcecode\x64\Debug\"
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.CppCommon.targets(155,5): error MSB3073: 
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.CppCommon.targets(155,5): error MSB3073: :VCEnd" 명령이 종료되었습니다(코드: 1).

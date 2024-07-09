@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.34407.143
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Tetrhythm_sourcecode", "Tetrhythm_sourcecode.vcxproj", "{660CD5E3-8493-4877-AC5D-F70D58EF59D5}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{660CD5E3-8493-4877-AC5D-F70D58EF59D5}.Debug|x64.ActiveCfg = Debug|x64
+		{660CD5E3-8493-4877-AC5D-F70D58EF59D5}.Debug|x64.Build.0 = Debug|x64
+		{660CD5E3-8493-4877-AC5D-F70D58EF59D5}.Debug|x86.ActiveCfg = Debug|Win32
+		{660CD5E3-8493-4877-AC5D-F70D58EF59D5}.Debug|x86.Build.0 = Debug|Win32
+		{660CD5E3-8493-4877-AC5D-F70D58EF59D5}.Release|x64.ActiveCfg = Release|x64
+		{660CD5E3-8493-4877-AC5D-F70D58EF59D5}.Release|x64.Build.0 = Release|x64
+		{660CD5E3-8493-4877-AC5D-F70D58EF59D5}.Release|x86.ActiveCfg = Release|Win32
+		{660CD5E3-8493-4877-AC5D-F70D58EF59D5}.Release|x86.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {17DF1665-FA65-4903-A793-F056D1B5DD80}
+	EndGlobalSection
+EndGlobal

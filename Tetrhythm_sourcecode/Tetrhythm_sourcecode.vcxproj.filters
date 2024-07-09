@@ -17,9 +17,4 @@
       <UniqueIdentifier>{b1e84e3a-2da8-42fa-a9f0-87575e143a97}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="SDL인클루드확인.cpp">
-      <Filter>소스 파일\유진Test</Filter>
-    </ClCompile>
-  </ItemGroup>
 </Project>

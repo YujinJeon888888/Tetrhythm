@@ -24,6 +24,12 @@
     <ClInclude Include="Renderer.h">
       <Filter>소스 파일\유진Test</Filter>
     </ClInclude>
+    <ClInclude Include="LayerType.h">
+      <Filter>소스 파일\유진Test</Filter>
+    </ClInclude>
+    <ClInclude Include="Animation.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Layer.cpp">
@@ -35,10 +41,8 @@
     <ClCompile Include="main.cpp">
       <Filter>소스 파일\유진Test</Filter>
     </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="C:\Users\YujinJeon\OneDrive - 이화여자대학교\바탕 화면\테스트그림.png">
-      <Filter>리소스 파일</Filter>
-    </Image>
+    <ClCompile Include="Animation.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

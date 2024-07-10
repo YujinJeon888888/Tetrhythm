@@ -19,16 +19,16 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Animation.h" />
     <ClInclude Include="Layer.h" />
+    <ClInclude Include="LayerType.h" />
     <ClInclude Include="Renderer.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Animation.cpp" />
     <ClCompile Include="Layer.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Renderer.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="C:\Users\YujinJeon\OneDrive - 이화여자대학교\바탕 화면\테스트그림.png" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

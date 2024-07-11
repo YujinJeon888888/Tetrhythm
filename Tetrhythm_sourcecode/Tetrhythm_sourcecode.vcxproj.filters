@@ -18,30 +18,13 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Layer.h">
-      <Filter>소스 파일\유진Test</Filter>
-    </ClInclude>
-    <ClInclude Include="Renderer.h">
-      <Filter>소스 파일\유진Test</Filter>
-    </ClInclude>
-    <ClInclude Include="LayerType.h">
-      <Filter>소스 파일\유진Test</Filter>
-    </ClInclude>
-    <ClInclude Include="Animation.h">
-      <Filter>소스 파일</Filter>
-    </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="Layer.cpp">
-      <Filter>소스 파일\유진Test</Filter>
-    </ClCompile>
-    <ClCompile Include="Renderer.cpp">
-      <Filter>소스 파일\유진Test</Filter>
-    </ClCompile>
     <ClCompile Include="main.cpp">
-      <Filter>소스 파일\유진Test</Filter>
+      <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Animation.cpp">
+    <ClCompile Include="Print.h">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Print.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>

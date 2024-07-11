@@ -19,16 +19,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Animation.h" />
-    <ClInclude Include="Layer.h" />
-    <ClInclude Include="LayerType.h" />
-    <ClInclude Include="Renderer.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="Animation.cpp" />
-    <ClCompile Include="Layer.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="Renderer.cpp" />
+    <ClCompile Include="Print.cpp" />
+    <ClCompile Include="Print.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
@@ -138,7 +131,7 @@
     </Link>
     <PostBuildEvent>
       <Command>copy "$(ProjectDir)SDL2-2.30.5\lib\x64\SDL2.dll" "$(OutDir)"
-copy "$(ProjectDir)\리소스 파일\SDL_image\lib\x64\SDL2_image.dll" "$(OutDir)"
+copy "$(ProjectDir)SDL2_image-2.8.2\lib\x64\SDL2_image.dll" "$(OutDir)"
 </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>

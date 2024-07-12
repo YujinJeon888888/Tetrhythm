@@ -19,9 +19,27 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Characters.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Print.cpp" />
     <ClCompile Include="Print.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Characters.h" />
+    <ClInclude Include="resource.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="CharacterSize.png" />
+    <Image Include="frame1.png" />
+    <Image Include="frame2.png" />
+    <Image Include="explanation.png" />
+    <Image Include="pngImage.png" />
+    <Image Include="selection.png" />
+    <Image Include="Rectangle 31.png" />
+    <Image Include="testPic.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Tetrhythm_sourcecode1.rc" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

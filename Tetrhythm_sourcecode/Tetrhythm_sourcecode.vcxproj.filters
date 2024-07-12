@@ -16,16 +16,61 @@
     <Filter Include="소스 파일\유진Test">
       <UniqueIdentifier>{b1e84e3a-2da8-42fa-a9f0-87575e143a97}</UniqueIdentifier>
     </Filter>
+    <Filter Include="리소스 파일\CharacterSelection">
+      <UniqueIdentifier>{20809e97-f3a3-4948-88b7-cb3afd90d6d6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Print.h">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="Print.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="Characters.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Print.h">
+      <Filter>헤더 파일</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Characters.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="frame1.png">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="frame2.png">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="pngImage.png">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="testPic.png">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="explanation.png">
+      <Filter>리소스 파일\CharacterSelection</Filter>
+    </Image>
+    <Image Include="CharacterSize.png">
+      <Filter>리소스 파일\CharacterSelection</Filter>
+    </Image>
+    <Image Include="Rectangle 31.png">
+      <Filter>리소스 파일\CharacterSelection</Filter>
+    </Image>
+    <Image Include="selection.png">
+      <Filter>리소스 파일\CharacterSelection</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Tetrhythm_sourcecode1.rc">
+      <Filter>리소스 파일</Filter>
+    </ResourceCompile>
   </ItemGroup>
 </Project>

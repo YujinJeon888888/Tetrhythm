@@ -3,6 +3,7 @@
 Print::Print() {
     SDL_Init(SDL_INIT_VIDEO); // SDL 사용 시작
     window = SDL_CreateWindow("Tetrhythm", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1200, 675, 0); // 윈도우를 만든다
+
     renderer = SDL_CreateRenderer(window, -1, 0); // 렌더러를 만든다
 }
 
@@ -153,4 +154,9 @@ void Print::updateAnimations() {
             }
         }
     }
+}
+
+SDL_Renderer* Print::getRenderer() {
+
+    return renderer;
 }

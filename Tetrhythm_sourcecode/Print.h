@@ -35,7 +35,6 @@ private:
 public:
     Print(WindowManager* wm);
     ~Print();
-
     void printPNG(const char* path, const int& dstX = 0, const int& dstY = 0, int layer = 0);
     void printAnimationPNG(const std::vector<std::string>& paths, const int& dstX = 0, const int& dstY = 0, int layer = 0, int frameDelay = 60);
     void deletePNG(const char* path);
@@ -44,6 +43,7 @@ public:
     void render();
     void handleEvents();
     void updateAnimations();
-
     void clearScreen();
+    void moveImage(const char* path, const int& dstX, const int& dstY); // 이미지 이동 메소드 추가
+    SDL_Rect getImagePosition(const char* path); // 이미지 위치 반환 메소드 추가
 };

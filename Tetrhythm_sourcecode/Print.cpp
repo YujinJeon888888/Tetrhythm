@@ -191,3 +191,24 @@ void Print::clearScreen() {
     windowManager->clear();
     windowManager->present();
 }
+
+void Print::moveImage(const char* path, const int& dstX, const int& dstY) {
+    for (auto& layeredTexture : layeredTextures) {
+        if (layeredTexture.path == path) {
+            layeredTexture.dstRect.x = dstX;
+            layeredTexture.dstRect.y = dstY;
+            return;
+        }
+    }
+    std::cerr << "Failed to move image: Image not found" << std::endl;
+}
+
+SDL_Rect Print::getImagePosition(const char* path) {
+    for (const auto& layeredTexture : layeredTextures) {
+        if (layeredTexture.path == path) {
+            return layeredTexture.dstRect;
+        }
+    }
+    std::cerr << "Failed to get image position: Image not found" << std::endl;
+    return SDL_Rect{ 0, 0, 0, 0 }; // 기본 반환 값
+}

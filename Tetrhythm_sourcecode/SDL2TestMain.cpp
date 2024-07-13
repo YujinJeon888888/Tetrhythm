@@ -5,18 +5,18 @@
 #include <chrono>
 #include <iostream>
 
-int main_실행하고싶으면이름을main으로바꾸세요(int argc, char* argv[]) {
+int main_실행하고싶을시이름을main으로바꾸고원래main을주석처리하세요(int argc, char* argv[]) {
     WindowManager windowManager("Tetrhythm", 1200, 675);
     ////////////////////////////
 
-    Print* print = new Print(&windowManager);
+    Print* print1 = new Print(&windowManager);
 
     // 여러 이미지를 서로 다른 위치에 출력
-    print->printPNG("pngImage.png", 300, 300, 1); // 레이어 1
+    print1->printPNG("pngImage.png", 300, 300, 1); // 레이어 1
 
     // 애니메이션 출력
     std::vector<std::string> animPaths1 = { "Anim1.png", "Anim2.png" };
-    print->printAnimationPNG(animPaths1, 200, 200, 2, 60); // 1초마다 애니메이션 출력
+    print1->printAnimationPNG(animPaths1, 200, 200, 2, 60); // 1초마다 애니메이션 출력
     /////////////////////////////
     Print* print2 = new Print(&windowManager);
     print2->printPNG("testPic.png", 50, 50, 1);
@@ -37,9 +37,11 @@ int main_실행하고싶으면이름을main으로바꾸세요(int argc, char* argv[]) {
             if (i == 480) {
                 i = 0;
             }
-            print->handleEvents();
-            print->updateAnimations(); // 애니메이션 업데이트
-            print->render(); // 렌더링
+            print1->moveImage("pngImage.png",(print1->getImagePosition("pngImage.png").x + 1), (print1->getImagePosition("pngImage.png").y + 1));
+            print1->handleEvents();
+            print1->updateAnimations(); // 애니메이션 업데이트
+            print1->render(); // 렌더링
+            
         }
         else {
             print2->handleEvents();

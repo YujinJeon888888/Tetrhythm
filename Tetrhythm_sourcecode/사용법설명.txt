@@ -19,6 +19,12 @@ Print* 변수명 = new Print(&windowManager);객체생성
             변수명->updateAnimations();
             변수명->render();
 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+* 이미지 이동하고 싶을 시
+변수명.moveImage(const char* path, const int& dstX, const int& dstY)
+예시: 현재위치 +1)    
+    print1->moveImage("pngImage.png",(print1->getImagePosition("pngImage.png").x + 1), (print1->getImagePosition("pngImage.png").y + 1));
+
+ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 * 삭제하고 싶을 시
 png)
 변수명.deletePNG(const char* path) 호출

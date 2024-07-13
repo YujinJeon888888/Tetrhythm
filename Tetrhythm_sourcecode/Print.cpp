@@ -1,23 +1,18 @@
 #include "Print.h"
 
-Print::Print() {
-    SDL_Init(SDL_INIT_VIDEO); // SDL 사용 시작
-    window = SDL_CreateWindow("Tetrhythm", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1200, 675, 0); // 윈도우를 만든다
-    renderer = SDL_CreateRenderer(window, -1, 0); // 렌더러를 만든다
-}
+Print::Print(WindowManager* wm) : windowManager(wm), renderer(wm->getRenderer()) {}
 
 Print::~Print() {
     for (auto& layeredTexture : layeredTextures) {
-        SDL_DestroyTexture(layeredTexture.texture);
+        if (layeredTexture.texture != nullptr) {
+            SDL_DestroyTexture(layeredTexture.texture);
+        }
     }
-    SDL_DestroyRenderer(renderer);
-    SDL_DestroyWindow(window);
-    SDL_Quit(); // SDL 종료
 }
 
 void Print::printPNG(const char* path, const int& dstX, const int& dstY, int layer) {
     SDL_Surface* png = IMG_Load(path);
-    if (!png) {
+    if (png == nullptr) {
         std::cerr << "Failed to load image: " << IMG_GetError() << std::endl;
         return;
     }
@@ -25,15 +20,15 @@ void Print::printPNG(const char* path, const int& dstX, const int& dstY, int lay
     SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, png);
     SDL_FreeSurface(png);
 
-    if (!texture) {
+    if (texture == nullptr) {
         std::cerr << "Failed to create texture: " << SDL_GetError() << std::endl;
         return;
     }
 
     SDL_Rect dst;
-    dst.x = dstX;  // 이미지를 그릴 위치의 왼쪽 상단 x 좌표
-    dst.y = dstY;  // 이미지를 그릴 위치의 왼쪽 상단 y 좌표
-    SDL_QueryTexture(texture, nullptr, nullptr, &dst.w, &dst.h); // 원본 이미지 크기를 그대로 사용
+    dst.x = dstX;
+    dst.y = dstY;
+    SDL_QueryTexture(texture, nullptr, nullptr, &dst.w, &dst.h);
 
     layeredTextures.push_back({ texture, dst, layer, path });
 }
@@ -67,10 +62,43 @@ void Print::deletePNG(const char* path) {
         if (layeredTextures[i].path == path) {
             SDL_DestroyTexture(layeredTextures[i].texture);
             layeredTextures.erase(layeredTextures.begin() + i);
+
+            // 애니메이션 리스트에서도 해당 텍스처를 포함한 애니메이션을 삭제
+            for (size_t j = 0; j < animations.size(); ++j) {
+                auto it = std::find(animations[j].paths.begin(), animations[j].paths.end(), path);
+                if (it != animations[j].paths.end()) {
+                    animations.erase(animations.begin() + j);
+                    break;
+                }
+            }
+
             return;
         }
     }
     std::cerr << "Failed to delete image: Image not found" << std::endl;
+}
+
+void Print::deleteAnimation(const std::vector<std::string>& paths) {
+    for (size_t i = 0; i < animations.size(); ++i) {
+        if (animations[i].paths == paths) {
+            int layer = animations[i].layer;
+            animations.erase(animations.begin() + i);
+
+            // 해당 레이어의 텍스처들도 삭제
+            for (size_t j = 0; j < layeredTextures.size(); ) {
+                if (layeredTextures[j].layer == layer) {
+                    SDL_DestroyTexture(layeredTextures[j].texture);
+                    layeredTextures.erase(layeredTextures.begin() + j);
+                }
+                else {
+                    ++j;
+                }
+            }
+
+            return;
+        }
+    }
+    std::cerr << "Failed to delete animation: Animation not found" << std::endl;
 }
 
 void Print::deleteLayer(int layer) {
@@ -83,16 +111,15 @@ void Print::deleteLayer(int layer) {
             ++i;
         }
     }
-}
 
-void Print::setLayer(const char* path, int layer) {
-    for (auto& layeredTexture : layeredTextures) {
-        if (layeredTexture.path == path) {
-            layeredTexture.layer = layer;
-            return;
+    for (size_t j = 0; j < animations.size(); ) {
+        if (animations[j].layer == layer) {
+            animations.erase(animations.begin() + j);
+        }
+        else {
+            ++j;
         }
     }
-    std::cerr << "Failed to set layer: Image not found" << std::endl;
 }
 
 SDL_Texture* Print::createTextureFromPath(const std::string& path) {
@@ -114,18 +141,17 @@ SDL_Texture* Print::createTextureFromPath(const std::string& path) {
 }
 
 void Print::render() {
-    SDL_RenderClear(renderer); // 화면 지우기
+    windowManager->clear();
 
-    // 레이어 순서에 따라 텍스처 정렬
     std::sort(layeredTextures.begin(), layeredTextures.end(), [](const LayeredTexture& a, const LayeredTexture& b) {
         return a.layer < b.layer;
         });
 
     for (const auto& layeredTexture : layeredTextures) {
-        SDL_RenderCopy(renderer, layeredTexture.texture, nullptr, &layeredTexture.dstRect); // 모든 텍스처를 렌더러에 그린다.
+        SDL_RenderCopy(renderer, layeredTexture.texture, nullptr, &layeredTexture.dstRect);
     }
 
-    SDL_RenderPresent(renderer); // 변경된 렌더러를 업데이트
+    windowManager->present();
 }
 
 void Print::handleEvents() {
@@ -143,14 +169,36 @@ void Print::updateAnimations() {
             anim.frameCount = 0;
             anim.currentFrame = (anim.currentFrame + 1) % anim.paths.size();
 
-            // 이전 애니메이션 텍스처 삭제
-            deleteLayer(anim.layer);
-
-            // 새 텍스처 로드 및 추가
             SDL_Texture* texture = createTextureFromPath(anim.paths[anim.currentFrame]);
             if (texture) {
-                layeredTextures.push_back({ texture, anim.animRect, anim.layer, anim.paths[anim.currentFrame] });
+                for (auto& layeredTexture : layeredTextures) {
+                    if (layeredTexture.layer == anim.layer) {
+                        SDL_DestroyTexture(layeredTexture.texture);
+                        layeredTexture.texture = texture;
+                        layeredTexture.path = anim.paths[anim.currentFrame];
+                    }
+                }
             }
         }
     }
+}
+
+void Print::clearAllPNGs() {
+    for (auto& tex : layeredTextures) {
+        if (tex.texture != nullptr) {
+            SDL_DestroyTexture(tex.texture);
+        }
+    }
+    layeredTextures.clear();
+}
+
+void Print::clearAllAnimations() {
+    animations.clear();
+}
+
+void Print::clearScreen() {
+    clearAllAnimations();
+    clearAllPNGs();
+    windowManager->clear();
+    windowManager->present();
 }

@@ -27,5 +27,18 @@
     <ClCompile Include="Print.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="WindowManager.cpp">
+      <Filter>소스 파일\유진Test</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="WindowManager.h">
+      <Filter>소스 파일\유진Test</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="사용법설명.txt">
+      <Filter>소스 파일\유진Test</Filter>
+    </Text>
   </ItemGroup>
 </Project>

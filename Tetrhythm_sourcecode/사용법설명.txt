@@ -1,0 +1,1 @@
+1. Print* print = new Print(&windowManager);°´Ã¼»ý¼º

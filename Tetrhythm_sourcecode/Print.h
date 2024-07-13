@@ -30,8 +30,6 @@ private:
     SDL_Event event;
     std::vector<LayeredTexture> layeredTextures;
     std::vector<Animation> animations;
-    void clearAllPNGs();
-    void clearAllAnimations();
     SDL_Texture* createTextureFromPath(const std::string& path);
 
 public:

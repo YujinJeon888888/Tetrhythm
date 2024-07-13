@@ -1,6 +1,8 @@
 #include "Print.h"
 
-Print::Print(WindowManager* wm) : windowManager(wm), renderer(wm->getRenderer()) {}
+Print::Print(WindowManager* wm) 
+    : windowManager(wm), renderer(wm->getRenderer()) 
+{}
 
 Print::~Print() {
     for (auto& layeredTexture : layeredTextures) {
@@ -183,22 +185,9 @@ void Print::updateAnimations() {
     }
 }
 
-void Print::clearAllPNGs() {
-    for (auto& tex : layeredTextures) {
-        if (tex.texture != nullptr) {
-            SDL_DestroyTexture(tex.texture);
-        }
-    }
-    layeredTextures.clear();
-}
 
-void Print::clearAllAnimations() {
-    animations.clear();
-}
 
 void Print::clearScreen() {
-    clearAllAnimations();
-    clearAllPNGs();
     windowManager->clear();
     windowManager->present();
 }

@@ -1,0 +1,40 @@
+ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+1. 
+씬마다 다른 
+Print* 변수명 = new Print(&windowManager);객체생성
+
+2. 
+이미지 할당 시)
+변수명->printPNG(경로, x위치, y위치, 레이어);
+
+애니메이션 할당 시)
+    1) 애니메이션 경로리스트 생성
+        ex) std::vector<std::string> animPaths1 = { "frame1.png", "frame2.png" };
+    2) 애니메이션 할당
+        변수명->printAnimationPNG(animPaths1, x위치, y위치, 레이어, 몇프레임??); // 60프레임이 기본이므로, 60을 넣으면 1초, 120을 넣으면 2초, .. 간격으로 애니메이션 재생.
+
+3.
+렌더링: while룹 안에 이 코드 넣기
+            변수명->handleEvents();
+            변수명->updateAnimations();
+            변수명->render();
+ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+* 이미지 이동하고 싶을 시
+변수명.moveImage(const char* path, const int& dstX, const int& dstY)
+예시: 현재위치 +1)    
+    print1->moveImage("pngImage.png",(print1->getImagePosition("pngImage.png").x + 1), (print1->getImagePosition("pngImage.png").y + 1));
+
+ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+* 삭제하고 싶을 시
+png)
+변수명.deletePNG(const char* path) 호출
+anim)
+변수명.deleteAnimation(const std::vector<std::string>& paths) 호출
+레이어)
+변수명.deleteLayer(int layer) 호출
+
+*화면 깨끗하게 비우고 싶을 시(지우고 싶을 시) // png, anim 삭제가 아닙니다. 그저 지우개같은 역할입니다
+변수명.clearScreen();
+ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+씬 전환하는 예시는 SDL2TestMain.cpp에서 확인
+if에 다양한 경우 넣기 가능.

@@ -5,7 +5,7 @@
 #include <iostream>
 #include <vector>
 #include <algorithm>
-
+#include "WindowManager.h"
 
 struct LayeredTexture {
     SDL_Texture* texture;
@@ -25,25 +25,27 @@ struct Animation {
 
 class Print {
 private:
-    SDL_Window* window; // ¾ÕÀ¸·Î ¸¸µé À©µµ¿ì(È­¸éÀÌ ±×·ÁÁö´Â Á¾ÀÌ)
-    SDL_Renderer* renderer;   // ·»´õ·¯(È­¸éÀ» ±×¸®´Â °³Ã¼)°¡ µé¾î°¥ Æ÷ÀÎÅÍº¯¼ö
+    WindowManager* windowManager;
+    SDL_Renderer* renderer;
     SDL_Event event;
-    std::vector<LayeredTexture> layeredTextures; // ¿©·¯ ÅØ½ºÃ³¸¦ ·¹ÀÌ¾î Á¤º¸¿Í ÇÔ²² ÀúÀåÇÒ º¤ÅÍ
-    std::vector<Animation> animations; // ¿©·¯ ¾Ö´Ï¸ŞÀÌ¼ÇÀ» ÀúÀåÇÒ º¤ÅÍ
+    std::vector<LayeredTexture> layeredTextures;
+    std::vector<Animation> animations;
+    SDL_Texture* createTextureFromPath(const std::string& path);
 
 public:
-    Print();
+    Print(WindowManager* wm);
     ~Print();
 
     SDL_Renderer* getRenderer();
     void printPNG(const char* path, const int& dstX = 0, const int& dstY = 0, int layer = 0);
     void printAnimationPNG(const std::vector<std::string>& paths, const int& dstX = 0, const int& dstY = 0, int layer = 0, int frameDelay = 60);
     void deletePNG(const char* path);
-    void deleteLayer(int layer); // Æ¯Á¤ ·¹ÀÌ¾îÀÇ ¸ğµç ÅØ½ºÃ³¸¦ »èÁ¦ÇÏ´Â ÇÔ¼ö Ãß°¡
-    void setLayer(const char* path, int layer);
+    void deleteAnimation(const std::vector<std::string>& paths);
+    void deleteLayer(int layer);
     void render();
     void handleEvents();
-    SDL_Texture* createTextureFromPath(const std::string& path);
-    void updateAnimations(); // ¾Ö´Ï¸ŞÀÌ¼Ç ¾÷µ¥ÀÌÆ® ÇÔ¼ö Ãß°¡
-
+    void updateAnimations();
+    void clearScreen();
+    void moveImage(const char* path, const int& dstX, const int& dstY); // ï¿½Ì¹ï¿½ï¿½ï¿½ ï¿½Ìµï¿½ ï¿½Ş¼Òµï¿½ ï¿½ß°ï¿½
+    SDL_Rect getImagePosition(const char* path); // ï¿½Ì¹ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡ ï¿½ï¿½È¯ ï¿½Ş¼Òµï¿½ ï¿½ß°ï¿½
 };

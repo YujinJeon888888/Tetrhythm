@@ -1,24 +1,20 @@
 #include "Print.h"
 
-Print::Print() {
-    SDL_Init(SDL_INIT_VIDEO); // SDL »ç¿ë ½ÃÀÛ
-    window = SDL_CreateWindow("Tetrhythm", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1200, 675, 0); // À©µµ¿ì¸¦ ¸¸µç´Ù
-
-    renderer = SDL_CreateRenderer(window, -1, 0); // ·»´õ·¯¸¦ ¸¸µç´Ù
-}
+Print::Print(WindowManager* wm) 
+    : windowManager(wm), renderer(wm->getRenderer()) 
+{}
 
 Print::~Print() {
     for (auto& layeredTexture : layeredTextures) {
-        SDL_DestroyTexture(layeredTexture.texture);
+        if (layeredTexture.texture != nullptr) {
+            SDL_DestroyTexture(layeredTexture.texture);
+        }
     }
-    SDL_DestroyRenderer(renderer);
-    SDL_DestroyWindow(window);
-    SDL_Quit(); // SDL Á¾·á
 }
 
 void Print::printPNG(const char* path, const int& dstX, const int& dstY, int layer) {
     SDL_Surface* png = IMG_Load(path);
-    if (!png) {
+    if (png == nullptr) {
         std::cerr << "Failed to load image: " << IMG_GetError() << std::endl;
         return;
     }
@@ -26,15 +22,15 @@ void Print::printPNG(const char* path, const int& dstX, const int& dstY, int lay
     SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, png);
     SDL_FreeSurface(png);
 
-    if (!texture) {
+    if (texture == nullptr) {
         std::cerr << "Failed to create texture: " << SDL_GetError() << std::endl;
         return;
     }
 
     SDL_Rect dst;
-    dst.x = dstX;  // ÀÌ¹ÌÁö¸¦ ±×¸± À§Ä¡ÀÇ ¿ÞÂÊ »ó´Ü x ÁÂÇ¥
-    dst.y = dstY;  // ÀÌ¹ÌÁö¸¦ ±×¸± À§Ä¡ÀÇ ¿ÞÂÊ »ó´Ü y ÁÂÇ¥
-    SDL_QueryTexture(texture, nullptr, nullptr, &dst.w, &dst.h); // ¿øº» ÀÌ¹ÌÁö Å©±â¸¦ ±×´ë·Î »ç¿ë
+    dst.x = dstX;
+    dst.y = dstY;
+    SDL_QueryTexture(texture, nullptr, nullptr, &dst.w, &dst.h);
 
     layeredTextures.push_back({ texture, dst, layer, path });
 }
@@ -68,10 +64,43 @@ void Print::deletePNG(const char* path) {
         if (layeredTextures[i].path == path) {
             SDL_DestroyTexture(layeredTextures[i].texture);
             layeredTextures.erase(layeredTextures.begin() + i);
+
+            // ï¿½Ö´Ï¸ï¿½ï¿½Ì¼ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ø´ï¿½ ï¿½Ø½ï¿½Ã³ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´Ï¸ï¿½ï¿½Ì¼ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+            for (size_t j = 0; j < animations.size(); ++j) {
+                auto it = std::find(animations[j].paths.begin(), animations[j].paths.end(), path);
+                if (it != animations[j].paths.end()) {
+                    animations.erase(animations.begin() + j);
+                    break;
+                }
+            }
+
             return;
         }
     }
     std::cerr << "Failed to delete image: Image not found" << std::endl;
+}
+
+void Print::deleteAnimation(const std::vector<std::string>& paths) {
+    for (size_t i = 0; i < animations.size(); ++i) {
+        if (animations[i].paths == paths) {
+            int layer = animations[i].layer;
+            animations.erase(animations.begin() + i);
+
+            // ï¿½Ø´ï¿½ ï¿½ï¿½ï¿½Ì¾ï¿½ï¿½ï¿½ ï¿½Ø½ï¿½Ã³ï¿½éµµ ï¿½ï¿½ï¿½ï¿½
+            for (size_t j = 0; j < layeredTextures.size(); ) {
+                if (layeredTextures[j].layer == layer) {
+                    SDL_DestroyTexture(layeredTextures[j].texture);
+                    layeredTextures.erase(layeredTextures.begin() + j);
+                }
+                else {
+                    ++j;
+                }
+            }
+
+            return;
+        }
+    }
+    std::cerr << "Failed to delete animation: Animation not found" << std::endl;
 }
 
 void Print::deleteLayer(int layer) {
@@ -84,16 +113,15 @@ void Print::deleteLayer(int layer) {
             ++i;
         }
     }
-}
 
-void Print::setLayer(const char* path, int layer) {
-    for (auto& layeredTexture : layeredTextures) {
-        if (layeredTexture.path == path) {
-            layeredTexture.layer = layer;
-            return;
+    for (size_t j = 0; j < animations.size(); ) {
+        if (animations[j].layer == layer) {
+            animations.erase(animations.begin() + j);
+        }
+        else {
+            ++j;
         }
     }
-    std::cerr << "Failed to set layer: Image not found" << std::endl;
 }
 
 SDL_Texture* Print::createTextureFromPath(const std::string& path) {
@@ -115,18 +143,17 @@ SDL_Texture* Print::createTextureFromPath(const std::string& path) {
 }
 
 void Print::render() {
-    SDL_RenderClear(renderer); // È­¸é Áö¿ì±â
+    windowManager->clear();
 
-    // ·¹ÀÌ¾î ¼ø¼­¿¡ µû¶ó ÅØ½ºÃ³ Á¤·Ä
     std::sort(layeredTextures.begin(), layeredTextures.end(), [](const LayeredTexture& a, const LayeredTexture& b) {
         return a.layer < b.layer;
         });
 
     for (const auto& layeredTexture : layeredTextures) {
-        SDL_RenderCopy(renderer, layeredTexture.texture, nullptr, &layeredTexture.dstRect); // ¸ðµç ÅØ½ºÃ³¸¦ ·»´õ·¯¿¡ ±×¸°´Ù.
+        SDL_RenderCopy(renderer, layeredTexture.texture, nullptr, &layeredTexture.dstRect);
     }
 
-    SDL_RenderPresent(renderer); // º¯°æµÈ ·»´õ·¯¸¦ ¾÷µ¥ÀÌÆ®
+    windowManager->present();
 }
 
 void Print::handleEvents() {
@@ -144,19 +171,44 @@ void Print::updateAnimations() {
             anim.frameCount = 0;
             anim.currentFrame = (anim.currentFrame + 1) % anim.paths.size();
 
-            // ÀÌÀü ¾Ö´Ï¸ÞÀÌ¼Ç ÅØ½ºÃ³ »èÁ¦
-            deleteLayer(anim.layer);
-
-            // »õ ÅØ½ºÃ³ ·Îµå ¹× Ãß°¡
             SDL_Texture* texture = createTextureFromPath(anim.paths[anim.currentFrame]);
             if (texture) {
-                layeredTextures.push_back({ texture, anim.animRect, anim.layer, anim.paths[anim.currentFrame] });
+                for (auto& layeredTexture : layeredTextures) {
+                    if (layeredTexture.layer == anim.layer) {
+                        SDL_DestroyTexture(layeredTexture.texture);
+                        layeredTexture.texture = texture;
+                        layeredTexture.path = anim.paths[anim.currentFrame];
+                    }
+                }
             }
         }
     }
 }
 
-SDL_Renderer* Print::getRenderer() {
 
-    return renderer;
+
+void Print::clearScreen() {
+    windowManager->clear();
+    windowManager->present();
+}
+
+void Print::moveImage(const char* path, const int& dstX, const int& dstY) {
+    for (auto& layeredTexture : layeredTextures) {
+        if (layeredTexture.path == path) {
+            layeredTexture.dstRect.x = dstX;
+            layeredTexture.dstRect.y = dstY;
+            return;
+        }
+    }
+    std::cerr << "Failed to move image: Image not found" << std::endl;
+}
+
+SDL_Rect Print::getImagePosition(const char* path) {
+    for (const auto& layeredTexture : layeredTextures) {
+        if (layeredTexture.path == path) {
+            return layeredTexture.dstRect;
+        }
+    }
+    std::cerr << "Failed to get image position: Image not found" << std::endl;
+    return SDL_Rect{ 0, 0, 0, 0 }; // ï¿½âº» ï¿½ï¿½È¯ ï¿½ï¿½
 }

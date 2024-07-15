@@ -13,64 +13,44 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="소스 파일\유진Test">
+    <Filter Include="소스 파일\Print">
+      <UniqueIdentifier>{2b3a7dc4-cf01-4493-b540-b59a2a26b429}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Window">
+      <UniqueIdentifier>{1351c72e-aaeb-4655-91c9-7da8d9b06aa9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\유진PrintTest">
       <UniqueIdentifier>{b1e84e3a-2da8-42fa-a9f0-87575e143a97}</UniqueIdentifier>
     </Filter>
-    <Filter Include="리소스 파일\CharacterSelection">
-      <UniqueIdentifier>{20809e97-f3a3-4948-88b7-cb3afd90d6d6}</UniqueIdentifier>
+    <Filter Include="소스 파일\Main">
+      <UniqueIdentifier>{752e6e71-d4f0-48ad-a3a0-f98011cf13c1}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="Print.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="Characters.cpp">
-      <Filter>소스 파일</Filter>
+    <ClCompile Include="SDL2TestMain.cpp">
+      <Filter>소스 파일\유진PrintTest</Filter>
     </ClCompile>
     <ClCompile Include="Print.h">
-      <Filter>헤더 파일</Filter>
+      <Filter>소스 파일\Print</Filter>
+    </ClCompile>
+    <ClCompile Include="Print.cpp">
+      <Filter>소스 파일\Print</Filter>
+    </ClCompile>
+    <ClCompile Include="WindowManager.cpp">
+      <Filter>소스 파일\Window</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>소스 파일\Main</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Characters.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="resource.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
+    <Text Include="사용법설명.txt">
+      <Filter>소스 파일\Print</Filter>
+    </Text>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="frame1.png">
-      <Filter>리소스 파일</Filter>
-    </Image>
-    <Image Include="frame2.png">
-      <Filter>리소스 파일</Filter>
-    </Image>
-    <Image Include="pngImage.png">
-      <Filter>리소스 파일</Filter>
-    </Image>
-    <Image Include="testPic.png">
-      <Filter>리소스 파일</Filter>
-    </Image>
-    <Image Include="explanation.png">
-      <Filter>리소스 파일\CharacterSelection</Filter>
-    </Image>
-    <Image Include="CharacterSize.png">
-      <Filter>리소스 파일\CharacterSelection</Filter>
-    </Image>
-    <Image Include="Rectangle 31.png">
-      <Filter>리소스 파일\CharacterSelection</Filter>
-    </Image>
-    <Image Include="selection.png">
-      <Filter>리소스 파일\CharacterSelection</Filter>
-    </Image>
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="Tetrhythm_sourcecode1.rc">
-      <Filter>리소스 파일</Filter>
-    </ResourceCompile>
+    <ClInclude Include="WindowManager.h">
+      <Filter>소스 파일\Window</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

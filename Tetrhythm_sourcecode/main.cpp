@@ -1,28 +1,25 @@
-#include <vector>
-#include "Characters.h"
 #include "Print.h"
+#include "WindowManager.h"
+#include <vector>
+#include <thread>
+#include <chrono>
+#include <iostream>
 
 int main(int argc, char* argv[]) {
-    Print print;
-    
-    // ¿©·¯ ÀÌ¹ÌÁö¸¦ ¼­·Î ´Ù¸¥ À§Ä¡¿¡ Ãâ·Â
-    //print.printPNG("pngImage.png", 300, 300, 1); // ·¹ÀÌ¾î 1, ·¹ÀÌ¾î°¡ ³·À» ¼ö·Ï z °ªÀÌ ³·À½.
-    //print.printPNG("testPic.png", 50, 50, 2); // ·¹ÀÌ¾î 2
+    //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ã¢ ï¿½ï¿½ï¿½ï¿½
+    WindowManager windowManager("Tetrhythm", 1200, 675);
+    //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½: 60
+    const int targetFPS = 60;
+    const std::chrono::milliseconds frameDuration(1000 / targetFPS);
 
-    // ¾Ö´Ï¸ÞÀÌ¼Ç Ãâ·Â
-    std::vector<std::string> animPaths1 = { "frame1.png", "frame2.png" };
-    //print.printAnimationPNG(animPaths1, 200, 200, 3, 240); // 240 ÇÁ·¹ÀÓ¸¶´Ù ¾Ö´Ï¸ÞÀÌ¼Ç Ãâ·Â
-    
-    Characters ch;
 
-    ch.draw(&print);
-   // ch.draw(print.getRenderer());
-   while (true) {
-   
-      //print.handleEvents();
-      //print.updateAnimations(); // ¾Ö´Ï¸ÞÀÌ¼Ç ¾÷µ¥ÀÌÆ®
-      print.render(); // ·»´õ¸µ
+    while (true) {
+        
+
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Óµï¿½ ï¿½ï¿½ï¿½ï¿½
+        std::this_thread::sleep_for(frameDuration);
     }
+
 
     return 0;
 }

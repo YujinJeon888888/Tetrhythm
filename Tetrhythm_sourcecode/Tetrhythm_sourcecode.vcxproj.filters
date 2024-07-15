@@ -42,6 +42,12 @@
     <ClCompile Include="main.cpp">
       <Filter>소스 파일\Main</Filter>
     </ClCompile>
+    <ClCompile Include="Characters.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="CharacterMain.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="사용법설명.txt">
@@ -52,5 +58,47 @@
     <ClInclude Include="WindowManager.h">
       <Filter>소스 파일\Window</Filter>
     </ClInclude>
+    <ClInclude Include="Characters.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Tetrhythm_sourcecode1.rc">
+      <Filter>리소스 파일</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="CharacterSize.png">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="frame1.png">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="frame2.png">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="explanation.png">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="pngImage.png">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="selection.png">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="Rectangle 31.png">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="testPic.png">
+      <Filter>리소스 파일</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include=".editorconfig">
+      <Filter>소스 파일</Filter>
+    </None>
   </ItemGroup>
 </Project>

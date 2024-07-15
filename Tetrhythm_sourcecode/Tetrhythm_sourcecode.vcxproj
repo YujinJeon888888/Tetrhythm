@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="CharacterMain.cpp" />
     <ClCompile Include="Characters.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="SDL2TestMain.cpp" />
@@ -48,6 +49,9 @@
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Tetrhythm_sourcecode1.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include=".editorconfig" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

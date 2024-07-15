@@ -65,7 +65,7 @@ void Print::deletePNG(const char* path) {
             SDL_DestroyTexture(layeredTextures[i].texture);
             layeredTextures.erase(layeredTextures.begin() + i);
 
-            // �ִϸ��̼� ����Ʈ������ �ش� �ؽ�ó�� ������ �ִϸ��̼��� ����
+            // 占쌍니몌옙占싱쇽옙 占쏙옙占쏙옙트占쏙옙占쏙옙占쏙옙 占쌔댐옙 占쌔쏙옙처占쏙옙 占쏙옙占쏙옙占쏙옙 占쌍니몌옙占싱쇽옙占쏙옙 占쏙옙占쏙옙
             for (size_t j = 0; j < animations.size(); ++j) {
                 auto it = std::find(animations[j].paths.begin(), animations[j].paths.end(), path);
                 if (it != animations[j].paths.end()) {
@@ -86,7 +86,7 @@ void Print::deleteAnimation(const std::vector<std::string>& paths) {
             int layer = animations[i].layer;
             animations.erase(animations.begin() + i);
 
-            // �ش� ���̾��� �ؽ�ó�鵵 ����
+            // 占쌔댐옙 占쏙옙占싱억옙占쏙옙 占쌔쏙옙처占썽도 占쏙옙占쏙옙
             for (size_t j = 0; j < layeredTextures.size(); ) {
                 if (layeredTextures[j].layer == layer) {
                     SDL_DestroyTexture(layeredTextures[j].texture);
@@ -164,6 +164,18 @@ void Print::handleEvents() {
     }
 }
 
+void Print::handleEvents(const std::function<void(SDL_Event&)>& onEvent) {
+  //  SDL_Event event;
+    while (SDL_PollEvent(&event)) {
+        if (event.type == SDL_QUIT) {
+            exit(0);
+        }
+        else if (event.type == SDL_KEYDOWN) {
+            onEvent(event); // 특정 조건에서 onEvent 호출
+        }
+    }
+}
+
 void Print::updateAnimations() {
     for (auto& anim : animations) {
         anim.frameCount++;
@@ -210,5 +222,5 @@ SDL_Rect Print::getImagePosition(const char* path) {
         }
     }
     std::cerr << "Failed to get image position: Image not found" << std::endl;
-    return SDL_Rect{ 0, 0, 0, 0 }; // �⺻ ��ȯ ��
+    return SDL_Rect{ 0, 0, 0, 0 }; // 占썩본 占쏙옙환 占쏙옙
 }

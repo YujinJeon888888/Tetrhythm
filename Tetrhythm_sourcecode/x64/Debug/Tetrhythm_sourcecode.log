@@ -1,7 +1,7 @@
-﻿  SDL2TestMain.cpp
-  main.cpp
-  코드를 생성하고 있습니다...
+﻿  CharacterMain.cpp
+C:\Users\daso\Documents\GitHub\Tetrhythm\Tetrhythm_sourcecode\CharacterMain.cpp(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+C:\Users\daso\Documents\GitHub\Tetrhythm\Tetrhythm_sourcecode\Print.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
 x64\Debug\Print.obj : warning LNK4042: 개체가 두 번 이상 지정되었습니다. 나머지는 무시됩니다.
-  Tetrhythm_sourcecode.vcxproj -> E:\제로부터시작하는게임개발_테트리듬_소스코드_깃\Tetrhythm\Tetrhythm_sourcecode\x64\Debug\Tetrhythm_sourcecode.exe
+  Tetrhythm_sourcecode.vcxproj -> C:\Users\daso\Documents\GitHub\Tetrhythm\Tetrhythm_sourcecode\x64\Debug\Tetrhythm_sourcecode.exe
           1개 파일이 복사되었습니다.
           1개 파일이 복사되었습니다.

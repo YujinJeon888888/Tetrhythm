@@ -6,7 +6,22 @@ Characters::Characters() :
 
 }
 
-
+void Characters::handleArrowKey(SDL_Keycode key) {
+    switch (key) {
+    case SDLK_UP:
+        std::cout << "Up arrow key pressed!" << std::endl;
+        break;
+    case SDLK_DOWN:
+        std::cout << "Down arrow key pressed!" << std::endl;
+        break;
+    case SDLK_LEFT:
+        std::cout << "Left arrow key pressed!" << std::endl;
+        break;
+    case SDLK_RIGHT:
+        std::cout << "Right arrow key pressed!" << std::endl;
+        break;
+    }
+}
 
 void Characters::draw(Print* pt) {
 
@@ -25,7 +40,6 @@ void Characters::draw(Print* pt) {
 			}
 			
 				pt->printPNG("CharacterSize.png", x * (128+33) + 122, y * (128 + 87) + 178, 2);
-
 			
 		}
 

@@ -5,10 +5,10 @@
 #include <chrono>
 #include <iostream>
 
-int main(int argc, char* argv[]) {
-    //������ â ����
+int main1(int argc, char* argv[]) {
+    //占쏙옙占쏙옙占쏙옙 창 占쏙옙占쏙옙
     WindowManager windowManager("Tetrhythm", 1200, 675);
-    //������: 60
+    //프레임 속도: 60
     const int targetFPS = 60;
     const std::chrono::milliseconds frameDuration(1000 / targetFPS);
 
@@ -16,7 +16,7 @@ int main(int argc, char* argv[]) {
     while (true) {
         
 
-        // ������ �ӵ� ����
+        // 占쏙옙占쏙옙占쏙옙 占쌈듸옙 占쏙옙占쏙옙
         std::this_thread::sleep_for(frameDuration);
     }
 

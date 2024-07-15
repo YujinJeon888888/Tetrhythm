@@ -5,23 +5,24 @@
 #include <chrono>
 #include <iostream>
 
-int main_½ÇÇàÇÏ°í½ÍÀ»½ÃÀÌ¸§À»mainÀ¸·Î¹Ù²Ù°í¿ø·¡mainÀ»ÁÖ¼®Ã³¸®ÇÏ¼¼¿ä(int argc, char* argv[]) {
+//ì‹¤í–‰í•˜ê³ ì‹¶ì„ì‹œì´ë¦„ì„mainìœ¼ë¡œë°”ê¾¸ê³ ì›ë˜mainì„ì£¼ì„ì²˜ë¦¬í•˜ì„¸ìš”
+int main2(int argc, char* argv[]) {
     WindowManager windowManager("Tetrhythm", 1200, 675);
     ////////////////////////////
 
     Print* print1 = new Print(&windowManager);
 
-    // ¿©·¯ ÀÌ¹ÌÁö¸¦ ¼­·Î ´Ù¸¥ À§Ä¡¿¡ Ãâ·Â
-    print1->printPNG("pngImage.png", 300, 300, 1); // ·¹ÀÌ¾î 1
+    // ì—¬ëŸ¬ ì´ë¯¸ì§€ë¥¼ ì„œë¡œ ë‹¤ë¥¸ ìœ„ì¹˜ì— ì¶œë ¥
+    print1->printPNG("pngImage.png", 300, 300, 1); // ë ˆì´ì–´ 1
 
-    // ¾Ö´Ï¸ŞÀÌ¼Ç Ãâ·Â
+    // ì• ë‹ˆë©”ì´ì…˜ ì¶œë ¥
     std::vector<std::string> animPaths1 = { "Anim1.png", "Anim2.png" };
-    print1->printAnimationPNG(animPaths1, 200, 200, 2, 60); // 1ÃÊ¸¶´Ù ¾Ö´Ï¸ŞÀÌ¼Ç Ãâ·Â
+    print1->printAnimationPNG(animPaths1, 200, 200, 2, 60); // 1ì´ˆë§ˆë‹¤ ì• ë‹ˆë©”ì´ì…˜ ì¶œë ¥
     /////////////////////////////
     Print* print2 = new Print(&windowManager);
     print2->printPNG("testPic.png", 50, 50, 1);
     std::vector<std::string> animPaths2= { "frame1.png", "frame2.png" };
-    print2->printAnimationPNG(animPaths2, 200, 200, 2, 60); // 1ÃÊ¸¶´Ù ¾Ö´Ï¸ŞÀÌ¼Ç Ãâ·Â
+    print2->printAnimationPNG(animPaths2, 200, 200, 2, 60); // 1ì´ˆë§ˆë‹¤ ì• ë‹ˆë©”ì´ì…˜ ì¶œë ¥
 
     ///////////////////////////////
 
@@ -30,7 +31,7 @@ int main_½ÇÇàÇÏ°í½ÍÀ»½ÃÀÌ¸§À»mainÀ¸·Î¹Ù²Ù°í¿ø·¡mainÀ»ÁÖ¼®Ã³¸®ÇÏ¼¼¿ä(int argc, ch
     
     
     while (true) {
-        //¾ÀÀüÈ¯¿¹½Ã: 4ÃÊ°£°İÀ¸·Î ¾ÀÀÌ ÀüÈ¯
+        //ì”¬ì „í™˜ì˜ˆì‹œ: 4ì´ˆê°„ê²©ìœ¼ë¡œ ì”¬ì´ ì „í™˜
         static int i = 0;
         i++;
         if (i >= 240&&i<=480) {
@@ -39,8 +40,8 @@ int main_½ÇÇàÇÏ°í½ÍÀ»½ÃÀÌ¸§À»mainÀ¸·Î¹Ù²Ù°í¿ø·¡mainÀ»ÁÖ¼®Ã³¸®ÇÏ¼¼¿ä(int argc, ch
             }
             print1->moveImage("pngImage.png",(print1->getImagePosition("pngImage.png").x + 1), (print1->getImagePosition("pngImage.png").y + 1));
             print1->handleEvents();
-            print1->updateAnimations(); // ¾Ö´Ï¸ŞÀÌ¼Ç ¾÷µ¥ÀÌÆ®
-            print1->render(); // ·»´õ¸µ
+            print1->updateAnimations(); // ì• ë‹ˆë©”ì´ì…˜ ì—…ë°ì´íŠ¸
+            print1->render(); // ë Œë”ë§
             
         }
         else {
@@ -50,7 +51,7 @@ int main_½ÇÇàÇÏ°í½ÍÀ»½ÃÀÌ¸§À»mainÀ¸·Î¹Ù²Ù°í¿ø·¡mainÀ»ÁÖ¼®Ã³¸®ÇÏ¼¼¿ä(int argc, ch
         }
 
 
-        // ÇÁ·¹ÀÓ ¼Óµµ Á¦¾î
+        // í”„ë ˆì„ ì†ë„ ì œì–´
         std::this_thread::sleep_for(frameDuration);
     }
 

@@ -12,11 +12,14 @@ public:
 
 	Characters();
 	enum { Width = 4, Height = 2 };
-	void draw(Print* renderer);
+	void drawInit(Print* renderer);
+	void drawSelection(Print* renderer);
 	void draw(SDL_Renderer* renderer);
 	void handleArrowKey(SDL_Keycode key);
 private: 
 	bool data[Width][Height];
+	int sIndex = 0; 
+	
 
 
 };

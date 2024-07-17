@@ -1,4 +1,3 @@
-#include "Print.h"
 #include "WindowManager.h"
 #include <vector>
 #include <thread>
@@ -18,11 +17,11 @@ int main(int argc, char* argv[]) {
 
     Print* print = new Print(&windowManager); 
     Characters ch;
-
-    ch.draw(print);
+    ch.drawInit(print);
 
     while (true) {
 
+ 
         print->handleEvents([&](SDL_Event& event) {
 
             if (event.type == SDL_KEYDOWN) {
@@ -30,9 +29,11 @@ int main(int argc, char* argv[]) {
             }
             }
         );
+        ch.drawSelection(print);
 
         print->updateAnimations();
         print->render();
+ 
  
         std::this_thread::sleep_for(frameDuration);
     }

@@ -6,9 +6,9 @@
 #include <iostream>
 
 int main1(int argc, char* argv[]) {
-    //占쏙옙占쏙옙占쏙옙 창 占쏙옙占쏙옙
+    //?좎룞?쇿뜝?숈삕?좎룞??李??좎룞?쇿뜝?숈삕
     WindowManager windowManager("Tetrhythm", 1200, 675);
-    //프레임 속도: 60
+    //?꾨젅???띾룄: 60
     const int targetFPS = 60;
     const std::chrono::milliseconds frameDuration(1000 / targetFPS);
 
@@ -16,7 +16,7 @@ int main1(int argc, char* argv[]) {
     while (true) {
         
 
-        // 占쏙옙占쏙옙占쏙옙 占쌈듸옙 占쏙옙占쏙옙
+        // ?좎룞?쇿뜝?숈삕?좎룞???좎뙂?몄삕 ?좎룞?쇿뜝?숈삕
         std::this_thread::sleep_for(frameDuration);
     }
 

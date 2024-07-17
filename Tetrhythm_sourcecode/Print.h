@@ -9,6 +9,7 @@
 #include "WindowManager.h"
 
 
+
 struct LayeredTexture {
     SDL_Texture* texture;
     SDL_Rect dstRect;

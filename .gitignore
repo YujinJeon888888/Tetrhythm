@@ -103,3 +103,6 @@ ipch/
 *.psess
 *.vsp
 *.vspx
+
+
+.vs/ 

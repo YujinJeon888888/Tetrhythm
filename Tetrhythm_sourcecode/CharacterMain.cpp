@@ -21,7 +21,6 @@ int main(int argc, char* argv[]) {
 
     while (true) {
 
- 
         print->handleEvents([&](SDL_Event& event) {
 
             if (event.type == SDL_KEYDOWN) {

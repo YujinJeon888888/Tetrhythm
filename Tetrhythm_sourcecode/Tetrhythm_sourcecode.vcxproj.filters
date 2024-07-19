@@ -19,16 +19,16 @@
     <Filter Include="소스 파일\Window">
       <UniqueIdentifier>{1351c72e-aaeb-4655-91c9-7da8d9b06aa9}</UniqueIdentifier>
     </Filter>
-    <Filter Include="소스 파일\유진PrintTest">
-      <UniqueIdentifier>{b1e84e3a-2da8-42fa-a9f0-87575e143a97}</UniqueIdentifier>
-    </Filter>
     <Filter Include="소스 파일\Main">
       <UniqueIdentifier>{752e6e71-d4f0-48ad-a3a0-f98011cf13c1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\유진Test">
+      <UniqueIdentifier>{b1e84e3a-2da8-42fa-a9f0-87575e143a97}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SDL2TestMain.cpp">
-      <Filter>소스 파일\유진PrintTest</Filter>
+      <Filter>소스 파일\유진Test</Filter>
     </ClCompile>
     <ClCompile Include="Print.h">
       <Filter>소스 파일\Print</Filter>
@@ -47,6 +47,9 @@
     </ClCompile>
     <ClCompile Include="CharacterMain.cpp">
       <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="SQLTest.cpp">
+      <Filter>소스 파일\유진Test</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

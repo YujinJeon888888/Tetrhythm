@@ -13,7 +13,7 @@
 #undef APSTUDIO_READONLY_SYMBOLS
 
 /////////////////////////////////////////////////////////////////////////////
-// ÇÑ±¹¾î(´ëÇÑ¹Î±¹) resources
+// í•œêµ­ì–´(ëŒ€í•œë¯¼êµ­) resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_KOR)
 LANGUAGE LANG_KOREAN, SUBLANG_DEFAULT
@@ -50,9 +50,9 @@ END
 // PNG
 //
 
-IDB_PNG1                PNG                     "C:\\Users\\daso\\Downloads\\ChracterSize.png"
+//IDB_PNG1                PNG                     "C:\\Users\\daso\\Downloads\\ChracterSize.png"
 
-#endif    // ÇÑ±¹¾î(´ëÇÑ¹Î±¹) resources
+#endif    // í•œêµ­ì–´(ëŒ€í•œë¯¼êµ­) resources
 /////////////////////////////////////////////////////////////////////////////
 
 

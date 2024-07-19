@@ -25,6 +25,7 @@
     <ClCompile Include="SDL2TestMain.cpp" />
     <ClCompile Include="Print.cpp" />
     <ClCompile Include="Print.h" />
+    <ClCompile Include="SQLTest.cpp" />
     <ClCompile Include="WindowManager.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -113,8 +114,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(ProjectDir)\SDL2-2.30.5\include;$(ProjectDir)\SDL2_image-2.8.2\include;$(IncludePath)</IncludePath>
-    <LibraryPath>$(ProjectDir)\SDL2-2.30.5\lib\x64;$(ProjectDir)\SDL2_image-2.8.2\lib\x64;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(ProjectDir)\SDL2-2.30.5\include;$(ProjectDir)\SDL2_image-2.8.2\include;$(ProjectDir)\MySQL Server 8.0\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(ProjectDir)\SDL2-2.30.5\lib\x64;$(ProjectDir)\SDL2_image-2.8.2\lib\x64;$(ProjectDir)\MySQL Server 8.0\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
@@ -157,7 +158,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2test.lib;SDL2_image.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2test.lib;SDL2_image.lib;libmysql.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>copy "$(ProjectDir)SDL2-2.30.5\lib\x64\SDL2.dll" "$(OutDir)"

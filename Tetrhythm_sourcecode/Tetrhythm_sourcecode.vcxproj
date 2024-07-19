@@ -21,6 +21,7 @@
   <ItemGroup>
     <ClCompile Include="CharacterMain.cpp" />
     <ClCompile Include="Characters.cpp" />
+    <ClCompile Include="Login.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="SDL2TestMain.cpp" />
     <ClCompile Include="Print.cpp" />

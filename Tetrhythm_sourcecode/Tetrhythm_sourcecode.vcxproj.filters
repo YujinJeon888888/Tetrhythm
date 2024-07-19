@@ -51,6 +51,9 @@
     <ClCompile Include="SQLTest.cpp">
       <Filter>소스 파일\유진Test</Filter>
     </ClCompile>
+    <ClCompile Include="Login.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="사용법설명.txt">

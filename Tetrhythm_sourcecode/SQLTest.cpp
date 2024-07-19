@@ -12,13 +12,13 @@ int main() {
 
 	mysql_init(&Conn);
 
-	ConnPtr = mysql_real_connect(&Conn, "localhost", "root", "8501", "test", 3306, (char*)NULL, 0);
+	ConnPtr = mysql_real_connect(&Conn, "iu51mf0q32fkhfpl.cbetxkdyhwsb.us-east-1.rds.amazonaws.com", "c4soupya4kvutpg2", "nyryixy9qhnhzfze", "ljk5c9ot0z8wofa5", 3306, (char*)NULL, 0);
 	if (ConnPtr == NULL) {
 		cout << mysql_error(&Conn) << endl;
 		return 1;
 	}
 
-	const char* Query = "select * from testtable";
+	const char* Query = "SELECT 'star'";
 	Stat = mysql_query(ConnPtr, Query);
 	if (Stat != 0) {
 		cout << mysql_error(&Conn) << endl;

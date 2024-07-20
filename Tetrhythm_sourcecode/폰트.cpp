@@ -14,7 +14,7 @@ int main(int argc, char** argv) //int main()은 작동하지 않는 경우가 �
 
 	window = SDL_CreateWindow("windowName", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 640, 480, 0); //윈도우를 만든다.
 	renderer = SDL_CreateRenderer(window, -1, 0); //렌더러를 만든다.
-	TTF_Font* font = TTF_OpenFont("Galmuri9.ttf", 9); //해당 경로에 있는 폰트로 객체를 만들어 주소를 반환한다.
+	TTF_Font* font = TTF_OpenFont("DungGeunMo.ttf", 9); //해당 경로에 있는 폰트로 객체를 만들어 주소를 반환한다.
 
 	while (1) //무한루프
 	{

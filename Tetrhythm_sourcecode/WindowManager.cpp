@@ -38,3 +38,8 @@ void WindowManager::clear() {
 void WindowManager::present() {
     SDL_RenderPresent(renderer);
 }
+
+SDL_Window* WindowManager::getWindow() const {
+    return window;
+}
+

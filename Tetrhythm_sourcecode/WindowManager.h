@@ -12,6 +12,7 @@ public:
     ~WindowManager();
 
     SDL_Renderer* getRenderer() const;
+    SDL_Window* getWindow() const;
     void clear();
     void present();
 };

@@ -16,28 +16,25 @@
     <Filter Include="소스 파일\Print">
       <UniqueIdentifier>{2b3a7dc4-cf01-4493-b540-b59a2a26b429}</UniqueIdentifier>
     </Filter>
-    <Filter Include="소스 파일\Window">
-      <UniqueIdentifier>{1351c72e-aaeb-4655-91c9-7da8d9b06aa9}</UniqueIdentifier>
-    </Filter>
     <Filter Include="소스 파일\Main">
       <UniqueIdentifier>{752e6e71-d4f0-48ad-a3a0-f98011cf13c1}</UniqueIdentifier>
     </Filter>
     <Filter Include="소스 파일\유진Test">
       <UniqueIdentifier>{b1e84e3a-2da8-42fa-a9f0-87575e143a97}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\Print\Window">
+      <UniqueIdentifier>{1351c72e-aaeb-4655-91c9-7da8d9b06aa9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SDL2TestMain.cpp">
       <Filter>소스 파일\유진Test</Filter>
     </ClCompile>
-    <ClCompile Include="Print.h">
-      <Filter>소스 파일\Print</Filter>
-    </ClCompile>
     <ClCompile Include="Print.cpp">
       <Filter>소스 파일\Print</Filter>
     </ClCompile>
     <ClCompile Include="WindowManager.cpp">
-      <Filter>소스 파일\Window</Filter>
+      <Filter>소스 파일\Print\Window</Filter>
     </ClCompile>
     <ClCompile Include="main.cpp">
       <Filter>소스 파일\Main</Filter>
@@ -54,6 +51,12 @@
     <ClCompile Include="Login.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="Print.h">
+      <Filter>헤더 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="폰트.cpp">
+      <Filter>소스 파일\유진Test</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="사용법설명.txt">
@@ -61,13 +64,13 @@
     </Text>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="WindowManager.h">
-      <Filter>소스 파일\Window</Filter>
-    </ClInclude>
     <ClInclude Include="Characters.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="resource.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="WindowManager.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

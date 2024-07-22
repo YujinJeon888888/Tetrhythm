@@ -224,3 +224,26 @@ SDL_Rect Print::getImagePosition(const char* path) {
     std::cerr << "Failed to get image position: Image not found" << std::endl;
     return SDL_Rect{ 0, 0, 0, 0 }; // 占썩본 占쏙옙환 占쏙옙
 }
+
+void Print::printText(const std::string& text, const int& dstX, const int& dstY, int layer, TTF_Font* font, SDL_Color color) { // 폰트출력추가
+    SDL_Surface* surface = TTF_RenderText_Blended(font, text.c_str(), color);
+    if (!surface) {
+        std::cerr << "Failed to render text: " << TTF_GetError() << std::endl;
+        return;
+    }
+
+    SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, surface);
+    SDL_FreeSurface(surface);
+
+    if (!texture) {
+        std::cerr << "Failed to create text texture: " << SDL_GetError() << std::endl;
+        return;
+    }
+
+    SDL_Rect dst;
+    dst.x = dstX;
+    dst.y = dstY;
+    SDL_QueryTexture(texture, nullptr, nullptr, &dst.w, &dst.h);
+
+    layeredTextures.push_back({ texture, dst, layer, "" });
+}

@@ -9,6 +9,12 @@
 #include "WindowManager.h"
 #include <SDL_ttf.h> // 폰트출력추가
 
+struct FontInfo {
+    TTF_Font* font;
+    SDL_Color color;
+    int layer;
+    SDL_Rect dst;
+};
 
 struct LayeredTexture {
     SDL_Texture* texture;
@@ -27,6 +33,7 @@ struct Animation {
 };
 
 class Print {
+
 private:
     WindowManager* windowManager;
     SDL_Renderer* renderer;
@@ -34,7 +41,9 @@ private:
     std::vector<LayeredTexture> layeredTextures;
     std::vector<Animation> animations;
     SDL_Texture* createTextureFromPath(const std::string& path);
+    std::vector<FontInfo> fontInfos;
 
+    
 public:
     Print(WindowManager* wm);
     ~Print();
@@ -51,4 +60,7 @@ public:
     void moveImage(const char* path, const int& dstX, const int& dstY); // 占싱뱄옙占쏙옙 占싱듸옙 占쌨소듸옙 占쌩곤옙
     SDL_Rect getImagePosition(const char* path); // 占싱뱄옙占쏙옙 占쏙옙치 占쏙옙환 占쌨소듸옙 占쌩곤옙
     void printText(const std::string& text, const int& dstX, const int& dstY, int layer, TTF_Font* font, SDL_Color color); // 폰트출력추가
+    void setText(const std::string& text);
+    TTF_Font* loadFont(const char* path, int size); // 폰트출력추가
+    void unloadFont(TTF_Font* font); // 폰트출력추가
 };

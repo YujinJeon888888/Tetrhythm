@@ -45,17 +45,3 @@ SDL_Window* WindowManager::getWindow() const {
     return window;
 }
 
-TTF_Font* WindowManager::loadFont(const char* path, int size) { // 폰트출력추가
-    TTF_Font* font = TTF_OpenFont(path, size);
-    if (!font) {
-        std::cerr << "Failed to load font: " << TTF_GetError() << std::endl;
-        return nullptr;
-    }
-    return font;
-}
-
-void WindowManager::unloadFont(TTF_Font* font) { // 폰트출력추가
-    if (font) {
-        TTF_CloseFont(font);
-    }
-}

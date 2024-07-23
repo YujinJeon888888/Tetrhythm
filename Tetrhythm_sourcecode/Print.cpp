@@ -225,6 +225,7 @@ SDL_Rect Print::getImagePosition(const char* path) {
     return SDL_Rect{ 0, 0, 0, 0 }; // 占썩본 占쏙옙환 占쏙옙
 }
 
+
 void Print::printText(const std::string& text, const int& dstX, const int& dstY, int layer, TTF_Font* font, SDL_Color color) { // 폰트출력추가
     SDL_Surface* surface = TTF_RenderText_Blended(font, text.c_str(), color);
     if (!surface) {
@@ -246,4 +247,47 @@ void Print::printText(const std::string& text, const int& dstX, const int& dstY,
     SDL_QueryTexture(texture, nullptr, nullptr, &dst.w, &dst.h);
 
     layeredTextures.push_back({ texture, dst, layer, "" });
+    FontInfo fontInfo = {
+        font,color,layer,dst
+    };
+    fontInfos.push_back(fontInfo);
+}
+
+// 폰트출력추가
+void Print::setText(const std::string& text) {
+    for (auto& layeredTexture:layeredTextures) {
+        for (auto& fontInfo : fontInfos) {
+            if (layeredTexture.layer == fontInfo.layer) {               
+                //폰트 넣은 거 찾아내서 텍스트만 바꿔주기
+                SDL_Surface* surface = TTF_RenderText_Blended(fontInfo.font, text.c_str(), fontInfo.color);
+                if (!surface) {
+                    std::cerr << "Failed to render text: " << TTF_GetError() << std::endl;
+                    return;
+                }
+                SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, surface);
+                SDL_FreeSurface(surface);
+                if (!texture) {
+                    std::cerr << "Failed to create text texture: " << SDL_GetError() << std::endl;
+                    return;
+                }
+                SDL_QueryTexture(texture, nullptr, nullptr, &fontInfo.dst.w, &fontInfo.dst.h);
+                layeredTexture.texture = texture;
+            }
+        }
+    }
+}
+
+TTF_Font* Print::loadFont(const char* path, int size) { // 폰트출력추가
+    TTF_Font* font = TTF_OpenFont(path, size);
+    if (!font) {
+        std::cerr << "Failed to load font: " << TTF_GetError() << std::endl;
+        return nullptr;
+    }
+    return font;
+}
+
+void Print::unloadFont(TTF_Font* font) { // 폰트출력추가
+    if (font) {
+        TTF_CloseFont(font);
+    }
 }

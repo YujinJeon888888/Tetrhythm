@@ -27,17 +27,26 @@ int main(int argc, char* argv[]) {
     const int targetFPS = 60;
     const std::chrono::milliseconds frameDuration(1000 / targetFPS);
     int i = 0;
+    //텍스트 input
+    Print* textInputTest = new Print(&windowManager);
+    TTF_Font* font2 = textInputTest->loadFont("Galmuri9.ttf", 28); // 폰트출력추가
+    textInputTest->InputText(200, 200, 1, font2, color);
+
+    SDL_StartTextInput();
+
     while (true) {
-        i++;
-        print->handleEvents();
-        print->updateAnimations();
-        print->render();
-        if (i > 60) {
-            print->setText("BBuuBBuu");
-        }
+        //i++;
+        //print->handleEvents();
+        //print->updateAnimations();
+        //print->render();
+        //if (i > 60) {
+        //    print->setText("BBuuBBuu");
+        //}
+        textInputTest->handleTextEvents();
+        textInputTest->renderInputText();
         std::this_thread::sleep_for(frameDuration);
     }
-
+    SDL_StopTextInput();
     print->unloadFont(font); // 폰트출력추가
     delete print;
     return 0;

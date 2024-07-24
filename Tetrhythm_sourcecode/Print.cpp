@@ -156,6 +156,14 @@ void Print::render() {
     windowManager->present();
 }
 
+void Print::renderInputText() {
+    windowManager->clear();
+    
+    SDL_RenderCopy(this->renderer, textInputObj.texture, nullptr, &textInputObj.dst);
+
+    windowManager->present();
+}
+
 void Print::handleEvents() {
     while (SDL_PollEvent(&event)) {
         if (event.type == SDL_QUIT) {
@@ -164,8 +172,37 @@ void Print::handleEvents() {
     }
 }
 
+void Print::handleTextEvents() {
+    SDL_Surface* temp=NULL;
+    while (SDL_PollEvent(&event)) {
+        if (event.type == SDL_QUIT) {
+            exit(0);
+        }
+        switch (event.type)
+        {
+            case SDL_TEXTINPUT:
+                textInput += event.text.text;
+                if (textInputObj.texture) {
+                    SDL_DestroyTexture(textInputObj.texture);
+                    textInputObj.texture = NULL;
+                }
+                //temp is a surface above while..
+                temp = TTF_RenderText_Solid(textInputObj.font,textInput.c_str(),textInputObj.color);
+                if (temp) {
+                    textInputObj.texture = SDL_CreateTextureFromSurface(renderer,temp);
+                    textInputObj.dst.w = temp->w;
+                    textInputObj.dst.h = temp->h;
+                    SDL_FreeSurface(temp);
+                    temp = NULL;
+                }
+                break;
+        }
+    }
+
+}
+
 void Print::handleEvents(const std::function<void(SDL_Event&)>& onEvent) {
-  //  SDL_Event event;
+    //  SDL_Event event;
     while (SDL_PollEvent(&event)) {
         if (event.type == SDL_QUIT) {
             exit(0);
@@ -248,9 +285,23 @@ void Print::printText(const std::string& text, const int& dstX, const int& dstY,
 
     layeredTextures.push_back({ texture, dst, layer, "" });
     FontInfo fontInfo = {
-        font,color,layer,dst
+        font,color,layer,dst,texture
     };
     fontInfos.push_back(fontInfo);
+}
+
+//input용 텍스트 초기화
+void Print::InputText(const int& dstX, const int& dstY, int layer, TTF_Font* font, SDL_Color color)
+{
+    textInputObj.font = font;
+    textInputObj.color = color;
+    textInputObj.layer = layer;
+    textInputObj.dst.x = dstX;
+    textInputObj.dst.y = dstY;
+    textInputObj.dst.w=300;
+    textInputObj.dst.h=300;
+    textInputObj.texture = NULL;
+
 }
 
 // 폰트출력추가
@@ -272,6 +323,7 @@ void Print::setText(const std::string& text) {
                 }
                 SDL_QueryTexture(texture, nullptr, nullptr, &fontInfo.dst.w, &fontInfo.dst.h);
                 layeredTexture.texture = texture;
+                fontInfo.texture = texture;
             }
         }
     }

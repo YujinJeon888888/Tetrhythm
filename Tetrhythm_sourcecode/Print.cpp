@@ -222,6 +222,21 @@ void Print::handleTextEvents() {
                         temp = NULL;
                     }
                 }
+                if (event.key.keysym.sym == SDLK_RETURN&& !textInput.empty()) {
+                    textInput.clear();
+                    if (textInputObj.texture) {
+                        SDL_DestroyTexture(textInputObj.texture);
+                        textInputObj.texture = NULL;
+                    }
+                    temp = TTF_RenderText_Solid(textInputObj.font, textInput.c_str(), textInputObj.color);
+                    if (temp) {
+                        textInputObj.texture = SDL_CreateTextureFromSurface(renderer, temp);
+                        textInputObj.dst.w = temp->w;
+                        textInputObj.dst.h = temp->h;
+                        SDL_FreeSurface(temp);
+                        temp = NULL;
+                    }
+                }
                 break;
         }
     }

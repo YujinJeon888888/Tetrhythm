@@ -16,6 +16,7 @@ int main(int argc, char* argv[]) {
     WindowManager windowManager("Tetrhythm", 1200, 675);
     SceneManager sceneManager;
 
+    //시작 시 호출 원하는 씬을 여기서 부르면 됨. 씬 상속 받은 클래스만 가능
     sceneManager.changeScene(std::make_unique<MainMenu>(windowManager,sceneManager));
 
     while (true) {

@@ -19,7 +19,6 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="CharacterMain.cpp" />
     <ClCompile Include="Characters.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MainMenu.cpp" />
@@ -38,6 +37,7 @@
     <ClInclude Include="WindowManager.h" />
   </ItemGroup>
   <ItemGroup>
+    <Text Include="Scene 사용법.txt" />
     <Text Include="사용법설명.txt" />
   </ItemGroup>
   <ItemGroup>

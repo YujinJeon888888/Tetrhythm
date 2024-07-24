@@ -12,13 +12,15 @@ class Characters : public Scene
 public:
 
 	Characters(WindowManager& wm, SceneManager& manager);
-	enum { Width = 4, Height = 2 };
 	void drawInit() override;
-	void drawSelection();
-	void handleArrowKey(SDL_Keycode key);
 	void handleEvents() override;
 	void update() override;
 	void render() override;
+
+	enum { Width = 4, Height = 2 };
+	void drawSelection();
+	void handleArrowKey(SDL_Keycode key);
+	
 
 private: 
 	bool data[Width][Height];

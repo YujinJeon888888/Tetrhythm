@@ -157,7 +157,7 @@ void Print::render() {
 }
 
 //텍스트 입력 렌더링도 같이 처리시, 이 메소드 호출
-void Print::renderWithTextInputAndPNG(Print* print) {
+void Print::renderWithTextInputAndPNG() {
     windowManager->clear();
 
     std::sort(layeredTextures.begin(), layeredTextures.end(), [](const LayeredTexture& a, const LayeredTexture& b) {
@@ -168,19 +168,11 @@ void Print::renderWithTextInputAndPNG(Print* print) {
         SDL_RenderCopy(renderer, layeredTexture.texture, nullptr, &layeredTexture.dstRect);
     }
 
-    SDL_RenderCopy(print->renderer, textInputObj.texture, nullptr, &textInputObj.dst);
+    SDL_RenderCopy(renderer, textInputObj.texture, nullptr, &textInputObj.dst);
 
     windowManager->present();
 }
 
-
-void Print::renderInputText(Print* print) {
-    windowManager->clear();
-    
-    SDL_RenderCopy(print->renderer, textInputObj.texture, nullptr, &textInputObj.dst);
-
-    windowManager->present();
-}
 
 void Print::handleEvents() {
     while (SDL_PollEvent(&event)) {
@@ -212,6 +204,23 @@ void Print::handleTextEvents() {
                     textInputObj.dst.h = temp->h;
                     SDL_FreeSurface(temp);
                     temp = NULL;
+                }
+                break;
+            case SDL_KEYDOWN:
+                if (event.key.keysym.sym == SDLK_BACKSPACE && !textInput.empty()) {
+                    textInput.pop_back();
+                    if (textInputObj.texture) {
+                        SDL_DestroyTexture(textInputObj.texture);
+                        textInputObj.texture = NULL;
+                    }
+                    temp = TTF_RenderText_Solid(textInputObj.font, textInput.c_str(), textInputObj.color);
+                    if (temp) {
+                        textInputObj.texture = SDL_CreateTextureFromSurface(renderer, temp);
+                        textInputObj.dst.w = temp->w;
+                        textInputObj.dst.h = temp->h;
+                        SDL_FreeSurface(temp);
+                        temp = NULL;
+                    }
                 }
                 break;
         }

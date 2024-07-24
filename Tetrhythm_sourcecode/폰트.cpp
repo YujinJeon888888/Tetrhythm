@@ -39,7 +39,7 @@ int main(int argc, char* argv[]) {
         //폰트 입력 동시에 했을 때는 이렇게.
         print->updateAnimations();
         print->handleTextEvents();
-        print->renderWithTextInputAndPNG(print);
+        print->renderWithTextInputAndPNG();
 
         if (i > 60) {
             print->setText("BBuuBBuu");

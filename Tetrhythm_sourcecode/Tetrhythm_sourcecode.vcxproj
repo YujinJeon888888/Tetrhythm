@@ -23,10 +23,11 @@
     <ClCompile Include="Characters.cpp" />
     <ClCompile Include="Login.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="MySQL.cpp" />
     <ClCompile Include="SDL2TestMain.cpp" />
     <ClCompile Include="Print.cpp" />
     <ClCompile Include="Print.h" />
-    <ClCompile Include="SQLTest.cpp" />
+    <ClCompile Include="MySQL.h" />
     <ClCompile Include="WindowManager.cpp" />
     <ClCompile Include="폰트.cpp" />
   </ItemGroup>

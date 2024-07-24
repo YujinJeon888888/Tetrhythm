@@ -223,6 +223,11 @@ void Print::handleTextEvents() {
                     }
                 }
                 if (event.key.keysym.sym == SDLK_RETURN&& !textInput.empty()) {
+                    //텍스트 빼오기. 일단 하드코딩
+                    string str = textInput.c_str();
+                    MySQL mysql;
+                    mysql.insertAndShowUsers(str);
+
                     textInput.clear();
                     if (textInputObj.texture) {
                         SDL_DestroyTexture(textInputObj.texture);

@@ -25,6 +25,9 @@
     <Filter Include="소스 파일\Window">
       <UniqueIdentifier>{1351c72e-aaeb-4655-91c9-7da8d9b06aa9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\MySQL">
+      <UniqueIdentifier>{be87edba-dd75-4d49-8547-feee9edad20b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SDL2TestMain.cpp">
@@ -45,17 +48,20 @@
     <ClCompile Include="CharacterMain.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="SQLTest.cpp">
-      <Filter>소스 파일\유진Test</Filter>
-    </ClCompile>
     <ClCompile Include="Login.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Print.h">
-      <Filter>헤더 파일</Filter>
-    </ClCompile>
     <ClCompile Include="폰트.cpp">
       <Filter>소스 파일\유진Test</Filter>
+    </ClCompile>
+    <ClCompile Include="Print.h">
+      <Filter>소스 파일\Print</Filter>
+    </ClCompile>
+    <ClCompile Include="MySQL.h">
+      <Filter>소스 파일\MySQL</Filter>
+    </ClCompile>
+    <ClCompile Include="MySQL.cpp">
+      <Filter>소스 파일\MySQL</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -71,7 +77,7 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="WindowManager.h">
-      <Filter>헤더 파일</Filter>
+      <Filter>소스 파일\Window</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -8,6 +8,8 @@
 #include <functional>
 #include "WindowManager.h"
 #include <SDL_ttf.h> // 폰트출력추가
+#include "MySQL.h"
+
 
 struct FontInfo {
     TTF_Font* font;

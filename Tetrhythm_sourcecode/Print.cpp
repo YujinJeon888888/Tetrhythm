@@ -156,10 +156,28 @@ void Print::render() {
     windowManager->present();
 }
 
-void Print::renderInputText() {
+//텍스트 입력 렌더링도 같이 처리시, 이 메소드 호출
+void Print::renderWithTextInputAndPNG(Print* print) {
+    windowManager->clear();
+
+    std::sort(layeredTextures.begin(), layeredTextures.end(), [](const LayeredTexture& a, const LayeredTexture& b) {
+        return a.layer < b.layer;
+        });
+
+    for (const auto& layeredTexture : layeredTextures) {
+        SDL_RenderCopy(renderer, layeredTexture.texture, nullptr, &layeredTexture.dstRect);
+    }
+
+    SDL_RenderCopy(print->renderer, textInputObj.texture, nullptr, &textInputObj.dst);
+
+    windowManager->present();
+}
+
+
+void Print::renderInputText(Print* print) {
     windowManager->clear();
     
-    SDL_RenderCopy(this->renderer, textInputObj.texture, nullptr, &textInputObj.dst);
+    SDL_RenderCopy(print->renderer, textInputObj.texture, nullptr, &textInputObj.dst);
 
     windowManager->present();
 }

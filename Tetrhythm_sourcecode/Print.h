@@ -67,5 +67,7 @@ public:
     void setText(const std::string& text);
     TTF_Font* loadFont(const char* path, int size); // 폰트출력추가
     void unloadFont(TTF_Font* font); // 폰트출력추가
-    void renderInputText();
+    void renderInputText(Print* print);
+    void renderWithTextInputAndPNG(Print* print);
+
 };

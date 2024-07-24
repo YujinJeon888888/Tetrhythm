@@ -13,4 +13,5 @@ private:
 
 public:
     void insertAndShowUsers(const std::string& str);
+    bool isDuflicatedUser(const std::string str);
 };

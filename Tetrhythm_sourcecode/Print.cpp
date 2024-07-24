@@ -223,10 +223,16 @@ void Print::handleTextEvents() {
                     }
                 }
                 if (event.key.keysym.sym == SDLK_RETURN&& !textInput.empty()) {
-                    //텍스트 빼오기. 일단 하드코딩
+                    // 일단 하드코딩
                     const std::string str = textInput.c_str();
                     MySQL mysql;
-                    mysql.insertAndShowUsers(str);
+                    if (!mysql.isDuflicatedUser(str)) {
+                        mysql.insertAndShowUsers(str);
+                    }
+                    else {//중복이면
+                        this->printPNG("IDInputExepStmtBox.png", 308, 185, layeredTextures.back().layer + 1);
+                        this->printPNG("IDInputExepStmtDupli.png", 379, 254, layeredTextures.back().layer + 1);
+                    }
 
                     textInput.clear();
                     if (textInputObj.texture) {
@@ -241,6 +247,12 @@ void Print::handleTextEvents() {
                         SDL_FreeSurface(temp);
                         temp = NULL;
                     }
+
+                }
+                //중복경고 팝업창 닫기
+                if (event.key.keysym.sym == SDLK_ESCAPE &&this->layeredTextures.back().path=="IDInputExepStmtDupli.png") {
+                    this->deletePNG("IDInputExepStmtBox.png");
+                    this->deletePNG("IDInputExepStmtDupli.png");
                 }
                 break;
         }

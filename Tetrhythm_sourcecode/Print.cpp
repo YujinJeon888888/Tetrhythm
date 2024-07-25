@@ -226,14 +226,32 @@ void Print::handleTextEvents() {
                     // 일단 하드코딩
                     const std::string str = textInput.c_str();
                     MySQL mysql;
-                    if (!mysql.isDuflicatedUser(str)) {
-                        mysql.insertAndShowUsers(str);
+                    if (str.size() > 12 && str.find(" ") != std::string::npos) {
+                        this->printPNG("IDInputExepStmtBox.png", 308, 185, layeredTextures.back().layer + 1);
+                        this->printPNG("IDInputExepStmtWords.png", 332, 258, layeredTextures.back().layer + 1);
                     }
-                    else {//중복이면
+                    else {
+                        if (str.find(" ") != std::string::npos) {
+                            //공백 포함 시                        
+                            this->printPNG("IDInputExepStmtBox.png", 308, 185, layeredTextures.back().layer + 1);
+                            this->printPNG("IDInputExepStmSpecWord.png", 366, 256, layeredTextures.back().layer + 1);
+                        }
+                        if (str.size() > 12) {
+                            this->printPNG("IDInputExepStmtBox.png", 308, 185, layeredTextures.back().layer + 1);
+                            this->printPNG("IDInputExepStmtWords.png", 332, 258, layeredTextures.back().layer + 1);
+                        }
+
+                    }
+                    
+                    if (mysql.isDuflicatedUser(str)) {//중복이면
                         this->printPNG("IDInputExepStmtBox.png", 308, 185, layeredTextures.back().layer + 1);
                         this->printPNG("IDInputExepStmtDupli.png", 379, 254, layeredTextures.back().layer + 1);
                     }
-
+                    if (!mysql.isDuflicatedUser(str)&& str.size() <= 12&& str.find(" ") == std::string::npos) {
+                        //중복 아니고 공백 미포함이고 12자 이내이면 아이디 생성
+                        mysql.insertAndShowUsers(str);
+                    }
+                  
                     textInput.clear();
                     if (textInputObj.texture) {
                         SDL_DestroyTexture(textInputObj.texture);
@@ -253,6 +271,16 @@ void Print::handleTextEvents() {
                 if (event.key.keysym.sym == SDLK_ESCAPE &&this->layeredTextures.back().path=="IDInputExepStmtDupli.png") {
                     this->deletePNG("IDInputExepStmtBox.png");
                     this->deletePNG("IDInputExepStmtDupli.png");
+                }
+                //글자 수 초과 팝업창 닫기
+                if (event.key.keysym.sym == SDLK_ESCAPE && this->layeredTextures.back().path == "IDInputExepStmtWords.png") {
+                    this->deletePNG("IDInputExepStmtBox.png");
+                    this->deletePNG("IDInputExepStmtWords.png");
+                }
+                //공백 경고 팝업창 닫기
+                if (event.key.keysym.sym == SDLK_ESCAPE && this->layeredTextures.back().path == "IDInputExepStmSpecWord.png") {
+                    this->deletePNG("IDInputExepStmtBox.png");
+                    this->deletePNG("IDInputExepStmSpecWord.png");
                 }
                 break;
         }

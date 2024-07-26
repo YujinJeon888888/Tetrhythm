@@ -179,6 +179,7 @@ void Print::handleEvents() {
         if (event.type == SDL_QUIT) {
             exit(0);
         }
+
     }
 }
 
@@ -294,7 +295,7 @@ void Print::handleEvents(const std::function<void(SDL_Event&)>& onEvent) {
         if (event.type == SDL_QUIT) {
             exit(0);
         }
-        else if (event.type == SDL_KEYDOWN) {
+        else {
             onEvent(event); // 특정 조건에서 onEvent 호출
         }
     }

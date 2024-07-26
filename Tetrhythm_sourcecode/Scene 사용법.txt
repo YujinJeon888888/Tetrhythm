@@ -1,0 +1,36 @@
+
+1. 씬 클래스 만들기
+  1-1. 헤더 파일에서  Scene을 상속 받아야함. (Scene Manager에 씬을 등록하고 관리하기 위해)
+   씬.h 파일에 아래 예제 목록은 필수적으로 추가
+	public : 
+		Characters(WindowManager& wm, SceneManager& manager); // 클래스 이름에 맞게 생성자 이름 변경 해줘야함.
+		void drawInit() override;
+		void handleEvents() override;
+		void update() override;
+		void render() override;
+	private : 	
+		Print* print;
+		WindowManager& windowManager;
+		SceneManager& sceneManager;
+
+
+  1-2. cpp 파일 생성자 선언
+
+	// 아래와 같은 꼴 유지 
+
+	Characters::Characters(WindowManager& wm, SceneManager& manager) : windowManager(wm), sceneManager(manager), print(new Print(&wm)),
+		data{ false }
+	{
+		drawInit();
+	}
+
+2. 씬 전환 
+
+  예) Characters 씬으로 전환 
+  sceneManager.changeScene(std::make_unique<Characters>(windowManager, sceneManager));
+
+3. 씬 뒤로 가기 
+
+  sceneManager.goBack();
+
+4. 씬 클래스 이름은 뒤에 Scene이 들어갈게 만들어 두면 좋을 듯 CharacterScene 이런식으로.

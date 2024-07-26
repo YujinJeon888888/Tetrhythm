@@ -19,10 +19,12 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="CharacterMain.cpp" />
     <ClCompile Include="Characters.cpp" />
     <ClCompile Include="Login.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="MainMenu.cpp" />
+    <ClCompile Include="Scene.cpp" />
+    <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="MySQL.cpp" />
     <ClCompile Include="SDL2TestMain.cpp" />
     <ClCompile Include="Print.cpp" />
@@ -32,30 +34,42 @@
     <ClCompile Include="폰트.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="MainMenu.h" />
+    <ClInclude Include="resource1.h" />
+    <ClInclude Include="Scene.h" />
+    <ClInclude Include="SceneManager.h" />
     <ClInclude Include="WindowManager.h" />
   </ItemGroup>
   <ItemGroup>
+    <Text Include="Scene 사용법.txt" />
     <Text Include="사용법설명.txt" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Characters.h" />
-    <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="CharacterSize.png" />
     <Image Include="frame1.png" />
     <Image Include="frame2.png" />
     <Image Include="explanation.png" />
+    <Image Include="MainExplain.png" />
+    <Image Include="MultiPlay.png" />
+    <Image Include="MyCharacter.png" />
+    <Image Include="PerTitle.png" />
     <Image Include="pngImage.png" />
     <Image Include="selection.png" />
     <Image Include="Rectangle 31.png" />
+    <Image Include="Selection2.png" />
+    <Image Include="SinglePlay.png" />
     <Image Include="testPic.png" />
   </ItemGroup>
   <ItemGroup>
+    <ResourceCompile Include="Tetrhythm_sourcecode.rc" />
     <ResourceCompile Include="Tetrhythm_sourcecode1.rc" />
   </ItemGroup>
   <ItemGroup>
     <None Include=".editorconfig" />
+    <None Include="Tetrhythm_sourcecode1.aps" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

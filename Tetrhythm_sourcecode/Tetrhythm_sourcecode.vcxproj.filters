@@ -28,6 +28,9 @@
     <Filter Include="소스 파일\MySQL">
       <UniqueIdentifier>{be87edba-dd75-4d49-8547-feee9edad20b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\Scene">
+      <UniqueIdentifier>{826aeac6-9cda-4a08-a5a3-11619c9e4ed7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SDL2TestMain.cpp">
@@ -45,7 +48,13 @@
     <ClCompile Include="Characters.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="CharacterMain.cpp">
+    <ClCompile Include="Scene.cpp">
+      <Filter>소스 파일\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneManager.cpp">
+      <Filter>소스 파일\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="MainMenu.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="Login.cpp">
@@ -68,12 +77,24 @@
     <Text Include="사용법설명.txt">
       <Filter>소스 파일\Print</Filter>
     </Text>
+    <Text Include="Scene 사용법.txt">
+      <Filter>소스 파일\Scene</Filter>
+    </Text>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Characters.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="resource.h">
+    <ClInclude Include="Scene.h">
+      <Filter>소스 파일\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneManager.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="resource1.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="MainMenu.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="WindowManager.h">
@@ -82,6 +103,9 @@
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Tetrhythm_sourcecode1.rc">
+      <Filter>리소스 파일</Filter>
+    </ResourceCompile>
+    <ResourceCompile Include="Tetrhythm_sourcecode.rc">
       <Filter>리소스 파일</Filter>
     </ResourceCompile>
   </ItemGroup>
@@ -110,10 +134,29 @@
     <Image Include="testPic.png">
       <Filter>리소스 파일</Filter>
     </Image>
+    <Image Include="PerTitle.png">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="MainExplain.png">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="MultiPlay.png">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="MyCharacter.png">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="Selection2.png">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="SinglePlay.png">
+      <Filter>리소스 파일</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <None Include=".editorconfig">
       <Filter>소스 파일</Filter>
     </None>
+    <None Include="Tetrhythm_sourcecode1.aps" />
   </ItemGroup>
 </Project>

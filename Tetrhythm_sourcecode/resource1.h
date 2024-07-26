@@ -1,8 +1,7 @@
 //{{NO_DEPENDENCIES}}
-// Microsoft Visual C++에서 생성한 포함 파일입니다.
-// Tetrhythm_sourcecode1.rc에서 사용되고 있습니다.
+// Microsoft Visual C++ generated include file.
+// Used by Tetrhythm_sourcecode1.rc
 //
-#define IDB_PNG1                        101
 
 // Next default values for new objects
 // 

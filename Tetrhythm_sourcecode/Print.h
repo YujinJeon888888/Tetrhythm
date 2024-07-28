@@ -7,7 +7,17 @@
 #include <algorithm>
 #include <functional>
 #include "WindowManager.h"
+#include <SDL_ttf.h> // 폰트출력추가
+#include "MySQL.h"
 
+
+struct FontInfo {
+    TTF_Font* font;
+    SDL_Color color;
+    int layer;
+    SDL_Rect dst;
+    SDL_Texture* texture;
+};
 
 
 struct LayeredTexture {
@@ -27,6 +37,7 @@ struct Animation {
 };
 
 class Print {
+
 private:
     WindowManager* windowManager;
     SDL_Renderer* renderer;
@@ -34,12 +45,15 @@ private:
     std::vector<LayeredTexture> layeredTextures;
     std::vector<Animation> animations;
     SDL_Texture* createTextureFromPath(const std::string& path);
-
+    std::vector<FontInfo> fontInfos;
+    std::string textInput = "";
+    FontInfo textInputObj;
 public:
     Print(WindowManager* wm);
     ~Print();
     void handleEvents(const std::function<void(SDL_Event&)>& onEvent);
     void handleEvents();
+    void handleTextEvents();
     void printPNG(const char* path, const int& dstX = 0, const int& dstY = 0, int layer = 0);
     void printAnimationPNG(const std::vector<std::string>& paths, const int& dstX = 0, const int& dstY = 0, int layer = 0, int frameDelay = 60);
     void deletePNG(const char* path);
@@ -50,4 +64,10 @@ public:
     void clearScreen();
     void moveImage(const char* path, const int& dstX, const int& dstY); // 占싱뱄옙占쏙옙 占싱듸옙 占쌨소듸옙 占쌩곤옙
     SDL_Rect getImagePosition(const char* path); // 占싱뱄옙占쏙옙 占쏙옙치 占쏙옙환 占쌨소듸옙 占쌩곤옙
+    void printText(const std::string& text, const int& dstX, const int& dstY, int layer, TTF_Font* font, SDL_Color color); // 폰트출력추가
+    void InputText(const int& dstX, const int& dstY, int layer, TTF_Font* font, SDL_Color color);
+    void setText(const std::string& text);
+    TTF_Font* loadFont(const char* path, int size); // 폰트출력추가
+    void unloadFont(TTF_Font* font); // 폰트출력추가
+    void renderWithTextInputAndPNG();
 };

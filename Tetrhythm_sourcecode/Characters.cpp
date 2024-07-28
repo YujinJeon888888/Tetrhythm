@@ -9,11 +9,12 @@ Characters::Characters(WindowManager& wm, SceneManager& manager) : windowManager
 void Characters::handleArrowKey(SDL_Keycode key) {
     switch (key) {
     case SDLK_UP:
-
-        std::cout << "Up arrow key pressed!" << std::endl;
+        data[sIndex % Width][sIndex / Width] = false;
+        if (sIndex > 3) sIndex -= 4;
         break;
     case SDLK_DOWN:
-        std::cout << "Down arrow key pressed!" << std::endl;
+        data[sIndex % Width][sIndex / Width] = false;
+        if (sIndex < 4) sIndex += 4;
         break;
 
     case SDLK_LEFT:

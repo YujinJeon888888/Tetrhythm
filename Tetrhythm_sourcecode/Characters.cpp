@@ -7,8 +7,11 @@ data{ false }
 }
 
 void Characters::handleArrowKey(SDL_Keycode key) {
+
 	switch (key) {
 	case SDLK_UP:
+		
+	
 
 		if (sIndex > 3) sIndex -= 4;
 		break;
@@ -43,7 +46,6 @@ void Characters::handleArrowKey(SDL_Keycode key) {
 // main에서 여러번 그려지는 함수
 void Characters::drawSelection() {
 
-
 	for (auto x = 0; x < Width; ++x)
 		for (auto y = 0; y < Height; y++) {
 
@@ -57,6 +59,12 @@ void Characters::drawSelection() {
 
 				//오른쪽에 사진 띄우기 및 해금 조건 띄우기
 
+
+				std::ostringstream oss;
+				oss << "character" << x + y * Width + 1 << "_s.png";
+				std::string fileName = oss.str();
+				print->deletePNG(fileName.c_str());
+				print->printPNG(fileName.c_str(), 813, 207, 3);
 			}
 
 			if (x == myCharIndex % Width && myCharIndex / Width == y) {

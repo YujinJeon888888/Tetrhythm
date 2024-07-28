@@ -44,6 +44,11 @@
     <ClInclude Include="Characters.h" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="..\..\..\..\Downloads\테트리듬 기획서 (1)\openedLock 1.png" />
+    <Image Include="..\..\..\..\Downloads\테트리듬 기획서 %281%29\selectedRectang.png" />
+    <Image Include="character1.png" />
+    <Image Include="character2.png" />
+    <Image Include="character8.png" />
     <Image Include="CharacterSize.png" />
     <Image Include="frame1.png" />
     <Image Include="frame2.png" />
@@ -54,7 +59,6 @@
     <Image Include="PerTitle.png" />
     <Image Include="pngImage.png" />
     <Image Include="selection.png" />
-    <Image Include="Rectangle 31.png" />
     <Image Include="Selection2.png" />
     <Image Include="SinglePlay.png" />
     <Image Include="testPic.png" />

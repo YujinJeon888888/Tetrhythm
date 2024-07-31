@@ -53,7 +53,7 @@ public:
     ~Print();
     void handleEvents(const std::function<void(SDL_Event&)>& onEvent);
     void handleEvents();
-    void handleTextEvents(const std::function<void(SDL_Event&)>& onEvent= nullptr);
+    void handleTextEvents(const std::function<void()>& whenEnter,const std::function<void(SDL_Event&)>& onEvent= nullptr);
     void printPNG(const char* path, const int& dstX = 0, const int& dstY = 0, int layer = 0);
     void printAnimationPNG(const std::vector<std::string>& paths, const int& dstX = 0, const int& dstY = 0, int layer = 0, int frameDelay = 60);
     void deletePNG(const char* path);
@@ -71,4 +71,5 @@ public:
     void unloadFont(TTF_Font* font); // 폰트출력추가
     void renderWithTextInputAndPNG();
     std::vector<LayeredTexture> getLayeredTextures();
+    std::string getTextInput();
 };

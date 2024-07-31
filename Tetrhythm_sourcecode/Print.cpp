@@ -173,6 +173,10 @@ void Print::renderWithTextInputAndPNG() {
     windowManager->present();
 }
 
+std::string Print::getTextInput() {
+    return this->textInput;
+}
+
 std::vector<LayeredTexture> Print::getLayeredTextures() {
     return this->layeredTextures;
 }
@@ -186,7 +190,9 @@ void Print::handleEvents() {
     }
 }
 
-void Print::handleTextEvents(const std::function<void(SDL_Event&)>& onEvent) {
+//첫번째 인자: 엔터누를 시 입력된 텍스트 처리하는 함수 넣기. 
+//두 번째 인자: 그 외 처리할 이벤트 넣기
+void Print::handleTextEvents(const std::function<void()>& whenEnter, const std::function<void(SDL_Event&)>& onEvent) {
     SDL_Surface* temp=NULL;
     while (SDL_PollEvent(&event)) {
         if (event.type == SDL_QUIT) {
@@ -227,37 +233,9 @@ void Print::handleTextEvents(const std::function<void(SDL_Event&)>& onEvent) {
                     }
                 }
                 if (event.key.keysym.sym == SDLK_RETURN&& !textInput.empty()) {
-                    // 일단 하드코딩
-                    ///////////////////////////////
-                    const std::string str = textInput.c_str();
-                    MySQL mysql;
-                    if (str.size() > 12 && str.find(" ") != std::string::npos) {
-                        this->printPNG("IDInputExepStmtBox.png", 308, 185, layeredTextures.back().layer + 1);
-                        this->printPNG("IDInputExepStmtWords.png", 332, 258, layeredTextures.back().layer + 1);
-                    }
-                    else {
-                        if (str.find(" ") != std::string::npos) {
-                            //공백 포함 시                        
-                            this->printPNG("IDInputExepStmtBox.png", 308, 185, layeredTextures.back().layer + 1);
-                            this->printPNG("IDInputExepStmSpecWord.png", 366, 256, layeredTextures.back().layer + 1);
-                        }
-                        if (str.size() > 12) {
-                            this->printPNG("IDInputExepStmtBox.png", 308, 185, layeredTextures.back().layer + 1);
-                            this->printPNG("IDInputExepStmtWords.png", 332, 258, layeredTextures.back().layer + 1);
-                        }
 
-                    }
-                    
-                    if (mysql.isDuflicatedUser(str)) {//중복이면
-                        this->printPNG("IDInputExepStmtBox.png", 308, 185, layeredTextures.back().layer + 1);
-                        this->printPNG("IDInputExepStmtDupli.png", 379, 254, layeredTextures.back().layer + 1);
-                    }
-                    if (!mysql.isDuflicatedUser(str)&& str.size() <= 12&& str.find(" ") == std::string::npos) {
-                        //중복 아니고 공백 미포함이고 12자 이내이면 아이디 생성
-                        mysql.insertAndShowUsers(str);
+                    whenEnter();
 
-                    }
-                    ////////////////////////////////
                     textInput.clear();
                     if (textInputObj.texture) {
                         SDL_DestroyTexture(textInputObj.texture);
@@ -273,26 +251,8 @@ void Print::handleTextEvents(const std::function<void(SDL_Event&)>& onEvent) {
                     }
 
                 }
-                //중복경고 팝업창 닫기
-                /////////////////////////////
                 onEvent(event); // 특정 조건에서 onEvent 호출
-                //if (event.key.keysym.sym == SDLK_ESCAPE &&this->layeredTextures.back().path=="IDInputExepStmtDupli.png") {
-                //    this->deletePNG("IDInputExepStmtBox.png");
-                //    this->deletePNG("IDInputExepStmtDupli.png");
-                //}
-                ////글자 수 초과 팝업창 닫기
-                //if (event.key.keysym.sym == SDLK_ESCAPE && this->layeredTextures.back().path == "IDInputExepStmtWords.png") {
-                //    this->deletePNG("IDInputExepStmtBox.png");
-                //    this->deletePNG("IDInputExepStmtWords.png");
-                //}
-                ////공백 경고 팝업창 닫기
-                //if (event.key.keysym.sym == SDLK_ESCAPE && this->layeredTextures.back().path == "IDInputExepStmSpecWord.png") {
-                //    this->deletePNG("IDInputExepStmtBox.png");
-                //    this->deletePNG("IDInputExepStmSpecWord.png");
-                //}
-                /// <summary>
-                /// /////////////////////////////////
-                /// </summary>
+                
                 break;
         }
     }

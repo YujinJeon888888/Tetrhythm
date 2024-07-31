@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Characters.cpp" />
+    <ClCompile Include="Game.cpp" />
     <ClCompile Include="Login.cpp" />
     <ClCompile Include="LoginScene.cpp" />
     <ClCompile Include="main.cpp" />
@@ -30,6 +31,9 @@
     <ClCompile Include="SDL2TestMain.cpp" />
     <ClCompile Include="Print.cpp" />
     <ClCompile Include="Print.h" />
+    <ClCompile Include="TETRIS.cpp" />
+    <ClCompile Include="tetromino.cpp" />
+    <ClCompile Include="Well.cpp" />
     <ClCompile Include="MySQL.h" />
     <ClCompile Include="UserInfo.cpp" />
     <ClCompile Include="WindowManager.cpp" />
@@ -52,6 +56,7 @@
     <ClInclude Include="Characters.h" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="Board.png" />
     <Image Include="CharacterSize.png" />
     <Image Include="frame1.png" />
     <Image Include="frame2.png" />
@@ -66,6 +71,7 @@
     <Image Include="Selection2.png" />
     <Image Include="SinglePlay.png" />
     <Image Include="testPic.png" />
+    <Image Include="Waitingline.png" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Tetrhythm_sourcecode.rc" />
@@ -86,26 +92,26 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>

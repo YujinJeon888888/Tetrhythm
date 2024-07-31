@@ -173,6 +173,9 @@ void Print::renderWithTextInputAndPNG() {
     windowManager->present();
 }
 
+std::vector<LayeredTexture> Print::getLayeredTextures() {
+    return this->layeredTextures;
+}
 
 void Print::handleEvents() {
     while (SDL_PollEvent(&event)) {
@@ -183,7 +186,7 @@ void Print::handleEvents() {
     }
 }
 
-void Print::handleTextEvents() {
+void Print::handleTextEvents(const std::function<void(SDL_Event&)>& onEvent) {
     SDL_Surface* temp=NULL;
     while (SDL_PollEvent(&event)) {
         if (event.type == SDL_QUIT) {
@@ -225,6 +228,7 @@ void Print::handleTextEvents() {
                 }
                 if (event.key.keysym.sym == SDLK_RETURN&& !textInput.empty()) {
                     // 일단 하드코딩
+                    ///////////////////////////////
                     const std::string str = textInput.c_str();
                     MySQL mysql;
                     if (str.size() > 12 && str.find(" ") != std::string::npos) {
@@ -253,7 +257,7 @@ void Print::handleTextEvents() {
                         mysql.insertAndShowUsers(str);
 
                     }
-                  
+                    ////////////////////////////////
                     textInput.clear();
                     if (textInputObj.texture) {
                         SDL_DestroyTexture(textInputObj.texture);
@@ -270,20 +274,25 @@ void Print::handleTextEvents() {
 
                 }
                 //중복경고 팝업창 닫기
-                if (event.key.keysym.sym == SDLK_ESCAPE &&this->layeredTextures.back().path=="IDInputExepStmtDupli.png") {
-                    this->deletePNG("IDInputExepStmtBox.png");
-                    this->deletePNG("IDInputExepStmtDupli.png");
-                }
-                //글자 수 초과 팝업창 닫기
-                if (event.key.keysym.sym == SDLK_ESCAPE && this->layeredTextures.back().path == "IDInputExepStmtWords.png") {
-                    this->deletePNG("IDInputExepStmtBox.png");
-                    this->deletePNG("IDInputExepStmtWords.png");
-                }
-                //공백 경고 팝업창 닫기
-                if (event.key.keysym.sym == SDLK_ESCAPE && this->layeredTextures.back().path == "IDInputExepStmSpecWord.png") {
-                    this->deletePNG("IDInputExepStmtBox.png");
-                    this->deletePNG("IDInputExepStmSpecWord.png");
-                }
+                /////////////////////////////
+                onEvent(event); // 특정 조건에서 onEvent 호출
+                //if (event.key.keysym.sym == SDLK_ESCAPE &&this->layeredTextures.back().path=="IDInputExepStmtDupli.png") {
+                //    this->deletePNG("IDInputExepStmtBox.png");
+                //    this->deletePNG("IDInputExepStmtDupli.png");
+                //}
+                ////글자 수 초과 팝업창 닫기
+                //if (event.key.keysym.sym == SDLK_ESCAPE && this->layeredTextures.back().path == "IDInputExepStmtWords.png") {
+                //    this->deletePNG("IDInputExepStmtBox.png");
+                //    this->deletePNG("IDInputExepStmtWords.png");
+                //}
+                ////공백 경고 팝업창 닫기
+                //if (event.key.keysym.sym == SDLK_ESCAPE && this->layeredTextures.back().path == "IDInputExepStmSpecWord.png") {
+                //    this->deletePNG("IDInputExepStmtBox.png");
+                //    this->deletePNG("IDInputExepStmSpecWord.png");
+                //}
+                /// <summary>
+                /// /////////////////////////////////
+                /// </summary>
                 break;
         }
     }

@@ -57,9 +57,6 @@
     <ClCompile Include="MainMenu.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Login.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="폰트.cpp">
       <Filter>소스 파일\유진Test</Filter>
     </ClCompile>
@@ -74,6 +71,9 @@
     </ClCompile>
     <ClCompile Include="LoginScene.cpp">
       <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Login.cpp">
+      <Filter>소스 파일\유진Test</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

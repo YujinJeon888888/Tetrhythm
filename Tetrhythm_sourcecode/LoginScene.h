@@ -7,6 +7,8 @@ public:
 	void handleEvents() override;
 	void update() override;
 	void render() override;
+	void handleClosePopup(SDL_Keycode key);
+
 private:
 	Print* print;
 	WindowManager& windowManager;

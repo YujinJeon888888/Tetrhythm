@@ -2,6 +2,7 @@
 
 WindowManager::WindowManager(const char* title, int width, int height) {
     SDL_Init(SDL_INIT_VIDEO);
+    TTF_Init(); // 폰트출력추가
     window = SDL_CreateWindow(title, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height, 0);
     if (window == nullptr) {
         std::cerr << "Failed to create window: " << SDL_GetError() << std::endl;
@@ -12,6 +13,7 @@ WindowManager::WindowManager(const char* title, int width, int height) {
     if (renderer == nullptr) {
         std::cerr << "Failed to create renderer: " << SDL_GetError() << std::endl;
         SDL_DestroyWindow(window);
+        TTF_Quit(); // 폰트출력추가
         SDL_Quit();
         exit(1);
     }
@@ -38,3 +40,8 @@ void WindowManager::clear() {
 void WindowManager::present() {
     SDL_RenderPresent(renderer);
 }
+
+SDL_Window* WindowManager::getWindow() const {
+    return window;
+}
+

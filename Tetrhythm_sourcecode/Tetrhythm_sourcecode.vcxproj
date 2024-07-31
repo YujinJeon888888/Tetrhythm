@@ -20,20 +20,28 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Characters.cpp" />
+    <ClCompile Include="Login.cpp" />
+    <ClCompile Include="LoginScene.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MainMenu.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneManager.cpp" />
+    <ClCompile Include="MySQL.cpp" />
     <ClCompile Include="SDL2TestMain.cpp" />
     <ClCompile Include="Print.cpp" />
     <ClCompile Include="Print.h" />
+    <ClCompile Include="MySQL.h" />
+    <ClCompile Include="UserInfo.cpp" />
     <ClCompile Include="WindowManager.cpp" />
+    <ClCompile Include="폰트.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="LoginScene.h" />
     <ClInclude Include="MainMenu.h" />
     <ClInclude Include="resource1.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SceneManager.h" />
+    <ClInclude Include="UserInfo.h" />
     <ClInclude Include="WindowManager.h" />
   </ItemGroup>
   <ItemGroup>
@@ -127,8 +135,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(ProjectDir)\SDL2-2.30.5\include;$(ProjectDir)\SDL2_image-2.8.2\include;$(IncludePath)</IncludePath>
-    <LibraryPath>$(ProjectDir)\SDL2-2.30.5\lib\x64;$(ProjectDir)\SDL2_image-2.8.2\lib\x64;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(ProjectDir)\SDL2-2.30.5\include;$(ProjectDir)\SDL2_image-2.8.2\include;$(ProjectDir)\MySQL Server 8.0\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(ProjectDir)\SDL2-2.30.5\lib\x64;$(ProjectDir)\SDL2_image-2.8.2\lib\x64;$(ProjectDir)\MySQL Server 8.0\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
@@ -167,11 +175,13 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>$(ProjectDir)\SDL2_ttf-devel-2.0.15-VC\SDL2_ttf-devel-2.0.15-VC\SDL2_ttf-2.0.15\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2test.lib;SDL2_image.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2test.lib;SDL2_image.lib;libmysql.lib;SDL2_ttf.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)\SDL2_ttf-devel-2.0.15-VC\SDL2_ttf-devel-2.0.15-VC\SDL2_ttf-2.0.15\lib\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
       <Command>copy "$(ProjectDir)SDL2-2.30.5\lib\x64\SDL2.dll" "$(OutDir)"

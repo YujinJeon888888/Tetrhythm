@@ -61,8 +61,8 @@ void LoginScene::whenEnter()
         print->printPNG("IDInputExepStmtWords.png", 332, 258, print->getLayeredTextures().back().layer + 1);
     }
     else {
-        if (str.find(" ") != std::string::npos) {
-            //공백 포함 시                        
+        if (str.find(" ") != std::string::npos || mysql.containsInvalidCharacters(str)) {
+            //공백 포함 하거나 특수문자 포함 시                        
             print->printPNG("IDInputExepStmtBox.png", 308, 185, print->getLayeredTextures().back().layer + 1);
             print->printPNG("IDInputExepStmSpecWord.png", 366, 256, print->getLayeredTextures().back().layer + 1);
         }
@@ -76,9 +76,11 @@ void LoginScene::whenEnter()
         print->printPNG("IDInputExepStmtBox.png", 308, 185, print->getLayeredTextures().back().layer + 1);
         print->printPNG("IDInputExepStmtDupli.png", 379, 254, print->getLayeredTextures().back().layer + 1);
     }
-    if (!mysql.isDuflicatedUser(str) && str.size() <= 12 && str.find(" ") == std::string::npos) {
+    if (!mysql.isDuflicatedUser(str) && str.size() <= 12 && str.find(" ") == std::string::npos && !mysql.containsInvalidCharacters(str)) {
         //중복 아니고 공백 미포함이고 12자 이내이면 아이디 생성
         mysql.insertAndShowUsers(str);
+        //유저 정보 싱글톤에 저장
+        UserInfo::getInstance().setUserID(str);
         //씬 이동
         sceneManager.changeScene(std::make_unique<MainMenu>(windowManager, sceneManager));
     }

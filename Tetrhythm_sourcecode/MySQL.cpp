@@ -95,3 +95,9 @@ bool MySQL::isDuflicatedUser(const std::string str)
 
     return false;
 }
+
+bool MySQL::containsInvalidCharacters(const std::string& str) {
+    return std::find_if(str.begin(), str.end(), [](unsigned char c) {
+        return !(std::isalnum(c)); // 영문자 또는 숫자가 아니면 허용되지 않는 문자
+        }) != str.end();
+}

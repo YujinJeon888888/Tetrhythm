@@ -31,6 +31,7 @@
     <ClCompile Include="Print.cpp" />
     <ClCompile Include="Print.h" />
     <ClCompile Include="MySQL.h" />
+    <ClCompile Include="UserInfo.cpp" />
     <ClCompile Include="WindowManager.cpp" />
     <ClCompile Include="폰트.cpp" />
   </ItemGroup>
@@ -40,6 +41,7 @@
     <ClInclude Include="resource1.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SceneManager.h" />
+    <ClInclude Include="UserInfo.h" />
     <ClInclude Include="WindowManager.h" />
   </ItemGroup>
   <ItemGroup>

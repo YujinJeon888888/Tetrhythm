@@ -9,6 +9,8 @@
 #include "LoginScene.h"
 
 int main(int argc, char* argv[]) {
+    //유저정보 싱글톤
+    
     // 프레임 속도: 60
     const int targetFPS = 60;
     const std::chrono::milliseconds frameDuration(1000 / targetFPS);

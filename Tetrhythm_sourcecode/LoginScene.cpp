@@ -35,10 +35,7 @@ void LoginScene::handleEvents()
 }
 
 void LoginScene::handleClosePopup(SDL_Keycode key) {
-    if (key == SDLK_ESCAPE && print->getLayeredTextures().back().path == "IDInputExepStmtDupli.png") {
-        print->deletePNG("IDInputExepStmtBox.png");
-        print->deletePNG("IDInputExepStmtDupli.png");
-    }
+    
     //글자 수 초과 팝업창 닫기
     if (key == SDLK_ESCAPE && print->getLayeredTextures().back().path == "IDInputExepStmtWords.png") {
         print->deletePNG("IDInputExepStmtBox.png");
@@ -73,8 +70,11 @@ void LoginScene::whenEnter()
     }
 
     if (mysql.isDuflicatedUser(str)) {//중복이면
-        print->printPNG("IDInputExepStmtBox.png", 308, 185, print->getLayeredTextures().back().layer + 1);
-        print->printPNG("IDInputExepStmtDupli.png", 379, 254, print->getLayeredTextures().back().layer + 1);
+        //그 아이디로 로그인
+        //유저 정보 싱글톤에 저장
+        UserInfo::getInstance().setUserID(str);
+        //씬 이동
+        sceneManager.changeScene(std::make_unique<MainMenu>(windowManager, sceneManager));
     }
     if (!mysql.isDuflicatedUser(str) && str.size() <= 12 && str.find(" ") == std::string::npos && !mysql.containsInvalidCharacters(str)) {
         //중복 아니고 공백 미포함이고 12자 이내이면 아이디 생성

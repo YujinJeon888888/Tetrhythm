@@ -1,6 +1,6 @@
 #include "Print.h"
 
-Print::Print(WindowManager* wm) 
+Print::Print(WindowManager* wm)
     : windowManager(wm), renderer(wm->getRenderer()) 
 {}
 
@@ -251,6 +251,7 @@ void Print::handleTextEvents() {
                     if (!mysql.isDuflicatedUser(str)&& str.size() <= 12&& str.find(" ") == std::string::npos) {
                         //중복 아니고 공백 미포함이고 12자 이내이면 아이디 생성
                         mysql.insertAndShowUsers(str);
+
                     }
                   
                     textInput.clear();

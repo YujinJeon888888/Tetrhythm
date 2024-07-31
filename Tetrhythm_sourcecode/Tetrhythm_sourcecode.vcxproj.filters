@@ -72,6 +72,9 @@
     <ClCompile Include="MySQL.cpp">
       <Filter>소스 파일\MySQL</Filter>
     </ClCompile>
+    <ClCompile Include="LoginScene.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="사용법설명.txt">
@@ -99,6 +102,9 @@
     </ClInclude>
     <ClInclude Include="WindowManager.h">
       <Filter>소스 파일\Window</Filter>
+    </ClInclude>
+    <ClInclude Include="LoginScene.h">
+      <Filter>소스 파일</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

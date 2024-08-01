@@ -192,7 +192,7 @@ void Print::handleEvents() {
 
 //첫번째 인자: 엔터누를 시 입력된 텍스트 처리하는 함수 넣기. 
 //두 번째 인자: 그 외 처리할 이벤트 넣기
-void Print::handleTextEvents(const std::function<void()>& whenEnter, const std::function<void(SDL_Event&)>& onEvent) {
+void Print::handleTextEvents(const std::function<void()>& whenSpace, const std::function<void(SDL_Event&)>& onEvent) {
     SDL_Surface* temp=NULL;
     while (SDL_PollEvent(&event)) {
         if (event.type == SDL_QUIT) {
@@ -232,10 +232,10 @@ void Print::handleTextEvents(const std::function<void()>& whenEnter, const std::
                         temp = NULL;
                     }
                 }
-                if (event.key.keysym.sym == SDLK_RETURN&& !textInput.empty()) {
+                if (event.key.keysym.sym == SDLK_SPACE&& !textInput.empty()) {
 
-                    whenEnter();
-
+                    whenSpace();
+                    
                     textInput.clear();
                     if (textInputObj.texture) {
                         SDL_DestroyTexture(textInputObj.texture);

@@ -10,7 +10,7 @@ public:
 	void update() override;
 	void render() override;
 	void handleClosePopup(SDL_Keycode key);
-	void whenEnter();
+	void whenSpace();
 private:
 	Print* print;
 	WindowManager& windowManager;

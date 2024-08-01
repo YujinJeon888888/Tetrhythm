@@ -232,10 +232,10 @@ void Print::handleTextEvents(const std::function<void()>& whenEnter, const std::
                         temp = NULL;
                     }
                 }
-                if (event.key.keysym.sym == SDLK_RETURN&& !textInput.empty()) {
+                if (event.key.keysym.sym == SDLK_SPACE&& !textInput.empty()) {
 
-                    whenEnter();
-
+                    whenSpace();
+                    
                     textInput.clear();
                     if (textInputObj.texture) {
                         SDL_DestroyTexture(textInputObj.texture);

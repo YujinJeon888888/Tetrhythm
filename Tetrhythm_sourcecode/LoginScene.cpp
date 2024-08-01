@@ -21,7 +21,9 @@ void LoginScene::drawInit()
     SDL_Color color = { 255, 255, 255 }; // 흰색
     print->InputText(390, 360, 4, font, color);
     SDL_StartTextInput();
-
+    //마우스커서 세팅
+    std::vector<std::string> animPaths1 = { "MouseCursorAnim1.png", "MouseCursorAnim2.png" };
+    print->printAnimationPNG(animPaths1, 387, 348, 5, 30); // 0.5초마다 애니메이션 출력
 }
 
 void LoginScene::handleEvents()
@@ -90,6 +92,10 @@ void LoginScene::whenEnter()
 
 void LoginScene::update()
 {
+    if (print->getTextInput().size()==0) {
+        print->updateAnimations();
+    }
+    
 
 }
 

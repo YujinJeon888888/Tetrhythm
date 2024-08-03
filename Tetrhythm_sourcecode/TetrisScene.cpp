@@ -8,7 +8,8 @@ TetrisScene::TetrisScene(WindowManager& wm, SceneManager& manager)
 
 void TetrisScene::drawInit()
 {
-	print->printPNG("CharacterSize.png", 0, 0, 1);
+	//test
+		//print->printPNG("CharacterSize.png", 0, 0, 1);
 }
 
 void TetrisScene::handleEvents()

@@ -73,7 +73,7 @@ bool Game::tick()
             {
             case SDLK_RETURN:
                 //test
-                print->moveImage("CharacterSize.png", (print->getImagePosition("CharacterSize.png").x + 1), (print->getImagePosition("CharacterSize.png").y + 1));
+                //print->moveImage("CharacterSize.png", (print->getImagePosition("CharacterSize.png").x + 1), (print->getImagePosition("CharacterSize.png").y + 1));
                 //print->deletePNG("CharacterSize.png");
                 break;
             case SDLK_DOWN:

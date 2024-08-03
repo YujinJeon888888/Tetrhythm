@@ -44,8 +44,6 @@ Game::Game(WindowManager& wm, Print* pr)
             throw std::runtime_error("Failed to create texture: " + std::string(SDL_GetError()));
         }
     }
-    //test
-    print->printPNGForTetris("CharacterSize.png", 0, 0, 1);
 }
 
 Game::~Game()
@@ -75,7 +73,8 @@ bool Game::tick()
             {
             case SDLK_RETURN:
                 //test
-                print->deletePNG("CharacterSize.png");
+                print->moveImage("CharacterSize.png", (print->getImagePosition("CharacterSize.png").x + 1), (print->getImagePosition("CharacterSize.png").y + 1));
+                //print->deletePNG("CharacterSize.png");
                 break;
             case SDLK_DOWN:
             {

@@ -8,7 +8,7 @@ TetrisScene::TetrisScene(WindowManager& wm, SceneManager& manager)
 
 void TetrisScene::drawInit()
 {
-	print->printPNGForTetris("CharacterSize.png", 0, 0, 1);
+	print->printPNG("CharacterSize.png", 0, 0, 1);
 }
 
 void TetrisScene::handleEvents()
@@ -28,5 +28,6 @@ void TetrisScene::update()
 
 void TetrisScene::render()
 {
-
+	//렌더링이 game안에 구현되어있길래, 그 안으로  renderForTetris함수를 넣어놨습니다.
+	//고로 여기에 print->render()호출 x
 }

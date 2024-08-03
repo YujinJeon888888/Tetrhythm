@@ -166,28 +166,7 @@ void Print::renderForTetris() {
     }
 }
 
-void Print::printPNGForTetris(const char* path, const int& dstX, const int& dstY, int layer) {
-    SDL_Surface* png = IMG_Load(path);
-    if (png == nullptr) {
-        std::cerr << "Failed to load image: " << IMG_GetError() << std::endl;
-        return;
-    }
-    SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, png);
-    SDL_FreeSurface(png);
-    if (texture == nullptr) {
-        std::cerr << "Failed to create texture: " << SDL_GetError() << std::endl;
-        return;
-    }
-    SDL_Rect dst;
-    dst.x = dstX;
-    dst.y = dstY;
-    SDL_QueryTexture(texture, nullptr, nullptr, &dst.w, &dst.h);
-    layeredTextures.push_back({ texture, dst, layer, path });
 
-
-}
-
-//텍스트 입력 렌더링도 같이 처리시, 이 메소드 호출
 //텍스트 입력 렌더링도 같이 처리시, 이 메소드 호출
 void Print::renderWithTextInputAndPNG() {
     windowManager->clear();

@@ -72,6 +72,5 @@ public:
     void renderWithTextInputAndPNG();
     std::vector<LayeredTexture> getLayeredTextures();
     std::string getTextInput();
-    void printPNGForTetris(const char* path, const int& dstX, const int& dstY, int layer);
     void renderForTetris();
 };

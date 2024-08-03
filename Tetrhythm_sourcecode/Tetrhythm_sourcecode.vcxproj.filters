@@ -31,6 +31,9 @@
     <Filter Include="소스 파일\Scene">
       <UniqueIdentifier>{826aeac6-9cda-4a08-a5a3-11619c9e4ed7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\Tetris">
+      <UniqueIdentifier>{75bd4173-d20d-432b-aada-246498843f30}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SDL2TestMain.cpp">
@@ -93,6 +96,9 @@
     <ClCompile Include="Game.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="TetrisScene.cpp">
+      <Filter>소스 파일\Tetris</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="사용법설명.txt">
@@ -126,6 +132,9 @@
     </ClInclude>
     <ClInclude Include="UserInfo.h">
       <Filter>소스 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="TetrisScene.h">
+      <Filter>소스 파일\Tetris</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -177,6 +186,12 @@
       <Filter>리소스 파일</Filter>
     </Image>
     <Image Include="SinglePlay.png">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="Board.png">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="Waitingline.png">
       <Filter>리소스 파일</Filter>
     </Image>
   </ItemGroup>

@@ -3,11 +3,11 @@
 #include <SDL_image.h>
 #include "Well.h"
 #include "tetromino.h"
-
+#include "WindowManager.h"
 class Game
 {
 public:
-    Game(SDL_Window* window, SDL_Renderer* renderer);
+    Game(WindowManager& wm);
     ~Game();
     bool tick();
     bool isGameOver() const;
@@ -15,8 +15,6 @@ public:
 private:
     Game(const Game&);
     Game& operator=(const Game&);
-    SDL_Window* window_;
-    SDL_Renderer* renderer_;
     Well well_;
     Tetromino tetromino_;
     uint32_t moveTime_;
@@ -25,4 +23,5 @@ private:
     int previousTetris;
     bool gameOver;
     SDL_Texture* blockTextures_[7]; // 7개의 블럭 텍스처를 저장하는 배열
+    WindowManager& windowManager;
 };

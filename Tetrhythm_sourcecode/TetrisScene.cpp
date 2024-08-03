@@ -3,12 +3,12 @@
 TetrisScene::TetrisScene(WindowManager& wm, SceneManager& manager)
 	: windowManager(wm), sceneManager(manager), print(new Print(&wm)), game(new Game(windowManager,print))
 {
-	
+	drawInit();
 }
 
 void TetrisScene::drawInit()
 {
-	
+	print->printPNGForTetris("CharacterSize.png", 0, 0, 1);
 }
 
 void TetrisScene::handleEvents()
@@ -28,5 +28,5 @@ void TetrisScene::update()
 
 void TetrisScene::render()
 {
-	//Game.cpp에서 렌더링 업데이트가 일어나므로 여기서 호출하지 않습니다
+
 }

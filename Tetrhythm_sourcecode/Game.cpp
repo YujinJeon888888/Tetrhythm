@@ -44,6 +44,8 @@ Game::Game(WindowManager& wm, Print* pr)
             throw std::runtime_error("Failed to create texture: " + std::string(SDL_GetError()));
         }
     }
+    //test
+    print->printPNGForTetris("CharacterSize.png", 0, 0, 1);
 }
 
 Game::~Game()
@@ -71,6 +73,10 @@ bool Game::tick()
         {
             switch (e.key.keysym.sym)
             {
+            case SDLK_RETURN:
+                //test
+                print->deletePNG("CharacterSize.png");
+                break;
             case SDLK_DOWN:
             {
                 Tetromino t = tetromino_;
@@ -138,8 +144,7 @@ bool Game::tick()
     SDL_RenderClear(windowManager.getRenderer());
     well_.draw(windowManager.getRenderer(), blockTextures_);
     tetromino_.draw(windowManager.getRenderer(), blockTextures_[tetromino_.getType()]);
-    print->printPNGForTetris("CharacterSize.png", 0, 0, 1);
-
+    print->renderForTetris();
     if (SDL_GetTicks() > moveTime_)
     {
         moveTime_ += 1000;

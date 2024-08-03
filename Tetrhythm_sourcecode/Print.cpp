@@ -156,6 +156,16 @@ void Print::render() {
     windowManager->present();
 }
 
+void Print::renderForTetris() {
+        std::sort(layeredTextures.begin(), layeredTextures.end(), [](const LayeredTexture& a, const LayeredTexture& b) {
+        return a.layer < b.layer;
+    });
+
+    for (const auto& layeredTexture : layeredTextures) {
+        SDL_RenderCopy(renderer, layeredTexture.texture, nullptr, &layeredTexture.dstRect);
+    }
+}
+
 void Print::printPNGForTetris(const char* path, const int& dstX, const int& dstY, int layer) {
     SDL_Surface* png = IMG_Load(path);
     if (png == nullptr) {
@@ -174,13 +184,7 @@ void Print::printPNGForTetris(const char* path, const int& dstX, const int& dstY
     SDL_QueryTexture(texture, nullptr, nullptr, &dst.w, &dst.h);
     layeredTextures.push_back({ texture, dst, layer, path });
 
-    std::sort(layeredTextures.begin(), layeredTextures.end(), [](const LayeredTexture& a, const LayeredTexture& b) {
-        return a.layer < b.layer;
-    });
 
-    for (const auto& layeredTexture : layeredTextures) {
-        SDL_RenderCopy(renderer, layeredTexture.texture, nullptr, &layeredTexture.dstRect);
-    }
 }
 
 //텍스트 입력 렌더링도 같이 처리시, 이 메소드 호출

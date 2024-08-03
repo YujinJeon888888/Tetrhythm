@@ -9,18 +9,16 @@
 #include <thread>
 #include <chrono>
 
-Game::Game(SDL_Window* window, SDL_Renderer* renderer) :
-    window_(window),
-    renderer_(renderer),
+Game::Game(WindowManager& wm, Print* pr)
+    :
     tetromino_{ static_cast<Tetromino::Type>(rand() % 7) },
     moveTime_(SDL_GetTicks()),
     previousLine(0),
     previousTetris(0),
-    gameOver(false)
+    gameOver(false),
+    windowManager(wm),
+    print(pr)
 {
-    if (!window_ || !renderer_)
-        throw std::runtime_error("Invalid SDL Window or Renderer");
-
     // 7개의 텍스처 로드
     const char* textureFiles[7] = {
         "Skyblue_I.png",
@@ -39,7 +37,7 @@ Game::Game(SDL_Window* window, SDL_Renderer* renderer) :
         {
             throw std::runtime_error("Failed to load image: " + std::string(IMG_GetError()));
         }
-        blockTextures_[i] = SDL_CreateTextureFromSurface(renderer_, surface);
+        blockTextures_[i] = SDL_CreateTextureFromSurface(windowManager.getRenderer(), surface);
         SDL_FreeSurface(surface);
         if (!blockTextures_[i])
         {
@@ -57,9 +55,6 @@ Game::~Game()
             SDL_DestroyTexture(blockTextures_[i]);
         }
     }
-    SDL_DestroyRenderer(renderer_);
-    SDL_DestroyWindow(window_);
-    SDL_Quit();
 }
 
 bool Game::tick()
@@ -76,6 +71,11 @@ bool Game::tick()
         {
             switch (e.key.keysym.sym)
             {
+            case SDLK_RETURN:
+                //test
+                print->moveImage("CharacterSize.png", (print->getImagePosition("CharacterSize.png").x + 1), (print->getImagePosition("CharacterSize.png").y + 1));
+                //print->deletePNG("CharacterSize.png");
+                break;
             case SDLK_DOWN:
             {
                 Tetromino t = tetromino_;
@@ -138,10 +138,12 @@ bool Game::tick()
             return false;
         }
     }
-    SDL_SetRenderDrawColor(renderer_, 0, 0, 0, 0xff);
-    SDL_RenderClear(renderer_);
-    well_.draw(renderer_, blockTextures_);
-    tetromino_.draw(renderer_, blockTextures_[tetromino_.getType()]);
+    SDL_SetRenderDrawColor(windowManager.getRenderer(), 0, 0, 0, 0xff);
+    //화면업데이트
+    SDL_RenderClear(windowManager.getRenderer());
+    well_.draw(windowManager.getRenderer(), blockTextures_);
+    tetromino_.draw(windowManager.getRenderer(), blockTextures_[tetromino_.getType()]);
+    print->renderForTetris();
     if (SDL_GetTicks() > moveTime_)
     {
         moveTime_ += 1000;
@@ -149,7 +151,8 @@ bool Game::tick()
         t.move(0, 1);
         check(t);
     }
-    SDL_RenderPresent(renderer_);
+    //화면업데이트
+    SDL_RenderPresent(windowManager.getRenderer());
 
     int currentLine = well_.getLine();
     int currentTetris = well_.getTetris();

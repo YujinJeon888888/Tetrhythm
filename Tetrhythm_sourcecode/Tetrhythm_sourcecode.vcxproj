@@ -32,6 +32,7 @@
     <ClCompile Include="Print.cpp" />
     <ClCompile Include="Print.h" />
     <ClCompile Include="TETRIS.cpp" />
+    <ClCompile Include="TetrisScene.cpp" />
     <ClCompile Include="tetromino.cpp" />
     <ClCompile Include="Well.cpp" />
     <ClCompile Include="MySQL.h" />
@@ -45,6 +46,7 @@
     <ClInclude Include="resource1.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SceneManager.h" />
+    <ClInclude Include="TetrisScene.h" />
     <ClInclude Include="UserInfo.h" />
     <ClInclude Include="WindowManager.h" />
   </ItemGroup>
@@ -105,7 +107,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v143</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">

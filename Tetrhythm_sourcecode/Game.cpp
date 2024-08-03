@@ -132,9 +132,11 @@ bool Game::tick()
         }
     }
     SDL_SetRenderDrawColor(windowManager.getRenderer(), 0, 0, 0, 0xff);
+    //화면업데이트
     SDL_RenderClear(windowManager.getRenderer());
     well_.draw(windowManager.getRenderer(), blockTextures_);
     tetromino_.draw(windowManager.getRenderer(), blockTextures_[tetromino_.getType()]);
+    
     if (SDL_GetTicks() > moveTime_)
     {
         moveTime_ += 1000;
@@ -142,6 +144,7 @@ bool Game::tick()
         t.move(0, 1);
         check(t);
     }
+    //화면업데이트
     SDL_RenderPresent(windowManager.getRenderer());
 
     int currentLine = well_.getLine();

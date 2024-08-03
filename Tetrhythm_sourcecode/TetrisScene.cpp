@@ -18,11 +18,15 @@ void TetrisScene::handleEvents()
 
 
 void TetrisScene::update()
-{
-	game->tick();
+{	
+	//게임종료 아닐때만 업데이트
+	if (!game->tick())
+	{
+		game->tick();
+	}
 }
 
 void TetrisScene::render()
 {
-
+	//Game.cpp에서 렌더링 업데이트가 일어나므로 여기서 호출하지 않습니다
 }

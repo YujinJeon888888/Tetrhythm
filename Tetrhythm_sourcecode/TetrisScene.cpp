@@ -1,7 +1,7 @@
 #include "TetrisScene.h"
 #include "Game.h"
 TetrisScene::TetrisScene(WindowManager& wm, SceneManager& manager)
-	: windowManager(wm), sceneManager(manager), print(new Print(&wm)), game(new Game(windowManager))
+	: windowManager(wm), sceneManager(manager), print(new Print(&wm)), game(new Game(windowManager,print))
 {
 	
 }
@@ -19,7 +19,7 @@ void TetrisScene::handleEvents()
 
 void TetrisScene::update()
 {	
-	//°ÔÀÓÁ¾·á ¾Æ´Ò¶§¸¸ ¾÷µ¥ÀÌÆ®
+	//ê²Œì„ì¢…ë£Œ ì•„ë‹ë•Œë§Œ ì—…ë°ì´íŠ¸
 	if (!game->tick())
 	{
 		game->tick();
@@ -28,5 +28,5 @@ void TetrisScene::update()
 
 void TetrisScene::render()
 {
-	//Game.cpp¿¡¼­ ·»´õ¸µ ¾÷µ¥ÀÌÆ®°¡ ÀÏ¾î³ª¹Ç·Î ¿©±â¼­ È£ÃâÇÏÁö ¾Ê½À´Ï´Ù
+	//Game.cppì—ì„œ ë Œë”ë§ ì—…ë°ì´íŠ¸ê°€ ì¼ì–´ë‚˜ë¯€ë¡œ ì—¬ê¸°ì„œ í˜¸ì¶œí•˜ì§€ ì•ŠìŠµë‹ˆë‹¤
 }

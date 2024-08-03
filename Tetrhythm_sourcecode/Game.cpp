@@ -9,14 +9,15 @@
 #include <thread>
 #include <chrono>
 
-Game::Game(WindowManager& wm)
+Game::Game(WindowManager& wm, Print* pr)
     :
     tetromino_{ static_cast<Tetromino::Type>(rand() % 7) },
     moveTime_(SDL_GetTicks()),
     previousLine(0),
     previousTetris(0),
     gameOver(false),
-    windowManager(wm)
+    windowManager(wm),
+    print(pr)
 {
     // 7개의 텍스처 로드
     const char* textureFiles[7] = {
@@ -44,6 +45,7 @@ Game::Game(WindowManager& wm)
         }
     }
 }
+
 Game::~Game()
 {
     for (int i = 0; i < 7; ++i)
@@ -136,7 +138,8 @@ bool Game::tick()
     SDL_RenderClear(windowManager.getRenderer());
     well_.draw(windowManager.getRenderer(), blockTextures_);
     tetromino_.draw(windowManager.getRenderer(), blockTextures_[tetromino_.getType()]);
-    
+    print->printPNGForTetris("CharacterSize.png", 0, 0, 1);
+
     if (SDL_GetTicks() > moveTime_)
     {
         moveTime_ += 1000;

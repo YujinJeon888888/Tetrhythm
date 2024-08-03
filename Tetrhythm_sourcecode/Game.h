@@ -4,10 +4,11 @@
 #include "Well.h"
 #include "tetromino.h"
 #include "WindowManager.h"
+#include "Print.h"
 class Game
 {
 public:
-    Game(WindowManager& wm);
+    Game(WindowManager& wm, Print* pr);
     ~Game();
     bool tick();
     bool isGameOver() const;
@@ -24,4 +25,5 @@ private:
     bool gameOver;
     SDL_Texture* blockTextures_[7]; // 7개의 블럭 텍스처를 저장하는 배열
     WindowManager& windowManager;
+    Print* print;
 };

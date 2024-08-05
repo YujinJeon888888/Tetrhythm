@@ -43,6 +43,6 @@ private:
     std::vector<Heart> hearts = {
        {Heart::paths[0], Heart::xPositions[0], Heart::yPositions[0]},
        {Heart::paths[1], Heart::xPositions[1], Heart::yPositions[1]},
-       //{Heart::paths[2], Heart::xPositions[2], Heart::yPositions[2]}
+       {Heart::paths[2], Heart::xPositions[2], Heart::yPositions[2]}
     };
 };

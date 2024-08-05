@@ -198,6 +198,11 @@ bool Game::tick()
 
 void Game::check(const Tetromino& t)
 {
+    //목숨이 0인지 체크
+    if (hearts.size()== 0) {
+        gameOver = true;
+        std::cout << "Game Over!" << std::endl;
+    }
     if (well_.isCollision(t))
     {
         well_.unite(tetromino_);

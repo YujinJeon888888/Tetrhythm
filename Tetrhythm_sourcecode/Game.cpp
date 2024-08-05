@@ -9,6 +9,22 @@
 #include <thread>
 #include <chrono>
 
+const std::string Heart::paths[3] = {
+    "heart1.png",
+    "heart2.png",
+    "heart3.png"
+};
+const int Heart::xPositions[3] = {
+    570,
+    623,
+    676
+};
+const int Heart::yPositions[3] = {
+    43,
+    43,
+    43
+};
+
 Game::Game(WindowManager& wm, Print* pr)
     :
     tetromino_{ static_cast<Tetromino::Type>(rand() % 7) },
@@ -163,8 +179,16 @@ bool Game::tick()
         previousLine = currentLine;
     }
 
+    //테트리스
     if (currentTetris > previousTetris)
     {
+        //하트 맥시멈(3)보다 작을때만, 목숨 추가.
+        if (hearts.size() < Heart::maxHeart && hearts.size()!=0) {
+            Heart heart{ Heart::paths[hearts.size()], Heart::xPositions[hearts.size()], Heart::yPositions[hearts.size()] };
+            hearts.push_back(heart);
+            print->printPNG(heart.path.c_str(), heart.xPosition, heart.yPosition);
+        }
+
         std::cout << "Tetris: " << currentTetris << std::endl;
         previousTetris = currentTetris;
     }

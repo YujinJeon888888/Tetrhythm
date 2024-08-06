@@ -1,5 +1,4 @@
 #include "TetrisScene.h"
-#include "Game.h"
 TetrisScene::TetrisScene(WindowManager& wm, SceneManager& manager)
 	: windowManager(wm), sceneManager(manager), print(new Print(&wm)), game(new Game(windowManager,print))
 {
@@ -13,7 +12,7 @@ void TetrisScene::drawInit()
 	//목숨 초기 프린트.
 	print->printPNG("heart1.png", 570, 43, 1);
 	print->printPNG("heart2.png", 623, 43, print->getLayeredTextures().back().layer + 1);
-	//print->printPNG("heart3.png", 676, 43, print->getLayeredTextures().back().layer + 1);
+	print->printPNG("heart3.png", 676, 43, print->getLayeredTextures().back().layer + 1);
 
 }
 
@@ -26,11 +25,16 @@ void TetrisScene::handleEvents()
 void TetrisScene::update()
 {	
 	//게임종료 아닐때만 업데이트
-	if (!game->tick())
+	if (game->tick())
 	{
 		game->tick();
 	}
+	else {
+		sceneManager.changeScene(std::make_unique<GameOverScene>(windowManager, sceneManager,game->getScore(),game->getLine(),game->getTetris()));
+	}
 }
+	
+
 
 void TetrisScene::render()
 {

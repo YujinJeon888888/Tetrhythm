@@ -8,6 +8,7 @@
 #include "MainMenu.h"
 #include "LoginScene.h"
 #include "TetrisScene.h"
+#include "GameOverScene.h"
 int main(int argc, char* argv[]) {
     //유저정보 싱글톤
     

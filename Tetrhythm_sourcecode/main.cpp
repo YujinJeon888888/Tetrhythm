@@ -20,6 +20,8 @@ int main(int argc, char* argv[]) {
     SceneManager sceneManager;
 
     //시작 시 호출 원하는 씬을 여기서 부르면 됨. 씬 상속 받은 클래스만 가능
+    //test
+    UserInfo::getInstance().setUserID("ZiZonYujin");
     sceneManager.changeScene(std::make_unique<TetrisScene>(windowManager,sceneManager));
 
     while (true) {

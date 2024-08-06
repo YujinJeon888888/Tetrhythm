@@ -7,6 +7,7 @@ GameOverScene::GameOverScene(WindowManager& wm, SceneManager& manager) : windowM
 
 void GameOverScene::drawInit()
 {
+	print->printPNG("BackGround.png", 0, 0, 0);
 	print->printPNG("GameOver.png", 180, 50, 1);
 	//text 세팅
 	TTF_Font* font = print->loadFont("DungGeunMo.ttf", 30);

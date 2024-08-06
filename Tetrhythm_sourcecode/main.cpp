@@ -8,6 +8,7 @@
 #include "MainMenu.h"
 #include "LoginScene.h"
 #include "TetrisScene.h"
+#include "GameOverScene.h"
 int main(int argc, char* argv[]) {
     //유저정보 싱글톤
     
@@ -19,7 +20,7 @@ int main(int argc, char* argv[]) {
     SceneManager sceneManager;
 
     //시작 시 호출 원하는 씬을 여기서 부르면 됨. 씬 상속 받은 클래스만 가능
-    sceneManager.changeScene(std::make_unique<TetrisScene>(windowManager,sceneManager));
+    sceneManager.changeScene(std::make_unique<GameOverScene>(windowManager,sceneManager));
 
     while (true) {
  

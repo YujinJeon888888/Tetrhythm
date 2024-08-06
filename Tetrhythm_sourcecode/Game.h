@@ -34,6 +34,9 @@ public:
     int getTetris() const {
         return previousTetris;
     }
+    int getScore() const {
+        return score;
+    }
 private:
     Game(const Game&);
     Game& operator=(const Game&);
@@ -43,6 +46,7 @@ private:
     void check(const Tetromino&);
     int previousLine;
     int previousTetris;
+    int score;
     bool gameOver;
     SDL_Texture* blockTextures_[7]; // 7개의 블럭 텍스처를 저장하는 배열
     WindowManager& windowManager;

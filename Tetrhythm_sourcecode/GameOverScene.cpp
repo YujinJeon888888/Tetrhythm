@@ -5,6 +5,13 @@ GameOverScene::GameOverScene(WindowManager& wm, SceneManager& manager) : windowM
 	drawInit();
 }
 
+GameOverScene::GameOverScene(WindowManager& wm, SceneManager& manager, int score, int line, int tetris)
+	: windowManager(wm), sceneManager(manager), print(new Print(&wm)), score(score), line(line), tetris(tetris)
+{
+	drawInit();
+}
+
+
 void GameOverScene::drawInit()
 {
 	print->printPNG("BackGround.png", 0, 0, 0);
@@ -12,9 +19,9 @@ void GameOverScene::drawInit()
 	//text 세팅
 	TTF_Font* font = print->loadFont("DungGeunMo.ttf", 30);
 	SDL_Color color = { 255, 255, 255 }; // 흰색
-	print->printText("Score: ", 442,430,print->getLayeredTextures().back().layer+1,font, color);
-	print->printText("Line: ", 442,460,print->getLayeredTextures().back().layer+1,font, color);
-	print->printText("Tetris: ", 442,490,print->getLayeredTextures().back().layer+1,font, color);
+	print->printText("Score: " + std::to_string(score), 442,430,print->getLayeredTextures().back().layer+1,font, color);
+	print->printText("Line: " + std::to_string(line), 442,460,print->getLayeredTextures().back().layer+1,font, color);
+	print->printText("Tetris: " + std::to_string(tetris), 442,490,print->getLayeredTextures().back().layer+1,font, color);
 
 }
 

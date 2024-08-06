@@ -30,7 +30,7 @@ void TetrisScene::update()
 		game->tick();
 	}
 	else {
-		sceneManager.changeScene(std::make_unique<GameOverScene>(windowManager, sceneManager));
+		sceneManager.changeScene(std::make_unique<GameOverScene>(windowManager, sceneManager,1,game->getLine(),game->getTetris()));
 	}
 }
 	

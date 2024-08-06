@@ -27,6 +27,13 @@ public:
     bool tick();
     bool isGameOver() const;
     SDL_Texture* getBlockTexture(Tetromino::Type type) const; // 블럭 텍스처 반환 함수 추가
+    
+    int getLine() const{
+        return previousLine;
+    }
+    int getTetris() const {
+        return previousTetris;
+    }
 private:
     Game(const Game&);
     Game& operator=(const Game&);

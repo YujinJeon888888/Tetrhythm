@@ -27,8 +27,21 @@ void GameOverScene::drawInit()
 
 void GameOverScene::handleEvents()
 {
-	print->handleEvents();
+	print->handleEvents([&](SDL_Event& event) {
+		if (event.type == SDL_KEYDOWN) {
+			handleArrowKey(event.key.keysym.sym);
+		}
+		});
 }
+
+void GameOverScene::handleArrowKey(SDL_Keycode key) {
+    switch (key) {
+    case SDLK_ESCAPE: // 뒤로 가기 기능 추가
+		sceneManager.goBack();
+		break;
+    }
+}
+
 
 void GameOverScene::update()
 {

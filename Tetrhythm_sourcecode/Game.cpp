@@ -177,6 +177,7 @@ bool Game::tick()
     {
         std::cout << "Line: " << currentLine << std::endl;
         previousLine = currentLine;
+        print->setText(7,"      "+std::to_string(previousLine));
     }
 
     //테트리스
@@ -191,6 +192,8 @@ bool Game::tick()
 
         std::cout << "Tetris: " << currentTetris << std::endl;
         previousTetris = currentTetris;
+        print->setText(8, "        " + std::to_string(previousTetris));
+
     }
 
     return true;

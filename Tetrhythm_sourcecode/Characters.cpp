@@ -61,6 +61,7 @@ void Characters::drawSelection() {
 void Characters::drawInit() {
 
     Print* pt = print;
+    pt->printPNG("BackGround.png", 0, 0, 0);
 	pt->printPNG("explanation.png", 351, 34, 2);
 	data[sIndex % Width][sIndex / Width] = true;
 

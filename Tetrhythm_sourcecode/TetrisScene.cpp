@@ -10,6 +10,11 @@ void TetrisScene::drawInit()
 {
 	//test
 		//print->printPNG("CharacterSize.png", 0, 0, 1);
+	//목숨 초기 프린트.
+	print->printPNG("heart1.png", 570, 43, 1);
+	print->printPNG("heart2.png", 623, 43, print->getLayeredTextures().back().layer + 1);
+	//print->printPNG("heart3.png", 676, 43, print->getLayeredTextures().back().layer + 1);
+
 }
 
 void TetrisScene::handleEvents()

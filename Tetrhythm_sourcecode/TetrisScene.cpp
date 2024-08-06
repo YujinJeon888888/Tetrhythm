@@ -31,9 +31,10 @@ void TetrisScene::update()
 	}
 	else {
 		//게임종료일 때
-		//1. 데이터저장
+		//1. 데이터저장(line, tetris)
 		MySQL mysql;
 		mysql.setLine(UserInfo::getInstance().getUserID(), (game->getLine()));
+		mysql.setTetris(UserInfo::getInstance().getUserID(), (game->getTetris()));
 		//2. 게임오버 씬 이동
 		sceneManager.pushScene(std::make_unique<MainMenu>(windowManager, sceneManager));
 		sceneManager.changeScene(std::make_unique<GameOverScene>(windowManager, sceneManager,game->getScore(),game->getLine(),game->getTetris()));

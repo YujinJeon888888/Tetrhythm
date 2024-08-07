@@ -7,9 +7,13 @@
 #include "SceneManager.h"
 #include "MainMenu.h"
 #include "Characters.h"
-
+#include "LoginScene.h"
+#include "TetrisScene.h"
+#include "GameOverScene.h"
 
 int main(int argc, char* argv[]) {
+    //유저정보 싱글톤
+    
     // 프레임 속도: 60
     const int targetFPS = 60;
     const std::chrono::milliseconds frameDuration(1000 / targetFPS);
@@ -18,7 +22,9 @@ int main(int argc, char* argv[]) {
     SceneManager sceneManager;
 
     //시작 시 호출 원하는 씬을 여기서 부르면 됨. 씬 상속 받은 클래스만 가능
-    sceneManager.changeScene(std::make_unique<Characters>(windowManager,sceneManager));
+    //test
+    UserInfo::getInstance().setUserID("ZiZonYujin");
+    sceneManager.changeScene(std::make_unique<MainMenu>(windowManager,sceneManager));
 
     while (true) {
  

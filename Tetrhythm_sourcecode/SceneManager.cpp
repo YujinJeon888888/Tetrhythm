@@ -20,7 +20,6 @@ void SceneManager::popScene() {
 void SceneManager::goBack() {
     if (scenes.size() > 1) { //씬이 두개 이상일 때만
         popScene();  // 현재 씬을 제거하고, 이전 씬을 다시 보여줍니다.
-
     }
 }
 

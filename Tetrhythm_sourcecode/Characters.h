@@ -6,9 +6,7 @@
 #include <vector>
 #include "Print.h"
 #include "SceneManager.h"
-#include <sstream>
-#include <string>
-
+#include "UserInfo.h"
 class Characters : public Scene
 {
 public:

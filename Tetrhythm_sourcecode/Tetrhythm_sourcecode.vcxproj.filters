@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <Filter Include="소스 파일">
@@ -31,8 +31,8 @@
     <Filter Include="소스 파일\Scene">
       <UniqueIdentifier>{826aeac6-9cda-4a08-a5a3-11619c9e4ed7}</UniqueIdentifier>
     </Filter>
-    <Filter Include="리소스 파일\CharacterScene">
-      <UniqueIdentifier>{18e01514-c9c3-4576-9291-198512ec4fcc}</UniqueIdentifier>
+    <Filter Include="소스 파일\Tetris">
+      <UniqueIdentifier>{75bd4173-d20d-432b-aada-246498843f30}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -60,9 +60,6 @@
     <ClCompile Include="MainMenu.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Login.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="폰트.cpp">
       <Filter>소스 파일\유진Test</Filter>
     </ClCompile>
@@ -74,6 +71,36 @@
     </ClCompile>
     <ClCompile Include="MySQL.cpp">
       <Filter>소스 파일\MySQL</Filter>
+    </ClCompile>
+    <ClCompile Include="LoginScene.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Login.cpp">
+      <Filter>소스 파일\유진Test</Filter>
+    </ClCompile>
+    <ClCompile Include="UserInfo.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="MainMenu.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="TETRIS.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Well.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="tetromino.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Game.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="TetrisScene.cpp">
+      <Filter>소스 파일\Tetris</Filter>
+    </ClCompile>
+    <ClCompile Include="GameOverScene.cpp">
+      <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -103,6 +130,18 @@
     <ClInclude Include="WindowManager.h">
       <Filter>소스 파일\Window</Filter>
     </ClInclude>
+    <ClInclude Include="LoginScene.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="UserInfo.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="TetrisScene.h">
+      <Filter>소스 파일\Tetris</Filter>
+    </ClInclude>
+    <ClInclude Include="GameOverScene.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Tetrhythm_sourcecode1.rc">
@@ -113,6 +152,9 @@
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
+    <Image Include="CharacterSize.png">
+      <Filter>리소스 파일</Filter>
+    </Image>
     <Image Include="frame1.png">
       <Filter>리소스 파일</Filter>
     </Image>
@@ -123,6 +165,12 @@
       <Filter>리소스 파일</Filter>
     </Image>
     <Image Include="pngImage.png">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="selection.png">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="Rectangle 31.png">
       <Filter>리소스 파일</Filter>
     </Image>
     <Image Include="testPic.png">
@@ -137,35 +185,20 @@
     <Image Include="MultiPlay.png">
       <Filter>리소스 파일</Filter>
     </Image>
+    <Image Include="MyCharacter.png">
+      <Filter>리소스 파일</Filter>
+    </Image>
     <Image Include="Selection2.png">
       <Filter>리소스 파일</Filter>
     </Image>
     <Image Include="SinglePlay.png">
       <Filter>리소스 파일</Filter>
     </Image>
-    <Image Include="CharacterSize.png">
-      <Filter>리소스 파일\CharacterScene</Filter>
+    <Image Include="Board.png">
+      <Filter>리소스 파일</Filter>
     </Image>
-    <Image Include="..\..\..\..\Downloads\테트리듬 기획서 (1)\openedLock 1.png">
-      <Filter>리소스 파일\CharacterScene</Filter>
-    </Image>
-    <Image Include="MyCharacter.png">
-      <Filter>리소스 파일\CharacterScene</Filter>
-    </Image>
-    <Image Include="..\..\..\..\Downloads\테트리듬 기획서 %281%29\selectedRectang.png">
-      <Filter>리소스 파일\CharacterScene</Filter>
-    </Image>
-    <Image Include="selection.png">
-      <Filter>리소스 파일\CharacterScene</Filter>
-    </Image>
-    <Image Include="character1.png">
-      <Filter>리소스 파일\CharacterScene</Filter>
-    </Image>
-    <Image Include="character2.png">
-      <Filter>리소스 파일\CharacterScene</Filter>
-    </Image>
-    <Image Include="character8.png">
-      <Filter>리소스 파일\CharacterScene</Filter>
+    <Image Include="Waitingline.png">
+      <Filter>리소스 파일</Filter>
     </Image>
   </ItemGroup>
   <ItemGroup>

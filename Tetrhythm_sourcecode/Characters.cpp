@@ -82,7 +82,8 @@ void Characters::drawSelection() {
 // 최초에만 그려지는 고정된 요소들
 void Characters::drawInit() {
 
-	Print* pt = print;
+    Print* pt = print;
+    pt->printPNG("BackGround.png", 0, 0, 0);
 	pt->printPNG("explanation.png", 351, 34, 2);
 	pt->printPNG("openedLock 1.png", 853, 152, 7);
 
@@ -107,6 +108,19 @@ void Characters::drawInit() {
 
 		}
 
+    //text
+        //text
+    //text 세팅
+    TTF_Font* font = print->loadFont("DungGeunMo.ttf", 25);
+    SDL_Color color = { 255, 255, 255 }; // 흰색
+    print->printText("Line: ", 777, 526, 4, font, color);
+    print->printText("Tetris: ", 777, 556, 5, font, color);
+    print->printText("Score: ", 777, 586, 6, font, color);
+    //점수 text
+    MySQL mysql;
+    print->printText("      "+ std::to_string(mysql.getLine(UserInfo::getInstance().getUserID())), 777, 526, 7, font, color);
+    print->printText("        "+ std::to_string(mysql.getTetris(UserInfo::getInstance().getUserID())), 777, 556, 8, font, color);
+    print->printText("       0", 777, 586, 9, font, color);
 
 }
 

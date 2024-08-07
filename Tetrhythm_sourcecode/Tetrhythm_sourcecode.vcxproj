@@ -20,7 +20,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Characters.cpp" />
+    <ClCompile Include="Game.cpp" />
+    <ClCompile Include="GameOverScene.cpp" />
     <ClCompile Include="Login.cpp" />
+    <ClCompile Include="LoginScene.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MainMenu.cpp" />
     <ClCompile Include="Scene.cpp" />
@@ -29,15 +32,24 @@
     <ClCompile Include="SDL2TestMain.cpp" />
     <ClCompile Include="Print.cpp" />
     <ClCompile Include="Print.h" />
+    <ClCompile Include="TETRIS.cpp" />
+    <ClCompile Include="TetrisScene.cpp" />
+    <ClCompile Include="tetromino.cpp" />
+    <ClCompile Include="Well.cpp" />
     <ClCompile Include="MySQL.h" />
+    <ClCompile Include="UserInfo.cpp" />
     <ClCompile Include="WindowManager.cpp" />
     <ClCompile Include="폰트.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="GameOverScene.h" />
+    <ClInclude Include="LoginScene.h" />
     <ClInclude Include="MainMenu.h" />
     <ClInclude Include="resource1.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SceneManager.h" />
+    <ClInclude Include="TetrisScene.h" />
+    <ClInclude Include="UserInfo.h" />
     <ClInclude Include="WindowManager.h" />
   </ItemGroup>
   <ItemGroup>
@@ -48,11 +60,7 @@
     <ClInclude Include="Characters.h" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="..\..\..\..\Downloads\테트리듬 기획서 (1)\openedLock 1.png" />
-    <Image Include="..\..\..\..\Downloads\테트리듬 기획서 %281%29\selectedRectang.png" />
-    <Image Include="character1.png" />
-    <Image Include="character2.png" />
-    <Image Include="character8.png" />
+    <Image Include="Board.png" />
     <Image Include="CharacterSize.png" />
     <Image Include="frame1.png" />
     <Image Include="frame2.png" />
@@ -63,9 +71,11 @@
     <Image Include="PerTitle.png" />
     <Image Include="pngImage.png" />
     <Image Include="selection.png" />
+    <Image Include="Rectangle 31.png" />
     <Image Include="Selection2.png" />
     <Image Include="SinglePlay.png" />
     <Image Include="testPic.png" />
+    <Image Include="Waitingline.png" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Tetrhythm_sourcecode.rc" />
@@ -86,13 +96,13 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
@@ -105,7 +115,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>

@@ -7,6 +7,9 @@
 #include "Print.h"
 #include "SceneManager.h"
 #include "UserInfo.h"
+#include <sstream>
+
+
 class Characters : public Scene
 {
 public:

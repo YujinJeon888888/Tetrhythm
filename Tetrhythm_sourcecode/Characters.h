@@ -6,6 +6,9 @@
 #include <vector>
 #include "Print.h"
 #include "SceneManager.h"
+#include "UserInfo.h"
+#include <sstream>
+
 
 class Characters : public Scene
 {
@@ -25,6 +28,8 @@ public:
 private: 
 	bool data[Width][Height];
 	int sIndex = 0; 
+	int myCharIndex = 0;
+	void unlock();
 	Print* print;
 	WindowManager& windowManager;
 	SceneManager& sceneManager;

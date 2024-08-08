@@ -53,6 +53,7 @@ void MainMenu::drawSelection() {
 
 void MainMenu::drawInit() {
     Print* pt = print;
+    pt->printPNG("BackGround.png", 0, 0, 0);
     pt->printPNG("PerTitle.png", 300, 102.75, 2);
     pt->printPNG("MainExplain.png", 966.75, 586.5, 3);
 

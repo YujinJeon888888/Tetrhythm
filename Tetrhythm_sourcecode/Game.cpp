@@ -9,6 +9,22 @@
 #include <thread>
 #include <chrono>
 
+const std::string Heart::paths[3] = {
+    "heart1.png",
+    "heart2.png",
+    "heart3.png"
+};
+const int Heart::xPositions[3] = {
+    570,
+    623,
+    676
+};
+const int Heart::yPositions[3] = {
+    43,
+    43,
+    43
+};
+
 Game::Game(WindowManager& wm, Print* pr)
     :
     tetromino_{},
@@ -163,12 +179,23 @@ bool Game::tick()
     {
         std::cout << "Line: " << currentLine << std::endl;
         previousLine = currentLine;
+        print->setText(7,"      "+std::to_string(previousLine));
     }
 
+    //테트리스
     if (currentTetris > previousTetris)
     {
+        //하트 맥시멈(3)보다 작을때만, 목숨 추가.
+        if (hearts.size() < Heart::maxHeart && hearts.size()!=0) {
+            Heart heart{ Heart::paths[hearts.size()], Heart::xPositions[hearts.size()], Heart::yPositions[hearts.size()] };
+            hearts.push_back(heart);
+            print->printPNG(heart.path.c_str(), heart.xPosition, heart.yPosition);
+        }
+
         std::cout << "Tetris: " << currentTetris << std::endl;
         previousTetris = currentTetris;
+        print->setText(8, "        " + std::to_string(previousTetris));
+
     }
 
     return true;
@@ -177,6 +204,12 @@ bool Game::tick()
 void Game::check(const Tetromino& t)
 {
     if (t.y() >= 0 && well_.isCollision(t)) // 블럭이 Well 내부에 위치할 때만 충돌 검사
+    //목숨이 0인지 체크
+    if (hearts.size()== 0) {
+        gameOver = true;
+        std::cout << "Game Over!" << std::endl;
+    }
+    if (well_.isCollision(t))
     {
         well_.unite(tetromino_);
         tetromino_ = nextTetrominos_[0]; // 현재 블럭을 대기열의 첫 번째 블럭으로 교체

@@ -99,6 +99,9 @@
     <ClCompile Include="TetrisScene.cpp">
       <Filter>소스 파일\Tetris</Filter>
     </ClCompile>
+    <ClCompile Include="GameOverScene.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="사용법설명.txt">
@@ -135,6 +138,9 @@
     </ClInclude>
     <ClInclude Include="TetrisScene.h">
       <Filter>소스 파일\Tetris</Filter>
+    </ClInclude>
+    <ClInclude Include="GameOverScene.h">
+      <Filter>소스 파일</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

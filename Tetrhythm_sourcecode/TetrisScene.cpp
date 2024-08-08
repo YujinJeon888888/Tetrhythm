@@ -47,7 +47,6 @@ void TetrisScene::update()
 		mysql.setLine(UserInfo::getInstance().getUserID(), (game->getLine()));
 		mysql.setTetris(UserInfo::getInstance().getUserID(), (game->getTetris()));
 		//2. 게임오버 씬 이동
-		sceneManager.pushScene(std::make_unique<MainMenu>(windowManager, sceneManager));
 		sceneManager.changeScene(std::make_unique<GameOverScene>(windowManager, sceneManager,game->getScore(),game->getLine(),game->getTetris()));
 	}
 	//게임 클리어일 때

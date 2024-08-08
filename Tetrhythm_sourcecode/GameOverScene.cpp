@@ -37,7 +37,7 @@ void GameOverScene::handleEvents()
 void GameOverScene::handleArrowKey(SDL_Keycode key) {
     switch (key) {
     case SDLK_ESCAPE: // 뒤로 가기 기능 추가
-		sceneManager.goBack();
+		sceneManager.changeScene(std::make_unique<MainMenu>(windowManager, sceneManager));
 		break;
     }
 }

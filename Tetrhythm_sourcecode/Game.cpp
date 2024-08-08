@@ -11,7 +11,8 @@
 
 Game::Game(WindowManager& wm, Print* pr)
     :
-    tetromino_{ static_cast<Tetromino::Type>(rand() % 7) },
+    tetromino_{},
+    nextTetrominos_{ Tetromino{}, Tetromino{}, Tetromino{} }, // 다음 블럭 3개 초기화
     moveTime_(SDL_GetTicks()),
     previousLine(0),
     previousTetris(0),
@@ -100,7 +101,7 @@ bool Game::tick()
                     tetromino_ = t;
             }
             break;
-            case SDLK_UP:
+            case SDLK_a:
             {
                 Tetromino t = tetromino_;
                 t.rotate();
@@ -108,15 +109,7 @@ bool Game::tick()
                     tetromino_ = t;
             }
             break;
-            case SDLK_c:
-            {
-                Tetromino t = tetromino_;
-                t.rotate();
-                if (!well_.isCollision(t))
-                    tetromino_ = t;
-            }
-            break;
-            case SDLK_z:
+            case SDLK_d:
             {
                 Tetromino t = tetromino_;
                 t.rotateCounterClockwise();
@@ -141,9 +134,18 @@ bool Game::tick()
     SDL_SetRenderDrawColor(windowManager.getRenderer(), 0, 0, 0, 0xff);
     //화면업데이트
     SDL_RenderClear(windowManager.getRenderer());
-    well_.draw(windowManager.getRenderer(), blockTextures_);
+
+    // 그림자 위치 계산
+    Tetromino shadow = tetromino_.calculateShadow(well_);
+
+    // 그림자 그리기
+    well_.drawShadow(windowManager.getRenderer(), blockTextures_[tetromino_.getType()], shadow);
+
+    // 기존 그리기 코드...
+    well_.draw(windowManager.getRenderer(), blockTextures_, nextTetrominos_);
     tetromino_.draw(windowManager.getRenderer(), blockTextures_[tetromino_.getType()]);
     print->renderForTetris();
+
     if (SDL_GetTicks() > moveTime_)
     {
         moveTime_ += 1000;
@@ -174,10 +176,17 @@ bool Game::tick()
 
 void Game::check(const Tetromino& t)
 {
-    if (well_.isCollision(t))
+    if (t.y() >= 0 && well_.isCollision(t)) // 블럭이 Well 내부에 위치할 때만 충돌 검사
     {
         well_.unite(tetromino_);
-        tetromino_ = Tetromino{ static_cast<Tetromino::Type>(rand() % 7) };
+        tetromino_ = nextTetrominos_[0]; // 현재 블럭을 대기열의 첫 번째 블럭으로 교체
+        nextTetrominos_[0] = nextTetrominos_[1]; // 대기열 이동
+        nextTetrominos_[1] = nextTetrominos_[2]; // 대기열 이동
+        nextTetrominos_[2] = Tetromino{}; // 새로운 랜덤 블럭 생성
+
+        // 대기열 블럭이 한 칸씩 당겨지며 0.2초 지연 후 위로 이동
+        std::this_thread::sleep_for(std::chrono::milliseconds(200));
+
         if (well_.isCollision(tetromino_))
         {
             gameOver = true;

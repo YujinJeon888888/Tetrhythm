@@ -1,10 +1,12 @@
 #pragma once
 #include <SDL.h>
 #include <SDL_image.h>
+#include <array>
 #include "Well.h"
 #include "tetromino.h"
 #include "WindowManager.h"
 #include "Print.h"
+
 class Game
 {
 public:
@@ -18,6 +20,7 @@ private:
     Game& operator=(const Game&);
     Well well_;
     Tetromino tetromino_;
+    std::array<Tetromino, 3> nextTetrominos_; // 대기열 블럭
     uint32_t moveTime_;
     void check(const Tetromino&);
     int previousLine;

@@ -1,7 +1,8 @@
 #include "MainMenu.h"
 #include "Characters.h"
+#include "SceneManager.h"
 
-MainMenu::MainMenu(WindowManager& wm, SceneManager& manager) : windowManager(wm), sceneManager(manager), print(new Print(&wm))
+MainMenu::MainMenu(WindowManager& wm, SceneManager& manager) : windowManager(wm), sceneManager(manager), print(new Print(&wm), soundManager())
 {
     drawInit();
 }

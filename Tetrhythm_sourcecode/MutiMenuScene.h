@@ -1,5 +1,7 @@
+
 #pragma once
 
+#include "Multi.h" //첫순서에 와야함
 #include "Print.h"
 #include "WindowManager.h"
 #include <vector>
@@ -11,6 +13,8 @@
 #include <string>
 #include "Scene.h"
 #include "SceneManager.h"
+
+
 
 class MutiMenuScene : public Scene
 {

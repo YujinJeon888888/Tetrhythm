@@ -28,14 +28,16 @@
     <ClCompile Include="LoginScene.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MainMenu.cpp" />
+    <ClCompile Include="Multi.cpp" />
     <ClCompile Include="MutiMenuScene.cpp" />
+    <ClCompile Include="NetworkManager.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="MySQL.cpp" />
     <ClCompile Include="SDL2TestMain.cpp" />
     <ClCompile Include="Print.cpp" />
     <ClCompile Include="Print.h" />
-    <ClCompile Include="Source.cpp" />
+    <ClCompile Include="EnterRoom.cpp" />
     <ClCompile Include="TETRIS.cpp" />
     <ClCompile Include="TetrisScene.cpp" />
     <ClCompile Include="tetromino.cpp" />
@@ -50,7 +52,9 @@
     <ClInclude Include="GameOverScene.h" />
     <ClInclude Include="LoginScene.h" />
     <ClInclude Include="MainMenu.h" />
+    <ClInclude Include="Multi.h" />
     <ClInclude Include="MutiMenuScene.h" />
+    <ClInclude Include="NetworkManager.h" />
     <ClInclude Include="resource1.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SceneManager.h" />

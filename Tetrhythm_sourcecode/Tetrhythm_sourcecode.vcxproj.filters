@@ -114,11 +114,17 @@
     <ClCompile Include="ClientMain.cpp">
       <Filter>소스 파일\SocketClient</Filter>
     </ClCompile>
-    <ClCompile Include="Source.cpp">
+    <ClCompile Include="EnterRoom.cpp">
       <Filter>소스 파일\SocketClient</Filter>
     </ClCompile>
     <ClCompile Include="MutiMenuScene.cpp">
       <Filter>소스 파일\MutiMode</Filter>
+    </ClCompile>
+    <ClCompile Include="NetworkManager.cpp">
+      <Filter>소스 파일\SocketClient</Filter>
+    </ClCompile>
+    <ClCompile Include="Multi.cpp">
+      <Filter>소스 파일\SocketClient</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -164,6 +170,12 @@
       <Filter>소스 파일\SocketClient</Filter>
     </ClInclude>
     <ClInclude Include="MutiMenuScene.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="NetworkManager.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Multi.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

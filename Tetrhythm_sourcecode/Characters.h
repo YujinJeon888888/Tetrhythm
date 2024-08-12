@@ -1,4 +1,6 @@
 #pragma once
+
+
 #include <SDL.h>
 #include <SDL_image.h>
 #include <string>
@@ -8,6 +10,7 @@
 #include "SceneManager.h"
 #include "UserInfo.h"
 #include <sstream>
+#include "MySQL.h"
 
 
 class Characters : public Scene

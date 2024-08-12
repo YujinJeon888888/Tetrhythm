@@ -1,5 +1,7 @@
 #include "MainMenu.h"
 #include "Characters.h"
+#include "TetrisScene.h"
+
 
 MainMenu::MainMenu(WindowManager& wm, SceneManager& manager) : windowManager(wm), sceneManager(manager), print(new Print(&wm))
 {
@@ -25,6 +27,7 @@ void MainMenu::handleArrowKey(SDL_Keycode key) {
         {
         
         case 0 : // 싱글 플레이 모드 씬 전환
+            sceneManager.changeScene(std::make_unique<TetrisScene>(windowManager, sceneManager));
             break;
         case 1 : // muti mode
             break;

@@ -206,3 +206,108 @@ void MySQL::setCharacterName(std::string ID, std::string c)
     mysql_close(ConnPtr);
 }
 
+void MySQL::initUserInfo(std::string ID) {
+    MYSQL Conn;
+    MYSQL* ConnPtr = NULL;
+    MYSQL_RES* Result;
+    MYSQL_ROW Row;
+    int Stat;
+
+    mysql_init(&Conn);
+
+    ConnPtr = mysql_real_connect(&Conn, host, userName, password, database, 3306, (char*)NULL, 0);
+    if (ConnPtr == NULL) {
+        std::cout << mysql_error(&Conn) << std::endl;
+        exit(-1);
+    }
+
+    // 테이블 상태 출력 쿼리 실행
+    std::string query = "SELECT line FROM Users where name = '" + ID + "'";
+    const char* selectQuery = query.c_str();
+    Stat = mysql_query(ConnPtr, selectQuery);
+    if (Stat != 0) {
+        std::cout << mysql_error(&Conn) << std::endl;
+        exit(-1);
+    }
+
+    // 결과를 가져와서 출력
+    Result = mysql_store_result(ConnPtr);
+    int numFields = mysql_num_fields(Result);
+
+    while ((Row = mysql_fetch_row(Result)) != NULL) {
+        for (int i = 0; i < numFields; i++) {
+            std::cout << (Row[i] ? Row[i] : "NULL") << " ";
+
+            UserInfo::getInstance().setLine(std::stoi(Row[0]));
+        }
+        std::cout << std::endl;
+    }
+    // 테이블 상태 출력 쿼리 실행
+    query = "SELECT tetris FROM Users where name = '" + ID + "'";
+    selectQuery = query.c_str();
+    Stat = mysql_query(ConnPtr, selectQuery);
+    if (Stat != 0) {
+        std::cout << mysql_error(&Conn) << std::endl;
+        exit(-1);
+    }
+
+    // 결과를 가져와서 출력
+    Result = mysql_store_result(ConnPtr);
+    numFields = mysql_num_fields(Result);
+
+    while ((Row = mysql_fetch_row(Result)) != NULL) {
+        for (int i = 0; i < numFields; i++) {
+            std::cout << (Row[i] ? Row[i] : "NULL") << " ";
+
+            UserInfo::getInstance().setTetris(std::stoi(Row[0]));
+        }
+        std::cout << std::endl;
+    }
+    // 테이블 상태 출력 쿼리 실행
+    query = "SELECT highScore FROM Users where name = '" + ID + "'";
+    selectQuery = query.c_str();
+    Stat = mysql_query(ConnPtr, selectQuery);
+    if (Stat != 0) {
+        std::cout << mysql_error(&Conn) << std::endl;
+        exit(-1);
+    }
+
+    // 결과를 가져와서 출력
+    Result = mysql_store_result(ConnPtr);
+    numFields = mysql_num_fields(Result);
+
+    while ((Row = mysql_fetch_row(Result)) != NULL) {
+        for (int i = 0; i < numFields; i++) {
+            std::cout << (Row[i] ? Row[i] : "NULL") << " ";
+
+            UserInfo::getInstance().setHighScore(std::stoi(Row[0]));
+            std::cout << "highScore: " << std::stoi(Row[0]) << std::endl;
+        }
+
+        std::cout << std::endl;
+    }
+    // 테이블 상태 출력 쿼리 실행
+    query = "SELECT CharacterName FROM Users where name = '" + ID + "'";
+    selectQuery = query.c_str();
+    Stat = mysql_query(ConnPtr, selectQuery);
+    if (Stat != 0) {
+        std::cout << mysql_error(&Conn) << std::endl;
+        exit(-1);
+    }
+
+    // 결과를 가져와서 출력
+    Result = mysql_store_result(ConnPtr);
+    numFields = mysql_num_fields(Result);
+
+    while ((Row = mysql_fetch_row(Result)) != NULL) {
+        for (int i = 0; i < numFields; i++) {
+            std::cout << (Row[i] ? Row[i] : "NULL") << " ";
+
+            UserInfo::getInstance().setUserCharacter(Row[0]);
+        }
+        std::cout << std::endl;
+    }
+    mysql_free_result(Result);
+    mysql_close(ConnPtr);
+}
+

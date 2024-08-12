@@ -80,6 +80,8 @@ void LoginScene::whenSpace()
         //그 아이디로 로그인
         //유저 정보 싱글톤에 저장
         UserInfo::getInstance().setUserID(str);
+        mysql.initUserInfo(str);
+
         //씬 이동
         sceneManager.changeScene(std::make_unique<MainMenu>(windowManager, sceneManager));
     }
@@ -88,6 +90,7 @@ void LoginScene::whenSpace()
         mysql.insertAndShowUsers(str);
         //유저 정보 싱글톤에 저장
         UserInfo::getInstance().setUserID(str);
+        mysql.initUserInfo(str);
         //씬 이동
         sceneManager.changeScene(std::make_unique<MainMenu>(windowManager, sceneManager));
     }

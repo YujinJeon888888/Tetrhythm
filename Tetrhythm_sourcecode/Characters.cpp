@@ -37,6 +37,8 @@ void Characters::handleArrowKey(SDL_Keycode key) {
 		break;
 
 	case SDLK_ESCAPE: // 뒤로 가기 기능 추가
+		MySQL mysql;
+		mysql.setCharacterName(UserInfo::getInstance().getUserID(), UserInfo::getInstance().getUserCharacter());
 		sceneManager.goBack();
 
 		break;
@@ -79,38 +81,33 @@ void Characters::drawSelection() {
 					switch (x)
 					{
 					case 0:
-						mysql.setCharacterName(UserInfo::getInstance().getUserID(),"character"+std::to_string(x+1)+".png");
+						UserInfo::getInstance().setUserCharacter("character" + std::to_string(x + 1) + ".png");
 						break;
 					case 1:
-						mysql.setCharacterName(UserInfo::getInstance().getUserID(), "character" + std::to_string(x + 1) + ".png");
-						break;
+						UserInfo::getInstance().setUserCharacter("character" + std::to_string(x + 1) + ".png");						break;
 					case 2:
-						mysql.setCharacterName(UserInfo::getInstance().getUserID(), "character" + std::to_string(x + 1) + ".png");
-						break;
+						UserInfo::getInstance().setUserCharacter("character" + std::to_string(x + 1) + ".png");						break;
 					case 3:
-						mysql.setCharacterName(UserInfo::getInstance().getUserID(), "character" + std::to_string(x + 1) + ".png");
-						break;
+						UserInfo::getInstance().setUserCharacter("character" + std::to_string(x + 1) + ".png");						break;
 					}
 					break;
 				case 1:
 					switch (x)
 					{
 					case 0:
-						mysql.setCharacterName(UserInfo::getInstance().getUserID(), "character" + std::to_string(x + 5) + ".png");
-						break;
+						UserInfo::getInstance().setUserCharacter("character" + std::to_string(x + 5) + ".png");						break;
 					case 1:
-						mysql.setCharacterName(UserInfo::getInstance().getUserID(), "character" + std::to_string(x + 5) + ".png");
+						UserInfo::getInstance().setUserCharacter("character" + std::to_string(x + 5) + ".png");						break;
 						break;
 					case 2:
-						mysql.setCharacterName(UserInfo::getInstance().getUserID(), "character" + std::to_string(x + 5) + ".png");
+						UserInfo::getInstance().setUserCharacter("character" + std::to_string(x + 5) + ".png");						break;
 						break;
 					case 3:
-						mysql.setCharacterName(UserInfo::getInstance().getUserID(), "character" + std::to_string(x + 5) + ".png");
+						UserInfo::getInstance().setUserCharacter("character" + std::to_string(x + 5) + ".png");						break;
 						break;
 					}
 					break;
 				}
-				std::cout << UserInfo::getInstance().getUserCharacter() << "\n";
 
 			}
 		}
@@ -171,7 +168,6 @@ void Characters::drawSelection() {
 
 // 최초에만 그려지는 고정된 요소들
 void Characters::drawInit() {
-
     Print* pt = print;
     pt->printPNG("BackGround.png", 0, 0, 0);
 	pt->printPNG("explanation.png", 351, 34, 2);
@@ -206,7 +202,6 @@ void Characters::drawInit() {
     print->printText("Tetris: ", 777, 556, 5, font, color);
     print->printText("HighScore: ", 777, 586, 6, font, color);
     //점수 text
-    MySQL mysql;
     print->printText("      "+ std::to_string(UserInfo::getInstance().getLine()), 777, 526, 8, font, color);
     print->printText("        "+ std::to_string(UserInfo::getInstance().getTetris()), 777, 556, 8, font, color);
     print->printText("           "+ std::to_string(UserInfo::getInstance().getHighScore()), 777, 586, 9, font, color);

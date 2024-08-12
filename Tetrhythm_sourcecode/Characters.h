@@ -30,10 +30,12 @@ private:
 	int sIndex = 0; 
 	int myCharIndex = 0;
 	void unlock();
+	std::string unlockText();
 	Print* print;
 	WindowManager& windowManager;
 	SceneManager& sceneManager;
-
+	TTF_Font* font;               
+	SDL_Color color;
 
 };
 

@@ -3,6 +3,8 @@
 Characters::Characters(WindowManager& wm, SceneManager& manager) : windowManager(wm), sceneManager(manager), print(new Print(&wm)),
 data{ false }
 {
+	 font = print->loadFont("DungGeunMo.ttf", 25);
+	 color = { 255, 255, 255 }; // 흰색
 	drawInit();
 }
 
@@ -57,9 +59,14 @@ void Characters::drawSelection() {
 				print->deletePNG("selection.png");
 				print->printPNG("selection.png", posX, posY, 2);
 
+				print->deletePNG("openedLock 1.png");
 				//오른쪽에 사진 띄우기 및 해금 조건 띄우기
-
-
+				if (!data[x][y]) {
+				
+					print->printPNG("openedLock 1.png", 813, 152, 7);
+					print->setText(10, unlockText());
+				}
+			
 				std::ostringstream oss;
 				oss << "character" << x + y * Width + 1 << "_s.png";
 				std::string fileName = oss.str();
@@ -85,7 +92,7 @@ void Characters::drawInit() {
     Print* pt = print;
     pt->printPNG("BackGround.png", 0, 0, 0);
 	pt->printPNG("explanation.png", 351, 34, 2);
-	pt->printPNG("openedLock 1.png", 853, 152, 7);
+
 
 	unlock();
 
@@ -102,25 +109,25 @@ void Characters::drawInit() {
 			pt->printPNG("CharacterSize.png", x * (128 + 33) + 122, y * (128 + 87) + 178, 2);
 
 			if (!data[x][y]) {
-				pt->printPNG("lock.png", x * (128 + 33) + 233, y * (128 + 87) + 176, 7);
+				print->printPNG("lock.png", x * (128 + 33) + 233, y * (128 + 87) + 176, 7);
+
 			}
 
-
 		}
+
 
     //text
         //text
     //text 세팅
-    TTF_Font* font = print->loadFont("DungGeunMo.ttf", 25);
-    SDL_Color color = { 255, 255, 255 }; // 흰색
-    print->printText("Line: ", 777, 526, 4, font, color);
-    print->printText("Tetris: ", 777, 556, 5, font, color);
-    print->printText("Score: ", 777, 586, 6, font, color);
+	print->printText("                    ", 853, 152, 10, font, color);
+    print->printText("Line: ", 813, 526, 4, font, color);
+    print->printText("Tetris: ", 813, 556, 5, font, color);
+    print->printText("Score: ", 813, 586, 6, font, color);
     //점수 text
     MySQL mysql;
-    print->printText("      "+ std::to_string(mysql.getLine(UserInfo::getInstance().getUserID())), 777, 526, 7, font, color);
-    print->printText("        "+ std::to_string(mysql.getTetris(UserInfo::getInstance().getUserID())), 777, 556, 8, font, color);
-    print->printText("       0", 777, 586, 9, font, color);
+    print->printText("      "+ std::to_string(mysql.getLine(UserInfo::getInstance().getUserID())), 813, 526, 7, font, color);
+    print->printText("        "+ std::to_string(mysql.getTetris(UserInfo::getInstance().getUserID())), 813, 556, 8, font, color);
+    print->printText("       0", 813, 586, 9, font, color);
 
 }
 
@@ -144,6 +151,34 @@ void Characters::unlock() {
 	  //  7. 총 150 Tetris
 
 	   // 8. high score - 300000
+}
+
+std::string Characters::unlockText() {
+
+
+	switch (sIndex+1) {
+
+	case 2: 
+		return "첫 멀티 모드 승리";
+	case 3:
+		return "총 120 lines 달성";
+	case 4:
+		return "총 50 Tetris 달성";
+
+
+	case 5:
+
+		return "싱글 모드 percect clear";//"싱글 모드 퍼펙트 클리어";
+
+	case 6:
+		return "high score 150000 달성";
+	case 7:
+		return "총 150 Tetris 달성";
+	case 8:
+		return "high score 300000 달성";
+
+	default: return "";
+	}
 }
 
 void Characters::handleEvents() {

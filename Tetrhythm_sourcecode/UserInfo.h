@@ -11,9 +11,12 @@ private:
 	UserInfo& operator=(const UserInfo&) = delete;
 
 	std::string userID;
+	std::string userCharacter;
 public:
 	static UserInfo& getInstance();
 	void setUserID(const std::string& username);
-
 	std::string getUserID() const;
+	void setUserCharacter(const std::string& username);
+	std::string getUserCharacter() const;
+
 };

@@ -13,3 +13,13 @@
  std::string UserInfo::getUserID() const {
 	return this->userID;
 }
+
+ void UserInfo::setUserCharacter(const std::string& username)
+ {
+	 this->userCharacter = username;
+ }
+
+ std::string UserInfo::getUserCharacter() const
+ {
+	 return this->userCharacter;
+ }

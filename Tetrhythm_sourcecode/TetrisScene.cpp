@@ -24,7 +24,8 @@ void TetrisScene::drawInit()
 	print->printText("      0", 777, 526, 7, font, color);
 	print->printText("        0", 777, 556,8, font, color);
 	print->printText("       0", 777, 586, 9, font, color);
-
+	//캐릭터
+	print->printPNG(UserInfo::getInstance().getUserCharacter().c_str(), 317, 429, 10);
 }
 
 void TetrisScene::handleEvents()

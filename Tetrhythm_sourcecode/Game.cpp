@@ -148,9 +148,12 @@ bool Game::tick()
         }
     }
     SDL_SetRenderDrawColor(windowManager.getRenderer(), 0, 0, 0, 0xff);
+   
+
     //화면업데이트
     SDL_RenderClear(windowManager.getRenderer());
-
+    
+    print->renderForTetris();
     // 그림자 위치 계산
     Tetromino shadow = tetromino_.calculateShadow(well_);
 
@@ -160,7 +163,7 @@ bool Game::tick()
     // 기존 그리기 코드...
     well_.draw(windowManager.getRenderer(), blockTextures_, nextTetrominos_);
     tetromino_.draw(windowManager.getRenderer(), blockTextures_[tetromino_.getType()]);
-    print->renderForTetris();
+
 
     if (SDL_GetTicks() > moveTime_)
     {
@@ -169,6 +172,8 @@ bool Game::tick()
         t.move(0, 1);
         check(t);
     }
+
+    
     //화면업데이트
     SDL_RenderPresent(windowManager.getRenderer());
 

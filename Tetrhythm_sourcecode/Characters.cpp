@@ -57,15 +57,15 @@ void Characters::drawSelection() {
 				print->deletePNG("selection.png");
 				print->printPNG("selection.png", posX, posY, 2);
 
-				//오른쪽에 사진 띄우기 및 해금 조건 띄우기
-
-
+				//오른쪽에 사진 띄우기 
 				std::ostringstream oss;
 				oss << "character" << x + y * Width + 1 << "_s.png";
 				std::string fileName = oss.str();
 				print->deletePNG(fileName.c_str());
 				print->printPNG(fileName.c_str(), 813, 207, 3);
 			}
+
+
 
 			if (x == myCharIndex % Width && myCharIndex / Width == y) {
 				int posX = x * (140 + 21) + 116; //5
@@ -77,6 +77,55 @@ void Characters::drawSelection() {
 
 			}
 		}
+
+	//해금조건
+	//윗줄
+	if (sIndex <= 3) {
+		//잠금상태면 해금 조건 표시
+		if (!data[sIndex][0]) {
+			//텍스트
+			switch (sIndex)
+			{
+			case 1:
+				print->setText(10, "first multimode access");
+				break;
+			case 2:
+				print->setText(10, "over 120 lines");
+				break;
+			case 3:
+				print->setText(10, "over 50 tetrises");
+				break;
+			}
+		}
+		else {
+			print->setText(10, " ");
+		}
+	}
+	else {//아랫줄
+		//잠금상태면 해금 조건 표시
+		if (!data[sIndex%4][1]) {
+			//텍스트
+			switch (sIndex)
+			{
+			case 4:
+				print->setText(10, "singlemode perfect clear");
+				break;
+
+			case 5:
+				print->setText(10, "over 150,000 highscores");
+				break;
+			case 6:
+				print->setText(10, "over 150 tetrises");
+				break;
+			case 7:
+				print->setText(10, "over 300,000 highscores");
+				break;
+			}
+		}
+		else {
+			print->setText(10, " ");
+		}
+	}
 }
 
 // 최초에만 그려지는 고정된 요소들
@@ -85,7 +134,7 @@ void Characters::drawInit() {
     Print* pt = print;
     pt->printPNG("BackGround.png", 0, 0, 0);
 	pt->printPNG("explanation.png", 351, 34, 2);
-	pt->printPNG("openedLock 1.png", 853, 152, 7);
+	//pt->printPNG("openedLock 1.png", 853, 152, 7);
 
 	unlock();
 
@@ -120,8 +169,9 @@ void Characters::drawInit() {
     MySQL mysql;
     print->printText("      "+ std::to_string(mysql.getLine(UserInfo::getInstance().getUserID())), 777, 526, 7, font, color);
     print->printText("        "+ std::to_string(mysql.getTetris(UserInfo::getInstance().getUserID())), 777, 556, 8, font, color);
-    print->printText("       0", 777, 586, 9, font, color);
-
+    print->printText("       "+ std::to_string(mysql.getHighScore(UserInfo::getInstance().getUserID())), 777, 586, 9, font, color);
+	//해금조건 text
+	print->printText("Unlock Condition", 853, 152, 10, font, color);
 }
 
 void Characters::unlock() {
@@ -130,20 +180,32 @@ void Characters::unlock() {
 	data[0][0] = true;
 
 	//2. 첫 멀티모드 승리
-	data[1][0] = true;
+	
 
 	//3.총 120 lines
-
+	MySQL mysql;
+	if (mysql.getLine(UserInfo::getInstance().getUserID()) >= 120) {
+		data[2][0] = true;
+	}
 	// 4. 총 50 Tetris
-
-
+	if (mysql.getTetris(UserInfo::getInstance().getUserID()) >= 50) {
+		data[3][0] = true;
+	}
 	//  5. 싱글모드 퍼펙트 클리어
 
+
     //  6. high score - 150000
-
-	  //  7. 총 150 Tetris
-
-	   // 8. high score - 300000
+	if (mysql.getHighScore(UserInfo::getInstance().getUserID()) >= 150000) {
+		data[1][1] = true;
+	}
+    //  7. 총 150 Tetris
+	if (mysql.getTetris(UserInfo::getInstance().getUserID()) >= 150) {
+		data[2][1] = true;
+	}
+	// 8. high score - 300000
+	if (mysql.getHighScore(UserInfo::getInstance().getUserID()) >= 300000) {
+		data[3][1] = true;
+	}
 }
 
 void Characters::handleEvents() {

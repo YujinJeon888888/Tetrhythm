@@ -2,6 +2,7 @@
 #include <mysql.h>
 #include <iostream>
 #include <string>
+#include "UserInfo.h"
 #pragma comment(lib, "libmySQL.lib")
 
 class MySQL {
@@ -16,9 +17,7 @@ public:
     bool isDuflicatedUser(const std::string str);
     bool containsInvalidCharacters(const std::string& str);
     void setLine(std::string ID, int l);
-    int getLine(std::string ID) const;
     void setTetris(std::string ID, int t);
-    int getTetris(std::string ID)const;
     void setHighScore(std::string ID, int s);
-    int getHighScore(std::string ID)const;
+    void setCharacterName(std::string ID, std::string c);
 };

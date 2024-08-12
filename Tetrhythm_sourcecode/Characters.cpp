@@ -74,20 +74,21 @@ void Characters::drawSelection() {
 				print->printPNG("selectedRectang.png", posX, posY, 4);
 				switch (y)
 				{
+					MySQL mysql;
 				case 0:
 					switch (x)
 					{
 					case 0:
-						UserInfo::getInstance().setUserCharacter("character"+std::to_string(x+1)+".png");
+						mysql.setCharacterName(UserInfo::getInstance().getUserID(),"character"+std::to_string(x+1)+".png");
 						break;
 					case 1:
-						UserInfo::getInstance().setUserCharacter("character" + std::to_string(x + 1) + ".png");
+						mysql.setCharacterName(UserInfo::getInstance().getUserID(), "character" + std::to_string(x + 1) + ".png");
 						break;
 					case 2:
-						UserInfo::getInstance().setUserCharacter("character" + std::to_string(x + 1) + ".png");
+						mysql.setCharacterName(UserInfo::getInstance().getUserID(), "character" + std::to_string(x + 1) + ".png");
 						break;
 					case 3:
-						UserInfo::getInstance().setUserCharacter("character" + std::to_string(x + 1) + ".png");
+						mysql.setCharacterName(UserInfo::getInstance().getUserID(), "character" + std::to_string(x + 1) + ".png");
 						break;
 					}
 					break;
@@ -95,16 +96,16 @@ void Characters::drawSelection() {
 					switch (x)
 					{
 					case 0:
-						UserInfo::getInstance().setUserCharacter("character" + std::to_string(x + 5) + ".png");
+						mysql.setCharacterName(UserInfo::getInstance().getUserID(), "character" + std::to_string(x + 5) + ".png");
 						break;
 					case 1:
-						UserInfo::getInstance().setUserCharacter("character" + std::to_string(x + 5) + ".png");
+						mysql.setCharacterName(UserInfo::getInstance().getUserID(), "character" + std::to_string(x + 5) + ".png");
 						break;
 					case 2:
-						UserInfo::getInstance().setUserCharacter("character" + std::to_string(x + 5) + ".png");
+						mysql.setCharacterName(UserInfo::getInstance().getUserID(), "character" + std::to_string(x + 5) + ".png");
 						break;
 					case 3:
-						UserInfo::getInstance().setUserCharacter("character" + std::to_string(x + 5) + ".png");
+						mysql.setCharacterName(UserInfo::getInstance().getUserID(), "character" + std::to_string(x + 5) + ".png");
 						break;
 					}
 					break;
@@ -206,9 +207,9 @@ void Characters::drawInit() {
     print->printText("HighScore: ", 777, 586, 6, font, color);
     //점수 text
     MySQL mysql;
-    print->printText("      "+ std::to_string(mysql.getLine(UserInfo::getInstance().getUserID())), 777, 526, 8, font, color);
-    print->printText("        "+ std::to_string(mysql.getTetris(UserInfo::getInstance().getUserID())), 777, 556, 8, font, color);
-    print->printText("           "+ std::to_string(mysql.getHighScore(UserInfo::getInstance().getUserID())), 777, 586, 9, font, color);
+    print->printText("      "+ std::to_string(UserInfo::getInstance().getLine()), 777, 526, 8, font, color);
+    print->printText("        "+ std::to_string(UserInfo::getInstance().getTetris()), 777, 556, 8, font, color);
+    print->printText("           "+ std::to_string(UserInfo::getInstance().getHighScore()), 777, 586, 9, font, color);
 	//해금조건 text
 	print->printText("Unlock Condition", 853, 152, 10, font, color);
 }
@@ -223,26 +224,26 @@ void Characters::unlock() {
 
 	//3.총 120 lines
 	MySQL mysql;
-	if (mysql.getLine(UserInfo::getInstance().getUserID()) >= 120) {
+	if (UserInfo::getInstance().getLine() >= 120) {
 		data[2][0] = true;
 	}
 	// 4. 총 50 Tetris
-	if (mysql.getTetris(UserInfo::getInstance().getUserID()) >= 50) {
+	if (UserInfo::getInstance().getTetris() >= 50) {
 		data[3][0] = true;
 	}
 	//  5. 싱글모드 퍼펙트 클리어
 
 
     //  6. high score - 150000
-	if (mysql.getHighScore(UserInfo::getInstance().getUserID()) >= 150000) {
+	if (UserInfo::getInstance().getHighScore()>= 150000) {
 		data[1][1] = true;
 	}
     //  7. 총 150 Tetris
-	if (mysql.getTetris(UserInfo::getInstance().getUserID()) >= 150) {
+	if (UserInfo::getInstance().getTetris()>= 150) {
 		data[2][1] = true;
 	}
 	// 8. high score - 300000
-	if (mysql.getHighScore(UserInfo::getInstance().getUserID()) >= 300000) {
+	if (UserInfo::getInstance().getHighScore()>= 300000) {
 		data[3][1] = true;
 	}
 }

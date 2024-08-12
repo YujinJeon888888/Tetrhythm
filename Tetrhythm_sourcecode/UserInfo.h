@@ -12,11 +12,19 @@ private:
 
 	std::string userID;
 	std::string userCharacter;
+	int line;
+	int tetris;
+	int highScore;
 public:
 	static UserInfo& getInstance();
 	void setUserID(const std::string& username);
 	std::string getUserID() const;
-	void setUserCharacter(const std::string& username);
+	void setUserCharacter(const std::string& userCharacter);
 	std::string getUserCharacter() const;
-
+	void setLine(const int line);
+	int getLine() const;
+	void setTetris(const int tetris);
+	int getTetris() const;
+	void setHighScore(const int highScore);
+	int getHighScore() const;
 };

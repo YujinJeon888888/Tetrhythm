@@ -36,7 +36,7 @@ void TetrisScene::drawInit()
 	print->printPNG(UserInfo::getInstance().getUserCharacter().c_str(), 317, 429, 10);
     // 기존 배경 및 UI 설정
     print->printPNG("Background.png", 0, 0, 0); // 전체 배경
-    print->printPNG("RhythmUIBackground.png", 100, 350, 10); // 리듬게임 UI 배경
+    print->printPNG("RhythmUIBackground.png", 70, 241, 10); // 리듬게임 UI 배경
 }
 
 void TetrisScene::handleEvents()

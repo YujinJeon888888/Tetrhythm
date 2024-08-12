@@ -3,6 +3,7 @@
 Characters::Characters(WindowManager& wm, SceneManager& manager) : windowManager(wm), sceneManager(manager), print(new Print(&wm)),
 data{ false }
 {
+
 	drawInit();
 }
 
@@ -50,7 +51,6 @@ void Characters::drawSelection() {
 
 	for (auto x = 0; x < Width; ++x)
 		for (auto y = 0; y < Height; y++) {
-
 			if (x == sIndex % Width && sIndex / Width == y) {
 				int posX = x * (128 + 33) + 170;
 				int posY = y * (128 + 87) + 178 - 29 - 27;
@@ -168,6 +168,9 @@ void Characters::drawSelection() {
 
 // 최초에만 그려지는 고정된 요소들
 void Characters::drawInit() {
+	sIndex = UserInfo::getInstance().getUserCharacter().at(9) - '0' - 1;
+	myCharIndex = sIndex;
+
     Print* pt = print;
     pt->printPNG("BackGround.png", 0, 0, 0);
 	pt->printPNG("explanation.png", 351, 34, 2);

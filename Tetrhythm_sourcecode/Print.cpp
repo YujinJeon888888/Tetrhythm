@@ -399,10 +399,6 @@ void Print::setText(int layer, const std::string& newText) {
             }
         }
     }
-
-
-
-
 }
 
 TTF_Font* Print::loadFont(const char* path, int size) { // 폰트출력추가

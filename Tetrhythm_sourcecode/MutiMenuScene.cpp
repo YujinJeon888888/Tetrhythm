@@ -9,6 +9,15 @@ MutiMenuScene::MutiMenuScene(WindowManager& wm, SceneManager& manager)
     MenuSelection = 0;
 }
 
+void randomRoomThread(Multi* client) {
+    try {
+        client->getRandomRoom();
+    }
+    catch (const std::exception& e) {
+        std::cerr << "Exception caught in thread: " << e.what() << std::endl;
+    }
+}
+
 
 void MutiMenuScene::handleArrowKey(SDL_Keycode key) {
     switch (key) {
@@ -42,13 +51,25 @@ void MutiMenuScene::handleArrowKey(SDL_Keycode key) {
         {
 
         case 0: // random mode
-      
-           client->getRandomRoom();
+            drawLoading();
+            try {
+                std::thread randomRoomThreadObj(randomRoomThread, client);
+
+                // 스레드를 detach 또는 join 하여 관리
+                randomRoomThreadObj.detach();
+            }
+            catch (const std::exception& e) {
+            
+                std::cerr << "Exception caught: " << e.what() << std::endl;
+            
+            }
             break;
         case 1: // make room
+
+
             break;
         case 2: //enter room code 
-          //  sceneManager.changeScene(std::make_unique<Characters>(windowManager, sceneManager));
+            //sceneManager.changeScene(std::make_unique<Characters>(windowManager, sceneManager));
             break;
 
         default:
@@ -89,7 +110,7 @@ void MutiMenuScene::drawSelection() {
     }
     // Delete and print the PNG at the calculated position
     pt->deletePNG("Selection2.png");
-     pt->printPNG("Selection2.png", posX, posY, 3);
+    pt->printPNG("Selection2.png", posX, posY, 3);
 }
 
 void MutiMenuScene::drawInit() {
@@ -108,8 +129,18 @@ void MutiMenuScene::drawInit() {
     int posY = 388;
     pt->printPNG("Selection2.png", posX, posY, 3);
 
-  
 }
+
+void MutiMenuScene::drawLoading() {
+    std::cout << "print";
+    print->printPNG("BackGround.png", 0, 0, 10);
+    std::vector<std::string> animPaths1 = {"Loading1.png","Loading2.png","Loading3.png"};
+   
+   // 현재 인덱스의 이미지를 출력
+    print->printAnimationPNG(animPaths1, 917, 572, 11,60);
+
+}
+
 
 
 void MutiMenuScene::handleEvents() {
@@ -126,6 +157,7 @@ void MutiMenuScene::update() {
 }
 
 void MutiMenuScene::render() {
+    
     drawSelection();
     print->updateAnimations();
     print->render();

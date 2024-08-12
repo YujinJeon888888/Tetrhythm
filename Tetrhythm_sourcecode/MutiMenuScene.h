@@ -14,8 +14,6 @@
 #include "Scene.h"
 #include "SceneManager.h"
 
-
-
 class MutiMenuScene : public Scene
 {
 public:
@@ -24,7 +22,7 @@ public:
 	void handleEvents() override;
 	void update() override;
 	void render() override;
-
+	void drawLoading();
 	void drawSelection();
 	void handleArrowKey(SDL_Keycode key);
 private:

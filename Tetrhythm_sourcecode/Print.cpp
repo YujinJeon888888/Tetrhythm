@@ -180,7 +180,29 @@ void Print::renderWithTextInputAndPNG() {
     }
 
     SDL_RenderCopy(renderer, textInputObj.texture, nullptr, &textInputObj.dst);
+    //커서깜박임
+    static bool cursorVisible = true;
+    static Uint32 cursorTimer = SDL_GetTicks();
 
+    // 커서 깜박임 타이머 설정
+    if (SDL_GetTicks() - cursorTimer >= 500) { // 500ms마다 깜박임
+        cursorVisible = !cursorVisible;
+        cursorTimer = SDL_GetTicks();
+    }
+
+    // 커서 그리기
+    if (cursorVisible) {
+        int cursorX = textInputObj.dst.x;
+        int cursorHeight = textInputObj.dst.h;  // 커서의 높이를 텍스트 입력란의 높이에 맞춤
+
+        if (!textInput.empty()) {
+            cursorX += textInputObj.dst.w;
+        }
+        SDL_Rect cursorRect = { cursorX, textInputObj.dst.y, 2, cursorHeight };
+        SDL_SetRenderDrawColor(renderer, textInputObj.color.r, textInputObj.color.g, textInputObj.color.b, 255);
+        SDL_RenderFillRect(renderer, &cursorRect);
+    }
+    //커서깜박임
     windowManager->present();
 }
 
@@ -367,8 +389,11 @@ void Print::InputText(const int& dstX, const int& dstY, int layer, TTF_Font* fon
     textInputObj.layer = layer;
     textInputObj.dst.x = dstX;
     textInputObj.dst.y = dstY;
-    textInputObj.dst.w = 300;
-    textInputObj.dst.h = 300;
+    // 폰트 크기나 텍스트의 높이에 맞추어 동적으로 설정
+    int textHeight;
+    TTF_SizeText(font, "A", nullptr, &textHeight);  // 단일 문자 'A'의 높이로 텍스트 높이를 측정
+    textInputObj.dst.w = 300;  // 너비는 고정된 값으로 설정
+    textInputObj.dst.h = textHeight;  // 텍스트 높이로 커서 높이 설정
     textInputObj.texture = NULL;
 
 }

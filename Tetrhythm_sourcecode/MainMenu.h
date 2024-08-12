@@ -16,7 +16,6 @@
 class MainMenu : public Scene {
 public:
     MainMenu(WindowManager& wm, SceneManager& manager);
-
     // 오버라이드된 메서드
     void drawInit() override;
     void handleEvents() override;

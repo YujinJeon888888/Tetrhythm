@@ -3,10 +3,11 @@
 #include "SceneManager.h"
 #include "TetrisScene.h"
 
-MainMenu::MainMenu(WindowManager& wm, SceneManager& manager) : windowManager(wm), sceneManager(manager), print(new Print(&wm), soundManager())
+MainMenu::MainMenu(WindowManager& wm, SceneManager& manager) : windowManager(wm), sceneManager(manager), print(new Print(&wm)), soundManager()
 {
     drawInit();
 }
+
 
 void MainMenu::handleArrowKey(SDL_Keycode key) {
     switch (key) {

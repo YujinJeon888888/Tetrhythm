@@ -185,13 +185,13 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)\SDL2_ttf-devel-2.0.15-VC\SDL2_ttf-devel-2.0.15-VC\SDL2_ttf-2.0.15\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)\SDL2_ttf-devel-2.0.15-VC\SDL2_ttf-devel-2.0.15-VC\SDL2_ttf-2.0.15\include;$(ProjectDir)\SDL2_mixer-devel-2.8.0-VC\SDL2_mixer-2.8.0\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2test.lib;SDL2_image.lib;libmysql.lib;SDL2_ttf.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(ProjectDir)\SDL2_ttf-devel-2.0.15-VC\SDL2_ttf-devel-2.0.15-VC\SDL2_ttf-2.0.15\lib\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2test.lib;SDL2_image.lib;libmysql.lib;SDL2_ttf.lib;SDL2_mixer.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)\SDL2_ttf-devel-2.0.15-VC\SDL2_ttf-devel-2.0.15-VC\SDL2_ttf-2.0.15\lib\x64;$(ProjectDir)\SDL2_mixer-devel-2.8.0-VC\SDL2_mixer-2.8.0\lib\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
       <Command>copy "$(ProjectDir)SDL2-2.30.5\lib\x64\SDL2.dll" "$(OutDir)"

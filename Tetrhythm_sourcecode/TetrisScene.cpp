@@ -97,9 +97,7 @@ void TetrisScene::update()
 
 void TetrisScene::render()
 {
-    // 배경과 게임 렌더링
-    print->render();
-
+    
     // 하트 노드가 보일 때 하트 노드 그리기
     if (heartVisible)
     {

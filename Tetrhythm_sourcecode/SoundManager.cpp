@@ -1,4 +1,3 @@
-// SoundManager.cpp
 #include "SoundManager.h"
 #include <iostream>
 

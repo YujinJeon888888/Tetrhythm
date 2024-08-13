@@ -1,4 +1,3 @@
-// SoundManager.h
 #ifndef SOUNDMANAGER_H
 #define SOUNDMANAGER_H
 

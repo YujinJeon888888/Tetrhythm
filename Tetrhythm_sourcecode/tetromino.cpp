@@ -1,20 +1,32 @@
 #include "tetromino.h"
 #include "Well.h"
+#include <algorithm>  // std::shuffle 사용
 #include <random>
+#include <vector>
 
 const int WELL_WIDTH = 10;
 const int WELL_HEIGHT = 20;
 const int BLOCK_SIZE = 25;
 
-std::mt19937 Tetromino::rng{ std::random_device{}() }; // 랜덤 엔진 초기화
-std::uniform_int_distribution<int> Tetromino::dist(0, 6);
+std::mt19937 Tetromino::rng{ std::random_device{}() };
+std::vector<Tetromino::Type> Tetromino::bag;
+int Tetromino::bagIndex = 0;
 
 Tetromino::Tetromino() :
-    type_(static_cast<Type>(dist(rng))), // 랜덤한 타입 선택
+    type_(getNextType()),
     x_(WELL_WIDTH / 2 - 2),
     y_(0),
     angle_(0)
 {}
+
+Tetromino::Type Tetromino::getNextType() {
+    if (bagIndex == 0 || bagIndex >= 7) {
+        bag = { I, J, L, O, S, T, Z };
+        std::shuffle(bag.begin(), bag.end(), rng);
+        bagIndex = 0;
+    }
+    return bag[bagIndex++];
+}
 
 void Tetromino::draw(SDL_Renderer* renderer, SDL_Texture* blockTexture) const
 {
@@ -202,11 +214,11 @@ Tetromino::Type Tetromino::getType() const
 
 Tetromino Tetromino::calculateShadow(const Well& well) const
 {
-    Tetromino shadow = *this; // 현재 블럭을 복제합니다.
+    Tetromino shadow = *this;
     while (!well.isCollision(shadow))
     {
-        shadow.move(0, 1); // 블럭을 한 칸씩 아래로 이동시킵니다.
+        shadow.move(0, 1);
     }
-    shadow.move(0, -1); // 충돌한 마지막 위치에서 한 칸 위로 이동합니다.
+    shadow.move(0, -1);
     return shadow;
 }

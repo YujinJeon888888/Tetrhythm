@@ -24,6 +24,7 @@
     <ClCompile Include="ClientMain.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameOverScene.cpp" />
+    <ClCompile Include="LoadingScene.cpp" />
     <ClCompile Include="Login.cpp" />
     <ClCompile Include="LoginScene.cpp" />
     <ClCompile Include="main.cpp" />
@@ -50,6 +51,7 @@
   <ItemGroup>
     <ClInclude Include="Client.h" />
     <ClInclude Include="GameOverScene.h" />
+    <ClInclude Include="LoadingScene.h" />
     <ClInclude Include="LoginScene.h" />
     <ClInclude Include="MainMenu.h" />
     <ClInclude Include="Multi.h" />
@@ -125,7 +127,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v143</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
@@ -154,7 +156,7 @@
     <LinkIncremental>false</LinkIncremental>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <LinkIncremental>true</LinkIncremental>
+    <LinkIncremental>false</LinkIncremental>
     <IncludePath>$(ProjectDir)\SDL2-2.30.5\include;$(ProjectDir)\SDL2_image-2.8.2\include;$(ProjectDir)\MySQL Server 8.0\include;$(IncludePath)</IncludePath>
     <LibraryPath>$(ProjectDir)\SDL2-2.30.5\lib\x64;$(ProjectDir)\SDL2_image-2.8.2\lib\x64;$(ProjectDir)\MySQL Server 8.0\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
@@ -214,15 +216,17 @@ copy "$(ProjectDir)SDL2_image-2.8.2\lib\x64\SDL2_image.dll" "$(OutDir)"
       <WarningLevel>Level3</WarningLevel>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <SDLCheck>true</SDLCheck>
+      <SDLCheck>false</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>$(ProjectDir)\SDL2_ttf-devel-2.0.15-VC\SDL2_ttf-devel-2.0.15-VC\SDL2_ttf-2.0.15\include;$(ProjectDir)\SDL2-2.30.5\include;$(ProjectDir)\SDL2_image-2.8.2\include;$(ProjectDir)\MySQL Server 8.0\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(ProjectDir)\SDL2_image-2.8.2\lib;$(ProjectDir)\MySQL Server 8.0\lib;$(ProjectDir)\SDL2_ttf-devel-2.0.15-VC\SDL2_ttf-devel-2.0.15-VC\SDL2_ttf-2.0.15\lib\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

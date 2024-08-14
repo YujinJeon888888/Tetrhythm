@@ -106,7 +106,7 @@ void Characters::drawInit() {
 
 			pt->printPNG(fileName.c_str(), x * (128 + 33) + 122, y * (128 + 87) + 178, 3);
 
-			pt->printPNG("CharacterSize.png", x * (128 + 33) + 122, y * (128 + 87) + 178, 2);
+		//	pt->printPNG("CharacterSize.png", x * (128 + 33) + 122, y * (128 + 87) + 178, 2);
 
 			if (!data[x][y]) {
 				print->printPNG("lock.png", x * (128 + 33) + 233, y * (128 + 87) + 176, 7);

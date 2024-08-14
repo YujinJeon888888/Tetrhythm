@@ -5,8 +5,9 @@
 #include <iostream>
 #include <string>
 #include <thread>
-
-
+#include "SceneManager.h"
+#include "tetrisScene.h"
+#include <conio.h>
 
 class Multi{
 
@@ -41,6 +42,8 @@ public:
 
     // Destructor
     ~Multi();
+
+    bool isReady = false;
 
 };
 

@@ -51,7 +51,7 @@ void MutiMenuScene::handleArrowKey(SDL_Keycode key) {
         {
 
         case 0: // random mode
-            drawLoading();
+          //  drawLoading();
             try {
                 std::thread randomRoomThreadObj(randomRoomThread, client);
 
@@ -59,10 +59,10 @@ void MutiMenuScene::handleArrowKey(SDL_Keycode key) {
                 randomRoomThreadObj.detach();
             }
             catch (const std::exception& e) {
-            
+                
                 std::cerr << "Exception caught: " << e.what() << std::endl;
-            
             }
+            sceneManager.changeScene(std::make_unique<LoadingScene>(windowManager, sceneManager));
             break;
         case 1: // make room
 
@@ -132,7 +132,7 @@ void MutiMenuScene::drawInit() {
 }
 
 void MutiMenuScene::drawLoading() {
-    std::cout << "print";
+ 
     print->printPNG("BackGround.png", 0, 0, 10);
     std::vector<std::string> animPaths1 = {"Loading1.png","Loading2.png","Loading3.png"};
    
@@ -140,6 +140,14 @@ void MutiMenuScene::drawLoading() {
     print->printAnimationPNG(animPaths1, 917, 572, 11,60);
 
 }
+
+void MutiMenuScene::deleteLoading() {
+
+    print->deleteLayer(10);
+    print->deleteLayer(11);
+
+}
+
 
 
 
@@ -153,6 +161,9 @@ void MutiMenuScene::handleEvents() {
 
 void MutiMenuScene::update() {
     // 업데이트 로직 추가
+    if (Multi::getInstance()->isReady) {
+        sceneManager.changeScene(std::make_unique<TetrisScene>(windowManager, sceneManager));
+    }
 
 }
 

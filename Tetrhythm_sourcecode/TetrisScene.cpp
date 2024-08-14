@@ -53,10 +53,19 @@ void TetrisScene::handleEvents()
 
         if (e.type == SDL_KEYDOWN) {
             if (e.key.keysym.sym == SDLK_SPACE && heartVisible) {
-                // 하트 노드를 삭제하고, 이를 콘솔에 출력합니다.
+                // heartPosX가 393 <= heartPosX <= 469 범위에 있지 않을 때
+                if (!(heartPosX >= 393 && heartPosX <= 469)) {
+                    // 하트를 하나 차감
+                    deductHeart();
+                }
+
+                // 하트 노드를 즉시 삭제하고 상태를 업데이트합니다.
                 print->deletePNG("heartNote.png");
                 heartVisible = false; // 하트 노드가 사라졌음을 표시
-                std::cout << "Heart Node Deleted by Spacebar" << std::endl;
+                std::cout << "Heart Node Deleted by Spacebar at X: " << heartPosX << std::endl;
+                // 시간 리셋해서 다음 하트 노드 생성 대기
+                timeSinceStart = 3.0;
+                lastFrameTime = std::chrono::steady_clock::now(); // 프레임 시간 리셋
             }
         }
     }
@@ -74,8 +83,8 @@ void TetrisScene::update()
     // 경과 시간을 누적
     timeSinceStart += deltaTime.count();
 
-    // 140 BPM 기준 한 박자의 길이(초)
-    double beatInterval = 60.0 / 140.0;
+    // 70 BPM 기준 한 박자의 길이(초)
+    double beatInterval = 60.0 / 70.0;
 
     // 3초가 지나면 음악 재생
     if (timeSinceStart >= 3.0 && !musicPlayed) {
@@ -92,15 +101,15 @@ void TetrisScene::update()
 
         // 하트 노드 이동
         print->moveImage("heartNote.png", heartPosX, 280);
-        std::cout << "Heart Node Moved to X: " << heartPosX << std::endl;
+        std::cout << "Heart Note Moved to X: " << heartPosX << std::endl;
 
         // 배경 이미지의 오른쪽 끝에 도달했는지 체크
-        if (heartPosX >= 469) { // 70(시작 위치) + 469
+        if (heartPosX >= 469) {
             heartVisible = false; // 하트 노드 사라짐
             print->deletePNG("heartNote.png");
             timeSinceStart = 3.0; // 시간 리셋해서 다음 하트 노드 생성 대기
             lastFrameTime = std::chrono::steady_clock::now(); // 프레임 시간 리셋
-            std::cout << "Heart Node Deleted" << std::endl;
+            std::cout << "Heart Note Deleted" << std::endl;
         }
     }
     else if (timeSinceStart >= 3.0 && !heartVisible) {
@@ -108,7 +117,7 @@ void TetrisScene::update()
         heartVisible = true;
         heartPosX = 70; // 하트 노드의 초기 위치로 리셋
         print->printPNG("heartNote.png", heartPosX, 280, 11); // 초기 위치에 하트 노드 렌더링
-        std::cout << "Heart Node Created at X: " << heartPosX << std::endl;
+        std::cout << "Heart Note Created at X: " << heartPosX << std::endl;
     }
 
     // 게임 상태 업데이트
@@ -130,4 +139,17 @@ void TetrisScene::render()
 {
     // `render` 함수에서 별도로 `print->moveImage`를 호출할 필요 없음
     // 하트 노드는 `update` 함수에서 이동 처리됨
+}
+
+// 하트 차감 함수 구현
+void TetrisScene::deductHeart() {
+    if (!hearts.empty()) {
+        Heart lastHeart = hearts.back();
+        print->deletePNG(lastHeart.path.c_str());
+        hearts.pop_back();
+        std::cout << "Heart deducted! Remaining hearts: " << hearts.size() << std::endl;
+    }
+    else {
+        std::cout << "No hearts left to deduct" << std::endl;
+    }
 }

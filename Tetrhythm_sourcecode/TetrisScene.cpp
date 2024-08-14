@@ -73,8 +73,7 @@ void TetrisScene::handleEvents()
     print->handleEvents();
 }
 
-void TetrisScene::update()
-{
+void TetrisScene::update() {
     // 현재 프레임 시간 계산
     auto currentFrameTime = std::chrono::steady_clock::now();
     std::chrono::duration<double> deltaTime = currentFrameTime - lastFrameTime;
@@ -95,16 +94,23 @@ void TetrisScene::update()
 
     // 하트 노드가 보일 때 이동 시작
     if (heartVisible) {
+        // 현재 위치 가져오기
+        SDL_Rect rect = print->getImagePosition("heartNote.png");
+        SDL_Point currentPosition = { rect.x, rect.y };
+
         // 한 마디(4박자)에 걸쳐 70에서 469까지 이동
         double totalDuration = 4 * beatInterval; // 4박자의 총 시간
-        heartPosX += (469 - 70) * (deltaTime.count() / totalDuration); // deltaTime을 이용한 부드러운 이동
+        double moveDistance = (469 - 70) * (deltaTime.count() / totalDuration); // deltaTime을 이용한 부드러운 이동
+
+        // 새로운 위치 계산
+        int newPosX = currentPosition.x + moveDistance;
 
         // 하트 노드 이동
-        print->moveImage("heartNote.png", heartPosX, 280);
-        std::cout << "Heart Note Moved to X: " << heartPosX << std::endl;
+        print->moveImage("heartNote.png", newPosX, currentPosition.y);
+        std::cout << "Heart Note Moved to X: " << newPosX << std::endl;
 
         // 배경 이미지의 오른쪽 끝에 도달했는지 체크
-        if (heartPosX >= 469) {
+        if (newPosX >= 469) {
             heartVisible = false; // 하트 노드 사라짐
             print->deletePNG("heartNote.png");
             timeSinceStart = 3.0; // 시간 리셋해서 다음 하트 노드 생성 대기
@@ -134,6 +140,7 @@ void TetrisScene::update()
         sceneManager.changeScene(std::make_unique<GameOverScene>(windowManager, sceneManager, game->getScore(), game->getLine(), game->getTetris()));
     }
 }
+
 
 void TetrisScene::render()
 {

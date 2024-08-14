@@ -144,21 +144,6 @@ bool Game::tick()
                 Tetromino t = tetromino_;
                 t.drop(well_);
                 check(t);
-                if (heartVisible) {
-                    // heartPosX가 393 <= heartPosX <= 469 범위에 있지 않을 때
-                    if (!(heartPosX >= 393 && heartPosX <= 469)) {
-                        // 하트를 하나 차감
-                        deductHeart();
-                    }
-
-                    // 하트 노드를 즉시 삭제하고 상태를 업데이트합니다.
-                    print->deletePNG("heartNote.png");
-                    heartVisible = false; // 하트 노드가 사라졌음을 표시
-                    std::cout << "Heart Node Deleted by Spacebar at X: " << heartPosX << std::endl;
-                    // 시간 리셋해서 다음 하트 노드 생성 대기
-                    timeSinceStart = 3.0;
-                    lastFrameTime = std::chrono::steady_clock::now(); // 프레임 시간 리셋
-                }
             }
             break;
             }
@@ -289,7 +274,24 @@ void Game::check(const Tetromino& t)
     }
     if (well_.isCollision(t))
     {
-        well_.unite(tetromino_);
+        well_.unite(tetromino_);//<-블록 안착
+        //블록 안착 시, 노트가 판정범위 안에 있나 체크.
+        if (heartVisible) {
+            // heartPosX가 393 <= heartPosX <= 469 범위에 있지 않을 때
+            if (!(heartPosX >= 393 && heartPosX <= 469)) {
+                // 하트를 하나 차감
+                deductHeart();
+            }
+
+            // 하트 노드를 즉시 삭제하고 상태를 업데이트합니다.
+            print->deletePNG("heartNote.png");
+            heartVisible = false; // 하트 노드가 사라졌음을 표시
+            std::cout << "Heart Node Deleted by Spacebar at X: " << heartPosX << std::endl;
+            // 시간 리셋해서 다음 하트 노드 생성 대기
+            timeSinceStart = 3.0;
+            lastFrameTime = std::chrono::steady_clock::now(); // 프레임 시간 리셋
+        }
+
         tetromino_ = nextTetrominos_[0]; // 현재 블럭을 대기열의 첫 번째 블럭으로 교체
         nextTetrominos_[0] = nextTetrominos_[1]; // 대기열 이동
         nextTetrominos_[1] = nextTetrominos_[2]; // 대기열 이동

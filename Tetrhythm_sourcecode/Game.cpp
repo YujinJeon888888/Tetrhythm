@@ -243,10 +243,12 @@ bool Game::tick()
         // 하트 노드 이동
         heartPosX = newPosX;
         print->moveImage("heartNote.png", newPosX, currentPosition.y);
-        std::cout << "Heart Note Moved to X: " << newPosX << std::endl;
+        //std::cout << "Heart Note Moved to X: " << newPosX << std::endl;
 
         // 배경 이미지의 오른쪽 끝에 도달했는지 체크
         if (newPosX >= 469) {
+            // 하트를 하나 차감
+            deductHeart();
             heartVisible = false; // 하트 노드 사라짐
             print->deletePNG("heartNote.png");
             timeSinceStart = 3.0; // 시간 리셋해서 다음 하트 노드 생성 대기
@@ -278,11 +280,14 @@ void Game::check(const Tetromino& t)
         //블록 안착 시, 노트가 판정범위 안에 있나 체크.
         if (heartVisible) {
             // heartPosX가 393 <= heartPosX <= 469 범위에 있지 않을 때
-            if (!(heartPosX >= 393 && heartPosX <= 469)) {
+            if (heartPosX <= 393) {
                 // 하트를 하나 차감
                 deductHeart();
             }
-
+            if (393 < heartPosX < 469)
+            {
+                std::cout << "safe!" << std::endl;
+            }
             // 하트 노드를 즉시 삭제하고 상태를 업데이트합니다.
             print->deletePNG("heartNote.png");
             heartVisible = false; // 하트 노드가 사라졌음을 표시
@@ -325,6 +330,7 @@ SDL_Texture* Game::getBlockTexture(Tetromino::Type type) const
 
 // 하트 차감 함수 구현
 void Game::deductHeart() {
+    std::cout << "when heartPosX : " << heartPosX << "deduct heart" << std::endl;
     if (!hearts.empty()) {
         Heart lastHeart = hearts.back();
         print->deletePNG(lastHeart.path.c_str());

@@ -256,6 +256,7 @@ bool Game::tick()
         int newPosX = currentPosition.x + moveDistance;
 
         // 하트 노드 이동
+        heartPosX = newPosX;
         print->moveImage("heartNote.png", newPosX, currentPosition.y);
         std::cout << "Heart Note Moved to X: " << newPosX << std::endl;
 

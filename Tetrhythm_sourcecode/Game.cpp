@@ -284,9 +284,17 @@ void Game::check(const Tetromino& t)
                 // 하트를 하나 차감
                 deductHeart();
             }
-            if (393 < heartPosX < 469)
+            if (393 < heartPosX && heartPosX < 469)
             {
+                if (heartPosX == 432) {
+                    score += 1500;
+                }
+                else {
+                    score += 500;
+                }
+                print->setText(9, "       " + std::to_string(score));
                 std::cout << "safe!" << std::endl;
+
             }
             // 하트 노드를 즉시 삭제하고 상태를 업데이트합니다.
             print->deletePNG("heartNote.png");

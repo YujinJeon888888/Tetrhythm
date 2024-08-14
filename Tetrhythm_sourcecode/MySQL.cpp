@@ -168,7 +168,7 @@ void MySQL::setHighScore(std::string ID, int s)
     }
 
     // 값 삽입 쿼리 실행
-    int newHighScore = UserInfo::getInstance().getHighScore()+ s;
+    int newHighScore = UserInfo::getInstance().getHighScore()<s?s: UserInfo::getInstance().getHighScore();
     std::string updateQuery = "update Users set highScore = " + std::to_string(newHighScore) + " where name = '" + ID + "'";
     Stat = mysql_query(ConnPtr, updateQuery.c_str());
     if (Stat != 0) {

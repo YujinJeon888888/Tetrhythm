@@ -41,3 +41,12 @@ void SceneManager::render() {
         scenes.top()->render();
     }
 }
+
+void SceneManager::quit() {
+    running = false;
+}
+
+bool SceneManager::isRunning() const {
+    return running;
+}
+

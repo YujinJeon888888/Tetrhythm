@@ -8,13 +8,11 @@ TetrisScene::TetrisScene(WindowManager& wm, SceneManager& manager)
     heartSpeed(5),   // 하트 노드의 이동 속도
     heartVisible(false), // 하트 노드의 초기 상태 (숨겨짐)
     timeSinceStart(0.0), // 게임 시작 후 경과 시간
-    musicPlayed(false), 
+    lastFrameTime(std::chrono::steady_clock::now()), // 초기화 시점에서의 시간
+    musicPlayed(false),
     soundManager(new SoundManager()) // SoundManager 객체 초기화
 {
     drawInit();
-
-    // 시작 시간을 기록합니다.
-    startTime = std::chrono::steady_clock::now();
 }
 
 void TetrisScene::drawInit()
@@ -48,10 +46,10 @@ void TetrisScene::handleEvents()
 
         if (e.type == SDL_KEYDOWN) {
             if (e.key.keysym.sym == SDLK_SPACE && heartVisible) {
-                heartVisible = false;
+                // 하트 노드를 삭제하고, 이를 콘솔에 출력합니다.
                 print->deletePNG("heartNote.png");
+                heartVisible = false; // 하트 노드가 사라졌음을 표시
                 std::cout << "Heart Node Deleted by Spacebar" << std::endl;
-                // 점수 추가 로직을 여기에 넣을 수 있음!
             }
         }
     }
@@ -61,13 +59,16 @@ void TetrisScene::handleEvents()
 
 void TetrisScene::update()
 {
-    // 실제 경과 시간 계산
-    auto currentTime = std::chrono::steady_clock::now();
-    std::chrono::duration<double> elapsed = currentTime - startTime;
-    timeSinceStart = elapsed.count(); // 경과 시간을 초 단위로 가져옴
+    // 현재 프레임 시간 계산
+    auto currentFrameTime = std::chrono::steady_clock::now();
+    std::chrono::duration<double> deltaTime = currentFrameTime - lastFrameTime;
+    lastFrameTime = currentFrameTime;
 
-    // 70BPM 기준 한 박자의 길이(초)
-    double beatInterval = 60.0 / 70.0;
+    // 경과 시간을 누적
+    timeSinceStart += deltaTime.count();
+
+    // 140 BPM 기준 한 박자의 길이(초)
+    double beatInterval = 60.0 / 140.0;
 
     // 3초가 지나면 음악 재생
     if (timeSinceStart >= 3.0 && !musicPlayed) {
@@ -76,31 +77,31 @@ void TetrisScene::update()
         std::cout << "Music Started" << std::endl;
     }
 
-    // 3초가 지나면 하트 노드가 나타나기 시작
-    if (timeSinceStart >= 3.0 && !heartVisible) {
-        heartVisible = true;                                            
-        heartPosX = 70; // 하트 노드의 초기 위치로 리셋
-        print->printPNG("heartNote.png", heartPosX, 280, 11); // 초기 위치에 하트 노드 렌더링
-        std::cout << "Heart Node Created at X: " << heartPosX << std::endl;
-    }
-
-    // 3초가 지나고 하트 노드가 보일 때 이동 시작
+    // 하트 노드가 보일 때 이동 시작
     if (heartVisible) {
-        double distancePerFrame = 424.0 / (60.0 * 4 * beatInterval); // 70BPM, 4/4 박자
-        double frameDuration = 1.0 / 60.0; // 한 프레임의 시간 (60 FPS 기준)
-        heartPosX += distancePerFrame * frameDuration;
+        // 한 마디(4박자)에 걸쳐 70에서 469까지 이동
+        double totalDuration = 4 * beatInterval; // 4박자의 총 시간
+        heartPosX += (469 - 70) * (deltaTime.count() / totalDuration); // deltaTime을 이용한 부드러운 이동
 
         // 하트 노드 이동
         print->moveImage("heartNote.png", heartPosX, 280);
         std::cout << "Heart Node Moved to X: " << heartPosX << std::endl;
 
         // 배경 이미지의 오른쪽 끝에 도달했는지 체크
-        if (heartPosX >= 469) {
+        if (heartPosX >= 469) { // 70(시작 위치) + 469
             heartVisible = false; // 하트 노드 사라짐
             print->deletePNG("heartNote.png");
-            startTime = std::chrono::steady_clock::now(); // 시간 리셋해서 다음 하트 노드 생성 대기
+            timeSinceStart = 3.0; // 시간 리셋해서 다음 하트 노드 생성 대기
+            lastFrameTime = std::chrono::steady_clock::now(); // 프레임 시간 리셋
             std::cout << "Heart Node Deleted" << std::endl;
         }
+    }
+    else if (timeSinceStart >= 3.0 && !heartVisible) {
+        // 하트 노드가 나타나기 시작
+        heartVisible = true;
+        heartPosX = 70; // 하트 노드의 초기 위치로 리셋
+        print->printPNG("heartNote.png", heartPosX, 280, 11); // 초기 위치에 하트 노드 렌더링
+        std::cout << "Heart Node Created at X: " << heartPosX << std::endl;
     }
 
     // 게임 상태 업데이트
@@ -119,8 +120,6 @@ void TetrisScene::update()
 
 void TetrisScene::render()
 {
-    // 하트 노드가 보일 때 하트 노드 그리기
-    //if (heartVisible) {
-    //    print->moveImage("heartNote.png", heartPosX, 280);
-    //}
+    // `render` 함수에서 별도로 `print->moveImage`를 호출할 필요 없음
+    // 하트 노드는 `update` 함수에서 이동 처리됨
 }

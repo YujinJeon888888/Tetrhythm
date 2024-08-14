@@ -1,4 +1,5 @@
 // SceneManager.h
+
 #pragma once
 #include <memory>
 #include <stack>
@@ -14,6 +15,10 @@ public:
     void update();
     void render();
 
+    void quit();
+    bool isRunning() const;
+
 private:
     std::stack<std::unique_ptr<Scene>> scenes;
+    bool running = true;
 };

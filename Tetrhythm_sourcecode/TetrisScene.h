@@ -11,6 +11,8 @@
 class TetrisScene : public Scene {
 public:
     TetrisScene(WindowManager& wm, SceneManager& manager);
+    ~TetrisScene();
+
     void drawInit() override;
     void handleEvents() override;
     void update() override;
@@ -28,5 +30,6 @@ private:
     bool musicPlayed;
     double timeSinceStart; // 게임 시작 후 경과 시간
 
+    std::chrono::steady_clock::time_point startTime;
     std::chrono::steady_clock::time_point lastFrameTime;
 };

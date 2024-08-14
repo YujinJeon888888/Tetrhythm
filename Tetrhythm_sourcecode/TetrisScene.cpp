@@ -74,8 +74,8 @@ void TetrisScene::update()
     // 경과 시간을 누적
     timeSinceStart += deltaTime.count();
 
-    // 140 BPM 기준 한 박자의 길이(초)
-    double beatInterval = 60.0 / 140.0;
+    // 70 BPM 기준 한 박자의 길이(초)
+    double beatInterval = 60.0 / 70.0;
 
     // 3초가 지나면 음악 재생
     if (timeSinceStart >= 3.0 && !musicPlayed) {
@@ -92,7 +92,7 @@ void TetrisScene::update()
 
         // 하트 노드 이동
         print->moveImage("heartNote.png", heartPosX, 280);
-        std::cout << "Heart Node Moved to X: " << heartPosX << std::endl;
+        std::cout << "Heart Note Moved to X: " << heartPosX << std::endl;
 
         // 배경 이미지의 오른쪽 끝에 도달했는지 체크
         if (heartPosX >= 469) { // 70(시작 위치) + 469
@@ -100,7 +100,7 @@ void TetrisScene::update()
             print->deletePNG("heartNote.png");
             timeSinceStart = 3.0; // 시간 리셋해서 다음 하트 노드 생성 대기
             lastFrameTime = std::chrono::steady_clock::now(); // 프레임 시간 리셋
-            std::cout << "Heart Node Deleted" << std::endl;
+            std::cout << "Heart Note Deleted" << std::endl;
         }
     }
     else if (timeSinceStart >= 3.0 && !heartVisible) {
@@ -108,7 +108,7 @@ void TetrisScene::update()
         heartVisible = true;
         heartPosX = 70; // 하트 노드의 초기 위치로 리셋
         print->printPNG("heartNote.png", heartPosX, 280, 11); // 초기 위치에 하트 노드 렌더링
-        std::cout << "Heart Node Created at X: " << heartPosX << std::endl;
+        std::cout << "Heart Note Created at X: " << heartPosX << std::endl;
     }
 
     // 게임 상태 업데이트

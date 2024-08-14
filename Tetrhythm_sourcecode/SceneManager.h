@@ -4,6 +4,7 @@
 #include <memory>
 #include <stack>
 #include "Scene.h"
+#include "SceneManager.h"
 
 class SceneManager {
 public:

@@ -121,6 +121,6 @@ void TetrisScene::render()
 {
     // 하트 노드가 보일 때 하트 노드 그리기
     //if (heartVisible) {
-    //    print->moveImage("heartNote.png", heartPosX, 280); // 하트 노드 이미지 파일을 사용하세요
+    //    print->moveImage("heartNote.png", heartPosX, 280);
     //}
 }

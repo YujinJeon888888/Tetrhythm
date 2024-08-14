@@ -25,5 +25,8 @@ private:
     int heartPosX; // 하트의 현재 X 좌표
     int heartSpeed; // 하트의 이동 속도
     bool heartVisible; // 하트가 보이는지 여부
+    bool musicPlayed;
     double timeSinceStart; // 게임 시작 후 경과 시간
+
+    std::chrono::steady_clock::time_point lastFrameTime;
 };

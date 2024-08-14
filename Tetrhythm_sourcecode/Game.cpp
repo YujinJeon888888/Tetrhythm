@@ -150,7 +150,7 @@ bool Game::tick()
         }
         break;
         case SDL_QUIT:
-            return false;
+            exit(0);
         }
     }
     SDL_SetRenderDrawColor(windowManager.getRenderer(), 0, 0, 0, 0xff);

@@ -15,6 +15,13 @@ TetrisScene::TetrisScene(WindowManager& wm, SceneManager& manager)
     drawInit();
 }
 
+TetrisScene::~TetrisScene() {
+    soundManager->stopMusic(); // TetrisScene 객체가 파괴될 때 음악을 중지
+    delete soundManager;
+    delete print;
+    delete game;
+}
+
 void TetrisScene::drawInit()
 {
     // 기존 UI 및 배경 이미지 설정
@@ -110,6 +117,7 @@ void TetrisScene::update()
     }
     else {
         // 게임 종료 시
+        soundManager->stopMusic(); // 다른 창으로 이동하기 전에 음악을 중지합니다.
         MySQL mysql;
         mysql.setLine(UserInfo::getInstance().getUserID(), (game->getLine()));
         mysql.setTetris(UserInfo::getInstance().getUserID(), (game->getTetris()));

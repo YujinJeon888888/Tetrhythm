@@ -105,6 +105,7 @@ bool Game::tick()
     while (SDL_PollEvent(&e))
     {
         if (e.type == SDL_KEYDOWN) {
+            
             switch (e.key.keysym.sym)
             {
             case SDLK_DOWN:
@@ -158,7 +159,7 @@ bool Game::tick()
             break;
             }
         }
-
+  
         if (e.type == SDL_QUIT)
         {
             exit(0);
@@ -217,14 +218,15 @@ bool Game::tick()
         int newPosX = currentPosition.x + moveDistance;
 
         heartPosX = newPosX;
-        print->moveImage("heartNote.png", newPosX, currentPosition.y);
+        print->moveImage("heartNote.png", heartPosX, currentPosition.y);
 
-        if (newPosX >= 469)
+        if (heartPosX >= 469)
         {
             deductHeart();
             heartVisible = false;
             print->deletePNG("heartNote.png");
             timeSinceStart = 3.0;
+            lastFrameTime = std::chrono::steady_clock::now();
         }
     }
     else if (timeSinceStart >= 3.0 && !heartVisible)
@@ -244,43 +246,41 @@ void Game::check(const Tetromino& t)
     if (t.y() >= 0 && well_.isCollision(t))
     {
 
-        if (well_.isCollision(t))
+        well_.unite(tetromino_);  // 블록을 well에 추가
+
+        // 블록이 추가된 후 새로운 블록을 생성합니다.
+        tetromino_ = nextTetrominos_[0];
+        nextTetrominos_[0] = nextTetrominos_[1];
+        nextTetrominos_[1] = nextTetrominos_[2];
+        nextTetrominos_[2] = Tetromino{};
+
+        // 하트 노트 관련 로직
+        if (heartVisible)
         {
-            well_.unite(tetromino_);  // 블록을 well에 추가
-
-            // 블록이 추가된 후 새로운 블록을 생성합니다.
-            tetromino_ = nextTetrominos_[0];
-            nextTetrominos_[0] = nextTetrominos_[1];
-            nextTetrominos_[1] = nextTetrominos_[2];
-            nextTetrominos_[2] = Tetromino{};
-
-            // 하트 노트 관련 로직
-            if (heartVisible)
+            if (heartPosX <= 393)
             {
-                if (heartPosX <= 393)
-                {
-                    deductHeart();
-                }
-                else if (393 < heartPosX && heartPosX < 469)
-                {
-                    score += (heartPosX == 432) ? 1500 : 500;
-                    print->setText(9, "       " + std::to_string(score));
-                    std::cout << "safe!" << std::endl;
-                }
-
-                print->deletePNG("heartNote.png");
-                heartVisible = false;
-                timeSinceStart = 3.0;
-                lastFrameTime = std::chrono::steady_clock::now();
+                deductHeart();
+            }
+            else if (393 < heartPosX && heartPosX < 469)
+            {
+                score += (heartPosX == 432) ? 1500 : 500;
+                print->setText(9, "       " + std::to_string(score));
+                std::cout << "safe!" << std::endl;
             }
 
-            // 새로운 블록이 Well에 충돌하면 게임 오버 처리
-            if (well_.isCollision(tetromino_))
-            {
-                gameOver = true;
-                std::cout << "Game Over!" << std::endl;
-            }
+            print->deletePNG("heartNote.png");
+            heartVisible = false;
+            timeSinceStart = 3.0;
+            lastFrameTime = std::chrono::steady_clock::now();
         }
+
+        // 새로운 블록이 Well에 충돌하면 게임 오버 처리
+        if (well_.isCollision(tetromino_))
+        {
+            gameOver = true;
+            std::cout << "Game Over!" << std::endl;
+        }
+
     }
     else
     {

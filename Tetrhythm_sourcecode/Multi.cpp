@@ -10,7 +10,7 @@ Multi::Multi() {
     clientSocket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
     sockaddr_in serverAddr;
     serverAddr.sin_family = AF_INET;
-    serverAddr.sin_addr.s_addr = inet_addr("127.0.0.1");//"52.14.83.66"
+    serverAddr.sin_addr.s_addr = inet_addr("52.14.83.66");//"52.14.83.66"
     serverAddr.sin_port = htons(8080);
 
     connect(clientSocket, (sockaddr*)&serverAddr, sizeof(serverAddr));

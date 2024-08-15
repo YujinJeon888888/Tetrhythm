@@ -10,7 +10,7 @@
 #include <chrono>
 
 bool enterSpace = false;
-
+bool spaceLock = false;
 const std::string Heart::paths[3] = {
     "heart1.png",
     "heart2.png",
@@ -151,15 +151,20 @@ bool Game::tick()
             break;
             case SDLK_SPACE:
             {
-                Tetromino t = tetromino_;
-                t.drop(well_);
-                enterSpace = true;
-                check(t);
+                if (!spaceLock) {
+                    spaceLock = true;
+                    Tetromino t = tetromino_;
+                    t.drop(well_);
+                    enterSpace = true;
+                    check(t);
+                }
             }
             break;
             }
         }
-  
+        if (e.type == SDL_KEYUP) {
+            spaceLock = false;
+        }
         if (e.type == SDL_QUIT)
         {
             exit(0);

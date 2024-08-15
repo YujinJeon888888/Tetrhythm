@@ -89,6 +89,15 @@ Game::~Game()
 
 bool Game::tick()
 {
+    static Uint32 lastMoveTime = 0;
+    static Uint32 lastRotationTime = 0;
+    static Uint32 lastDropTime = 0;
+
+    Uint32 currentTime = SDL_GetTicks();
+    Uint32 moveDelay = 100;   // 이동 시 딜레이 (밀리초 단위)
+    Uint32 rotateDelay = 200; // 회전 시 딜레이 (밀리초 단위)
+    Uint32 dropDelay = 150;   // 드랍 시 딜레이 (밀리초 단위)
+
     if (hearts.size() == 0)
     {
         gameOver = true;
@@ -102,71 +111,91 @@ bool Game::tick()
 
     // 이벤트 처리
     SDL_Event e;
-    while (SDL_PollEvent(&e))
+    if (SDL_WaitEventTimeout(&e, 10))
     {
-        if (e.type == SDL_KEYDOWN) {
-            
+        switch (e.type)
+        {
+        case SDL_KEYDOWN:
             switch (e.key.keysym.sym)
             {
             case SDLK_DOWN:
-            {
-                Tetromino t = tetromino_;
-                t.move(0, 1);
-                if (!well_.isCollision(t))
-                    tetromino_ = t;
-                moveTime_ = SDL_GetTicks() + 500; // 아래로 이동 시 자동 내려오는 시간을 조정
-            }
-            break;
+                if (currentTime > lastMoveTime + moveDelay)
+                {
+                    Tetromino t = tetromino_;
+                    t.move(0, 1);
+                    if (!well_.isCollision(t))
+                        tetromino_ = t;
+                    moveTime_ = SDL_GetTicks() + 500; // 아래로 이동 시 자동 내려오는 시간을 조정
+                    lastMoveTime = currentTime; // 마지막 이동 시간 기록
+                }
+                break;
+
             case SDLK_RIGHT:
-            {
-                Tetromino t = tetromino_;
-                t.move(1, 0);
-                if (!well_.isCollision(t))
-                    tetromino_ = t;
-            }
-            break;
             case SDLK_LEFT:
-            {
-                Tetromino t = tetromino_;
-                t.move(-1, 0);
-                if (!well_.isCollision(t))
-                    tetromino_ = t;
-            }
-            break;
+                if (currentTime > lastMoveTime + moveDelay)
+                {
+                    Tetromino t = tetromino_;
+                    t.move((e.key.keysym.sym == SDLK_RIGHT) ? 1 : -1, 0);
+                    if (!well_.isCollision(t))
+                        tetromino_ = t;
+                    lastMoveTime = currentTime; // 마지막 이동 시간 기록
+                }
+                break;
+
             case SDLK_a:
-            {
-                Tetromino t = tetromino_;
-                t.rotate();
-                if (!well_.isCollision(t))
-                    tetromino_ = t;
-            }
-            break;
+                if (currentTime > lastRotationTime + rotateDelay)
+                {
+                    Tetromino t = tetromino_;
+                    t.rotate();
+                    if (!well_.isCollision(t))
+                        tetromino_ = t;
+                    lastRotationTime = currentTime; // 마지막 회전 시간 기록
+                }
+                break;
+
             case SDLK_d:
-            {
-                Tetromino t = tetromino_;
-                t.rotateCounterClockwise();
-                if (!well_.isCollision(t))
-                    tetromino_ = t;
-            }
-            break;
+                if (currentTime > lastRotationTime + rotateDelay)
+                {
+                    Tetromino t = tetromino_;
+                    t.rotateCounterClockwise();
+                    if (!well_.isCollision(t))
+                        tetromino_ = t;
+                    lastRotationTime = currentTime; // 마지막 회전 시간 기록
+                }
+                break;
+
             case SDLK_SPACE:
-            {
-                if (!spaceLock) {
-                    spaceLock = true;
+                if (currentTime > lastDropTime + dropDelay)
+                {
                     Tetromino t = tetromino_;
                     t.drop(well_);
                     check(t);
+                    lastDropTime = currentTime; // 마지막 드랍 시간 기록
+
+                    // 추가: 하트 노트 위치 판정
+                    if (heartVisible)
+                    {
+                        if (393 < heartPosX && heartPosX < 469)
+                        {
+                            score += (heartPosX == 432) ? 1500 : 500;
+                            print->setText(9, "       " + std::to_string(score));
+                            std::cout << "safe!" << std::endl;
+                            heartVisible = false;
+                            print->deletePNG("heartNote.png");
+                        }
+                        else if (heartPosX <= 393)
+                        {
+                            deductHeart();
+                        }
+                    }
                 }
+                break;
+
             }
             break;
-            }
-        }
-        if (e.type == SDL_KEYUP) {
-            spaceLock = false;
-        }
-        if (e.type == SDL_QUIT)
-        {
-            exit(0);
+
+        case SDL_QUIT:
+            return false;
         }
     }
 
@@ -191,6 +220,32 @@ bool Game::tick()
  
             check(t);
         }
+    }
+
+    int currentLine = well_.getLine();
+    int currentTetris = well_.getTetris();
+
+    if (currentLine > previousLine)
+    {
+        std::cout << "Line: " << currentLine << std::endl;
+        previousLine = currentLine;
+        print->setText(7, "      " + std::to_string(previousLine));
+    }
+
+    //테트리스
+    if (currentTetris > previousTetris)
+    {
+        //하트 맥시멈(3)보다 작을때만, 목숨 추가.
+        if (hearts.size() < Heart::maxHeart && hearts.size() != 0) {
+            Heart heart{ Heart::paths[hearts.size()], Heart::xPositions[hearts.size()], Heart::yPositions[hearts.size()] };
+            hearts.push_back(heart);
+            print->printPNG(heart.path.c_str(), heart.xPosition, heart.yPosition);
+        }
+
+        std::cout << "Tetris: " << currentTetris << std::endl;
+        previousTetris = currentTetris;
+        print->setText(8, "        " + std::to_string(previousTetris));
+
     }
 
     // 화면 업데이트
@@ -256,25 +311,6 @@ void Game::check(const Tetromino& t)
         nextTetrominos_[1] = nextTetrominos_[2];
         nextTetrominos_[2] = Tetromino{};
 
-        // 하트 노트 관련 로직
-        if (heartVisible)
-        {
-            if (heartPosX <= 393)
-            {
-                deductHeart();
-            }
-            else if (393 < heartPosX && heartPosX < 469)
-            {
-                score += (heartPosX == 432) ? 1500 : 500;
-                print->setText(9, "       " + std::to_string(score));
-                std::cout << "safe!" << std::endl;
-            }
-
-            print->deletePNG("heartNote.png");
-            heartVisible = false;
-            timeSinceStart = 3.0;
-            lastFrameTime = std::chrono::steady_clock::now();
-        }
 
         // 새로운 블록이 Well에 충돌하면 게임 오버 처리
         if (well_.isCollision(tetromino_))

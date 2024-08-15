@@ -236,50 +236,48 @@ void Game::check(const Tetromino& t)
             gameOver = true;
             std::cout << "Game Over!" << std::endl;
         }
+
         if (well_.isCollision(t))
         {
-            well_.unite(tetromino_);
+            well_.unite(tetromino_);  // 블록을 well에 추가
+
+            // 블록이 추가된 후 새로운 블록을 생성합니다.
+            tetromino_ = nextTetrominos_[0];
+            nextTetrominos_[0] = nextTetrominos_[1];
+            nextTetrominos_[1] = nextTetrominos_[2];
+            nextTetrominos_[2] = Tetromino{};
+
+            // 하트 노트 관련 로직
             if (heartVisible)
             {
                 if (heartPosX <= 393)
                 {
                     deductHeart();
                 }
-                if (393 < heartPosX && heartPosX < 469)
+                else if (393 < heartPosX && heartPosX < 469)
                 {
-                    if (heartPosX == 432)
-                    {
-                        score += 1500;
-                    }
-                    else
-                    {
-                        score += 500;
-                    }
+                    score += (heartPosX == 432) ? 1500 : 500;
                     print->setText(9, "       " + std::to_string(score));
                     std::cout << "safe!" << std::endl;
                 }
+
                 print->deletePNG("heartNote.png");
                 heartVisible = false;
                 timeSinceStart = 3.0;
                 lastFrameTime = std::chrono::steady_clock::now();
             }
-            tetromino_ = nextTetrominos_[0];
-            nextTetrominos_[0] = nextTetrominos_[1];
-            nextTetrominos_[1] = nextTetrominos_[2];
-            nextTetrominos_[2] = Tetromino{};
 
-            std::this_thread::sleep_for(std::chrono::milliseconds(200));
-
+            // 새로운 블록이 Well에 충돌하면 게임 오버 처리
             if (well_.isCollision(tetromino_))
             {
                 gameOver = true;
                 std::cout << "Game Over!" << std::endl;
             }
         }
-        else
-        {
-            tetromino_ = t;
-        }
+    }
+    else
+    {
+        tetromino_ = t;
     }
 }
 

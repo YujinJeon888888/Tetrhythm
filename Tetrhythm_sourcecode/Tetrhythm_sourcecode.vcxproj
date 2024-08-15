@@ -24,6 +24,7 @@
     <ClCompile Include="ClientMain.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameOverScene.cpp" />
+    <ClCompile Include="joinRoomScene.cpp" />
     <ClCompile Include="LoadingScene.cpp" />
     <ClCompile Include="Login.cpp" />
     <ClCompile Include="LoginScene.cpp" />
@@ -51,6 +52,7 @@
   <ItemGroup>
     <ClInclude Include="Client.h" />
     <ClInclude Include="GameOverScene.h" />
+    <ClInclude Include="joinRoomScene.h" />
     <ClInclude Include="LoadingScene.h" />
     <ClInclude Include="LoginScene.h" />
     <ClInclude Include="MainMenu.h" />

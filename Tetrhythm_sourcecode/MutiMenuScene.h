@@ -14,6 +14,7 @@
 #include "Scene.h"
 #include "SceneManager.h"
 #include "LoadingScene.h"
+#include "joinRoomScene.h"
 
 class MutiMenuScene : public Scene
 {

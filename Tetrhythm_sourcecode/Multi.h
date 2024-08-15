@@ -31,6 +31,13 @@ public:
     // Get a random room and start communication
     int getRandomRoom();
 
+    
+    int createRoom();
+
+    int joinRoom(std::string password);
+
+    void connetOpponent();
+
     // Receive messages from the server
     void receiveMessages();
 

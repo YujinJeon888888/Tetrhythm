@@ -1,6 +1,4 @@
-
 #include "MutiMenuScene.h"
-
 
 MutiMenuScene::MutiMenuScene(WindowManager& wm, SceneManager& manager) 
 	: windowManager(wm), sceneManager(manager), print(new Print(&wm))
@@ -11,6 +9,7 @@ MutiMenuScene::MutiMenuScene(WindowManager& wm, SceneManager& manager)
 
 void randomRoomThread(Multi* client) {
     try {
+
         client->getRandomRoom();
     }
     catch (const std::exception& e) {
@@ -18,6 +17,18 @@ void randomRoomThread(Multi* client) {
     }
 }
 
+void createRoomThread(Multi* client) {
+    try {
+
+        client->createRoom();
+    }
+    catch (const std::exception& e) {
+        std::cerr << "Exception caught in thread: " << e.what() << std::endl;
+    }
+}
+
+
+ 
 
 void MutiMenuScene::handleArrowKey(SDL_Keycode key) {
     switch (key) {
@@ -63,14 +74,37 @@ void MutiMenuScene::handleArrowKey(SDL_Keycode key) {
                 std::cerr << "Exception caught: " << e.what() << std::endl;
             }
             sceneManager.changeScene(std::make_unique<LoadingScene>(windowManager, sceneManager));
-            break;
+            break; 
         case 1: // make room
+            try {
+                std::thread createRoomThreadObj(createRoomThread, client);
 
+                // 스레드를 detach 또는 join 하여 관리
+                createRoomThreadObj.detach();
+            }
+            catch (const std::exception& e) {
 
+                std::cerr << "Exception caught: " << e.what() << std::endl;
+            }
+           
             break;
         case 2: //enter room code 
-            //sceneManager.changeScene(std::make_unique<Characters>(windowManager, sceneManager));
-            break;
+
+            sceneManager.changeScene(std::make_unique<joinRoomScene>(windowManager, sceneManager));
+            //drawEnterCode();
+            //try {
+            //    std::thread joinRoomThreadObj(joinRoomThread, client);
+
+            //    // 스레드를 detach 또는 join 하여 관리
+            //    joinRoomThreadObj.detach();
+            //}
+            //catch (const std::exception& e) {
+
+            //    std::cerr << "Exception caught: " << e.what() << std::endl;
+            //}
+           
+                
+          break;
 
         default:
             break;
@@ -130,6 +164,8 @@ void MutiMenuScene::drawInit() {
     pt->printPNG("Selection2.png", posX, posY, 3);
 
 }
+
+
 
 void MutiMenuScene::drawLoading() {
  

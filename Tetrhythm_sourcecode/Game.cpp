@@ -9,7 +9,7 @@
 #include <thread>
 #include <chrono>
 
-bool enterSpace = false;
+
 bool spaceLock = false;
 const std::string Heart::paths[3] = {
     "heart1.png",
@@ -155,7 +155,6 @@ bool Game::tick()
                     spaceLock = true;
                     Tetromino t = tetromino_;
                     t.drop(well_);
-                    enterSpace = true;
                     check(t);
                 }
             }
@@ -189,9 +188,8 @@ bool Game::tick()
         }
         else
         {
-            if (!enterSpace) {
-                check(t);
-            }
+ 
+            check(t);
         }
     }
 
@@ -242,7 +240,6 @@ bool Game::tick()
     }
 
     SDL_RenderPresent(windowManager.getRenderer());
-    enterSpace = false;
     return true;
 }
 

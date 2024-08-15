@@ -34,12 +34,6 @@
     <Filter Include="소스 파일\Tetris">
       <UniqueIdentifier>{75bd4173-d20d-432b-aada-246498843f30}</UniqueIdentifier>
     </Filter>
-    <Filter Include="소스 파일\SocketClient">
-      <UniqueIdentifier>{30f3b381-2de7-4ccd-ac8d-578c8ee073b2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="소스 파일\MutiMode">
-      <UniqueIdentifier>{a1d8a025-f220-45ab-9ae2-b45c90f401bb}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SDL2TestMain.cpp">
@@ -108,28 +102,10 @@
     <ClCompile Include="GameOverScene.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Client.cpp">
-      <Filter>소스 파일\SocketClient</Filter>
-    </ClCompile>
-    <ClCompile Include="ClientMain.cpp">
-      <Filter>소스 파일\SocketClient</Filter>
-    </ClCompile>
-    <ClCompile Include="EnterRoom.cpp">
-      <Filter>소스 파일\SocketClient</Filter>
-    </ClCompile>
-    <ClCompile Include="MutiMenuScene.cpp">
-      <Filter>소스 파일\MutiMode</Filter>
-    </ClCompile>
-    <ClCompile Include="NetworkManager.cpp">
-      <Filter>소스 파일\SocketClient</Filter>
-    </ClCompile>
-    <ClCompile Include="Multi.cpp">
-      <Filter>소스 파일\SocketClient</Filter>
-    </ClCompile>
-    <ClCompile Include="LoadingScene.cpp">
+    <ClCompile Include="Sound.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="joinRoomScene.cpp">
+    <ClCompile Include="SoundManager.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
@@ -172,22 +148,10 @@
     <ClInclude Include="GameOverScene.h">
       <Filter>소스 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Client.h">
-      <Filter>소스 파일\SocketClient</Filter>
-    </ClInclude>
-    <ClInclude Include="MutiMenuScene.h">
+    <ClInclude Include="Sound.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="NetworkManager.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Multi.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="LoadingScene.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="joinRoomScene.h">
+    <ClInclude Include="SoundManager.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

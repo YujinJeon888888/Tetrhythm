@@ -1,5 +1,7 @@
 #pragma once
 #include <SDL.h>
+#include <random> 
+#include <vector>
 
 class Well;
 
@@ -7,8 +9,8 @@ class Tetromino
 {
 public:
     enum Type { I = 0, J, L, O, S, T, Z };
-    Tetromino(Type);
-    void draw(SDL_Renderer*, SDL_Texture* blockTexture);
+    Tetromino();
+    void draw(SDL_Renderer*, SDL_Texture* blockTexture) const;
     void move(int dx, int dy);
     void rotate();
     void rotateCounterClockwise();
@@ -16,10 +18,18 @@ public:
     bool isBlock(int x, int y) const;
     int x() const;
     int y() const;
-    Type getType() const; // 타입을 반환하는 함수 추가
+    Type getType() const;
+    Tetromino calculateShadow(const Well& well) const;
+
 private:
     Type type_;
     int x_;
     int y_;
     int angle_;
+
+    static std::mt19937 rng;
+    static std::vector<Type> bag;   
+    static int bagIndex;            
+
+    static Type getNextType();     
 };

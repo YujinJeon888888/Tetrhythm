@@ -1,19 +1,34 @@
 #include "tetromino.h"
-#include "Well.h" 
+#include "Well.h"
+#include <algorithm>  // std::shuffle 사용
+#include <random>
+#include <vector>
 
 const int WELL_WIDTH = 10;
 const int WELL_HEIGHT = 20;
-
 const int BLOCK_SIZE = 25;
 
-Tetromino::Tetromino(Type type) :
-    type_(type),
-    x_(WELL_WIDTH / 2 - 4 / 2),
+std::mt19937 Tetromino::rng{ std::random_device{}() };
+std::vector<Tetromino::Type> Tetromino::bag;
+int Tetromino::bagIndex = 0;
+
+Tetromino::Tetromino() :
+    type_(getNextType()),
+    x_(WELL_WIDTH / 2 - 2),
     y_(0),
     angle_(0)
 {}
 
-void Tetromino::draw(SDL_Renderer* renderer, SDL_Texture* blockTexture)
+Tetromino::Type Tetromino::getNextType() {
+    if (bagIndex == 0 || bagIndex >= 7) {
+        bag = { I, J, L, O, S, T, Z };
+        std::shuffle(bag.begin(), bag.end(), rng);
+        bagIndex = 0;
+    }
+    return bag[bagIndex++];
+}
+
+void Tetromino::draw(SDL_Renderer* renderer, SDL_Texture* blockTexture) const
 {
     for (auto x = 0; x < 4; ++x)
         for (auto y = 0; y < 4; ++y)
@@ -195,4 +210,15 @@ int Tetromino::y() const
 Tetromino::Type Tetromino::getType() const
 {
     return type_;
+}
+
+Tetromino Tetromino::calculateShadow(const Well& well) const
+{
+    Tetromino shadow = *this;
+    while (!well.isCollision(shadow))
+    {
+        shadow.move(0, 1);
+    }
+    shadow.move(0, -1);
+    return shadow;
 }

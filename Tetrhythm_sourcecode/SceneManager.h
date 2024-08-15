@@ -1,8 +1,10 @@
 // SceneManager.h
+
 #pragma once
 #include <memory>
 #include <stack>
 #include "Scene.h"
+#include "SceneManager.h"
 
 class SceneManager {
 public:
@@ -14,6 +16,10 @@ public:
     void update();
     void render();
 
+    void quit();
+    bool isRunning() const;
+
 private:
     std::stack<std::unique_ptr<Scene>> scenes;
+    bool running = true;
 };

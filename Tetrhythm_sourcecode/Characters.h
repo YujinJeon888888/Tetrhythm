@@ -11,7 +11,7 @@
 #include "UserInfo.h"
 #include <sstream>
 #include "MySQL.h"
-
+#include "UserInfo.h"
 
 class Characters : public Scene
 {

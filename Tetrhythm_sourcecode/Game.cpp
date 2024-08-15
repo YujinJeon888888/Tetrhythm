@@ -221,6 +221,32 @@ bool Game::tick()
             check(t);
         }
     }
+    int currentLine = well_.getLine();
+    int currentTetris = well_.getTetris();
+
+    if (currentLine > previousLine)
+    {
+        std::cout << "Line: " << currentLine << std::endl;
+        previousLine = currentLine;
+        print->setText(7, "      " + std::to_string(previousLine));
+    }
+
+    //테트리스
+    if (currentTetris > previousTetris)
+    {
+        //하트 맥시멈(3)보다 작을때만, 목숨 추가.
+        if (hearts.size() < Heart::maxHeart && hearts.size() != 0) {
+            Heart heart{ Heart::paths[hearts.size()], Heart::xPositions[hearts.size()], Heart::yPositions[hearts.size()] };
+            hearts.push_back(heart);
+            print->printPNG(heart.path.c_str(), heart.xPosition, heart.yPosition);
+        }
+
+        std::cout << "Tetris: " << currentTetris << std::endl;
+        previousTetris = currentTetris;
+        print->setText(8, "        " + std::to_string(previousTetris));
+
+    }
+
 
     int currentLine = well_.getLine();
     int currentTetris = well_.getTetris();
@@ -295,6 +321,7 @@ bool Game::tick()
     }
 
     SDL_RenderPresent(windowManager.getRenderer());
+
     return true;
 }
 

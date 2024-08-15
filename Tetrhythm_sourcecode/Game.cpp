@@ -102,57 +102,58 @@ bool Game::tick()
     SDL_Event e;
     while (SDL_PollEvent(&e))
     {
-
-        switch (e.key.keysym.sym)
-        {
-        case SDLK_DOWN:
-        {
-            Tetromino t = tetromino_;
-            t.move(0, 1);
-            if (!well_.isCollision(t))
-                tetromino_ = t;
-            moveTime_ = SDL_GetTicks() + 500; // 아래로 이동 시 자동 내려오는 시간을 조정
-        }
-        break;
-        case SDLK_RIGHT:
-        {
-            Tetromino t = tetromino_;
-            t.move(1, 0);
-            if (!well_.isCollision(t))
-                tetromino_ = t;
-        }
-        break;
-        case SDLK_LEFT:
-        {
-            Tetromino t = tetromino_;
-            t.move(-1, 0);
-            if (!well_.isCollision(t))
-                tetromino_ = t;
-        }
-        break;
-        case SDLK_a:
-        {
-            Tetromino t = tetromino_;
-            t.rotate();
-            if (!well_.isCollision(t))
-                tetromino_ = t;
-        }
-        break;
-        case SDLK_d:
-        {
-            Tetromino t = tetromino_;
-            t.rotateCounterClockwise();
-            if (!well_.isCollision(t))
-                tetromino_ = t;
-        }
-        break;
-        case SDLK_SPACE:
-        {
-            Tetromino t = tetromino_;
-            t.drop(well_);
-            check(t);
-        }
-        break;
+        if (e.type == SDL_KEYDOWN) {
+            switch (e.key.keysym.sym)
+            {
+            case SDLK_DOWN:
+            {
+                Tetromino t = tetromino_;
+                t.move(0, 1);
+                if (!well_.isCollision(t))
+                    tetromino_ = t;
+                moveTime_ = SDL_GetTicks() + 500; // 아래로 이동 시 자동 내려오는 시간을 조정
+            }
+            break;
+            case SDLK_RIGHT:
+            {
+                Tetromino t = tetromino_;
+                t.move(1, 0);
+                if (!well_.isCollision(t))
+                    tetromino_ = t;
+            }
+            break;
+            case SDLK_LEFT:
+            {
+                Tetromino t = tetromino_;
+                t.move(-1, 0);
+                if (!well_.isCollision(t))
+                    tetromino_ = t;
+            }
+            break;
+            case SDLK_a:
+            {
+                Tetromino t = tetromino_;
+                t.rotate();
+                if (!well_.isCollision(t))
+                    tetromino_ = t;
+            }
+            break;
+            case SDLK_d:
+            {
+                Tetromino t = tetromino_;
+                t.rotateCounterClockwise();
+                if (!well_.isCollision(t))
+                    tetromino_ = t;
+            }
+            break;
+            case SDLK_SPACE:
+            {
+                Tetromino t = tetromino_;
+                t.drop(well_);
+                check(t);
+            }
+            break;
+            }
         }
 
         if (e.type == SDL_QUIT)

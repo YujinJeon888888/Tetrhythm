@@ -8,6 +8,7 @@
 #include <vector>
 #include <thread>
 #include <chrono>
+#include "Windows.h"
 
 
 bool spaceLock = false;
@@ -92,6 +93,7 @@ bool Game::tick()
     static Uint32 lastMoveTime = 0;
     static Uint32 lastRotationTime = 0;
     static Uint32 lastDropTime = 0;
+    static double lastLogTime = 0.0;  // 경과 시간을 출력한 마지막 시간 기록
 
     Uint32 currentTime = SDL_GetTicks();
     Uint32 moveDelay = 100;   // 이동 시 딜레이 (밀리초 단위)
@@ -163,6 +165,16 @@ bool Game::tick()
                     lastRotationTime = currentTime; // 마지막 회전 시간 기록
                 }
                 break;
+            case SDLK_UP:
+                if (currentTime > lastRotationTime + rotateDelay)
+                {
+                    Tetromino t = tetromino_;
+                    t.rotateCounterClockwise();
+                    if (!well_.isCollision(t))
+                        tetromino_ = t;
+                    lastRotationTime = currentTime; // 마지막 회전 시간 기록
+                }
+                break;
 
             case SDLK_SPACE:
                 if (currentTime > lastDropTime + dropDelay)
@@ -217,12 +229,9 @@ bool Game::tick()
         }
         else
         {
-
             check(t);
         }
     }
-    
-   
 
     int currentLine = well_.getLine();
     int currentTetris = well_.getTetris();
@@ -250,6 +259,13 @@ bool Game::tick()
 
     }
 
+    // 노래가 시작된 후 경과 시간 출력 (1초 간격)
+    if (musicPlayed && timeSinceStart - lastLogTime >= 1.0)
+    {
+        std::cout << "Elapsed time: " << static_cast<int>(timeSinceStart) << " seconds" << std::endl;
+        lastLogTime = timeSinceStart;
+    }
+
     // 화면 업데이트
     SDL_SetRenderDrawColor(windowManager.getRenderer(), 0, 0, 0, 0xff);
     SDL_RenderClear(windowManager.getRenderer());
@@ -267,6 +283,16 @@ bool Game::tick()
     {
         soundManager->playMusic("Musics/Megalovania 8Bit Remix Audio.mp3", -1);
         musicPlayed = true;
+    }
+
+    if (timeSinceStart >= 4.0) 
+    {
+        soundManager->stopMusic(); // TetrisScene 객체가 파괴될 때 음악을 중지
+        delete soundManager;
+
+        std::cout << "클리어를 축하합니다!" << std::endl;
+        print->setText(1, " 클리어를 축하합니다! ");
+        return false;
     }
 
     if (heartVisible)
@@ -300,6 +326,7 @@ bool Game::tick()
 
     return true;
 }
+
 
 void Game::check(const Tetromino& t)
 {

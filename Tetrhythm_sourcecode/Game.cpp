@@ -9,6 +9,8 @@
 #include <thread>
 #include <chrono>
 
+bool enterSpace = false;
+
 const std::string Heart::paths[3] = {
     "heart1.png",
     "heart2.png",
@@ -150,6 +152,7 @@ bool Game::tick()
             {
                 Tetromino t = tetromino_;
                 t.drop(well_);
+                enterSpace = true;
                 check(t);
             }
             break;
@@ -180,7 +183,9 @@ bool Game::tick()
         }
         else
         {
-            check(t);
+            if (!enterSpace) {
+                check(t);
+            }
         }
     }
 
@@ -230,6 +235,7 @@ bool Game::tick()
     }
 
     SDL_RenderPresent(windowManager.getRenderer());
+    enterSpace = false;
     return true;
 }
 

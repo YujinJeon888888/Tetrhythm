@@ -87,6 +87,12 @@ Game::~Game()
 
 bool Game::tick()
 {
+    if (hearts.size() == 0)
+    {
+        gameOver = true;
+        std::cout << "Game Over!" << std::endl;
+    }
+
     if (gameOver) {
         soundManager->stopMusic(); // 다른 창으로 이동하기 전에 음악을 중지합니다.
         return false;
@@ -231,11 +237,6 @@ void Game::check(const Tetromino& t)
 {
     if (t.y() >= 0 && well_.isCollision(t))
     {
-        if (hearts.size() == 0)
-        {
-            gameOver = true;
-            std::cout << "Game Over!" << std::endl;
-        }
 
         if (well_.isCollision(t))
         {

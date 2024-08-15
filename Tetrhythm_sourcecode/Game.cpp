@@ -165,28 +165,32 @@ bool Game::tick()
                 break;
 
             case SDLK_SPACE:
-                if (currentTime > lastDropTime + dropDelay)
-                {
-                    Tetromino t = tetromino_;
-                    t.drop(well_);
-                    check(t);
-                    lastDropTime = currentTime; // 마지막 드랍 시간 기록
-
-                    // 추가: 하트 노트 위치 판정
-                    if (heartVisible)
+                if (!spaceLock) {
+                    if (currentTime > lastDropTime + dropDelay)
                     {
-                        if (393 < heartPosX && heartPosX < 469)
+                        Tetromino t = tetromino_;
+                        t.drop(well_);
+                        check(t);
+                        lastDropTime = currentTime; // 마지막 드랍 시간 기록
+
+                            // 추가: 하트 노트 위치 판정
+                        if (heartVisible)
                         {
-                            score += (heartPosX == 432) ? 1500 : 500;
-                            print->setText(9, "       " + std::to_string(score));
-                            std::cout << "safe!" << std::endl;
-                            heartVisible = false;
-                            print->deletePNG("heartNote.png");
+                            if (393 < heartPosX && heartPosX < 469)
+                            {
+                                score += (heartPosX == 432) ? 1500 : 500;
+                                print->setText(9, "       " + std::to_string(score));
+                                std::cout << "safe!" << std::endl;
+                                heartVisible = false;
+                                print->deletePNG("heartNote.png");
+                            }
+                            else if (heartPosX <= 393)
+                            {
+                                deductHeart();
+                            }
                         }
-                        else if (heartPosX <= 393)
-                        {
-                            deductHeart();
-                        }
+                        spaceLock = true;
+
                     }
                 }
                 break;
@@ -194,6 +198,9 @@ bool Game::tick()
             }
             break;
 
+        case SDL_KEYUP:
+            spaceLock = false;
+            break;
         case SDL_QUIT:
             return false;
         }

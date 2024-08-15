@@ -292,15 +292,14 @@ bool Game::tick()
         musicPlayed = true;
     }
 
-    if (timeSinceStart >= 4.0) 
+    if (timeSinceStart >= 224.0) //클리어 임시 구?현
     {
         soundManager->stopMusic(); // TetrisScene 객체가 파괴될 때 음악을 중지
         delete soundManager;
-
-        std::cout << "클리어를 축하합니다!" << std::endl;
-        print->setText(1, " 클리어를 축하합니다! ");
+        gameOver = true;
         return false;
     }
+
 
     if (heartVisible)
     {

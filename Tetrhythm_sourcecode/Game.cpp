@@ -6,14 +6,22 @@
 #include "Print.h"
 #include "WindowManager.h"
 #include <vector>
+#include <cmath>  // std::round를 사용하기 위해 필요
 #include <thread>
 #include <chrono>
 #include "Windows.h"
-
+#include <functional>
+//////////////////////////////////
+//전역변수
 int seriesTetrisCount = 0;
 bool spaceLock = false;
 const int comboScore = 100000;
 int comboCount=0;
+std::vector<int> comboVector;
+//비트!
+double beatInterval = 60.0 / 70.0;
+int totalBeats = static_cast<int>(223.0 / beatInterval);
+//////////////////////////////////
 
 const std::string Heart::paths[3] = {
     "heart1.png",
@@ -106,6 +114,9 @@ bool Game::tick()
 
     if (hearts.size() == 0)
     {
+        //최대콤보반영
+        std::sort(comboVector.begin(), comboVector.end(), std::greater<int>());//내림차순정렬
+        score += std::round(comboScore * (comboVector[0]/totalBeats));
         gameOver = true;
         std::cout << "Game Over!" << std::endl;
     }
@@ -193,7 +204,7 @@ bool Game::tick()
                         check(t);
                         lastDropTime = currentTime; // 마지막 드랍 시간 기록
 
-                            // 추가: 하트 노트 위치 판정
+                        // 추가: 하트 노트 위치 판정
                         if (heartVisible)
                         {
                             if (393 < heartPosX && heartPosX < 469)
@@ -324,7 +335,6 @@ bool Game::tick()
     tetromino_.draw(windowManager.getRenderer(), blockTextures_[tetromino_.getType()]);
 
     // 하트노트 움직임
-    double beatInterval = 60.0 / 70.0;
     if (timeSinceStart >= 3.0 && !musicPlayed)
     {
         soundManager->playMusic("Musics/Megalovania 8Bit Remix Audio.mp3", -1);
@@ -413,8 +423,7 @@ SDL_Texture* Game::getBlockTexture(Tetromino::Type type) const
 
 void Game::deductHeart()
 {
-    score += comboScore * comboCount;
-    print->setText(9, "       " + std::to_string(score));
+    comboVector.push_back(comboCount);
     comboCount = 0;
     std::cout << "when heartPosX : " << heartPosX << "deduct heart" << std::endl;
     if (!hearts.empty())

@@ -10,7 +10,7 @@
 #include <chrono>
 #include "Windows.h"
 
-
+int seriesTetrisCount = 0;
 bool spaceLock = false;
 const std::string Heart::paths[3] = {
     "heart1.png",
@@ -247,25 +247,37 @@ bool Game::tick()
     if (currentLine > previousLine)
     {
         std::cout << "Line: " << currentLine << std::endl;
+        int linesCleared = currentLine - previousLine;
         previousLine = currentLine;
         print->setText(7, "      " + std::to_string(previousLine));
-        int line = previousLine / 4;
-        score += line * 1800;
-        switch (previousLine % 4)
-        {
-        case 1:
-            score += 200;
-            break;
-        case 2:
-            score += 450;
-            break;
-        case 3:
-            score += 900;
-            break;
-        default:     
-            break;
+
+        if (linesCleared == 4) {  // 4줄 깬 경우
+            seriesTetrisCount += 1;
+            if (seriesTetrisCount % 2 == 0) {
+                score += 4000;  // 연속 테트리스
+            }
+            else {
+                score += 1800;  // 단일 테트리스
+            }
         }
-        print->setText(9, "       " + std::to_string(score));    
+        else {
+            seriesTetrisCount = 0;  // 4줄이 아닌 경우에는 연속 테트리스 리셋
+            switch (linesCleared) { // 1, 2, 3줄에 대한 점수 계산
+            case 1:
+                score += 200;
+                break;
+            case 2:
+                score += 450;
+                break;
+            case 3:
+                score += 900;
+                break;
+            default:
+                break;
+            }
+        }
+
+        print->setText(9, "       " + std::to_string(score));
     }
 
     //테트리스

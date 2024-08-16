@@ -8,9 +8,10 @@
 #include "Print.h"
 #include <vector>
 #include <chrono>
+#include "MainMenu.h"
 #include <string>
 #include "SoundManager.h" // SoundManager 헤더 포함
-
+#include "SceneManager.h"
 
 struct Heart {
     std::string path;
@@ -27,7 +28,7 @@ struct Heart {
 class Game
 {
 public:
-    Game(WindowManager& wm, Print* pr);
+    Game(WindowManager& wm, Print* pr, SceneManager &sm);
     ~Game();
     bool tick();
     bool isGameOver() const;
@@ -72,5 +73,5 @@ private:
     void deductHeart();
     std::chrono::steady_clock::time_point startTime;
     std::chrono::steady_clock::time_point lastFrameTime;
-
+    SceneManager& sceneManager;
 };

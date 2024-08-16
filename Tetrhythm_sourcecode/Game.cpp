@@ -10,8 +10,11 @@
 #include <chrono>
 #include "Windows.h"
 
-
+int seriesTetrisCount = 0;
 bool spaceLock = false;
+const int comboScore = 100000;
+int comboCount=0;
+
 const std::string Heart::paths[3] = {
     "heart1.png",
     "heart2.png",
@@ -190,7 +193,8 @@ bool Game::tick()
                         {
                             if (393 < heartPosX && heartPosX < 469)
                             {
-                                score += (heartPosX == 432) ? 1500 : 500;
+                                comboCount += 1;
+                                score += (heartPosX == 432) ? 2000 : 500;
                                 print->setText(9, "       " + std::to_string(score));
                                 std::cout << "safe!" << std::endl;
                                 heartVisible = false;
@@ -214,6 +218,7 @@ bool Game::tick()
             spaceLock = false;
             break;
         case SDL_QUIT:
+            exit(0);
             return false;
         }
     }
@@ -246,13 +251,39 @@ bool Game::tick()
     if (currentLine > previousLine)
     {
         std::cout << "Line: " << currentLine << std::endl;
+        int linesCleared = currentLine - previousLine;
         previousLine = currentLine;
         print->setText(7, "      " + std::to_string(previousLine));
+
+        switch (linesCleared) { // 1, 2, 3줄에 대한 점수 계산
+        case 1:
+            score += 200;
+            break;
+        case 2:
+            score += 450;
+            break;
+        case 3:
+            score += 900;
+            break;
+        default:
+            break;
+        }
+        
+
+        print->setText(9, "       " + std::to_string(score));
     }
 
     //테트리스
     if (currentTetris > previousTetris)
     {
+        // 4줄 깬 경우
+        seriesTetrisCount += 1;
+        if (seriesTetrisCount % 2 == 0) {
+            score += 4000;  // 연속 테트리스
+        }
+        else {
+            score += 1800;  // 단일 테트리스
+        }
         //하트 맥시멈(3)보다 작을때만, 목숨 추가.
         if (hearts.size() < Heart::maxHeart && hearts.size() != 0) {
             Heart heart{ Heart::paths[hearts.size()], Heart::xPositions[hearts.size()], Heart::yPositions[hearts.size()] };
@@ -264,6 +295,9 @@ bool Game::tick()
         previousTetris = currentTetris;
         print->setText(8, "        " + std::to_string(previousTetris));
 
+    }
+    else {
+        seriesTetrisCount = 0;
     }
 
     // 노래가 시작된 후 경과 시간 출력 (1초 간격)
@@ -374,6 +408,9 @@ SDL_Texture* Game::getBlockTexture(Tetromino::Type type) const
 
 void Game::deductHeart()
 {
+    score += comboScore * comboCount;
+    print->setText(9, "       " + std::to_string(score));
+    comboCount = 0;
     std::cout << "when heartPosX : " << heartPosX << "deduct heart" << std::endl;
     if (!hearts.empty())
     {

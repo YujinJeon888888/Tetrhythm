@@ -190,7 +190,7 @@ bool Game::tick()
                         {
                             if (393 < heartPosX && heartPosX < 469)
                             {
-                                score += (heartPosX == 432) ? 1500 : 500;
+                                score += (heartPosX == 432) ? 2000 : 500;
                                 print->setText(9, "       " + std::to_string(score));
                                 std::cout << "safe!" << std::endl;
                                 heartVisible = false;
@@ -214,6 +214,7 @@ bool Game::tick()
             spaceLock = false;
             break;
         case SDL_QUIT:
+            exit(0);
             return false;
         }
     }
@@ -248,6 +249,23 @@ bool Game::tick()
         std::cout << "Line: " << currentLine << std::endl;
         previousLine = currentLine;
         print->setText(7, "      " + std::to_string(previousLine));
+        int line = previousLine / 4;
+        score += line * 1800;
+        switch (previousLine % 4)
+        {
+        case 1:
+            score += 200;
+            break;
+        case 2:
+            score += 450;
+            break;
+        case 3:
+            score += 900;
+            break;
+        default:     
+            break;
+        }
+        print->setText(9, "       " + std::to_string(score));    
     }
 
     //테트리스

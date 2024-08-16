@@ -31,8 +31,9 @@ const int Heart::yPositions[3] = {
     43
 };
 
-Game::Game(WindowManager& wm, Print* pr)
+Game::Game(WindowManager& wm, Print* pr, SceneManager& sm)
     :
+    sceneManager(sm),
     tetromino_{},
     nextTetrominos_{ Tetromino{}, Tetromino{}, Tetromino{} }, // 다음 블럭 3개 초기화
     moveTime_(SDL_GetTicks() + 1000), // 초기화 시 블록이 1초 후에 내려오도록 설정
@@ -123,6 +124,10 @@ bool Game::tick()
         case SDL_KEYDOWN:
             switch (e.key.keysym.sym)
             {
+            case SDLK_ESCAPE:
+                soundManager->stopMusic();
+                sceneManager.changeScene(std::make_unique<MainMenu>(windowManager, sceneManager));
+                break;
             case SDLK_DOWN:
                 if (currentTime > lastMoveTime + moveDelay)
                 {

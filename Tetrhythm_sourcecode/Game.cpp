@@ -193,6 +193,7 @@ bool Game::tick()
                         {
                             if (393 < heartPosX && heartPosX < 469)
                             {
+                                comboCount += 1;
                                 score += (heartPosX == 432) ? 2000 : 500;
                                 print->setText(9, "       " + std::to_string(score));
                                 std::cout << "safe!" << std::endl;
@@ -298,6 +299,7 @@ bool Game::tick()
     else {
         seriesTetrisCount = 0;
     }
+
     // 노래가 시작된 후 경과 시간 출력 (1초 간격)
     if (musicPlayed && timeSinceStart - lastLogTime >= 1.0)
     {
@@ -406,6 +408,8 @@ SDL_Texture* Game::getBlockTexture(Tetromino::Type type) const
 
 void Game::deductHeart()
 {
+    score += comboScore * comboCount;
+    print->setText(9, "       " + std::to_string(score));
     comboCount = 0;
     std::cout << "when heartPosX : " << heartPosX << "deduct heart" << std::endl;
     if (!hearts.empty())

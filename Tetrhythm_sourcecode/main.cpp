@@ -1,4 +1,5 @@
 #define WIN32_LEAN_AND_MEAN
+
 #include "MutiMenuScene.h"
 #include "Print.h"
 #include "WindowManager.h"
@@ -30,7 +31,7 @@ int main(int argc, char* argv[]) {
 
     while (true) {
  
-    
+
         sceneManager.update();
         sceneManager.render();
         sceneManager.handleEvents();

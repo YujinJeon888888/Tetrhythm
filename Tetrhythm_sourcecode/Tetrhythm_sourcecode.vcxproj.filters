@@ -34,6 +34,9 @@
     <Filter Include="소스 파일\Tetris">
       <UniqueIdentifier>{75bd4173-d20d-432b-aada-246498843f30}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\MultiMenu">
+      <UniqueIdentifier>{a4b56c2d-013a-43a8-a44c-0fa629a073ff}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SDL2TestMain.cpp">
@@ -108,6 +111,21 @@
     <ClCompile Include="SoundManager.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="MutiMenuScene.cpp">
+      <Filter>소스 파일\MultiMenu</Filter>
+    </ClCompile>
+    <ClCompile Include="Multi.cpp">
+      <Filter>소스 파일\MultiMenu</Filter>
+    </ClCompile>
+    <ClCompile Include="LoadingScene.cpp">
+      <Filter>소스 파일\MultiMenu</Filter>
+    </ClCompile>
+    <ClCompile Include="joinRoomScene.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="createRoomScene.cpp">
+      <Filter>소스 파일\MultiMenu</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="사용법설명.txt">
@@ -152,6 +170,21 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="SoundManager.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="LoadingScene.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="MutiMenuScene.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Multi.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="joinRoomScene.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="createRoomScene.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

@@ -13,8 +13,6 @@ void Characters::handleArrowKey(SDL_Keycode key) {
 	switch (key) {
 	case SDLK_UP:
 		
-	
-
 		if (sIndex > 3) sIndex -= 4;
 		break;
 	case SDLK_DOWN:

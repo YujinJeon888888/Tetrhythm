@@ -18,6 +18,8 @@ private:
     // Private constructor to prevent instantiation
     Multi();
 
+    void connectServer();
+
     // Setup connection with the server
     void setupConnection();
 
@@ -34,6 +36,8 @@ public:
     
     int createRoom();
 
+    std::string addr;
+    int roomCode = 0;
     int joinRoom(std::string password);
 
     void connetOpponent();
@@ -51,6 +55,7 @@ public:
     ~Multi();
 
     bool isReady = false;
+    bool hasCode = false;
 
 };
 

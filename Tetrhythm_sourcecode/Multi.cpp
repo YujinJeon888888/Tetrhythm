@@ -1,22 +1,41 @@
-#include "Multi.h"
+
 #define _WINSOCK_DEPRECATED_NO_WARNINGS
+#include "Multi.h"
 
 Multi* Multi::instance = nullptr;
 
+
+
 Multi::Multi() {
+
+    addr = "127.0.0.1";//"52.14.83.66"
+    //WSADATA wsaData;
+    //WSAStartup(MAKEWORD(2, 2), &wsaData);
+
+    //clientSocket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
+    //sockaddr_in serverAddr;
+    //serverAddr.sin_family = AF_INET;
+    //serverAddr.sin_addr.s_addr = inet_addr(addr.c_str());
+    //serverAddr.sin_port = htons(8080);
+
+    //std::cout << "connect to server";
+    //connect(clientSocket, (sockaddr*)&serverAddr, sizeof(serverAddr));
+}
+
+void Multi::connectServer() {
+
     WSADATA wsaData;
     WSAStartup(MAKEWORD(2, 2), &wsaData);
 
     clientSocket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
     sockaddr_in serverAddr;
     serverAddr.sin_family = AF_INET;
-    serverAddr.sin_addr.s_addr = inet_addr("52.14.83.66");//"52.14.83.66"
+    serverAddr.sin_addr.s_addr = inet_addr(addr.c_str());
     serverAddr.sin_port = htons(8080);
 
+    std::cout << "connect to server";
     connect(clientSocket, (sockaddr*)&serverAddr, sizeof(serverAddr));
-
 }
-
 
 Multi* Multi::getInstance() {
     if (instance == nullptr) {
@@ -27,6 +46,7 @@ Multi* Multi::getInstance() {
 
 int Multi::getRandomRoom() {
 
+    connectServer();
     std::string msg = "random_room";
     if (send(clientSocket, msg.c_str(), msg.size(), 0) == SOCKET_ERROR) {
         std::cerr << "Failed to send message." << std::endl;
@@ -38,7 +58,6 @@ int Multi::getRandomRoom() {
     int len = recv(clientSocket, buffer, 1024, 0);
     int roomNumber;
 
-
     if (len < 0) { std::cout << "Server Error\n";  return -1; }
 
       buffer[len] = '\0';
@@ -47,13 +66,11 @@ int Multi::getRandomRoom() {
    
       connetOpponent();
 
- 
-
     return roomNumber;
 }
 
 int Multi::createRoom() {
-
+    connectServer();
     std::string msg = "create_room";
     if (send(clientSocket, msg.c_str(), msg.size(), 0) == SOCKET_ERROR) {
         std::cerr << "Failed to send message." << std::endl;
@@ -69,6 +86,7 @@ int Multi::createRoom() {
     buffer[len] = '\0';
     roomNumber = atoi(buffer);
     std::cout << "Room Password From Server: " << roomNumber << std::endl;
+    roomCode = roomNumber;
 
     connetOpponent();
 
@@ -76,7 +94,7 @@ int Multi::createRoom() {
 }
 
 int Multi::joinRoom(std::string password) {
-
+    connectServer();
     std::string msg = "join_room";
     if (send(clientSocket, msg.c_str(), msg.size(), 0) == SOCKET_ERROR) {
         std::cerr << "Failed to send message." << std::endl;
@@ -95,8 +113,6 @@ int Multi::joinRoom(std::string password) {
 
     return stoi(password);
 }
-
-
 
 
 void Multi::connetOpponent() {

@@ -20,12 +20,17 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Characters.cpp" />
+    <ClCompile Include="createRoomScene.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameOverScene.cpp" />
+    <ClCompile Include="joinRoomScene.cpp" />
+    <ClCompile Include="LoadingScene.cpp" />
     <ClCompile Include="Login.cpp" />
     <ClCompile Include="LoginScene.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MainMenu.cpp" />
+    <ClCompile Include="Multi.cpp" />
+    <ClCompile Include="MutiMenuScene.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="MySQL.cpp" />
@@ -44,9 +49,14 @@
     <ClCompile Include="폰트.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="createRoomScene.h" />
     <ClInclude Include="GameOverScene.h" />
+    <ClInclude Include="joinRoomScene.h" />
+    <ClInclude Include="LoadingScene.h" />
     <ClInclude Include="LoginScene.h" />
     <ClInclude Include="MainMenu.h" />
+    <ClInclude Include="Multi.h" />
+    <ClInclude Include="MutiMenuScene.h" />
     <ClInclude Include="resource1.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SceneManager.h" />

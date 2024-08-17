@@ -1,5 +1,7 @@
 #include "MutiMenuScene.h"
 
+bool isCodeScene = false;
+
 MutiMenuScene::MutiMenuScene(WindowManager& wm, SceneManager& manager) 
 	: windowManager(wm), sceneManager(manager), print(new Print(&wm))
 {
@@ -9,7 +11,6 @@ MutiMenuScene::MutiMenuScene(WindowManager& wm, SceneManager& manager)
 
 void randomRoomThread(Multi* client) {
     try {
-
         client->getRandomRoom();
     }
     catch (const std::exception& e) {
@@ -27,14 +28,18 @@ void createRoomThread(Multi* client) {
     }
 }
 
-
- 
-
 void MutiMenuScene::handleArrowKey(SDL_Keycode key) {
     switch (key) {
 
     case SDLK_ESCAPE : 
-        sceneManager.goBack();
+        if (Multi::getInstance()->roomCode != 0) {
+            Multi::getInstance()->roomCode = 0;
+            deleteCode();
+            isCodeScene = false;
+        }
+        else {
+            sceneManager.goBack();
+        }
     case SDLK_UP:
         if (MenuSelection > 0) {
             MenuSelection--;
@@ -86,23 +91,13 @@ void MutiMenuScene::handleArrowKey(SDL_Keycode key) {
 
                 std::cerr << "Exception caught: " << e.what() << std::endl;
             }
+          // sceneManager.changeScene(std::make_unique<createRoomScene>(windowManager, sceneManager));
+
            
             break;
         case 2: //enter room code 
 
             sceneManager.changeScene(std::make_unique<joinRoomScene>(windowManager, sceneManager));
-            //drawEnterCode();
-            //try {
-            //    std::thread joinRoomThreadObj(joinRoomThread, client);
-
-            //    // 스레드를 detach 또는 join 하여 관리
-            //    joinRoomThreadObj.detach();
-            //}
-            //catch (const std::exception& e) {
-
-            //    std::cerr << "Exception caught: " << e.what() << std::endl;
-            //}
-           
                 
           break;
 
@@ -184,6 +179,23 @@ void MutiMenuScene::deleteLoading() {
 
 }
 
+void MutiMenuScene::drawCode() {
+
+    print->printPNG("BackGround.png", 0, 0, 10);
+    TTF_Font* font = print->loadFont("DungGeunMo.ttf", 60);
+    SDL_Color color = { 255, 255, 255 }; // 흰색
+    print->printText("Code: "+std::to_string(Multi::getInstance()->roomCode), 420, 307, 11, font, color);
+}
+
+void MutiMenuScene::deleteCode() {
+
+    print->deleteLayer(10);
+    print->deleteLayer(11);
+    //print->setText(11," ");
+
+}
+
+
 
 
 
@@ -199,6 +211,11 @@ void MutiMenuScene::update() {
     // 업데이트 로직 추가
     if (Multi::getInstance()->isReady) {
         sceneManager.changeScene(std::make_unique<TetrisScene>(windowManager, sceneManager));
+    }
+
+    if (!isCodeScene && Multi::getInstance()->roomCode != 0) {
+        isCodeScene = true;
+        drawCode();
     }
 
 }

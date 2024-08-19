@@ -7,20 +7,29 @@ scoreTableScene::scoreTableScene(WindowManager& wm, SceneManager& manager) : win
 
 void scoreTableScene::drawInit()
 {
+	//프린트 초기화
+	print->clearScreen();
 	MySQL mysql;
 	std::string result = mysql.printTable();
 	std::vector<std::string> tokens;
 	tokens = splitString(result, '\n');
-	TTF_Font* font = print->loadFont("Galmuri9.ttf", 18);
+	TTF_Font* font = print->loadFont("DungGeunMo.ttf", 18);
 	SDL_Color color = { 255, 255, 255 }; // 흰색
+	SDL_Color yellowColor = { 244, 233, 0 }; // 노랑
+
 	int y = 0;
 	int x = 0;
 	for (auto& token : tokens) {
 		if (y >= 625) {
 			y = 0;
-			x += 425;
+			x += 200;
 		}
-		print->printText(token, x, y, 0, font, color);
+		if (y == 0 && x==0) {
+			print->printText(token, x, y, 0, font, yellowColor);
+		}
+		else {
+			print->printText(token, x, y, 0, font, color);
+		}
 		
 		y += 25;
 	}

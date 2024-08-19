@@ -116,7 +116,7 @@ void MySQL::setLine(std::string ID, int l) {
     }
 
     // 값 삽입 쿼리 실행
-    int newLine = UserInfo::getInstance().getLine()+ l;
+    int newLine = UserInfo::getInstance().getLine() + l;
     std::string updateQuery = "update Users set line = " + std::to_string(newLine) + " where name = '" + ID + "'";
     Stat = mysql_query(ConnPtr, updateQuery.c_str());
     if (Stat != 0) {
@@ -142,7 +142,7 @@ void MySQL::setTetris(std::string ID, int t) {
     }
 
     // 값 삽입 쿼리 실행
-    int newTetris = UserInfo::getInstance().getTetris()+ t;
+    int newTetris = UserInfo::getInstance().getTetris() + t;
     std::string updateQuery = "update Users set tetris = " + std::to_string(newTetris) + " where name = '" + ID + "'";
     Stat = mysql_query(ConnPtr, updateQuery.c_str());
     if (Stat != 0) {
@@ -168,7 +168,7 @@ void MySQL::setHighScore(std::string ID, int s)
     }
 
     // 값 삽입 쿼리 실행
-    int newHighScore = UserInfo::getInstance().getHighScore()<s?s: UserInfo::getInstance().getHighScore();
+    int newHighScore = UserInfo::getInstance().getHighScore() < s ? s : UserInfo::getInstance().getHighScore();
     std::string updateQuery = "update Users set highScore = " + std::to_string(newHighScore) + " where name = '" + ID + "'";
     Stat = mysql_query(ConnPtr, updateQuery.c_str());
     if (Stat != 0) {
@@ -328,7 +328,7 @@ std::string MySQL::printTable()
         exit(-1);
     }
     // 테이블 상태 출력 쿼리 실행
-    const char* selectQuery = "SELECT name, highScore FROM Users";
+    const char* selectQuery = "SELECT name, highScore FROM Users order by highScore desc";
     Stat = mysql_query(ConnPtr, selectQuery);
     if (Stat != 0) {
         std::cout << mysql_error(&Conn) << std::endl;
@@ -342,8 +342,13 @@ std::string MySQL::printTable()
     while ((Row = mysql_fetch_row(Result)) != NULL) {
         for (int i = 0; i < numFields; i++) {
             std::string cellValue = Row[i] ? Row[i] : "NULL";
-            std::cout << std::left << std::setw(15) << cellValue;  // 각 열을 15칸으로 고정하여  출력
-            returnResult += cellValue + " ";
+            returnResult += cellValue;
+            std::cout << cellValue;
+            int spaceCount = 12 - cellValue.size();
+            for (int i = 0; i < spaceCount + 1; i++) {
+                returnResult += " ";
+                std::cout << " ";
+            }
         }
         returnResult += "\n";
         std::cout << std::endl;

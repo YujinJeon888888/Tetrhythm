@@ -52,7 +52,7 @@ void TetrisScene::update() {
         mysql.setLine(UserInfo::getInstance().getUserID(), (game->getLine()));
         mysql.setTetris(UserInfo::getInstance().getUserID(), (game->getTetris()));
         mysql.setHighScore(UserInfo::getInstance().getUserID(), (game->getScore()));
-
+        mysql.printTable();
         sceneManager.changeScene(std::make_unique<GameOverScene>(windowManager, sceneManager, game->getScore(), game->getLine(), game->getTetris()));
     }
 }

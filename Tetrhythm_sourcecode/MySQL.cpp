@@ -328,7 +328,7 @@ std::string MySQL::printTable()
         exit(-1);
     }
     // 테이블 상태 출력 쿼리 실행
-    const char* selectQuery = "SELECT * FROM Users";
+    const char* selectQuery = "SELECT name, highScore FROM Users";
     Stat = mysql_query(ConnPtr, selectQuery);
     if (Stat != 0) {
         std::cout << mysql_error(&Conn) << std::endl;
@@ -341,9 +341,9 @@ std::string MySQL::printTable()
 
     while ((Row = mysql_fetch_row(Result)) != NULL) {
         for (int i = 0; i < numFields; i++) {
-            std::cout << (Row[i] ? Row[i] : "NULL") << " ";
-            returnResult += (Row[i] ? Row[i] : "NULL");
-            returnResult += " ";
+            std::string cellValue = Row[i] ? Row[i] : "NULL";
+            std::cout << std::left << std::setw(15) << cellValue;  // 각 열을 15칸으로 고정하여  출력
+            returnResult += cellValue + " ";
         }
         returnResult += "\n";
         std::cout << std::endl;

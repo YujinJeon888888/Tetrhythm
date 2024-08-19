@@ -44,7 +44,7 @@ void scoreTableScene::handleArrowKey(SDL_Keycode key) {
 
 	switch (key) {
 	case SDLK_SPACE:
-
+		drawInit();
 		break;
 	}
 }

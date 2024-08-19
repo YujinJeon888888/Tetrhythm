@@ -9,6 +9,7 @@ void scoreTableScene::drawInit()
 {
 	//프린트 초기화
 	print->clearScreen();
+	print->deleteLayer(0);
 	MySQL mysql;
 	std::string result = mysql.printTable();
 	std::vector<std::string> tokens;
@@ -33,6 +34,7 @@ void scoreTableScene::drawInit()
 		
 		y += 25;
 	}
+	print->render();
 }
 
 void scoreTableScene::handleEvents()
@@ -60,7 +62,6 @@ void scoreTableScene::handleArrowKey(SDL_Keycode key) {
 
 void scoreTableScene::render()
 {
-	print->render();
 }
 
 //std::vector<std::string> splitString(const std::string& str, char delimiter) {

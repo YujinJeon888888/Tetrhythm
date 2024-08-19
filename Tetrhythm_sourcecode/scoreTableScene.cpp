@@ -43,7 +43,7 @@ void scoreTableScene::drawInit()
 		}
 		if (y == 0 && x == 0) {
 			// 애니메이션 초기화
-			print->textAnimation(token, x, y, _1stfont, colors, 10, 1);
+			print->textAnimation(token, x, y, _1stfont, colors, 15, 1);
 			y += 35;
 		}
 		else if (y == 35 && x == 0) {
@@ -60,7 +60,6 @@ void scoreTableScene::drawInit()
 		}
 
 	}
-	print->render();
 }
 
 void scoreTableScene::handleEvents()

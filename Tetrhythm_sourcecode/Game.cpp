@@ -57,7 +57,9 @@ Game::Game(WindowManager& wm, Print* pr, SceneManager& sm)
     timeSinceStart(0.0), // 게임 시작 후 경과 시간
     lastFrameTime(std::chrono::steady_clock::now()), // 초기화 시점에서의 시간
     musicPlayed(false),
-    soundManager(new SoundManager()) // SoundManager 객체 초기화
+    soundManager(new SoundManager()), // SoundManager 객체 초기화
+    heartSpawnInterval(60.0 / 140.0 * 4), // 140 BPM 4/4박자마다 생성 간격 (초 단위)
+    nextHeartSpawnTime(0.0)  // 다음 하트 노드 생성 타이밍
 {
     // 7개의 텍스처 로드
     const char* textureFiles[7] = {
@@ -204,7 +206,7 @@ bool Game::tick()
                         check(t);
                         lastDropTime = currentTime; // 마지막 드랍 시간 기록
 
-                        // 추가: 하트 노트 위치 판정
+                        // 하트 노트 위치 판정
                         if (heartVisible)
                         {
                             if (393 < heartPosX && heartPosX < 469)
@@ -218,14 +220,20 @@ bool Game::tick()
                             }
                             else if (heartPosX <= 393)
                             {
+                                // 이 부분에서 하트 노드를 바로 사라지게 처리
                                 deductHeart();
+                                heartVisible = false;
+                                print->deletePNG("heartNote.png");
                             }
+
+                            // 다음 하트 노드 생성 타이밍 설정
+                            nextHeartSpawnTime = timeSinceStart + heartSpawnInterval;
                         }
                         spaceLock = true;
-
                     }
                 }
                 break;
+
 
             }
             break;
@@ -370,8 +378,9 @@ bool Game::tick()
             lastFrameTime = std::chrono::steady_clock::now();
         }
     }
-    else if (timeSinceStart >= 3.0 && !heartVisible)
+    else if (timeSinceStart >= nextHeartSpawnTime && !heartVisible)
     {
+        // 다음 하트 노드를 생성할 시간에 도달했을 때만 생성
         heartVisible = true;
         heartPosX = 70;
         print->printPNG("heartNote.png", heartPosX, 280, 11);

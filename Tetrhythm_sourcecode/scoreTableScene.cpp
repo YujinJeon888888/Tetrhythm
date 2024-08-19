@@ -3,6 +3,9 @@ MySQL mysql;
 std::string result;
 std::vector<std::string> tokens;
 TTF_Font* font;
+TTF_Font* _1stfont;
+TTF_Font* _2stfont;
+TTF_Font* _3stfont;
 SDL_Color color = { 255, 255, 255 }; // 흰색
 std::vector<SDL_Color> colors = {
 	{255, 0, 0},      // 빨강
@@ -27,23 +30,35 @@ void scoreTableScene::drawInit()
 	result = mysql.printTable();
 	tokens = splitString(result, '\n');
 	font = print->loadFont("DungGeunMo.ttf", 18);
+	_1stfont = print->loadFont("DungGeunMo.ttf", 23);
+	_2stfont = print->loadFont("DungGeunMo.ttf", 21);
+	_3stfont = print->loadFont("DungGeunMo.ttf", 20);
 
 	int y = 0;
 	int x = 0;
 	for (auto& token : tokens) {
 		if (y >= 625) {
 			y = 0;
-			x += 200;
+			x += 240;
 		}
 		if (y == 0 && x == 0) {
 			// 애니메이션 초기화
-			print->textAnimation(token, x, y, font, colors, 10, 1);
+			print->textAnimation(token, x, y, _1stfont, colors, 10, 1);
+			y += 35;
+		}
+		else if (y == 35 && x == 0) {
+			print->printText(token, x, y, 0, _2stfont, color);
+			y += 35;
+		}
+		else if (y == 70 && x == 0) {
+			print->printText(token, x, y, 0, _3stfont, color);
+			y += 35;
 		}
 		else {
 			print->printText(token, x, y, 0, font, color);
+			y += 25;
 		}
 
-		y += 25;
 	}
 	print->render();
 }

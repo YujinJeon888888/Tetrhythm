@@ -70,6 +70,8 @@ private:
     bool heartVisible; // 하트가 보이는지 여부
     bool musicPlayed;
     double timeSinceStart; // 게임 시작 후 경과 시간
+    double heartSpawnInterval; // 140 BPM 4/4박자마다 생성 간격 (초 단위)
+    double nextHeartSpawnTime; // 다음 하트 노드 생성 타이밍
     void deductHeart();
     std::chrono::steady_clock::time_point startTime;
     std::chrono::steady_clock::time_point lastFrameTime;

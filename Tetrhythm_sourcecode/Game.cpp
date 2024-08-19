@@ -374,7 +374,6 @@ bool Game::tick()
             deductHeart();
             heartVisible = false;
             print->deletePNG("heartNote.png");
-            timeSinceStart = 3.0;
             lastFrameTime = std::chrono::steady_clock::now();
         }
     }

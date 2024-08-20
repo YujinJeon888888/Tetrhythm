@@ -88,7 +88,7 @@ void Characters::drawSelection() {
 				if (!data[x][y]) {
 				
 					//print->printPNG("openedLock 1.png", 813, 152, 7);
-					print->setText(10, unlockText());
+					//print->setText(10, unlockText());
 					oss << "Char_image/character" << x + y * Width + 1 << "_Lu.png";
 				}
 				else {

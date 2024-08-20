@@ -12,7 +12,7 @@ void ClearScene::drawInit()
 	print->printPNG("clearImage.png", 259.5, 157.5, 1);
 	print->printPNG("clearText.png", 259.5, 26.25, 2);
     //text 세팅
-    TTF_Font* font = print->loadFont("DungGeunMo.ttf", 25);
+    TTF_Font* font = print->loadFont("DungGeunMo.ttf", 30);
     SDL_Color color = { 255, 255, 255 }; // 흰색
     print->printText("Line: ", 739.5, 237, 3, font, color);
     print->printText("Tetris: ", 739.5, 267, 4, font, color);

@@ -7,7 +7,7 @@ data{ false }
 	//SDL_Color color = { 255, 255, 255 }; // 흰색
 	// data[0][3] = true;
 	 //data[1][0] = true;
-	 myCharIndex = getXValueFromUserCharacter() - 1;
+	 myCharIndex = getXValueFromUserCharacter();
 	 sIndex = myCharIndex;
 	 drawInit();
 }
@@ -82,13 +82,10 @@ void Characters::drawSelection() {
 				print->deletePNG("selection.png");
 				print->printPNG("selection.png", posX, posY, 2);
 
-				//print->deletePNG("openedLock 1.png");
 				std::ostringstream oss;
 				//오른쪽에 사진 띄우기 및 해금 조건 띄우기
+				print->deleteLayer(100);
 				if (!data[x][y]) {
-				
-					//print->printPNG("openedLock 1.png", 813, 152, 7);
-					//print->setText(10, unlockText());
 					oss << "Char_image/character" << x + y * Width + 1 << "_Lu.png";
 				}
 				else {
@@ -97,8 +94,7 @@ void Characters::drawSelection() {
 			
 		
 				std::string fileName = oss.str();
-				//print->deletePNG(fileName.c_str());//fileName.c_str()
-				print->printPNG(fileName.c_str(), 813, 207, 3);
+				print->printPNG(fileName.c_str(), 813, 207, 100);
 			}
 
 			if (x == myCharIndex % Width && myCharIndex / Width == y) {

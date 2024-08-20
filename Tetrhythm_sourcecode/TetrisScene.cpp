@@ -1,5 +1,5 @@
 #include "TetrisScene.h"
-#include <iostream>
+
 
 TetrisScene::TetrisScene(WindowManager& wm, SceneManager& manager)
     : windowManager(wm), sceneManager(manager), print(new Print(&wm)), game(new Game(windowManager, print, sceneManager))
@@ -52,8 +52,13 @@ void TetrisScene::update() {
         mysql.setLine(UserInfo::getInstance().getUserID(), (game->getLine()));
         mysql.setTetris(UserInfo::getInstance().getUserID(), (game->getTetris()));
         mysql.setHighScore(UserInfo::getInstance().getUserID(), (game->getScore()));
-        
-        sceneManager.changeScene(std::make_unique<GameOverScene>(windowManager, sceneManager, game->getScore(), game->getLine(), game->getTetris()));
+        UserInfo::getInstance().setScore(game->getScore());
+        if (game->getIsClear()) {
+            sceneManager.changeScene(std::make_unique<ClearScene>(windowManager, sceneManager,game->getLine(),game->getTetris()));
+        }
+        else {
+            sceneManager.changeScene(std::make_unique<GameOverScene>(windowManager, sceneManager, game->getScore(), game->getLine(), game->getTetris()));
+        }
     }
 }
 

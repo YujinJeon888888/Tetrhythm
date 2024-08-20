@@ -54,3 +54,13 @@
 	 return highScore;
  }
 
+ void UserInfo::setScore(const int score)
+ {
+	 this->score = score;
+ }
+
+ int UserInfo::getScore() const
+ {
+	 return score;
+ }
+

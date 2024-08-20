@@ -353,6 +353,7 @@ bool Game::tick()
     {
         soundManager->stopMusic(); // TetrisScene 객체가 파괴될 때 음악을 중지
         delete soundManager;
+        isClear = true;
         gameOver = true;
         return false;
     }

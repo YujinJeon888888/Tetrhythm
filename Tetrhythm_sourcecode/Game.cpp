@@ -110,9 +110,9 @@ bool Game::tick()
     static double lastLogTime = 0.0;  // 경과 시간을 출력한 마지막 시간 기록
 
     Uint32 currentTime = SDL_GetTicks();
-    Uint32 moveDelay = 100;   // 이동 시 딜레이 (밀리초 단위)
-    Uint32 rotateDelay = 200; // 회전 시 딜레이 (밀리초 단위)
-    Uint32 dropDelay = 150;   // 드랍 시 딜레이 (밀리초 단위)
+    Uint32 moveDelay = 50;   // 이동 시 딜레이 (밀리초 단위)
+    Uint32 rotateDelay = 50; // 회전 시 딜레이 (밀리초 단위)
+    Uint32 dropDelay = 50;   // 드랍 시 딜레이 (밀리초 단위)
 
     if (hearts.size() == 0)
     {
@@ -148,7 +148,7 @@ bool Game::tick()
                     t.move(0, 1);
                     if (!well_.isCollision(t))
                         tetromino_ = t;
-                    moveTime_ = SDL_GetTicks() + 500; // 아래로 이동 시 자동 내려오는 시간을 조정
+                    moveTime_ = SDL_GetTicks() + 400; // 아래로 이동 시 자동 내려오는 시간을 조정
                     lastMoveTime = currentTime; // 마지막 이동 시간 기록
                 }
                 break;
@@ -190,13 +190,32 @@ bool Game::tick()
                 if (currentTime > lastRotationTime + rotateDelay)
                 {
                     Tetromino t = tetromino_;
+                    t.rotate();
+                    if (!well_.isCollision(t))
+                        tetromino_ = t;
+                    lastRotationTime = currentTime; // 마지막 회전 시간 기록
+                }
+                break;
+            case SDLK_z:
+                if (currentTime > lastRotationTime + rotateDelay)
+                {
+                    Tetromino t = tetromino_;
                     t.rotateCounterClockwise();
                     if (!well_.isCollision(t))
                         tetromino_ = t;
                     lastRotationTime = currentTime; // 마지막 회전 시간 기록
                 }
                 break;
-
+            case SDLK_c:
+                if (currentTime > lastRotationTime + rotateDelay)
+                {
+                    Tetromino t = tetromino_;
+                    t.rotate();
+                    if (!well_.isCollision(t))
+                        tetromino_ = t;
+                    lastRotationTime = currentTime; // 마지막 회전 시간 기록
+                }
+                break;
             case SDLK_SPACE:
                 if (!spaceLock) {
                     if (currentTime > lastDropTime + dropDelay)
@@ -265,7 +284,29 @@ bool Game::tick()
         }
         else
         {
-            check(t);
+            //충돌났을때 바로 하트노드 위치 체크 
+            if (heartVisible)
+            {
+                if (393 < heartPosX && heartPosX < 469)
+                {
+                    comboCount += 1;
+                    score += (heartPosX == 432) ? 2000 : 500;
+                    print->setText(9, "       " + std::to_string(score));
+                    std::cout << "safe!" << std::endl;
+                }
+                else
+                {
+                    deductHeart(); 
+                }
+
+                heartVisible = false;
+                print->deletePNG("heartNote.png");
+
+                // 다음 하트 노드 생성 타이밍 설정
+                nextHeartSpawnTime = timeSinceStart + heartSpawnInterval;
+            }
+
+            check(t); 
         }
     }
 
@@ -394,6 +435,7 @@ bool Game::tick()
 
 void Game::check(const Tetromino& t)
 {
+
     if (t.y() >= 0 && well_.isCollision(t))
     {
 
@@ -405,20 +447,20 @@ void Game::check(const Tetromino& t)
         nextTetrominos_[1] = nextTetrominos_[2];
         nextTetrominos_[2] = Tetromino{};
 
-
         // 새로운 블록이 Well에 충돌하면 게임 오버 처리
         if (well_.isCollision(tetromino_))
         {
             gameOver = true;
             std::cout << "Game Over!" << std::endl;
         }
-
     }
-    else
+
+    else  // 충돌이 발생하지 않았을 경우에만 tetromino 업데이트
     {
         tetromino_ = t;
     }
 }
+
 
 bool Game::isGameOver() const
 {

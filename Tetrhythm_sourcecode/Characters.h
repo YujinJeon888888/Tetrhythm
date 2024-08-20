@@ -10,6 +10,7 @@
 #include "SceneManager.h"
 #include "UserInfo.h"
 #include <sstream>
+#include <regex>
 #include "MySQL.h"
 #include "UserInfo.h"
 
@@ -18,6 +19,7 @@ class Characters : public Scene
 public:
 
 	Characters(WindowManager& wm, SceneManager& manager);
+	int getXValueFromUserCharacter();
 	void drawInit() override;
 	void handleEvents() override;
 	void update() override;

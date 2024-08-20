@@ -8,9 +8,10 @@
 #include "Print.h"
 #include <vector>
 #include <chrono>
+#include "MainMenu.h"
 #include <string>
 #include "SoundManager.h" // SoundManager 헤더 포함
-
+#include "SceneManager.h"
 
 struct Heart {
     std::string path;
@@ -27,7 +28,7 @@ struct Heart {
 class Game
 {
 public:
-    Game(WindowManager& wm, Print* pr);
+    Game(WindowManager& wm, Print* pr, SceneManager &sm);
     ~Game();
     bool tick();
     bool isGameOver() const;
@@ -69,8 +70,10 @@ private:
     bool heartVisible; // 하트가 보이는지 여부
     bool musicPlayed;
     double timeSinceStart; // 게임 시작 후 경과 시간
+    double heartSpawnInterval; // 140 BPM 4/4박자마다 생성 간격 (초 단위)
+    double nextHeartSpawnTime; // 다음 하트 노드 생성 타이밍
     void deductHeart();
     std::chrono::steady_clock::time_point startTime;
     std::chrono::steady_clock::time_point lastFrameTime;
-
+    SceneManager& sceneManager;
 };

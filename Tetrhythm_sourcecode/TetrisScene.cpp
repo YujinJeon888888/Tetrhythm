@@ -2,7 +2,7 @@
 #include <iostream>
 
 TetrisScene::TetrisScene(WindowManager& wm, SceneManager& manager)
-    : windowManager(wm), sceneManager(manager), print(new Print(&wm)), game(new Game(windowManager, print))
+    : windowManager(wm), sceneManager(manager), print(new Print(&wm)), game(new Game(windowManager, print, sceneManager))
 {
     drawInit();
 }

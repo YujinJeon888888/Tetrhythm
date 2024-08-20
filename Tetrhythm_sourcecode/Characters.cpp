@@ -3,9 +3,31 @@
 Characters::Characters(WindowManager& wm, SceneManager& manager) : windowManager(wm), sceneManager(manager), print(new Print(&wm)),
 data{ false }
 {
-	 font = print->loadFont("DungGeunMo.ttf", 25);
-	 color = { 255, 255, 255 }; // 흰색
-	drawInit();
+	//TTF_Font* font = print->loadFont("DungGeunMo.ttf", 25);
+	//SDL_Color color = { 255, 255, 255 }; // 흰색
+	// data[0][3] = true;
+	 //data[1][0] = true;
+	 myCharIndex = getXValueFromUserCharacter() - 1;
+	 sIndex = myCharIndex;
+	 drawInit();
+}
+
+int Characters::getXValueFromUserCharacter() {
+	// 사용자 캐릭터의 경로를 가져옵니다.
+	std::string userCharacter = UserInfo::getInstance().getUserCharacter();
+
+		// 정규 표현식을 이용해 경로에서 숫자를 추출합니다.
+		std::regex regex("Char_image/character(\\d+)\\.png");
+		std::smatch match;
+
+		if (std::regex_search(userCharacter, match, regex) && match.size() > 1) {
+			// match[1]에 해당하는 부분이 숫자(x 값)입니다.
+			std::cout << std::stoi(match.str(1)) <<"charIndex";
+			return std::stoi(match.str(1)) - 1; // x 값이므로 1을 빼줍니다.
+		}
+
+	// 해당 경로에서 숫자를 찾을 수 없는 경우, 적절한 오류 처리
+	throw std::runtime_error("Invalid user character path");
 }
 
 void Characters::handleArrowKey(SDL_Keycode key) {
@@ -13,6 +35,8 @@ void Characters::handleArrowKey(SDL_Keycode key) {
 	switch (key) {
 	case SDLK_UP:
 		
+	
+
 		if (sIndex > 3) sIndex -= 4;
 		break;
 	case SDLK_DOWN:
@@ -47,7 +71,7 @@ void Characters::handleArrowKey(SDL_Keycode key) {
 
 // main에서 여러번 그려지는 함수
 void Characters::drawSelection() {
-
+	
 	for (auto x = 0; x < Width; ++x)
 		for (auto y = 0; y < Height; y++) {
 			if (x == sIndex % Width && sIndex / Width == y) {
@@ -58,26 +82,33 @@ void Characters::drawSelection() {
 				print->deletePNG("selection.png");
 				print->printPNG("selection.png", posX, posY, 2);
 
-				print->deletePNG("openedLock 1.png");
+				//print->deletePNG("openedLock 1.png");
+				std::ostringstream oss;
 				//오른쪽에 사진 띄우기 및 해금 조건 띄우기
 				if (!data[x][y]) {
 				
-					print->printPNG("openedLock 1.png", 813, 152, 7);
-					print->setText(10, unlockText());
+					//print->printPNG("openedLock 1.png", 813, 152, 7);
+					//print->setText(10, unlockText());
+					oss << "Char_image/character" << x + y * Width + 1 << "_Lu.png";
+				}
+				else {
+					oss << "Char_image/character" << x + y * Width + 1 << "_L.png";
 				}
 			
-				std::ostringstream oss;
-				oss << "character" << x + y * Width + 1 << "_s.png";
+		
 				std::string fileName = oss.str();
-				print->deletePNG(fileName.c_str());
+				//print->deletePNG(fileName.c_str());//fileName.c_str()
 				print->printPNG(fileName.c_str(), 813, 207, 3);
 			}
 
 			if (x == myCharIndex % Width && myCharIndex / Width == y) {
+
+				//std::cout << "\n?? :" << myCharIndex;
 				int posX = x * (140 + 21) + 116; //5
 				int posY = y * (140 + 76) + 171; //3
 
 				// Delete and print the PNG at the calculated position
+				//선택
 				print->deletePNG("selectedRectang.png");
 				print->printPNG("selectedRectang.png", posX, posY, 4);
 				switch (y)
@@ -87,29 +118,29 @@ void Characters::drawSelection() {
 					switch (x)
 					{
 					case 0:
-						UserInfo::getInstance().setUserCharacter("character" + std::to_string(x + 1) + ".png");
+						UserInfo::getInstance().setUserCharacter("Char_image/character" + std::to_string(x + 1) + ".png");
 						break;
 					case 1:
-						UserInfo::getInstance().setUserCharacter("character" + std::to_string(x + 1) + ".png");						break;
+						UserInfo::getInstance().setUserCharacter("Char_image/character" + std::to_string(x + 1) + ".png");						break;
 					case 2:
-						UserInfo::getInstance().setUserCharacter("character" + std::to_string(x + 1) + ".png");						break;
+						UserInfo::getInstance().setUserCharacter("Char_image/character" + std::to_string(x + 1) + ".png");						break;
 					case 3:
-						UserInfo::getInstance().setUserCharacter("character" + std::to_string(x + 1) + ".png");						break;
+						UserInfo::getInstance().setUserCharacter("Char_image/character" + std::to_string(x + 1) + ".png");						break;
 					}
 					break;
 				case 1:
 					switch (x)
 					{
 					case 0:
-						UserInfo::getInstance().setUserCharacter("character" + std::to_string(x + 5) + ".png");						break;
+						UserInfo::getInstance().setUserCharacter("Char_image/character" + std::to_string(x + 5) + ".png");						break;
 					case 1:
-						UserInfo::getInstance().setUserCharacter("character" + std::to_string(x + 5) + ".png");						break;
+						UserInfo::getInstance().setUserCharacter("Char_image/character" + std::to_string(x + 5) + ".png");						break;
 						break;
 					case 2:
-						UserInfo::getInstance().setUserCharacter("character" + std::to_string(x + 5) + ".png");						break;
+						UserInfo::getInstance().setUserCharacter("Char_image/character" + std::to_string(x + 5) + ".png");						break;
 						break;
 					case 3:
-						UserInfo::getInstance().setUserCharacter("character" + std::to_string(x + 5) + ".png");						break;
+						UserInfo::getInstance().setUserCharacter("Char_image/character" + std::to_string(x + 5) + ".png");						break;
 						break;
 					}
 					break;
@@ -174,12 +205,16 @@ void Characters::drawSelection() {
 
 // 최초에만 그려지는 고정된 요소들
 void Characters::drawInit() {
-	sIndex = UserInfo::getInstance().getUserCharacter().at(9) - '0' - 1;
-	myCharIndex = sIndex;
+	//내 캐릭터 호출
+
+	//sIndex = UserInfo::getInstance().getUserCharacter().at(9) - '0' - 1;
+
+	std::cout << sIndex << "charIndex";
 
     Print* pt = print;
     pt->printPNG("BackGround.png", 0, 0, 0);
 	pt->printPNG("explanation.png", 351, 34, 2);
+	pt->printPNG("openedLock 1.png", 813, 142, 7);
 
 	unlock();
 
@@ -188,35 +223,35 @@ void Characters::drawInit() {
 
 
 			std::ostringstream oss;
-			oss << "character" << x + y * Width + 1 << ".png";
+			if (!data[x][y]) {
+				oss << "Char_image/character" << x + y * Width + 1 << "_su.png";
+			}
+			else {
+				oss << "Char_image/character" << x + y * Width + 1 << ".png";
+			}
 			std::string fileName = oss.str();
 
 			pt->printPNG(fileName.c_str(), x * (128 + 33) + 122, y * (128 + 87) + 178, 3);
 
-		//	pt->printPNG("CharacterSize.png", x * (128 + 33) + 122, y * (128 + 87) + 178, 2);
-
-			if (!data[x][y]) {
-				print->printPNG("lock.png", x * (128 + 33) + 233, y * (128 + 87) + 176, 7);
-
-			}
-
 		}
 
+		
 
     //text
         //text
     //text 세팅
-    //TTF_Font* font = print->loadFont("DungGeunMo.ttf", 25);
-   // SDL_Color color = { 255, 255, 255 }; // 흰색
-    print->printText("Line: ", 813, 526, 4, font, color);
-    print->printText("Tetris: ",813, 556, 5, font, color);
-    print->printText("HighScore: ",  813, 586, 6, font, color);
+    TTF_Font* font = print->loadFont("DungGeunMo.ttf", 25);
+    SDL_Color color = { 255, 255, 255 }; // 흰색
+    print->printText("Line: ", 777, 526, 4, font, color);
+    print->printText("Tetris: ", 777, 556, 5, font, color);
+    print->printText("HighScore: ", 777, 586, 6, font, color);
     //점수 text
-    print->printText("      "+ std::to_string(UserInfo::getInstance().getLine()), 813, 526, 4, font, color);
-    print->printText("        "+ std::to_string(UserInfo::getInstance().getTetris()), 813, 556, 5,font, color);
-    print->printText("           "+ std::to_string(UserInfo::getInstance().getHighScore()),  813, 586, 6, font, color);
+    print->printText("      "+ std::to_string(UserInfo::getInstance().getLine()), 777, 526, 8, font, color);
+    print->printText("        "+ std::to_string(UserInfo::getInstance().getTetris()), 777, 556, 8, font, color);
+    print->printText("           "+ std::to_string(UserInfo::getInstance().getHighScore()), 777, 586, 9, font, color);
 	//해금조건 text
 	print->printText("Unlock Condition", 853, 152, 10, font, color);
+
 }
 
 void Characters::unlock() {
@@ -250,34 +285,6 @@ void Characters::unlock() {
 	// 8. high score - 300000
 	if (UserInfo::getInstance().getHighScore()>= 300000) {
 		data[3][1] = true;
-	}
-}
-
-std::string Characters::unlockText() {
-
-
-	switch (sIndex+1) {
-
-	case 2: 
-		return "첫 멀티 모드 승리";
-	case 3:
-		return "총 120 lines 달성";
-	case 4:
-		return "총 50 Tetris 달성";
-
-
-	case 5:
-
-		return "싱글 모드 percect clear";//"싱글 모드 퍼펙트 클리어";
-
-	case 6:
-		return "high score 150000 달성";
-	case 7:
-		return "총 150 Tetris 달성";
-	case 8:
-		return "high score 300000 달성";
-
-	default: return "";
 	}
 }
 

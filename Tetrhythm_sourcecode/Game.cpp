@@ -116,15 +116,15 @@ bool Game::tick()
 
     if (hearts.size() == 0)
     {
-        //최대콤보반영
-        std::sort(comboVector.begin(), comboVector.end(), std::greater<int>());//내림차순정렬
-        score += std::round(comboScore * (comboVector[0]/totalBeats));
         gameOver = true;
         std::cout << "Game Over!" << std::endl;
     }
 
     if (gameOver) {
         soundManager->stopMusic(); // 다른 창으로 이동하기 전에 음악을 중지합니다.
+        //최대콤보반영
+        std::sort(comboVector.begin(), comboVector.end(), std::greater<int>());//내림차순정렬
+        score += std::round(comboScore * (comboVector[0] / totalBeats));
         return false;
     }
 
@@ -353,6 +353,7 @@ bool Game::tick()
     {
         soundManager->stopMusic(); // TetrisScene 객체가 파괴될 때 음악을 중지
         delete soundManager;
+        isClear = true;
         gameOver = true;
         return false;
     }

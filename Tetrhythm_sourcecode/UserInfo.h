@@ -15,6 +15,7 @@ private:
 	int line;
 	int tetris;
 	int highScore;
+	int score;
 public:
 	static UserInfo& getInstance();
 	void setUserID(const std::string& username);
@@ -27,4 +28,7 @@ public:
 	int getTetris() const;
 	void setHighScore(const int highScore);
 	int getHighScore() const;
+	void setScore(const int score);
+	int getScore() const;
+
 };

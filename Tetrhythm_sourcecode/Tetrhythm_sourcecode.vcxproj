@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Characters.cpp" />
+    <ClCompile Include="ClearScene.cpp" />
     <ClCompile Include="createRoomScene.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameOverScene.cpp" />
@@ -49,6 +50,7 @@
     <ClCompile Include="폰트.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ClearScene.h" />
     <ClInclude Include="createRoomScene.h" />
     <ClInclude Include="GameOverScene.h" />
     <ClInclude Include="joinRoomScene.h" />
@@ -212,7 +214,7 @@
     </Link>
     <PostBuildEvent>
       <Command>
-</Command>
+      </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">

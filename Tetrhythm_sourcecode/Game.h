@@ -43,6 +43,9 @@ public:
     int getScore() const {
         return score;
     }
+    bool getIsClear() const{
+        return isClear;
+    }
 private:
     Game(const Game&);
     Game& operator=(const Game&);
@@ -76,4 +79,5 @@ private:
     std::chrono::steady_clock::time_point startTime;
     std::chrono::steady_clock::time_point lastFrameTime;
     SceneManager& sceneManager;
+    bool isClear = false;
 };

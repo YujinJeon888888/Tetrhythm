@@ -1,13 +1,16 @@
+#define WIN32_LEAN_AND_MEAN
+
+#include "MutiMenuScene.h"
 #include "MainMenu.h"
 #include "Characters.h"
 #include "SceneManager.h"
 #include "TetrisScene.h"
 
+
 MainMenu::MainMenu(WindowManager& wm, SceneManager& manager) : windowManager(wm), sceneManager(manager), print(new Print(&wm)), soundManager()
 {
     drawInit();
 }
-
 
 void MainMenu::handleArrowKey(SDL_Keycode key) {
     switch (key) {
@@ -31,6 +34,8 @@ void MainMenu::handleArrowKey(SDL_Keycode key) {
             sceneManager.changeScene(std::make_unique<TetrisScene>(windowManager, sceneManager));
             break;
         case 1 : // muti mode
+            sceneManager.changeScene(std::make_unique<MutiMenuScene>(windowManager, sceneManager));
+
             break;
         case 2: //캐릭터 선택
             sceneManager.changeScene(std::make_unique<Characters>(windowManager, sceneManager));
@@ -58,7 +63,8 @@ void MainMenu::drawSelection() {
 void MainMenu::drawInit() {
     Print* pt = print;
     pt->printPNG("BackGround.png", 0, 0, 0);
-    pt->printPNG("PerTitle.png", 300, 102.75, 2);
+    //pt->printPNG("PerTitle.png", 300, 102.75, 2);
+    pt->printPNG("title.png", 214, 29, 2);
     pt->printPNG("MainExplain.png", 966.75, 586.5, 3);
 
     // 초기 선택 상태 설정

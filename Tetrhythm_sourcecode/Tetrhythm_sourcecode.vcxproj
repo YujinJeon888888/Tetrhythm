@@ -20,12 +20,17 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Characters.cpp" />
+    <ClCompile Include="createRoomScene.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameOverScene.cpp" />
+    <ClCompile Include="joinRoomScene.cpp" />
+    <ClCompile Include="LoadingScene.cpp" />
     <ClCompile Include="Login.cpp" />
     <ClCompile Include="LoginScene.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MainMenu.cpp" />
+    <ClCompile Include="Multi.cpp" />
+    <ClCompile Include="MutiMenuScene.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="MySQL.cpp" />
@@ -45,9 +50,14 @@
     <ClCompile Include="폰트.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="createRoomScene.h" />
     <ClInclude Include="GameOverScene.h" />
+    <ClInclude Include="joinRoomScene.h" />
+    <ClInclude Include="LoadingScene.h" />
     <ClInclude Include="LoginScene.h" />
     <ClInclude Include="MainMenu.h" />
+    <ClInclude Include="Multi.h" />
+    <ClInclude Include="MutiMenuScene.h" />
     <ClInclude Include="resource1.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SceneManager.h" />
@@ -121,9 +131,10 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v143</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
+    <UseOfMfc>Static</UseOfMfc>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -156,6 +167,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
+    <IncludePath>$(ProjectDir)\SDL2-2.30.5\include;$(ProjectDir)\MySQL Server 8.0\include;$(ProjectDir)\SDL2_image-2.8.2\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(ProjectDir)\SDL2-2.30.5\lib\x64;$(ProjectDir)\SDL2_image-2.8.2\lib\x64;$(ProjectDir)\MySQL Server 8.0\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -200,8 +213,7 @@
       <AdditionalLibraryDirectories>$(ProjectDir)\SDL2_ttf-devel-2.0.15-VC\SDL2_ttf-devel-2.0.15-VC\SDL2_ttf-2.0.15\lib\x64;$(ProjectDir)\SDL2_mixer-devel-2.8.0-VC\SDL2_mixer-2.8.0\lib\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
-      <Command>copy "$(ProjectDir)SDL2-2.30.5\lib\x64\SDL2.dll" "$(OutDir)"
-copy "$(ProjectDir)SDL2_image-2.8.2\lib\x64\SDL2_image.dll" "$(OutDir)"
+      <Command>
 </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
@@ -213,13 +225,27 @@ copy "$(ProjectDir)SDL2_image-2.8.2\lib\x64\SDL2_image.dll" "$(OutDir)"
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>$(ProjectDir)\SDL2_ttf-devel-2.0.15-VC\SDL2_ttf-devel-2.0.15-VC\SDL2_ttf-2.0.15\include;$(ProjectDir)\SDL2_mixer-devel-2.8.0-VC\SDL2_mixer-2.8.0\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(ProjectDir)\SDL2_ttf-devel-2.0.15-VC\SDL2_ttf-devel-2.0.15-VC\SDL2_ttf-2.0.15\lib\x64;$(ProjectDir)\SDL2_mixer-devel-2.8.0-VC\SDL2_mixer-2.8.0\lib\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2test.lib;SDL2_image.lib;libmysql.lib;SDL2_ttf.lib;SDL2_mixer.lib;Shell32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>xcopy /y /s "$(ProjectDir)Musics\*" "$(OutDir)Musics\"
+xcopy /y /s "$(ProjectDir)Char_image\*" "$(OutDir)Char_image\"
+for %%F in (png ttf mp3 dll) do (
+    for %%G in ("$(ProjectDir)*.%%F") do xcopy /y "%%G" "$(OutDir)"
+)
+
+
+
+</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

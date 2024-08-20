@@ -1,5 +1,4 @@
 #include "LoginScene.h"
-#include "MySQL.h"
 
 LoginScene::LoginScene(WindowManager& wm, SceneManager& manager)
 //객체 생성 및 연결

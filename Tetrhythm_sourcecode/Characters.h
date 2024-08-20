@@ -1,4 +1,6 @@
 #pragma once
+
+
 #include <SDL.h>
 #include <SDL_image.h>
 #include <string>
@@ -8,6 +10,7 @@
 #include "SceneManager.h"
 #include "UserInfo.h"
 #include <sstream>
+#include <regex>
 #include "MySQL.h"
 #include "UserInfo.h"
 
@@ -16,6 +19,7 @@ class Characters : public Scene
 public:
 
 	Characters(WindowManager& wm, SceneManager& manager);
+	int getXValueFromUserCharacter();
 	void drawInit() override;
 	void handleEvents() override;
 	void update() override;
@@ -31,10 +35,12 @@ private:
 	int sIndex = 0; 
 	int myCharIndex = 0;
 	void unlock();
+	std::string unlockText();
 	Print* print;
 	WindowManager& windowManager;
 	SceneManager& sceneManager;
-
+	TTF_Font* font;               
+	SDL_Color color;
 
 };
 

@@ -13,6 +13,7 @@
 #include <SDL_image.h>
 #include <string>
 
+
 class MainMenu : public Scene {
 public:
     MainMenu(WindowManager& wm, SceneManager& manager);

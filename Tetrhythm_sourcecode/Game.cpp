@@ -19,7 +19,7 @@ int comboScore = 100000;
 int comboCount=0;
 std::vector<int> comboVector;
 //비트!
-double beatInterval = 60.0 / 70.0;
+double beatInterval = 25.0 / 100.0;
 int totalBeats = static_cast<int>(223.0 / beatInterval);
 //////////////////////////////////
 

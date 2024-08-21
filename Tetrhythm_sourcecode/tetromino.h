@@ -8,7 +8,7 @@ class Well;
 class Tetromino
 {
 public:
-    enum Type { I = 0, J, L, O, S, T, Z };
+    enum Type { I = 0, J, L, O, S, T, Z, GRAY };
     Tetromino(int xOffset = 513, int yOffset = 116);
     void draw(SDL_Renderer*, SDL_Texture* blockTexture) const;
     void move(int dx, int dy);

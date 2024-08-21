@@ -64,6 +64,7 @@ MultiGame::MultiGame(WindowManager& wm, Print* pr, SceneManager& sm)
         "Red_Z.png"
     };
 
+
     for (int i = 0; i < 7; ++i)
     {
         SDL_Surface* surface = IMG_Load(textureFiles[i]);
@@ -82,7 +83,20 @@ MultiGame::MultiGame(WindowManager& wm, Print* pr, SceneManager& sm)
             throw std::runtime_error("Failed to create texture: " + std::string(SDL_GetError()));
         }
     }
+
+    SDL_Surface* surface = IMG_Load("Grayblock.png");
+    if (!surface)
+    {
+        throw std::runtime_error("Failed to load image: " + std::string(IMG_GetError()));
+    }
+    grayBlockTexture_ = SDL_CreateTextureFromSurface(windowManager.getRenderer(), surface);
+    SDL_FreeSurface(surface);
+    if (!grayBlockTexture_)
+    {
+        throw std::runtime_error("Failed to create texture: " + std::string(SDL_GetError()));
+    }
 }
+
 
 MultiGame::~MultiGame()
 {
@@ -335,9 +349,11 @@ bool MultiGame::tick()
             break;
         case 2:
             score += 450;
+            opponentWell_.addGrayLines(1, true);
             break;
         case 3:
             score += 900;
+            opponentWell_.addGrayLines(2, true);
             break;
         default:
             break;
@@ -352,6 +368,7 @@ bool MultiGame::tick()
     {
         // 4줄 깬 경우
         seriesTetrisCount += 1;
+        opponentWell_.addGrayLines(4, true);
         if (seriesTetrisCount % 2 == 0) {
             score += 4000;  // 연속 테트리스
         }
@@ -389,11 +406,12 @@ bool MultiGame::tick()
     // 그림자 위치 계산 및 그리기
     Tetromino shadow = tetromino_.calculateShadow(well_);
     well_.drawShadow(windowManager.getRenderer(), blockTextures_[tetromino_.getType()], shadow);
-    well_.draw(windowManager.getRenderer(), blockTextures_, nextTetrominos_);
+    well_.draw(windowManager.getRenderer(), blockTextures_, grayBlockTexture_, nextTetrominos_);
     tetromino_.draw(windowManager.getRenderer(), blockTextures_[tetromino_.getType()]);
 
     //상대방 보드(+대기열) 그리기
-    opponentWell_.draw(windowManager.getRenderer(), blockTextures_, nextTetrominos_);  // 상대 필드를 빈 상태로 그리기
+    opponentWell_.draw(windowManager.getRenderer(), blockTextures_, grayBlockTexture_, nextTetrominos_);
+    // 상대 필드를 빈 상태로 그리기
 
 
 

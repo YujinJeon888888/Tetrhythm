@@ -64,6 +64,7 @@ private:
     int score;
     bool gameOver;
     SDL_Texture* blockTextures_[7]; // 7개의 블럭 텍스처를 저장하는 배열
+    SDL_Texture* grayBlockTexture_;
     WindowManager& windowManager;
     Print* print;
     std::vector<MultiHeart> hearts = {

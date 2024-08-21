@@ -206,6 +206,32 @@ void MySQL::setCharacterName(std::string ID, std::string c)
     mysql_close(ConnPtr);
 }
 
+void MySQL::setPerfectClear(std::string ID, bool b)
+{
+    MYSQL Conn;
+    MYSQL* ConnPtr = NULL;
+    int Stat;
+
+    mysql_init(&Conn);
+
+    ConnPtr = mysql_real_connect(&Conn, host, userName, password, database, 3306, (char*)NULL, 0);
+    if (ConnPtr == NULL) {
+        std::cout << mysql_error(&Conn) << std::endl;
+        exit(-1);
+    }
+
+    // 값 삽입 쿼리 실행
+    std::string updateQuery = "update Users set perfectClear = " + std::to_string(b) + " where name = '" + ID + "'";
+    Stat = mysql_query(ConnPtr, updateQuery.c_str());
+    if (Stat != 0) {
+        std::cout << "Update Error: " << mysql_error(&Conn) << std::endl;
+        mysql_close(ConnPtr);
+        exit(-1);
+    }
+    UserInfo::getInstance().setPerfectClear(b);
+    mysql_close(ConnPtr);
+}
+
 void MySQL::initUserInfo(std::string ID) {
     MYSQL Conn;
     MYSQL* ConnPtr = NULL;
@@ -304,6 +330,28 @@ void MySQL::initUserInfo(std::string ID) {
             std::cout << (Row[i] ? Row[i] : "NULL") << " ";
 
             UserInfo::getInstance().setUserCharacter(Row[0]);
+        }
+        std::cout << std::endl;
+    }
+
+    // 테이블 상태 출력 쿼리 실행
+    query = "SELECT perfectClear FROM Users where name = '" + ID + "'";
+    selectQuery = query.c_str();
+    Stat = mysql_query(ConnPtr, selectQuery);
+    if (Stat != 0) {
+        std::cout << mysql_error(&Conn) << std::endl;
+        exit(-1);
+    }
+
+    // 결과를 가져와서 출력
+    Result = mysql_store_result(ConnPtr);
+    numFields = mysql_num_fields(Result);
+
+    while ((Row = mysql_fetch_row(Result)) != NULL) {
+        for (int i = 0; i < numFields; i++) {
+            std::cout << (Row[i] ? Row[i] : "NULL") << " ";
+
+            UserInfo::getInstance().setPerfectClear(Row[0]);
         }
         std::cout << std::endl;
     }

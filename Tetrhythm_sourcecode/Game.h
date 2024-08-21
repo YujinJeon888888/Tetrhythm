@@ -46,6 +46,9 @@ public:
     bool getIsClear() const{
         return isClear;
     }
+    bool getIsPerfectClear() const{
+        return isPerfectClear;
+    }
 private:
     Game(const Game&);
     Game& operator=(const Game&);
@@ -80,4 +83,5 @@ private:
     std::chrono::steady_clock::time_point lastFrameTime;
     SceneManager& sceneManager;
     bool isClear = false;
+    bool isPerfectClear = true;
 };

@@ -263,12 +263,16 @@ void Characters::unlock() {
 	if (UserInfo::getInstance().getLine() >= 120) {
 		data[2][0] = true;
 	}
+
 	// 4. 총 50 Tetris
 	if (UserInfo::getInstance().getTetris() >= 50) {
 		data[3][0] = true;
 	}
+	
 	//  5. 싱글모드 퍼펙트 클리어
-
+	if (UserInfo::getInstance().getPerfectClear()) {
+		data[0][1] = true;
+	}
 
     //  6. high score - 150000
 	if (UserInfo::getInstance().getHighScore()>= 150000) {

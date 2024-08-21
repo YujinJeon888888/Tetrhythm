@@ -64,3 +64,13 @@
 	 return score;
  }
 
+ void UserInfo::setPerfectClear(const bool perfectClear)
+ {
+	 this->perfectClear = perfectClear;
+ }
+
+ bool UserInfo::getPerfectClear() const
+ {
+	 return perfectClear;
+ }
+

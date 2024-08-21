@@ -475,6 +475,7 @@ SDL_Texture* Game::getBlockTexture(Tetromino::Type type) const
 
 void Game::deductHeart()
 {
+    isPerfectClear = false;
     comboVector.push_back(comboCount);
     comboCount = 0;
     std::cout << "when heartPosX : " << heartPosX << "deduct heart" << std::endl;

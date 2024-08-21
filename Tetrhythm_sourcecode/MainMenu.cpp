@@ -1,6 +1,7 @@
 #define WIN32_LEAN_AND_MEAN
 
 #include "MutiMenuScene.h"
+#include "MultiGameScene.h"
 #include "MainMenu.h"
 #include "Characters.h"
 #include "SceneManager.h"
@@ -34,8 +35,8 @@ void MainMenu::handleArrowKey(SDL_Keycode key) {
             sceneManager.changeScene(std::make_unique<TetrisScene>(windowManager, sceneManager));
             break;
         case 1 : // muti mode
-            sceneManager.changeScene(std::make_unique<MutiMenuScene>(windowManager, sceneManager));
-
+            /*sceneManager.changeScene(std::make_unique<MutiMenuScene>(windowManager, sceneManager));*/
+            sceneManager.changeScene(std::make_unique<MultiGameScene>(windowManager, sceneManager));
             break;
         case 2: //캐릭터 선택
             sceneManager.changeScene(std::make_unique<Characters>(windowManager, sceneManager));

@@ -31,6 +31,8 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MainMenu.cpp" />
     <ClCompile Include="Multi.cpp" />
+    <ClCompile Include="MultiGame.cpp" />
+    <ClCompile Include="MultiGameScene.cpp" />
     <ClCompile Include="MutiMenuScene.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneManager.cpp" />
@@ -52,12 +54,16 @@
   <ItemGroup>
     <ClInclude Include="ClearScene.h" />
     <ClInclude Include="createRoomScene.h" />
+    <ClInclude Include="Game.h" />
     <ClInclude Include="GameOverScene.h" />
+    <ClInclude Include="GlobalVariables.h" />
     <ClInclude Include="joinRoomScene.h" />
     <ClInclude Include="LoadingScene.h" />
     <ClInclude Include="LoginScene.h" />
     <ClInclude Include="MainMenu.h" />
     <ClInclude Include="Multi.h" />
+    <ClInclude Include="MultiGame.h" />
+    <ClInclude Include="MultiGameScene.h" />
     <ClInclude Include="MutiMenuScene.h" />
     <ClInclude Include="resource1.h" />
     <ClInclude Include="Scene.h" />
@@ -125,13 +131,13 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
     <UseOfMfc>Static</UseOfMfc>

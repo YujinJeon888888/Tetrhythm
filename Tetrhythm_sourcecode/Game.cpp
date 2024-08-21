@@ -416,7 +416,8 @@ bool Game::tick()
             deductHeart();
             heartVisible = false;
             print->deletePNG("heartNote.png");
-            lastFrameTime = std::chrono::steady_clock::now();
+            // 다음 하트 노드 생성 타이밍 설정
+            nextHeartSpawnTime = timeSinceStart + heartSpawnInterval;
         }
     }
     else if (timeSinceStart >= nextHeartSpawnTime && !heartVisible)

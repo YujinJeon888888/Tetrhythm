@@ -43,23 +43,23 @@ Game::Game(WindowManager& wm, Print* pr, SceneManager& sm)
     :
     sceneManager(sm),
     tetromino_{},
-    nextTetrominos_{ Tetromino{}, Tetromino{}, Tetromino{} }, // 다음 블럭 3개 초기화
-    moveTime_(SDL_GetTicks() + 1000), // 초기화 시 블록이 1초 후에 내려오도록 설정
+    nextTetrominos_{ Tetromino{}, Tetromino{}, Tetromino{} },
+    moveTime_(SDL_GetTicks() + 1000),
     previousLine(0),
     previousTetris(0),
     score(0),
     gameOver(false),
     windowManager(wm),
     print(pr),
-    heartPosX(60),  // 하트 노드의 시작 X 좌표
-    heartSpeed(5),   // 하트 노드의 이동 속도
-    heartVisible(false), // 하트 노드의 초기 상태 (숨겨짐)
-    timeSinceStart(0.0), // 게임 시작 후 경과 시간
-    lastFrameTime(std::chrono::steady_clock::now()), // 초기화 시점에서의 시간
+    heartPosX(60),
+    heartSpeed(5),
+    heartVisible(false),
+    timeSinceStart(0.0),
+    lastFrameTime(std::chrono::steady_clock::now()),
     musicPlayed(false),
-    soundManager(new SoundManager()), // SoundManager 객체 초기화
-    heartSpawnInterval(60.0 / 140.0 * 4), // 140 BPM 4/4박자마다 생성 간격 (초 단위)
-    nextHeartSpawnTime(0.0)  // 다음 하트 노드 생성 타이밍
+    soundManager(new SoundManager()),
+    heartSpawnInterval(60.0 / 140.0 * 4),
+    nextHeartSpawnTime(0.0)
 {
     // 7개의 텍스처 로드
     const char* textureFiles[7] = {
@@ -79,7 +79,11 @@ Game::Game(WindowManager& wm, Print* pr, SceneManager& sm)
         {
             throw std::runtime_error("Failed to load image: " + std::string(IMG_GetError()));
         }
-        blockTextures_[i] = SDL_CreateTextureFromSurface(windowManager.getRenderer(), surface);
+        SDL_Renderer* renderer = windowManager.getRenderer();
+        if (!renderer) {
+            throw std::runtime_error("Renderer is not initialized properly.");
+        }
+        blockTextures_[i] = SDL_CreateTextureFromSurface(renderer, surface);
         SDL_FreeSurface(surface);
         if (!blockTextures_[i])
         {
@@ -90,14 +94,16 @@ Game::Game(WindowManager& wm, Print* pr, SceneManager& sm)
 
 Game::~Game()
 {
-    soundManager->stopMusic(); // TetrisScene 객체가 파괴될 때 음악을 중지
+    soundManager->stopMusic();
     delete soundManager;
+    soundManager = nullptr;
 
     for (int i = 0; i < 7; ++i)
     {
         if (blockTextures_[i])
         {
             SDL_DestroyTexture(blockTextures_[i]);
+            blockTextures_[i] = nullptr;
         }
     }
 }
@@ -236,6 +242,10 @@ bool Game::tick()
                                 std::cout << "safe!" << std::endl;
                                 heartVisible = false;
                                 print->deletePNG("heartNote.png");
+                                if (heartPosX == 432)
+                                {
+                                    std::cout << "perfect!" << std::endl;
+                                }
                             }
                             else if (heartPosX < 393)
                             {
@@ -295,6 +305,10 @@ bool Game::tick()
                     std::cout << "safe!" << std::endl;
                     heartVisible = false;
                     print->deletePNG("heartNote.png");
+                    if (heartPosX == 432)
+                    {
+                        std::cout << "perfect!" << std::endl;
+                    }
                 }
                 else if (heartPosX < 393)
                 {

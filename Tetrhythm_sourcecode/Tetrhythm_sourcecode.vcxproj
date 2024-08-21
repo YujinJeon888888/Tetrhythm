@@ -71,7 +71,9 @@
     <ClInclude Include="Sound.h" />
     <ClInclude Include="SoundManager.h" />
     <ClInclude Include="TetrisScene.h" />
+    <ClInclude Include="tetromino.h" />
     <ClInclude Include="UserInfo.h" />
+    <ClInclude Include="Well.h" />
     <ClInclude Include="WindowManager.h" />
   </ItemGroup>
   <ItemGroup>

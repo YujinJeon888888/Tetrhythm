@@ -27,7 +27,7 @@ void MultiGameScene::drawInit()
     print->printText("      0", 329, 388, 7, font, color);
     print->printText("        0", 329, 418, 8, font, color);
     print->printText("       0", 329, 448, 9, font, color);
-    print->printPNG(UserInfo::getInstance().getUserCharacter().c_str(), 329, 474, 10);
+    print->printPNG(UserInfo::getInstance().getUserCharacter().c_str(), 329, 478, 10);
 
     print->printPNG("Background.png", 0, 0, 0); // 전체 배경
     print->printPNG("MultiRhythmUI.png", 475, 186, 10); // 리듬게임 UI 배경
@@ -48,15 +48,7 @@ void MultiGameScene::update() {
     }
     else {
         // 게임 종료 시
-        MySQL mysql;
-        mysql.setLine(UserInfo::getInstance().getUserID(), (game->getLine()));
-        mysql.setTetris(UserInfo::getInstance().getUserID(), (game->getTetris()));
-        mysql.setHighScore(UserInfo::getInstance().getUserID(), (game->getScore()));
-        UserInfo::getInstance().setScore(game->getScore());
-        if (game->getIsPerfectClear()) {
-            //유저정보에 perfect clear저장.
-            mysql.setPerfectClear(UserInfo::getInstance().getUserID(), (game->getIsPerfectClear()));
-        }
+       
         if (game->getIsClear()) {
             sceneManager.changeScene(std::make_unique<ClearScene>(windowManager, sceneManager, game->getLine(), game->getTetris()));
         }

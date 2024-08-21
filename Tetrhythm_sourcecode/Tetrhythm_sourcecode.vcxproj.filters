@@ -211,6 +211,12 @@
     <ClInclude Include="GlobalVariables.h">
       <Filter>소스 파일</Filter>
     </ClInclude>
+    <ClInclude Include="Well.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="tetromino.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Tetrhythm_sourcecode1.rc">

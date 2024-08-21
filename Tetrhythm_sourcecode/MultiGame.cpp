@@ -33,26 +33,27 @@ const int MultiHeart::yPositions[3] = {
 MultiGame::MultiGame(WindowManager& wm, Print* pr, SceneManager& sm)
     :
     sceneManager(sm),
-    tetromino_{},
-    nextTetrominos_{ Tetromino{}, Tetromino{}, Tetromino{} }, // 다음 블럭 3개 초기화
-    moveTime_(SDL_GetTicks() + 1000), // 초기화 시 블록이 1초 후에 내려오도록 설정
+    well_(61, 100, 344, 165), // 플레이어 보드
+    tetromino_(61, 100), // 플레이어 보드
+    nextTetrominos_{ Tetromino{61, 100}, Tetromino{61, 100}, Tetromino{61, 100} }, // 다음 블럭 3개 초기화
+    opponentWell_(801, 100,1081,165), // 상대방 보드
+    moveTime_(SDL_GetTicks() + 1000),
     previousLine(0),
     previousTetris(0),
     score(0),
     gameOver(false),
     windowManager(wm),
     print(pr),
-    heartPosX(475),  // 하트 노드의 시작 X 좌표
-    heartSpeed(5),   // 하트 노드의 이동 속도
-    heartVisible(false), // 하트 노드의 초기 상태 (숨겨짐)
-    timeSinceStart(0.0), // 게임 시작 후 경과 시간
-    lastFrameTime(std::chrono::steady_clock::now()), // 초기화 시점에서의 시간
+    heartPosX(60),
+    heartSpeed(5),
+    heartVisible(false),
+    timeSinceStart(0.0),
+    lastFrameTime(std::chrono::steady_clock::now()),
     musicPlayed(false),
-    soundManager(new SoundManager()), // SoundManager 객체 초기화
-    heartSpawnInterval(60.0 / 140.0 * 4), // 140 BPM 4/4박자마다 생성 간격 (초 단위)
-    nextHeartSpawnTime(0.0)  // 다음 하트 노드 생성 타이밍
+    soundManager(new SoundManager()),
+    heartSpawnInterval(60.0 / 140.0 * 4),
+    nextHeartSpawnTime(0.0)
 {
-    // 7개의 텍스처 로드
     const char* textureFiles[7] = {
         "Skyblue_I.png",
         "Blue_J.png",
@@ -63,14 +64,18 @@ MultiGame::MultiGame(WindowManager& wm, Print* pr, SceneManager& sm)
         "Red_Z.png"
     };
 
-    for (int i = 0; i < 7; ++i)//블럭 텍스쳐
+    for (int i = 0; i < 7; ++i)
     {
         SDL_Surface* surface = IMG_Load(textureFiles[i]);
         if (!surface)
         {
             throw std::runtime_error("Failed to load image: " + std::string(IMG_GetError()));
         }
-        blockTextures_[i] = SDL_CreateTextureFromSurface(windowManager.getRenderer(), surface);
+        SDL_Renderer* renderer = windowManager.getRenderer();
+        if (!renderer) {
+            throw std::runtime_error("Renderer is not initialized properly.");
+        }
+        blockTextures_[i] = SDL_CreateTextureFromSurface(renderer, surface);
         SDL_FreeSurface(surface);
         if (!blockTextures_[i])
         {
@@ -81,17 +86,20 @@ MultiGame::MultiGame(WindowManager& wm, Print* pr, SceneManager& sm)
 
 MultiGame::~MultiGame()
 {
-    soundManager->stopMusic(); 
+    soundManager->stopMusic();
     delete soundManager;
+    soundManager = nullptr;
 
     for (int i = 0; i < 7; ++i)
     {
         if (blockTextures_[i])
         {
             SDL_DestroyTexture(blockTextures_[i]);
+            blockTextures_[i] = nullptr;
         }
     }
 }
+
 
 bool MultiGame::tick()
 {
@@ -219,16 +227,20 @@ bool MultiGame::tick()
                         // 하트 노트 위치 판정
                         if (heartVisible)
                         {
-                            if (690 < heartPosX && heartPosX < 794)
+                            if (690 <= heartPosX && heartPosX <= 768)
                             {
                                 comboCount += 1;
-                                score += (heartPosX == 742) ? 2000 : 500;
+                                score += (heartPosX == 729) ? 2000 : 500;
                                 print->setText(9, "       " + std::to_string(score));
                                 std::cout << "safe!" << std::endl;
                                 heartVisible = false;
                                 print->deletePNG("heartNote.png");
+                                if (heartPosX == 729)
+                                {
+                                    std::cout << "perfect!" << std::endl;
+                                }
                             }
-                            else if (heartPosX <= 690)
+                            else if (heartPosX < 690)
                             {
                                 // 이 부분에서 하트 노드를 바로 사라지게 처리
                                 deductHeart();
@@ -278,16 +290,20 @@ bool MultiGame::tick()
             //충돌났을때 바로 하트노드 위치 체크 
             if (heartVisible)
             {
-                if (690 < heartPosX && heartPosX < 794)
+                if (690 <= heartPosX && heartPosX <= 768)
                 {
                     comboCount += 1;
-                    score += (heartPosX == 742) ? 2000 : 500;
+                    score += (heartPosX == 729) ? 2000 : 500;
                     print->setText(9, "       " + std::to_string(score));
                     std::cout << "safe!" << std::endl;
                     heartVisible = false;
                     print->deletePNG("heartNote.png");
+                    if (heartPosX == 729)
+                    {
+                        std::cout << "perfect!" << std::endl;
+                    }
                 }
-                else if (heartPosX <= 690)
+                else if (heartPosX < 690)
                 {
                     // 이 부분에서 하트 노드를 바로 사라지게 처리
                     deductHeart();
@@ -376,6 +392,11 @@ bool MultiGame::tick()
     well_.draw(windowManager.getRenderer(), blockTextures_, nextTetrominos_);
     tetromino_.draw(windowManager.getRenderer(), blockTextures_[tetromino_.getType()]);
 
+    //상대방 보드(+대기열) 그리기
+    opponentWell_.draw(windowManager.getRenderer(), blockTextures_, nextTetrominos_);  // 상대 필드를 빈 상태로 그리기
+
+
+
     // 하트노트 움직임
     if (timeSinceStart >= 3.0 && !musicPlayed)
     {
@@ -398,13 +419,13 @@ bool MultiGame::tick()
         SDL_Rect rect = print->getImagePosition("heartNote.png");
         SDL_Point currentPosition = { rect.x, rect.y };
         double totalDuration = 4 * beatInterval;
-        double moveDistance = (794 - 475) * (deltaTime.count() / totalDuration);
+        double moveDistance = (768 - 462) * (deltaTime.count() / totalDuration);
         int newPosX = currentPosition.x + moveDistance;
 
         heartPosX = newPosX;
         print->moveImage("heartNote.png", heartPosX, currentPosition.y);
 
-        if (heartPosX >= 794)
+        if (heartPosX > 768)
         {
             deductHeart();
             heartVisible = false;
@@ -417,8 +438,8 @@ bool MultiGame::tick()
     {
         // 다음 하트 노드를 생성할 시간에 도달했을 때만 생성
         heartVisible = true;
-        heartPosX = 475;
-        print->printPNG("heartNote.png", heartPosX, 251, 11);
+        heartPosX = 462;
+        print->printPNG("heartNote.png", heartPosX, 225, 11);
     }
 
     SDL_RenderPresent(windowManager.getRenderer());
@@ -429,17 +450,15 @@ bool MultiGame::tick()
 
 void MultiGame::check(const Tetromino& t)
 {
-
     if (t.y() >= 0 && well_.isCollision(t))
     {
-
         well_.unite(tetromino_);  // 블록을 well에 추가
 
         // 블록이 추가된 후 새로운 블록을 생성합니다.
         tetromino_ = nextTetrominos_[0];
         nextTetrominos_[0] = nextTetrominos_[1];
         nextTetrominos_[1] = nextTetrominos_[2];
-        nextTetrominos_[2] = Tetromino{};
+        nextTetrominos_[2] = Tetromino(61, 100);  // 새로운 위치로 테트로미노를 생성
 
         // 새로운 블록이 Well에 충돌하면 게임 오버 처리
         if (well_.isCollision(tetromino_))
@@ -448,12 +467,12 @@ void MultiGame::check(const Tetromino& t)
             std::cout << "Game Over!" << std::endl;
         }
     }
-
     else  // 충돌이 발생하지 않았을 경우에만 tetromino 업데이트
     {
         tetromino_ = t;
     }
 }
+
 
 
 bool MultiGame::isGameOver() const

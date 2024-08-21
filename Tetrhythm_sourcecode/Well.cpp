@@ -5,9 +5,11 @@
 const int BLOCK_SIZE = 25;
 const int QUEUE_BLOCK_SIZE = 20; // 대기열 블럭의 크기
 
-Well::Well() :
-    xOffset(513),
-    yOffset(116),
+Well::Well(int xOffset, int yOffset, int queueXOffset, int queueYOffset) :
+    xOffset(xOffset),  // 전달된 매개변수를 사용
+    yOffset(yOffset),
+    queueXOffset(queueXOffset),  // 전달된 매개변수를 사용
+    queueYOffset(queueYOffset),
     line(0),
     tetris(0)
 {
@@ -55,9 +57,9 @@ void Well::draw(SDL_Renderer* renderer, SDL_Texture* blockTextures[], const std:
     int lineEnd = xOffset + wellWidth - 10; // 엔드라인 끝 지점 (조금 안쪽으로)
     SDL_RenderDrawLine(renderer, lineStart, yOffset, lineEnd, yOffset);
 
-    // Draw next tetromino queue box with 3px border
-    SDL_Rect outerRect = { 806, 130, 90, 183 }; // Height increased by 3px
-    SDL_Rect innerRect = { 809, 133, 84, 177 }; // Adjusted for 3px border
+    //블럭대기열 그리기
+    SDL_Rect outerRect = { queueXOffset, queueYOffset, 90, 183 }; // queueXOffset, queueYOffset 사용
+    SDL_Rect innerRect = { queueXOffset + 3, queueYOffset + 3, 84, 177 }; // queueXOffset, queueYOffset 사용
     SDL_SetRenderDrawColor(renderer, 0xff, 0xff, 0xff, 0xff);
     SDL_RenderFillRect(renderer, &outerRect);
     SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0x00, 0xff); // Black background for queue box
@@ -65,14 +67,14 @@ void Well::draw(SDL_Renderer* renderer, SDL_Texture* blockTextures[], const std:
 
     // Draw custom bottom border
     SDL_SetRenderDrawColor(renderer, 0xff, 0xff, 0xff, 0xff); // White color for custom border
-    SDL_RenderDrawLine(renderer, 806, 310, 896, 310); // Bottom border with 3px offset
+    
 
 
-    // Draw the next tetrominos
+    // 블럭 대기열 내부 블럭들 그리기
     for (int i = 0; i < 3; ++i)
     {
-        int boxXOffset = 809 + 12; // 상자 내부의 중앙으로 조정
-        int boxYOffset = 133 + i * 60 + 10; // 상자 내부의 중앙으로 조정
+        int boxXOffset = queueXOffset + 14; // 기존 12에서 2픽셀 오른쪽으로 이동
+        int boxYOffset = queueYOffset + i * 60 + 10;
 
         // Adjust rotation for tetrominos to fit within the box
         Tetromino adjustedTetromino = nextTetrominos[i];
@@ -98,7 +100,7 @@ void Well::draw(SDL_Renderer* renderer, SDL_Texture* blockTextures[], const std:
         double offsetY = (3 - (maxY - minY + 1)) / 2;
 
         if (adjustedTetromino.getType() == Tetromino::Type::I) {
-            offsetX = -0.5;  offsetY = 0.5; // I 블럭을 중앙에 위치시키기 위한 조정
+            offsetX = -0.5; offsetY = 0.5; // I 블럭을 중앙에 위치시키기 위한 조정
         }
         else if (adjustedTetromino.getType() == Tetromino::Type::O) {
             offsetX = 0.5;

@@ -293,14 +293,18 @@ bool Game::tick()
                     score += (heartPosX == 432) ? 2000 : 500;
                     print->setText(9, "       " + std::to_string(score));
                     std::cout << "safe!" << std::endl;
+                    heartVisible = false;
+                    print->deletePNG("heartNote.png");
                 }
                 else
                 {
                     deductHeart(); 
+                    heartVisible = false;
+                    print->deletePNG("heartNote.png");
                 }
 
-                heartVisible = false;
-                print->deletePNG("heartNote.png");
+                // heartVisible = false;
+                // print->deletePNG("heartNote.png");
 
                 // 다음 하트 노드 생성 타이밍 설정
                 nextHeartSpawnTime = timeSinceStart + heartSpawnInterval;

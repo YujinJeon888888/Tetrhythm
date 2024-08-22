@@ -16,7 +16,7 @@ private:
 	int tetris;
 	int highScore;
 	int score;
-	bool perfectClear;
+	bool perfectClear = false;
 public:
 	static UserInfo& getInstance();
 	void setUserID(const std::string& username);

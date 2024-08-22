@@ -350,8 +350,9 @@ void MySQL::initUserInfo(std::string ID) {
     while ((Row = mysql_fetch_row(Result)) != NULL) {
         for (int i = 0; i < numFields; i++) {
             std::cout << (Row[i] ? Row[i] : "NULL") << " ";
-
-            UserInfo::getInstance().setPerfectClear(Row[0]);
+            // Row[i] 값이 "1"이면 true, "0"이면 false로 설정
+            bool isPerfectClear = (std::string(Row[i]) == "1");
+            UserInfo::getInstance().setPerfectClear(isPerfectClear);
         }
         std::cout << std::endl;
     }

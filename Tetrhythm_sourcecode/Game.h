@@ -84,4 +84,5 @@ private:
     SceneManager& sceneManager;
     bool isClear = false;
     bool isPerfectClear = true;
+    int fullComboCount = 0;
 };

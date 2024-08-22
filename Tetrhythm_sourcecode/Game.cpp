@@ -122,13 +122,13 @@ bool Game::tick()
         switch (e.type)
         {
         case SDL_KEYUP:
-            switch (e.key.keysym.sym) {}
+            switch (e.key.keysym.sym) 
             {
             case SDLK_SPACE:
                 spaceLock = false;
                 break;
             }
-
+            break;
         case SDL_KEYDOWN:
             switch (e.key.keysym.sym)
             {

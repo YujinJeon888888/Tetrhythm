@@ -1,5 +1,5 @@
 #define WIN32_LEAN_AND_MEAN
-
+#include "scoreTableScene.h"
 #include "MutiMenuScene.h"
 #include "MainMenu.h"
 #include "Characters.h"
@@ -14,6 +14,9 @@ MainMenu::MainMenu(WindowManager& wm, SceneManager& manager) : windowManager(wm)
 
 void MainMenu::handleArrowKey(SDL_Keycode key) {
     switch (key) {
+    case SDLK_ESCAPE:
+        sceneManager.changeScene(std::make_unique<scoreTableScene>(windowManager, sceneManager));
+        break;
     case SDLK_UP:
         if (MenuSelection > 0) {
             MenuSelection--;

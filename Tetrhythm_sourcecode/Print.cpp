@@ -157,9 +157,9 @@ void Print::render() {
 }
 
 void Print::renderForTetris() {
-        std::sort(layeredTextures.begin(), layeredTextures.end(), [](const LayeredTexture& a, const LayeredTexture& b) {
+    std::sort(layeredTextures.begin(), layeredTextures.end(), [](const LayeredTexture& a, const LayeredTexture& b) {
         return a.layer < b.layer;
-    });
+        });
 
     for (const auto& layeredTexture : layeredTextures) {
         SDL_RenderCopy(renderer, layeredTexture.texture, nullptr, &layeredTexture.dstRect);

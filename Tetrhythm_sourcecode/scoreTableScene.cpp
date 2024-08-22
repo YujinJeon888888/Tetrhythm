@@ -1,4 +1,5 @@
 #include "scoreTableScene.h"
+#include "MainMenu.h"
 MySQL mysql;
 std::string result;
 std::vector<std::string> tokens;
@@ -33,7 +34,8 @@ void scoreTableScene::drawInit()
 	_1stfont = print->loadFont("DungGeunMo.ttf", 23);
 	_2stfont = print->loadFont("DungGeunMo.ttf", 21);
 	_3stfont = print->loadFont("DungGeunMo.ttf", 20);
-
+	//배경
+	print->printPNG("BackGround.png", 0, 0, -1);
 	int y = 0;
 	int x = 0;
 	for (auto& token : tokens) {
@@ -82,6 +84,9 @@ void scoreTableScene::handleArrowKey(SDL_Keycode key) {
 	switch (key) {
 	case SDLK_SPACE:
 		drawInit();
+		break;
+	case SDLK_ESCAPE:
+		sceneManager.changeScene(std::make_unique<MainMenu>(windowManager, sceneManager));
 		break;
 	}
 }

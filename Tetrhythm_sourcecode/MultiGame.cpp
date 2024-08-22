@@ -20,9 +20,9 @@ const std::string MultiHeart::paths[3] = {
     "heart3.png"
 };
 const int MultiHeart::xPositions[3] = {
-    118,
-    171,
-    224
+    857,
+    910,
+    963
 };
 const int MultiHeart::yPositions[3] = {
     50,
@@ -33,10 +33,10 @@ const int MultiHeart::yPositions[3] = {
 MultiGame::MultiGame(WindowManager& wm, Print* pr, SceneManager& sm)
     :
     sceneManager(sm),
-    well_(61, 100, 344, 165), // 플레이어 보드
-    tetromino_(61, 100), // 플레이어 보드
-    nextTetrominos_{ Tetromino{61, 100}, Tetromino{61, 100}, Tetromino{61, 100} }, // 다음 블럭 3개 초기화
-    opponentWell_(801, 100,1081,165), // 상대방 보드
+    well_(801, 100, 1081, 165), // 플레이어 보드
+    tetromino_(801, 100), // 플레이어 보드
+    nextTetrominos_{ Tetromino{801, 100}, Tetromino{801, 100}, Tetromino{801, 100} }, // 다음 블럭 3개 초기화
+    opponentWell_(61, 100,344,165), // 상대방 보드
     moveTime_(SDL_GetTicks() + 1000),
     previousLine(0),
     previousTetris(0),
@@ -476,7 +476,7 @@ void MultiGame::check(const Tetromino& t)
         tetromino_ = nextTetrominos_[0];
         nextTetrominos_[0] = nextTetrominos_[1];
         nextTetrominos_[1] = nextTetrominos_[2];
-        nextTetrominos_[2] = Tetromino(61, 100);  // 새로운 위치로 테트로미노를 생성
+        nextTetrominos_[2] = Tetromino(801, 100);  // 새로운 위치로 테트로미노를 생성
 
         // 새로운 블록이 Well에 충돌하면 게임 오버 처리
         if (well_.isCollision(tetromino_))

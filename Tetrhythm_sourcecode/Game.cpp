@@ -19,7 +19,7 @@ const int comboScore = 100000;
 int comboCount=0;
 std::vector<int> comboVector;
 //비트!
-double beatInterval = 60.0 / 70.0;
+double beatInterval = 60.0 / 140.0;
 int totalBeats = static_cast<int>(223.0 / beatInterval);
 //////////////////////////////////
 
@@ -293,14 +293,18 @@ bool Game::tick()
                     score += (heartPosX == 432) ? 2000 : 500;
                     print->setText(9, "       " + std::to_string(score));
                     std::cout << "safe!" << std::endl;
+                    heartVisible = false;
+                    print->deletePNG("heartNote.png");
                 }
                 else
                 {
                     deductHeart(); 
+                    heartVisible = false;
+                    print->deletePNG("heartNote.png");
                 }
 
-                heartVisible = false;
-                print->deletePNG("heartNote.png");
+                // heartVisible = false;
+                // print->deletePNG("heartNote.png");
 
                 // 다음 하트 노드 생성 타이밍 설정
                 nextHeartSpawnTime = timeSinceStart + heartSpawnInterval;

@@ -2,6 +2,7 @@
 #include <SDL.h>
 #include <SDL_image.h>
 #include <string>
+#include <random>
 #include <iostream>
 #include <vector>
 #include <algorithm>
@@ -9,7 +10,16 @@
 #include "WindowManager.h"
 #include <SDL_ttf.h> // 폰트출력추가
 #include "MySQL.h"
-
+struct TextAnimation {
+    std::string text;
+    std::vector<SDL_Color> colors;
+    int currentFrame;
+    int frameCount;
+    int frameDelay;
+    int layer;
+    SDL_Rect textRect;
+    TTF_Font* font;
+};
 
 struct FontInfo {
     TTF_Font* font;
@@ -48,6 +58,7 @@ private:
     std::vector<FontInfo> fontInfos;
     std::string textInput = "";
     FontInfo textInputObj;
+    std::vector<TextAnimation> textAnimations;
 public:
     Print(WindowManager* wm);
     ~Print();
@@ -73,4 +84,8 @@ public:
     std::vector<LayeredTexture> getLayeredTextures();
     std::string getTextInput();
     void renderForTetris();
+    void textAnimation(const std::string& text, const int& dstX, const int& dstY, TTF_Font* font, const std::vector<SDL_Color>& colors, int frameDelay, int layer);
+    void updateTextAnimation();
+
+
 };

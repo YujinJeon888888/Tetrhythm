@@ -2,6 +2,9 @@
 #include <mysql.h>
 #include <iostream>
 #include <string>
+#include <vector>
+#include <algorithm>
+#include <iomanip>
 #include "UserInfo.h"
 #pragma comment(lib, "libmySQL.lib")
 
@@ -22,4 +25,5 @@ public:
     void setCharacterName(std::string ID, std::string c);
     void setPerfectClear(std::string ID, bool b);
     void initUserInfo(std::string ID);
+    std::string printTable();
 };

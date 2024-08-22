@@ -1,5 +1,5 @@
 #include "MySQL.h"
-
+#include <algorithm>
 // 클래스 외부에서 초기화
 const char* MySQL::host = "iu51mf0q32fkhfpl.cbetxkdyhwsb.us-east-1.rds.amazonaws.com";
 const char* MySQL::userName = "c4soupya4kvutpg2";
@@ -96,7 +96,7 @@ bool MySQL::isDuflicatedUser(const std::string str)
     return false;
 }
 
-bool MySQL::containsInvalidCharacters(const std::string& str){
+bool MySQL::containsInvalidCharacters(const std::string& str) {
     return std::find_if(str.begin(), str.end(), [](unsigned char c) {
         return !(std::isalnum(c)); // 영문자 또는 숫자가 아니면 허용되지 않는 문자
         }) != str.end();
@@ -116,7 +116,7 @@ void MySQL::setLine(std::string ID, int l) {
     }
 
     // 값 삽입 쿼리 실행
-    int newLine = UserInfo::getInstance().getLine()+ l;
+    int newLine = UserInfo::getInstance().getLine() + l;
     std::string updateQuery = "update Users set line = " + std::to_string(newLine) + " where name = '" + ID + "'";
     Stat = mysql_query(ConnPtr, updateQuery.c_str());
     if (Stat != 0) {
@@ -168,7 +168,7 @@ void MySQL::setHighScore(std::string ID, int s)
     }
 
     // 값 삽입 쿼리 실행
-    int newHighScore = UserInfo::getInstance().getHighScore()<s?s: UserInfo::getInstance().getHighScore();
+    int newHighScore = UserInfo::getInstance().getHighScore() < s ? s : UserInfo::getInstance().getHighScore();
     std::string updateQuery = "update Users set highScore = " + std::to_string(newHighScore) + " where name = '" + ID + "'";
     Stat = mysql_query(ConnPtr, updateQuery.c_str());
     if (Stat != 0) {
@@ -360,3 +360,50 @@ void MySQL::initUserInfo(std::string ID) {
     mysql_close(ConnPtr);
 }
 
+std::string MySQL::printTable()
+{
+    std::string returnResult = "";
+    MYSQL Conn;
+    MYSQL* ConnPtr = NULL;
+    MYSQL_RES* Result;
+    MYSQL_ROW Row;
+    int Stat;
+
+    mysql_init(&Conn);
+
+    ConnPtr = mysql_real_connect(&Conn, host, userName, password, database, 3306, (char*)NULL, 0);
+    if (ConnPtr == NULL) {
+        std::cout << mysql_error(&Conn) << std::endl;
+        exit(-1);
+    }
+    // 테이블 상태 출력 쿼리 실행
+    const char* selectQuery = "SELECT name, highScore FROM Users order by highScore desc";
+    Stat = mysql_query(ConnPtr, selectQuery);
+    if (Stat != 0) {
+        std::cout << mysql_error(&Conn) << std::endl;
+        exit(-1);
+    }
+
+    // 결과를 가져와서 출력
+    Result = mysql_store_result(ConnPtr);
+    int numFields = mysql_num_fields(Result);
+
+    while ((Row = mysql_fetch_row(Result)) != NULL) {
+        for (int i = 0; i < numFields; i++) {
+            std::string cellValue = Row[i] ? Row[i] : "NULL";
+            returnResult += cellValue;
+            std::cout << cellValue;
+            int spaceCount = 12 - cellValue.size();
+            for (int i = 0; i < spaceCount + 1; i++) {
+                returnResult += " ";
+                std::cout << " ";
+            }
+        }
+        returnResult += "\n";
+        std::cout << std::endl;
+    }
+
+    mysql_free_result(Result);
+    mysql_close(ConnPtr);
+    return returnResult;
+}

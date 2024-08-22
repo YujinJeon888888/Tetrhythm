@@ -142,7 +142,7 @@ void MySQL::setTetris(std::string ID, int t) {
     }
 
     // 값 삽입 쿼리 실행
-    int newTetris = UserInfo::getInstance().getTetris()+ t;
+    int newTetris = UserInfo::getInstance().getTetris() + t;
     std::string updateQuery = "update Users set tetris = " + std::to_string(newTetris) + " where name = '" + ID + "'";
     Stat = mysql_query(ConnPtr, updateQuery.c_str());
     if (Stat != 0) {

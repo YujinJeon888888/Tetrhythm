@@ -19,6 +19,8 @@ int comboCount = 0;
 std::vector<int> comboVector;
 //비트!
 double beatInterval = 60.0 / 140.0;
+//하트 깎이는 거 한 번 체크
+bool heartDeduct = false;
 //////////////////////////////////
 
 const std::string Heart::paths[3] = {
@@ -114,7 +116,7 @@ bool Game::tick()
     Uint32 dropDelay = 50;   // 드랍 시 딜레이 (밀리초 단위)
 
 
-   // 이벤트 처리
+    //이벤트 처리
     SDL_Event e;
     // SDL_WaitEventTimeout으로 이벤트 기다리기
     if (SDL_WaitEventTimeout(&e, 10))
@@ -146,7 +148,10 @@ bool Game::tick()
                             }
                             else if (heartPosX <= 393)
                             {
-                                deductHeart();
+                                if (!heartDeduct) {
+                                    deductHeart();
+                                }
+                                heartDeduct = true;
                                 heartVisible = false;
                                 print->deletePNG("heartNote.png");
                             }
@@ -239,7 +244,10 @@ bool Game::tick()
                 }
                 else
                 {
-                    deductHeart();
+                    if (!heartDeduct) {
+                        deductHeart();
+                    }
+                    heartDeduct = true;
                     heartVisible = false;
                     print->deletePNG("heartNote.png");
                 }
@@ -373,7 +381,10 @@ bool Game::tick()
 
         if (heartPosX >= 469)
         {
-            deductHeart();
+            if (!heartDeduct) {
+                deductHeart();
+            }
+            heartDeduct = true;
             heartVisible = false;
             print->deletePNG("heartNote.png");
             // 다음 하트 노드 생성 타이밍 설정
@@ -390,8 +401,7 @@ bool Game::tick()
 
     SDL_RenderPresent(windowManager.getRenderer());
 
-
-
+    heartDeduct = false;
     return true;
 }
 

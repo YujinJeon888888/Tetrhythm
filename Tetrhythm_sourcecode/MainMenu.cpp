@@ -6,6 +6,7 @@
 #include "Characters.h"
 #include "SceneManager.h"
 #include "TetrisScene.h"
+#include "ControlExp.h"
 
 
 MainMenu::MainMenu(WindowManager& wm, SceneManager& manager) : windowManager(wm), sceneManager(manager), print(new Print(&wm)), soundManager()
@@ -15,6 +16,9 @@ MainMenu::MainMenu(WindowManager& wm, SceneManager& manager) : windowManager(wm)
 
 void MainMenu::handleArrowKey(SDL_Keycode key) {
     switch (key) {
+    case SDLK_LSHIFT:
+        sceneManager.changeScene(std::make_unique<ControlExp>(windowManager, sceneManager));
+        break;
     case SDLK_ESCAPE:
         sceneManager.changeScene(std::make_unique<scoreTableScene>(windowManager, sceneManager));
         break;
@@ -68,6 +72,7 @@ void MainMenu::drawInit() {
     Print* pt = print;
     pt->printPNG("BackGround.png", 0, 0, 0);
     //pt->printPNG("PerTitle.png", 300, 102.75, 2);
+    pt->printPNG("Shift_1.png", 930.75, 546.5, 1);
     pt->printPNG("title.png", 214, 29, 2);
     pt->printPNG("MainExplain.png", 966.75, 586.5, 3);
 

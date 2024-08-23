@@ -1,8 +1,9 @@
 #pragma once
-#include "Game.h"
 #include <iostream>
 #include "ClearScene.h"
 #include "SceneManager.h"
+#include "MultiGame.h"
+#include "MultiGameScene.h"
 #include "GameOverScene.h"
 #include "MainMenu.h"
 #include "MySQL.h"
@@ -10,11 +11,11 @@
 #include <vector>
 #include <string>
 
-class TetrisScene : public Scene {
+class MultiGameScene : public Scene {
 
 public:
-    TetrisScene(WindowManager& wm, SceneManager& manager);
-    ~TetrisScene();
+    MultiGameScene(WindowManager& wm, SceneManager& manager);
+    ~MultiGameScene();
 
     void drawInit() override;
     void handleEvents() override;
@@ -25,5 +26,5 @@ private:
     Print* print;
     WindowManager& windowManager;
     SceneManager& sceneManager;
-    Game* game;
+    MultiGame* game;
 };

@@ -21,6 +21,7 @@
   <ItemGroup>
     <ClCompile Include="Characters.cpp" />
     <ClCompile Include="ClearScene.cpp" />
+    <ClCompile Include="ControlExp.cpp" />
     <ClCompile Include="createRoomScene.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameOverScene.cpp" />
@@ -31,6 +32,8 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MainMenu.cpp" />
     <ClCompile Include="Multi.cpp" />
+    <ClCompile Include="MultiGame.cpp" />
+    <ClCompile Include="MultiGameScene.cpp" />
     <ClCompile Include="MutiMenuScene.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneManager.cpp" />
@@ -52,13 +55,18 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ClearScene.h" />
+    <ClInclude Include="ControlExp.h" />
     <ClInclude Include="createRoomScene.h" />
+    <ClInclude Include="Game.h" />
     <ClInclude Include="GameOverScene.h" />
+    <ClInclude Include="GlobalVariables.h" />
     <ClInclude Include="joinRoomScene.h" />
     <ClInclude Include="LoadingScene.h" />
     <ClInclude Include="LoginScene.h" />
     <ClInclude Include="MainMenu.h" />
     <ClInclude Include="Multi.h" />
+    <ClInclude Include="MultiGame.h" />
+    <ClInclude Include="MultiGameScene.h" />
     <ClInclude Include="MutiMenuScene.h" />
     <ClInclude Include="resource1.h" />
     <ClInclude Include="Scene.h" />
@@ -67,7 +75,9 @@
     <ClInclude Include="Sound.h" />
     <ClInclude Include="SoundManager.h" />
     <ClInclude Include="TetrisScene.h" />
+    <ClInclude Include="tetromino.h" />
     <ClInclude Include="UserInfo.h" />
+    <ClInclude Include="Well.h" />
     <ClInclude Include="WindowManager.h" />
   </ItemGroup>
   <ItemGroup>
@@ -133,7 +143,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
     <UseOfMfc>Static</UseOfMfc>
@@ -215,8 +225,13 @@
       <AdditionalLibraryDirectories>$(ProjectDir)\SDL2_ttf-devel-2.0.15-VC\SDL2_ttf-devel-2.0.15-VC\SDL2_ttf-2.0.15\lib\x64;$(ProjectDir)\SDL2_mixer-devel-2.8.0-VC\SDL2_mixer-2.8.0\lib\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
-      <Command>
-      </Command>
+      <Command>xcopy /y /s "$(ProjectDir)Musics\*" "$(OutDir)Musics\"
+xcopy /y /s "$(ProjectDir)Char_image\*" "$(OutDir)Char_image\"
+for %%F in (png ttf mp3 dll) do (
+    for %%G in ("$(ProjectDir)*.%%F") do xcopy /y "%%G" "$(OutDir)"
+)
+
+</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">

@@ -155,7 +155,7 @@ void Characters::drawSelection() {
 			switch (sIndex)
 			{
 			case 1:
-				print->setText(10, "first multimode access");
+				print->setText(10, "first multimode win");
 				break;
 			case 2:
 				print->setText(10, "over 120 lines");
@@ -256,10 +256,13 @@ void Characters::unlock() {
 	data[0][0] = true;
 
 	//2. 첫 멀티모드 승리
-	
+	MySQL mysql;
+	if (UserInfo::getInstance().getMultiModeWin()) {
+		data[1][0] = true;
+	}
+
 
 	//3.총 120 lines
-	MySQL mysql;
 	if (UserInfo::getInstance().getLine() >= 120) {
 		data[2][0] = true;
 	}

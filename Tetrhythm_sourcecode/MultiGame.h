@@ -13,7 +13,8 @@
 #include "SoundManager.h" // SoundManager 헤더 포함
 #include "SceneManager.h"
 
-struct Heart {
+
+struct MultiHeart {
     std::string path;
     int xPosition;
     int yPosition;
@@ -21,20 +22,22 @@ struct Heart {
     static const int maxHeart = 3;
     static const int xPositions[3];
     static const int yPositions[3];
+    static const int xPositions_opponent[3];
+
 };
 
 
 
-class Game
+class MultiGame
 {
 public:
-    Game(WindowManager& wm, Print* pr, SceneManager &sm);
-    ~Game();
+    MultiGame(WindowManager& wm, Print* pr, SceneManager& sm);
+    ~MultiGame();
     bool tick();
     bool isGameOver() const;
     SDL_Texture* getBlockTexture(Tetromino::Type type) const; // 블럭 텍스처 반환 함수 추가
-    
-    int getLine() const{
+
+    int getLine() const {
         return previousLine;
     }
     int getTetris() const {
@@ -43,16 +46,17 @@ public:
     int getScore() const {
         return score;
     }
-    bool getIsClear() const{
+    bool getIsClear() const {
         return isClear;
     }
-    bool getIsPerfectClear() const{
+    bool getIsPerfectClear() const {
         return isPerfectClear;
     }
 private:
-    Game(const Game&);
-    Game& operator=(const Game&);
-    Well well_;
+    MultiGame(const MultiGame&);
+    MultiGame& operator=(const MultiGame&);
+    Well well_; //플레이어 보드
+    Well opponentWell_; //상대방 보드
     Tetromino tetromino_;
     std::array<Tetromino, 3> nextTetrominos_; // 대기열 블럭
     uint32_t moveTime_;
@@ -62,12 +66,19 @@ private:
     int score;
     bool gameOver;
     SDL_Texture* blockTextures_[7]; // 7개의 블럭 텍스처를 저장하는 배열
+    SDL_Texture* grayBlockTexture_;
     WindowManager& windowManager;
     Print* print;
-    std::vector<Heart> hearts = {
-       {Heart::paths[0], Heart::xPositions[0], Heart::yPositions[0]},
-       {Heart::paths[1], Heart::xPositions[1], Heart::yPositions[1]},
-       {Heart::paths[2], Heart::xPositions[2], Heart::yPositions[2]}
+    std::vector<MultiHeart> hearts = {
+       {MultiHeart::paths[0], MultiHeart::xPositions[0], MultiHeart::yPositions[0]},
+       {MultiHeart::paths[1], MultiHeart::xPositions[1], MultiHeart::yPositions[1]},
+       {MultiHeart::paths[2], MultiHeart::xPositions[2], MultiHeart::yPositions[2]}
+    };
+
+    std::vector<MultiHeart> oppnentHearts = {
+     {MultiHeart::paths[0], MultiHeart::xPositions_opponent[0], MultiHeart::yPositions[0]},
+     {MultiHeart::paths[1], MultiHeart::xPositions_opponent[1], MultiHeart::yPositions[1]},
+     {MultiHeart::paths[2], MultiHeart::xPositions_opponent[2], MultiHeart::yPositions[2]}
     };
     //하트로직 
     SoundManager* soundManager; // SoundManager 객체 선언
@@ -79,11 +90,13 @@ private:
     double heartSpawnInterval; // 140 BPM 4/4박자마다 생성 간격 (초 단위)
     double nextHeartSpawnTime; // 다음 하트 노드 생성 타이밍
     void deductHeart();
+    void deductHeart_opponent();
     std::chrono::steady_clock::time_point startTime;
     std::chrono::steady_clock::time_point lastFrameTime;
     SceneManager& sceneManager;
     bool isClear = false;
     bool isPerfectClear = true;
+
     int fullComboCount = 0;
     //
     int seriesTetrisCount = 0;
@@ -95,6 +108,4 @@ private:
     double beatInterval = 60.0 / 140.0;
     //하트 깎이는 거 한 번 체크
     bool heartDeduct = false;
-    //바닥 자동 닿았나 체크
-    int autoLandCheck = 0;
 };

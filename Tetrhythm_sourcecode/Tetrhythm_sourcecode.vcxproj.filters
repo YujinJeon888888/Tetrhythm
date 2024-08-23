@@ -60,9 +60,6 @@
     <ClCompile Include="SceneManager.cpp">
       <Filter>소스 파일\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="MainMenu.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="폰트.cpp">
       <Filter>소스 파일\유진Test</Filter>
     </ClCompile>
@@ -129,6 +126,21 @@
     <ClCompile Include="ClearScene.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="MultiGame.cpp">
+      <Filter>소스 파일\MultiMenu</Filter>
+    </ClCompile>
+    <ClCompile Include="MultiGameScene.cpp">
+      <Filter>소스 파일\MultiMenu</Filter>
+    </ClCompile>
+    <ClCompile Include="MainMenu.cpp">
+      <Filter>소스 파일\Main</Filter>
+    </ClCompile>
+    <ClCompile Include="scoreTableScene.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="ControlExp.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="사용법설명.txt">
@@ -191,6 +203,30 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="ClearScene.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="MultiGameScene.h">
+      <Filter>소스 파일\MultiMenu</Filter>
+    </ClInclude>
+    <ClInclude Include="MultiGame.h">
+      <Filter>소스 파일\MultiMenu</Filter>
+    </ClInclude>
+    <ClInclude Include="Game.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="GlobalVariables.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Well.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="tetromino.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="scoreTableScene.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="ControlExp.h">
       <Filter>소스 파일</Filter>
     </ClInclude>
   </ItemGroup>

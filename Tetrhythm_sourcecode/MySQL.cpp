@@ -231,6 +231,31 @@ void MySQL::setPerfectClear(std::string ID, bool b)
     UserInfo::getInstance().setPerfectClear(b);
     mysql_close(ConnPtr);
 }
+void MySQL::setMultiModeWin(std::string ID, bool b)
+{
+    MYSQL Conn;
+    MYSQL* ConnPtr = NULL;
+    int Stat;
+
+    mysql_init(&Conn);
+
+    ConnPtr = mysql_real_connect(&Conn, host, userName, password, database, 3306, (char*)NULL, 0);
+    if (ConnPtr == NULL) {
+        std::cout << mysql_error(&Conn) << std::endl;
+        exit(-1);
+    }
+
+    // 값 삽입 쿼리 실행
+    std::string updateQuery = "update Users set multiModeWin  = " + std::to_string(b) + " where name = '" + ID + "'";
+    Stat = mysql_query(ConnPtr, updateQuery.c_str());
+    if (Stat != 0) {
+        std::cout << "Update Error: " << mysql_error(&Conn) << std::endl;
+        mysql_close(ConnPtr);
+        exit(-1);
+    }
+    UserInfo::getInstance().setMultiModeWin(b);
+    mysql_close(ConnPtr);
+}
 
 void MySQL::initUserInfo(std::string ID) {
     MYSQL Conn;
@@ -353,6 +378,30 @@ void MySQL::initUserInfo(std::string ID) {
             // Row[i] 값이 "1"이면 true, "0"이면 false로 설정
             bool isPerfectClear = (std::string(Row[i]) == "1");
             UserInfo::getInstance().setPerfectClear(isPerfectClear);
+        }
+        std::cout << std::endl;
+    }
+
+
+    // 테이블 상태 출력 쿼리 실행
+    query = "SELECT multiModeWin FROM Users where name = '" + ID + "'";
+    selectQuery = query.c_str();
+    Stat = mysql_query(ConnPtr, selectQuery);
+    if (Stat != 0) {
+        std::cout << mysql_error(&Conn) << std::endl;
+        exit(-1);
+    }
+
+    // 결과를 가져와서 출력
+    Result = mysql_store_result(ConnPtr);
+    numFields = mysql_num_fields(Result);
+
+    while ((Row = mysql_fetch_row(Result)) != NULL) {
+        for (int i = 0; i < numFields; i++) {
+            std::cout << (Row[i] ? Row[i] : "NULL") << " ";
+            // Row[i] 값이 "1"이면 true, "0"이면 false로 설정
+            bool multiModeWin = (std::string(Row[i]) == "1");
+            UserInfo::getInstance().setMultiModeWin(multiModeWin);
         }
         std::cout << std::endl;
     }

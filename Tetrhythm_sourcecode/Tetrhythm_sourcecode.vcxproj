@@ -21,6 +21,7 @@
   <ItemGroup>
     <ClCompile Include="Characters.cpp" />
     <ClCompile Include="ClearScene.cpp" />
+    <ClCompile Include="ControlExp.cpp" />
     <ClCompile Include="createRoomScene.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameOverScene.cpp" />
@@ -54,6 +55,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ClearScene.h" />
+    <ClInclude Include="ControlExp.h" />
     <ClInclude Include="createRoomScene.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameOverScene.h" />

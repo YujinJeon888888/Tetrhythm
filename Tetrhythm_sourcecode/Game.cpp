@@ -162,8 +162,38 @@ bool Game::tick()
                 {
                     Tetromino t = tetromino_;
                     t.move(0, 1);
-                    if (!well_.isCollision(t))
+                    if (!well_.isCollision(t)) {
                         tetromino_ = t;
+                    }
+                    else {
+                        // 하트 노트 위치 판정
+                        if (heartVisible)
+                        {
+                            if (393 < heartPosX && heartPosX < 469)
+                            {
+                                comboCount += 1;
+                                score += (heartPosX == 432) ? 2000 : 500;
+                                print->setText(9, "       " + std::to_string(score));
+                                //std::cout << "safe!" << std::endl;
+                                heartVisible = false;
+                                print->deletePNG("heartNote.png");
+                            }
+                            else if (heartPosX <= 393)
+                            {
+                                // 이 부분에서 하트 노드를 바로 사라지게 처리
+                                if (!heartDeduct) {
+                                    deductHeart();
+                                }
+                                heartDeduct = true;
+                                heartVisible = false;
+                                print->deletePNG("heartNote.png");
+                            }
+
+                            // 다음 하트 노드 생성 타이밍 설정
+                            nextHeartSpawnTime = timeSinceStart + heartSpawnInterval;
+                        }
+
+                    }
                     moveTime_ = SDL_GetTicks() + 400; // 아래로 이동 시 자동 내려오는 시간을 조정
                     lastMoveTime = currentTime; // 마지막 이동 시간 기록
                 }
@@ -175,8 +205,10 @@ bool Game::tick()
                 {
                     Tetromino t = tetromino_;
                     t.move((e.key.keysym.sym == SDLK_RIGHT) ? 1 : -1, 0);
-                    if (!well_.isCollision(t))
+                    if (!well_.isCollision(t)) {
                         tetromino_ = t;
+                    }
+
                     lastMoveTime = currentTime; // 마지막 이동 시간 기록
                 }
                 break;
@@ -186,8 +218,10 @@ bool Game::tick()
                 {
                     Tetromino t = tetromino_;
                     t.rotate();
-                    if (!well_.isCollision(t))
+                    if (!well_.isCollision(t)) {
                         tetromino_ = t;
+                    }
+
                     lastRotationTime = currentTime; // 마지막 회전 시간 기록
                 }
                 break;
@@ -197,8 +231,10 @@ bool Game::tick()
                 {
                     Tetromino t = tetromino_;
                     t.rotateCounterClockwise();
-                    if (!well_.isCollision(t))
+                    if (!well_.isCollision(t)) {
                         tetromino_ = t;
+                    }
+
                     lastRotationTime = currentTime; // 마지막 회전 시간 기록
                 }
                 break;
@@ -207,8 +243,10 @@ bool Game::tick()
                 {
                     Tetromino t = tetromino_;
                     t.rotate();
-                    if (!well_.isCollision(t))
+                    if (!well_.isCollision(t)) {
                         tetromino_ = t;
+                    }
+
                     lastRotationTime = currentTime; // 마지막 회전 시간 기록
                 }
                 break;
@@ -217,8 +255,10 @@ bool Game::tick()
                 {
                     Tetromino t = tetromino_;
                     t.rotateCounterClockwise();
-                    if (!well_.isCollision(t))
+                    if (!well_.isCollision(t)) {
                         tetromino_ = t;
+                    }
+
                     lastRotationTime = currentTime; // 마지막 회전 시간 기록
                 }
                 break;
@@ -227,8 +267,10 @@ bool Game::tick()
                 {
                     Tetromino t = tetromino_;
                     t.rotate();
-                    if (!well_.isCollision(t))
+                    if (!well_.isCollision(t)) {
                         tetromino_ = t;
+                    }
+
                     lastRotationTime = currentTime; // 마지막 회전 시간 기록
                 }
                 break;
@@ -261,34 +303,6 @@ bool Game::tick()
         }
         else
         {
-            //충돌났을때 바로 하트노드 위치 체크 
-            if (heartVisible)
-            {
-                if (393 < heartPosX && heartPosX < 469)
-                {
-                    comboCount += 1;
-                    score += (heartPosX == 432) ? 2000 : 500;
-                    print->setText(9, "       " + std::to_string(score));
-                    std::cout << "safe!" << std::endl;
-                    heartVisible = false;
-                    print->deletePNG("heartNote.png");
-                }
-                else
-                {
-                    if (!heartDeduct) {
-                        deductHeart();
-                    }
-                    heartDeduct = true;
-                    heartVisible = false;
-                    print->deletePNG("heartNote.png");
-                }
-
-                // heartVisible = false;
-                // print->deletePNG("heartNote.png");
-
-                // 다음 하트 노드 생성 타이밍 설정
-                nextHeartSpawnTime = timeSinceStart + heartSpawnInterval;
-            }
 
             check(t);
         }

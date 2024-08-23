@@ -413,7 +413,7 @@ bool Game::tick()
         //최대콤보반영
         comboVector.push_back(comboCount);
         std::sort(comboVector.begin(), comboVector.end(), std::greater<int>());//내림차순정렬
-        score += std::round(comboScore * (comboVector[0] / fullComboCount));
+        score += (int)(std::round((float)comboScore * ((float)comboVector[0] / (float)fullComboCount)));
         return false;
     }
 

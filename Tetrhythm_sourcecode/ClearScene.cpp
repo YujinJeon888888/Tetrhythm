@@ -1,9 +1,11 @@
 #include "ClearScene.h"
 
 ClearScene::ClearScene(WindowManager& wm, SceneManager& manager, int line, int tetris)
-	: windowManager(wm), sceneManager(manager), print(new Print(&wm)), line(line),tetris(tetris)
+	: windowManager(wm), sceneManager(manager), print(new Print(&wm)), line(line),tetris(tetris),soundManager(new SoundManager())
 {
 	drawInit();
+    soundManager->loadSound("Musics/YouWin.mp3", "YouWin"); // 효과음 로드
+    soundManager->playSound("YouWin", 0);
 }
 
 void ClearScene::drawInit()

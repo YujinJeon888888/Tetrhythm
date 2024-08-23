@@ -1,14 +1,18 @@
 #include "GameOverScene.h"
 
-GameOverScene::GameOverScene(WindowManager& wm, SceneManager& manager) : windowManager(wm), sceneManager(manager), print(new Print(&wm))
+GameOverScene::GameOverScene(WindowManager& wm, SceneManager& manager) : windowManager(wm), sceneManager(manager), print(new Print(&wm)), soundManager(new SoundManager())
 {
-	drawInit();
+	drawInit(); 
+	soundManager->loadSound("Musics/YouLose.mp3", "YouLose"); // 효과음 로드
+	soundManager->playSound("YouLose", 0);
 }
 
 GameOverScene::GameOverScene(WindowManager& wm, SceneManager& manager, int score, int line, int tetris)
-	: windowManager(wm), sceneManager(manager), print(new Print(&wm)), score(score), line(line), tetris(tetris)
+	: windowManager(wm), sceneManager(manager), print(new Print(&wm)), score(score), line(line), tetris(tetris), soundManager(new SoundManager())
 {
 	drawInit();
+	soundManager->loadSound("Musics/YouLose.mp3", "YouLose"); // 효과음 로드
+	soundManager->playSound("YouLose", 0);
 }
 
 
@@ -22,7 +26,7 @@ void GameOverScene::drawInit()
 	print->printText("Score: " + std::to_string(score), 442,430,print->getLayeredTextures().back().layer+1,font, color);
 	print->printText("Line: " + std::to_string(line), 442,460,print->getLayeredTextures().back().layer+1,font, color);
 	print->printText("Tetris: " + std::to_string(tetris), 442,490,print->getLayeredTextures().back().layer+1,font, color);
-
+	
 }
 
 void GameOverScene::handleEvents()

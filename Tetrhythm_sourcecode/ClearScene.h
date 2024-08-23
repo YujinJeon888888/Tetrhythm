@@ -1,6 +1,7 @@
 #pragma once
 #include "SceneManager.h"
 #include "MainMenu.h"
+#include "SoundManager.h"
 
 class ClearScene : public Scene{
 public:
@@ -16,5 +17,6 @@ private:
 	void handleArrowKey(SDL_Keycode key);
 	int line;
 	int tetris;
+	SoundManager* soundManager;
 
 };

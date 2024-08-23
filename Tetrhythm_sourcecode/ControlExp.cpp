@@ -16,10 +16,10 @@ void ControlExp::drawInit()
 	print->printPNG("z 1.png", 321, 398, 4);
 	print->printPNG("d 1.png", 251, 518, 5);
 	print->printPNG("c 1.png", 321, 518, 6);
-	print->printPNG("moveKey.png", 518, 146, 7);
-	print->printPNG("hardDrop.png", 518, 277, 8);
-	print->printPNG("BanClockRotate.png", 518, 408, 9);
-	print->printPNG("clockRotate.png", 518, 528, 10);
+	print->printPNG("moveKey.png", 500, 146, 7);
+	print->printPNG("hardDrop.png", 500, 277, 8);
+	print->printPNG("BanClockRotate.png", 500, 408, 9);
+	print->printPNG("clockRotate.png", 500, 528, 10);
 
 	// 애니메이션 출력
 	std::vector<std::string> animPaths1 = { "CholangSands1.png","CholangSands2.png","CholangSands3.png","CholangSands4.png","CholangSands5.png","CholangSands6.png" };

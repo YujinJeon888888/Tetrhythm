@@ -5,8 +5,8 @@
 Multi* Multi::instance = nullptr;
 Multi::Multi() {
 
-    //"52.14.83.66";//
-    addr = "127.0.0.1";
+    addr ="52.14.83.66";//
+   // addr = "127.0.0.1";
     //"52.14.83.66"
     //getRandomRoom();
     //WSADATA wsaData;unknown

@@ -12,7 +12,6 @@
 #include <chrono>
 #include "Windows.h"
 #include <functional>
-#include "GlobalVariables.h"
 
 
 const std::string MultiHeart::paths[3] = {
@@ -170,8 +169,9 @@ bool MultiGame::tick()
       //  Multi::getInstance()->isClear = true;
         soundManager->stopMusic(); // 다른 창으로 이동하기 전에 음악을 중지합니다.
         //최대콤보반영
+        comboVector.push_back(comboCount);
         std::sort(comboVector.begin(), comboVector.end(), std::greater<int>());//내림차순정렬
-        score += std::round(comboScore * (comboVector[0] / totalBeats));
+        score += (int)(std::round((float)comboScore * ((float)comboVector[0] / (float)fullComboCount)));
         return false;
     }
 
@@ -264,44 +264,46 @@ bool MultiGame::tick()
                 }
                 break;
             case SDLK_SPACE:
-                if (!spaceLock) {
-                    if (currentTime > lastDropTime + dropDelay)
+                std::cout << "space " << forDebugCount++ << std::endl;
+                if (currentTime > lastDropTime + dropDelay)
+                {
+                    Tetromino t = tetromino_;
+                    t.drop(well_);
+                    check(t);
+                    lastDropTime = currentTime; // 마지막 드랍 시간 기록
+
+                    // 하트 노트 위치 판정
+                    if (heartVisible)
                     {
-                        Tetromino t = tetromino_;
-                        t.drop(well_);
-                        check(t);
-                        lastDropTime = currentTime; // 마지막 드랍 시간 기록
-
-                        // 하트 노트 위치 판정
-                        if (heartVisible)
+                        if (393 <= heartPosX && heartPosX <= 471)
                         {
-                            if (690 <= heartPosX && heartPosX <= 768)
+                            comboCount += 1;
+                            score += (heartPosX == 432) ? 2000 : 500;
+                            print->setText(9, "       " + std::to_string(score));
+                            //std::cout << "safe!" << std::endl;
+                            heartVisible = false;
+                            print->deletePNG("heartNote.png");
+                            if (heartPosX == 432)
                             {
-                                comboCount += 1;
-                                score += (heartPosX == 729) ? 2000 : 500;
-                                print->setText(9, "       " + std::to_string(score));
-                               // std::cout << "safe!" << std::endl;
-                                heartVisible = false;
-                                print->deletePNG("heartNote.png");
-                                if (heartPosX == 729)
-                                {
-                                  //  std::cout << "perfect!" << std::endl;
-                                }
+                                std::cout << "perfect!" << std::endl;
                             }
-                            else if (heartPosX < 690)
-                            {
-                                // 이 부분에서 하트 노드를 바로 사라지게 처리
-                                deductHeart();
-                                heartVisible = false;
-                                print->deletePNG("heartNote.png");
-                            }
-
-                            // 다음 하트 노드 생성 타이밍 설정
-                            nextHeartSpawnTime = timeSinceStart + heartSpawnInterval;
                         }
-                        spaceLock = true;
+                        else if (heartPosX < 393)
+                        {
+                            // 이 부분에서 하트 노드를 바로 사라지게 처리
+                            if (!heartDeduct) {
+                                deductHeart();
+                            }
+                            heartDeduct = true;
+                            heartVisible = false;
+                            print->deletePNG("heartNote.png");
+                        }
+
+                        // 다음 하트 노드 생성 타이밍 설정
+                        nextHeartSpawnTime = timeSinceStart + heartSpawnInterval;
                     }
                 }
+
                 break;
 
 
@@ -309,7 +311,7 @@ bool MultiGame::tick()
             break;
 
         case SDL_KEYUP:
-            spaceLock = false;
+            //spaceLock = false;
             break;
         case SDL_QUIT:
             exit(0);

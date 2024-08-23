@@ -39,12 +39,15 @@ public:
     static void resetInstance() {
         // 기존 인스턴스 삭제
         if (instance) {
+           
             delete instance;
             instance = nullptr;
         }
         // 새로운 인스턴스 생성
         instance = new Multi();
     }
+    void sendID(std::string id, std::string charImageStr);
+    std::string receiveOpponentData();
     void sendData(bool data[10][20], const Tetromino::Type dataTypes[Well::Width][Well::Height]);
     void sendGameOver();
     int receiveMessegeData();

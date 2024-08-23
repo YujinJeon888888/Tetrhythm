@@ -132,9 +132,6 @@ bool MultiGame::tick()
     Uint32 rotateDelay = 50; // 회전 시 딜레이 (밀리초 단위)
     Uint32 dropDelay = 50;   // 드랍 시 딜레이 (밀리초 단위)
 
-
-   
-
     if (hearts.size() == 0)
     {
         gameOver = true;

@@ -14,6 +14,7 @@ void joinRoomScene::drawInit()
     //객체 연결
     Print* pt = print;
     //프린트 세팅
+    print->printPNG("background.png", 0, 0, 0);
     print->printPNG("IDInputBox.png", 375, 337.5, 1);
     print->printPNG("InputCode.png", 364, 186, 2);
     print->printPNG("ToCompleteSpace.png", 908.25, 582, 3);

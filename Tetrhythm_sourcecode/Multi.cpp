@@ -6,7 +6,7 @@ Multi* Multi::instance = nullptr;
 Multi::Multi() {
 
     //"52.14.83.66";//
-    addr = "52.14.83.66";
+    addr = "52.14.83.66";// "127.0.0.1";
     //"52.14.83.66"
     //getRandomRoom();
     //WSADATA wsaData;
@@ -42,6 +42,63 @@ Multi* Multi::getInstance() {
         instance = new Multi();
     }
     return instance;
+}
+
+
+void Multi::sendID(std::string id, std::string charImageStr) {
+
+    // 메시지 타입 전송
+    if (send(clientSocket, id.c_str(), sizeof(id), 0) == SOCKET_ERROR) {
+        std::cerr << "Failed to send message type for id" << std::endl;
+        return;
+    }
+
+    // 메시지 타입 전송
+    if (send(clientSocket, charImageStr.c_str(), sizeof(charImageStr), 0) == SOCKET_ERROR) {
+        std::cerr << "Failed to send message type for character." << std::endl;
+        return;
+    }
+
+}
+
+std::string Multi::receiveOpponentData() {
+    char buffer[1024];
+
+    // fd_set과 timeout 설정
+    fd_set readfds;
+    FD_ZERO(&readfds);
+    FD_SET(clientSocket, &readfds);
+
+    struct timeval timeout;
+    timeout.tv_sec = 0;
+    timeout.tv_usec = 16000;  // 16ms timeout (예: 60 FPS)
+
+    // select로 소켓의 상태를 확인
+    int activity = select(clientSocket + 1, &readfds, NULL, NULL, &timeout);
+
+    if (activity > 0 && FD_ISSET(clientSocket, &readfds)) {
+        // 데이터 수신
+        int bytesReceived = recv(clientSocket, buffer, sizeof(buffer) - 1, 0);
+
+        // 수신된 바이트가 0보다 큰 경우에만 처리
+        if (bytesReceived > 0) {
+            buffer[bytesReceived] = '\0';  // Null-terminate the buffer
+            return std::string(buffer);    // 문자열로 반환
+        }
+        // 연결이 종료된 경우
+        else if (bytesReceived == 0) {
+          //  std::cerr << "Connection closed by the peer" << std::endl;
+            return "CONNECTION_CLOSED";    // 연결 종료 시 명시적 문자열 반환
+        }
+        // 오류가 발생한 경우
+        else {
+           // std::cerr << "Receive error: " << strerror(errno) << std::endl;
+            return "ERROR";    // 오류 시 명시적 문자열 반환
+        }
+    }
+
+    // 소켓 상태가 변경되지 않은 경우
+    return "NO_DATA";    // 데이터가 없음을 명시하는 문자열 반환
 }
 
 void Multi::sendData(bool data[10][20], const Tetromino::Type dataTypes[Well::Width][Well::Height]) {
@@ -91,12 +148,6 @@ void Multi::sendGameOver() {
         std::cerr << "Failed to send message type for game clear." << std::endl;
         return;
     }
-
-
- /*   std::string message = "Game Clear";
-    if (send(clientSocket, message.c_str(), message.size(), 0) == SOCKET_ERROR) {
-        std::cerr << "Failed to send bool data." << std::endl;
-    }*/
 
 }
 

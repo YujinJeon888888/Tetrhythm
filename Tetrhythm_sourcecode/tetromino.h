@@ -8,8 +8,8 @@ class Well;
 class Tetromino
 {
 public:
-    enum Type { I = 0, J, L, O, S, T, Z };
-    Tetromino();
+    enum Type { I = 0, J, L, O, S, T, Z, GRAY };
+    Tetromino(int xOffset = 513, int yOffset = 116);
     void draw(SDL_Renderer*, SDL_Texture* blockTexture) const;
     void move(int dx, int dy);
     void rotate();
@@ -26,6 +26,8 @@ private:
     int x_;
     int y_;
     int angle_;
+    int xOffset;  // 오프셋을 저장
+    int yOffset;
 
     static std::mt19937 rng;
     static std::vector<Type> bag;   

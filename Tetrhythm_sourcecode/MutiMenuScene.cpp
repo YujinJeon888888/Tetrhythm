@@ -62,6 +62,8 @@ void MutiMenuScene::handleArrowKey(SDL_Keycode key) {
         break;
     case SDLK_SPACE:
         std::cout << "Selected Menu: " << MenuSelection << std::endl;
+        Multi::resetInstance();
+
         Multi* client = Multi::getInstance();
         switch (MenuSelection)
         {
@@ -198,7 +200,6 @@ void MutiMenuScene::deleteCode() {
 
 
 
-
 void MutiMenuScene::handleEvents() {
     print->handleEvents([&](SDL_Event& event) {
         if (event.type == SDL_KEYDOWN) {
@@ -209,9 +210,6 @@ void MutiMenuScene::handleEvents() {
 
 void MutiMenuScene::update() {
     // 업데이트 로직 추가
-    if (Multi::getInstance()->isReady) {
-        sceneManager.changeScene(std::make_unique<TetrisScene>(windowManager, sceneManager));
-    }
 
     if (!isCodeScene && Multi::getInstance()->roomCode != 0) {
         isCodeScene = true;

@@ -1,5 +1,6 @@
 #define WIN32_LEAN_AND_MEAN
 #include "ClearScene.h"
+#include "MultiGameScene.h"
 #include "MutiMenuScene.h"
 #include "Print.h"
 #include "WindowManager.h"

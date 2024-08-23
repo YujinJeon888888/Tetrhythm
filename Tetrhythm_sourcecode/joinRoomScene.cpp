@@ -14,7 +14,7 @@ void joinRoomScene::drawInit()
     //객체 연결
     Print* pt = print;
     //프린트 세팅
-    print->printPNG("BackGround.png", 0, 0, 0);
+    print->printPNG("background.png", 0, 0, 0);
     print->printPNG("IDInputBox.png", 375, 337.5, 1);
     print->printPNG("InputCode.png", 364, 186, 2);
     print->printPNG("ToCompleteSpace.png", 908.25, 582, 3);
@@ -39,20 +39,17 @@ void joinRoomThread(std::string pwd) {
 }
 
 
-
-
 void joinRoomScene::whenSpace()
 {
     const std::string pwd = print->getTextInput().c_str();
     try {
-               std::thread joinRoomThreadObj(joinRoomThread, pwd);
+      std::thread joinRoomThreadObj(joinRoomThread, pwd);
+     // 스레드를 detach 또는 join 하여 관리
+      joinRoomThreadObj.detach();
+    }
+    catch (const std::exception& e) {
 
-               // 스레드를 detach 또는 join 하여 관리
-               joinRoomThreadObj.detach();
-           }
-           catch (const std::exception& e) {
-
-               std::cerr << "Exception caught: " << e.what() << std::endl;
+      std::cerr << "Exception caught: " << e.what() << std::endl;
     }
 
 }
@@ -70,15 +67,11 @@ void joinRoomScene::handleArrowKey(SDL_Keycode key) {
     }
 }
 
-
-
 void joinRoomScene::update()
 {
     if (print->getTextInput().size() == 0) {
         print->updateAnimations();
     }
-
-
 }
 
 void joinRoomScene::render()

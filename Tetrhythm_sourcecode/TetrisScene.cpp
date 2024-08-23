@@ -1,3 +1,4 @@
+
 #include "TetrisScene.h"
 
 
@@ -53,6 +54,7 @@ void TetrisScene::update() {
         mysql.setTetris(UserInfo::getInstance().getUserID(), (game->getTetris()));
         mysql.setHighScore(UserInfo::getInstance().getUserID(), (game->getScore()));
         UserInfo::getInstance().setScore(game->getScore());
+
         if (game->getIsPerfectClear()) {
             //유저정보에 perfect clear저장.
             mysql.setPerfectClear(UserInfo::getInstance().getUserID(), (game->getIsPerfectClear()));

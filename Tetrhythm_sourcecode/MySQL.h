@@ -24,6 +24,7 @@ public:
     void setHighScore(std::string ID, int s);
     void setCharacterName(std::string ID, std::string c);
     void setPerfectClear(std::string ID, bool b);
+    void setMultiModeWin(std::string ID, bool b);
     void initUserInfo(std::string ID);
     std::string printTable();
 };

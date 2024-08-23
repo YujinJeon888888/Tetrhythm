@@ -304,6 +304,8 @@ bool Game::tick()
         else
         {
 
+            deductHeart();
+
             check(t);
         }
     }
@@ -457,6 +459,8 @@ void Game::check(const Tetromino& t)
     {
 
         well_.unite(tetromino_);  // 블록을 well에 추가
+
+        deductHeart();
 
         // 블록이 추가된 후 새로운 블록을 생성합니다.
         tetromino_ = nextTetrominos_[0];

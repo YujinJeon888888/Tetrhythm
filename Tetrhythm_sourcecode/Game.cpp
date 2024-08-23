@@ -374,13 +374,13 @@ bool Game::tick()
 
         switch (linesCleared) { // 1, 2, 3줄에 대한 점수 계산
         case 1:
-            score += 200;
+            score += 900;
             break;
         case 2:
-            score += 450;
+            score += 1700;
             break;
         case 3:
-            score += 900;
+            score += 2500;
             break;
         default:
             break;
@@ -396,10 +396,10 @@ bool Game::tick()
         // 4줄 깬 경우
         seriesTetrisCount += 1;
         if (seriesTetrisCount % 2 == 0) {
-            score += 4000;  // 연속 테트리스
+            score += 10000;  // 연속 테트리스
         }
         else {
-            score += 1800;  // 단일 테트리스
+            score += 4000;  // 단일 테트리스
         }
         //하트 맥시멈(3)보다 작을때만, 목숨 추가.
         if (hearts.size() < Heart::maxHeart && hearts.size() != 0) {

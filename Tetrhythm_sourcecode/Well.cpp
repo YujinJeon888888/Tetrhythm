@@ -117,6 +117,8 @@ void Well::draw(SDL_Renderer* renderer, SDL_Texture* blockTextures[], const std:
 //멀티모드용 draw코드 (회색 텍스처 추가)
 void Well::draw(SDL_Renderer* renderer, SDL_Texture* blockTextures[], SDL_Texture* grayBlockTexture, const std::array<Tetromino, 3>& nextTetrominos)
 {
+    if (Multi::getInstance()->isClear)
+        return;
 
     if (isOpponent) {
         std::array<std::array<bool, Well::Height>, Well::Width> tempData = {};
@@ -149,7 +151,7 @@ void Well::draw(SDL_Renderer* renderer, SDL_Texture* blockTextures[], SDL_Textur
                 SDL_Texture* texture = (dataTypes[x][y] == Tetromino::Type::GRAY) ? grayBlockTexture : blockTextures[dataTypes[x][y]];
                 SDL_RenderCopy(renderer, texture, nullptr, &rect);
             }
-        }
+        } //멀티 에러
     }
 
     SDL_SetRenderDrawColor(renderer, 0xff, 0xff, 0xff, 0xff);

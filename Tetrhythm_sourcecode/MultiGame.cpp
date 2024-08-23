@@ -154,6 +154,7 @@ bool MultiGame::tick()
     }
     if (gameOver) {
         Multi::getInstance()->sendGameOver();
+      //  Multi::getInstance()->isClear = true;
         soundManager->stopMusic(); // 다른 창으로 이동하기 전에 음악을 중지합니다.
         //최대콤보반영
         std::sort(comboVector.begin(), comboVector.end(), std::greater<int>());//내림차순정렬

@@ -95,4 +95,6 @@ private:
     double beatInterval = 60.0 / 140.0;
     //하트 깎이는 거 한 번 체크
     bool heartDeduct = false;
+    //바닥 자동 닿았나 체크
+    int autoLandCheck = 0;
 };

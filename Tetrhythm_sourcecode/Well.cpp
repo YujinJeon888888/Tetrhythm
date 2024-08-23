@@ -122,13 +122,19 @@ void Well::draw(SDL_Renderer* renderer, SDL_Texture* blockTextures[], SDL_Textur
         std::array<std::array<bool, Well::Height>, Well::Width> tempData = {};
         std::array<std::array<bool, Well::Height>, Well::Width>& oData = tempData;
 
-        Tetromino::Type (&temp_dataTypes)[Well::Width][Well::Height] = dataTypes;
-        if (Multi::getInstance()->receiveData(oData, temp_dataTypes)) {
+        Tetromino::Type(&temp_dataTypes)[Well::Width][Well::Height] = dataTypes;
+        int type = Multi::getInstance()->receiveData(oData, temp_dataTypes);
+        if (type == 3) {
             for (int i = 0; i < Width; ++i) {
                 for (int j = 0; j < Height; ++j) {
                     data[i][j] = oData[i][j];
                 }
             }
+        }
+        else if (type == 2) {
+            std::cout << "type 2";
+            Multi::getInstance()->isClear = true;
+            return;
         }
     }
 
@@ -220,7 +226,9 @@ void Well::draw(SDL_Renderer* renderer, SDL_Texture* blockTextures[], SDL_Textur
                     SDL_Rect rect{ boxXOffset + (x - minX + offsetX) * QUEUE_BLOCK_SIZE + 1, boxYOffset + (y - minY + offsetY) * QUEUE_BLOCK_SIZE + 1, QUEUE_BLOCK_SIZE - 2, QUEUE_BLOCK_SIZE - 2 };
                     SDL_RenderCopy(renderer, blockTextures[adjustedTetromino.getType()], nullptr, &rect);
                 }
+
     }
+
 }
 
 void Well::drawShadow(SDL_Renderer* renderer, SDL_Texture* blockTexture, const Tetromino& shadow) const

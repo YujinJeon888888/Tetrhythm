@@ -36,9 +36,19 @@ private:
 public:
     // Get the singleton instance
     static Multi* getInstance();
-
+    static void resetInstance() {
+        // 기존 인스턴스 삭제
+        if (instance) {
+            delete instance;
+            instance = nullptr;
+        }
+        // 새로운 인스턴스 생성
+        instance = new Multi();
+    }
     void sendData(bool data[10][20], const Tetromino::Type dataTypes[Well::Width][Well::Height]);
-    bool receiveData(std::array<std::array<bool, 20>, 10>& data, Tetromino::Type(&dataTypes)[Well::Width][Well::Height]);
+    void sendGameOver();
+    int receiveMessegeData();
+    int receiveData(std::array<std::array<bool, 20>, 10>& data, Tetromino::Type(&dataTypes)[Well::Width][Well::Height]);
 
     // Get a random room and start communication
     int getRandomRoom();
@@ -63,7 +73,7 @@ public:
 
     // Destructor
     ~Multi();
-
+    bool isClear = false;
     bool isReady = false;
     bool hasCode = false;
 

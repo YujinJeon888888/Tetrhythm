@@ -8,8 +8,10 @@ SoundManager::SoundManager() {
 }
 
 SoundManager::~SoundManager() {
-    Mix_FreeMusic(music_);
-    Mix_CloseAudio();
+    if (music_ != nullptr) {
+        Mix_FreeMusic(music_);
+        Mix_CloseAudio();
+    }
 }
 
 void SoundManager::playMusic(const std::string& filePath, int loops) {

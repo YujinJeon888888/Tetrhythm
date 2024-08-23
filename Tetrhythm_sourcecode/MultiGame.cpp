@@ -1,3 +1,4 @@
+#include "Multi.h"
 #include "MultiGame.h"
 #include <stdexcept>
 #include <iostream>
@@ -131,13 +132,28 @@ bool MultiGame::tick()
     Uint32 rotateDelay = 50; // 회전 시 딜레이 (밀리초 단위)
     Uint32 dropDelay = 50;   // 드랍 시 딜레이 (밀리초 단위)
 
+
+   
+
     if (hearts.size() == 0)
     {
         gameOver = true;
       //  std::cout << "Game Over!" << std::endl;
     }
 
+    int type = Multi::getInstance()->receiveMessegeData();
+
+    if (type == 2|| Multi::getInstance()->isClear) //클리어 임시 구?현
+    {
+         Multi::resetInstance();
+        soundManager->stopMusic(); // TetrisScene 객체가 파괴될 때 음악을 중지
+        delete soundManager;
+        isClear = true;
+        gameOver = true;
+        return false;
+    }
     if (gameOver) {
+        Multi::getInstance()->sendGameOver();
         soundManager->stopMusic(); // 다른 창으로 이동하기 전에 음악을 중지합니다.
         //최대콤보반영
         std::sort(comboVector.begin(), comboVector.end(), std::greater<int>());//내림차순정렬
@@ -426,8 +442,8 @@ bool MultiGame::tick()
         soundManager->playMusic("Musics/Megalovania 8Bit Remix Audio.mp3", -1);
         musicPlayed = true;
     }
-
-    if (timeSinceStart >= 224.0) //클리어 임시 구?현
+   
+    if (timeSinceStart >= 224.0 ) //클리어 임시 구?현
     {
         soundManager->stopMusic(); // TetrisScene 객체가 파괴될 때 음악을 중지
         delete soundManager;

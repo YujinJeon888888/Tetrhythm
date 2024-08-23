@@ -3,10 +3,10 @@
 #include "Multi.h"
 
 Multi* Multi::instance = nullptr;
-
 Multi::Multi() {
 
-    addr = "52.14.83.66";//"127.0.0.1";
+    //"52.14.83.66";//
+    addr = "52.14.83.66";
     //"52.14.83.66"
     //getRandomRoom();
     //WSADATA wsaData;
@@ -46,6 +46,8 @@ Multi* Multi::getInstance() {
 
 void Multi::sendData(bool data[10][20], const Tetromino::Type dataTypes[Well::Width][Well::Height]) {
 
+    char messageType = 3;
+
     // 직렬화: bool 배열을 char 배열로 변환 (bool은 1바이트)
     char buffer[Well::Width * Well::Height];
 
@@ -64,6 +66,11 @@ void Multi::sendData(bool data[10][20], const Tetromino::Type dataTypes[Well::Wi
         }
     }
 
+    if (send(clientSocket, &messageType, sizeof(messageType), 0) == SOCKET_ERROR) {
+        std::cerr << "Failed to send message type for block data." << std::endl;
+        return;
+    }
+
     // 3. 데이터 전송 (두 배열을 순서대로 전송)
     if (send(clientSocket, buffer, sizeof(buffer), 0) == SOCKET_ERROR) {
             std::cerr << "Failed to send bool data." << std::endl;
@@ -75,12 +82,56 @@ void Multi::sendData(bool data[10][20], const Tetromino::Type dataTypes[Well::Wi
     
 }
 
+void Multi::sendGameOver() {
 
-bool Multi::receiveData(std::array<std::array<bool, 20>, 10>& data, Tetromino::Type(&dataTypes)[Well::Width][Well::Height]) {
+    char messageType = 2;
+
+    // 메시지 타입 전송
+    if (send(clientSocket, &messageType, sizeof(messageType), 0) == SOCKET_ERROR) {
+        std::cerr << "Failed to send message type for game clear." << std::endl;
+        return;
+    }
+
+
+ /*   std::string message = "Game Clear";
+    if (send(clientSocket, message.c_str(), message.size(), 0) == SOCKET_ERROR) {
+        std::cerr << "Failed to send bool data." << std::endl;
+    }*/
+
+}
+
+int Multi::receiveMessegeData() {
+    char buffer[Well::Width * Well::Height];
+    char typeBuffer[Well::Width * Well::Height];
+    char messageType;
+    fd_set readfds;
+    FD_ZERO(&readfds);
+    FD_SET(clientSocket, &readfds);
+
+    struct timeval timeout;
+    timeout.tv_sec = 0;
+    timeout.tv_usec = 16000;  // 16ms timeout (예: 60 FPS)
+
+    int activity = select(clientSocket + 1, &readfds, NULL, NULL, &timeout);
+
+    if (activity > 0 && FD_ISSET(clientSocket, &readfds)) {
+        char buffer[Well::Width * Well::Height];
+
+        // 메시지 타입 수신 (1바이트)
+        int bytesReceived = recv(clientSocket, &messageType, sizeof(messageType), 0);
+
+        if (bytesReceived <= 0) return false;
+
+        return messageType;
+        
+    }
+}
+
+int Multi::receiveData(std::array<std::array<bool, 20>, 10>& data, Tetromino::Type(&dataTypes)[Well::Width][Well::Height]) {
    
         char buffer[Well::Width * Well::Height];
         char typeBuffer[Well::Width * Well::Height];
-
+        char messageType;
         fd_set readfds;
         FD_ZERO(&readfds);
         FD_SET(clientSocket, &readfds);
@@ -93,28 +144,55 @@ bool Multi::receiveData(std::array<std::array<bool, 20>, 10>& data, Tetromino::T
 
         if (activity > 0 && FD_ISSET(clientSocket, &readfds)) {
             char buffer[Well::Width * Well::Height];
-            int bytesReceived = recv(clientSocket, buffer, sizeof(buffer), 0);
+            
+            // 메시지 타입 수신 (1바이트)
+            int bytesReceived = recv(clientSocket, &messageType, sizeof(messageType), 0);
 
-            if (bytesReceived > 0) {
-                // 역직렬화: char 배열을 bool 배열로 변환
-                for (int i = 0; i < Well::Width; ++i) {
-                    for (int j = 0; j < Well::Height; ++j) {
-                        data[i][j] = static_cast<bool>(buffer[i * Well::Height + j]);
-                    }
-                }
+            if (bytesReceived <= 0) return false;
+            if (messageType == 3) {
 
-                bytesReceived = recv(clientSocket, typeBuffer, sizeof(typeBuffer), 0);
 
+                int bytesReceived = recv(clientSocket, buffer, sizeof(buffer), 0);
                 if (bytesReceived > 0) {
-                    // Tetromino::Type 배열로 역직렬화
+                    // 역직렬화: char 배열을 bool 배열로 변환
                     for (int i = 0; i < Well::Width; ++i) {
                         for (int j = 0; j < Well::Height; ++j) {
-                            dataTypes[i][j] = static_cast<Tetromino::Type>(typeBuffer[i * Well::Height + j]);
+                            data[i][j] = static_cast<bool>(buffer[i * Well::Height + j]);
                         }
                     }
-                    return true;  // 성공적으로 데이터 수신 및 변환 완료
+
+                    bytesReceived = recv(clientSocket, typeBuffer, sizeof(typeBuffer), 0);
+
+                    if (bytesReceived > 0) {
+                        // Tetromino::Type 배열로 역직렬화
+                        for (int i = 0; i < Well::Width; ++i) {
+                            for (int j = 0; j < Well::Height; ++j) {
+                                dataTypes[i][j] = static_cast<Tetromino::Type>(typeBuffer[i * Well::Height + j]);
+                            }
+                        }
+                        return 3;  // 성공적으로 데이터 수신 및 변환 완료
+                    }
+
                 }
-              
+            }
+            else if (messageType == 2) {
+                char Message[256];  // 메시지 저장 버퍼
+
+                return 2;
+               // bytesReceived = recv(clientSocket, Message, sizeof(Message), 0);
+                if (bytesReceived > 0) {
+                    // 게임 클리어 메시지 출력
+                
+                    // 게임 클리어 관련 처리
+                    if (memcmp(buffer, "Game Clear", strlen("Game Clear")) == 0) {
+                       
+                        std::cout << Message << std::endl;
+                        // std::cout << "The game is ready\n";
+                        //한번 더 체크 해야함.
+                        isClear = true;
+                        
+                    }
+                }
             }
           
         }

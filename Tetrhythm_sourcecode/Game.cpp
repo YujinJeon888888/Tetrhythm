@@ -72,11 +72,12 @@ Game::Game(WindowManager& wm, Print* pr, SceneManager& sm)
         }
         blockTextures_[i] = SDL_CreateTextureFromSurface(windowManager.getRenderer(), surface);
         SDL_FreeSurface(surface);
-        if (!blockTextures_[i])
-        {
-            throw std::runtime_error("Failed to create texture: " + std::string(SDL_GetError()));
-        }
+
     }
+    soundManager->playMusic("Musics/Megalovania 8Bit Remix Audio.mp3", -1); // 배경음악 재생
+    soundManager->loadSound("Musics/BlockDrop.mp3", "BlockDrop"); // 효과음 로드
+    soundManager->loadSound("Musics/LineClear.mp3", "LineClear"); // 효과음 로드
+    soundManager->loadSound("Musics/YouWin.mp3", "YouWin"); // 효과음 로드
 }
 
 Game::~Game()
@@ -117,9 +118,11 @@ bool Game::tick()
             {
             case SDLK_SPACE:
                 std::cout << "space " << forDebugCount++ <<std::endl;
+                soundManager->playSound("BlockDrop", 0);
                     if (currentTime > lastDropTime + dropDelay)
                     {
                         Tetromino t = tetromino_;
+                        
                         t.drop(well_);
                         check(t);
                         lastDropTime = currentTime; // 마지막 드랍 시간 기록
@@ -166,6 +169,7 @@ bool Game::tick()
                         tetromino_ = t;
                     }
                     else {
+                        soundManager->playSound("BlockDrop", 0);
                         // 하트 노트 위치 판정
                         if (heartVisible)
                         {
@@ -313,6 +317,7 @@ bool Game::tick()
 
     if (currentLine > previousLine)
     {
+        soundManager->playSound("LineClear", 0);
         std::cout << "Line: " << currentLine << std::endl;
         int linesCleared = currentLine - previousLine;
         previousLine = currentLine;
@@ -391,6 +396,7 @@ bool Game::tick()
 
     if (timeSinceStart >= 224.0) //클리어 임시 구?현
     {
+        soundManager->playSound("YouWin", 0);
         soundManager->stopMusic(); // TetrisScene 객체가 파괴될 때 음악을 중지
         delete soundManager;
         isClear = true;

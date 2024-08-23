@@ -157,9 +157,9 @@ void Print::render() {
 }
 
 void Print::renderForTetris() {
-        std::sort(layeredTextures.begin(), layeredTextures.end(), [](const LayeredTexture& a, const LayeredTexture& b) {
+    std::sort(layeredTextures.begin(), layeredTextures.end(), [](const LayeredTexture& a, const LayeredTexture& b) {
         return a.layer < b.layer;
-    });
+        });
 
     for (const auto& layeredTexture : layeredTextures) {
         SDL_RenderCopy(renderer, layeredTexture.texture, nullptr, &layeredTexture.dstRect);
@@ -463,3 +463,84 @@ void Print::unloadFont(TTF_Font* font) { // 폰트출력추가
         TTF_CloseFont(font);
     }
 }
+void Print::textAnimation(const std::string& text, const int& dstX, const int& dstY, TTF_Font* font, const std::vector<SDL_Color>& colors, int frameDelay, int layer) {
+    TextAnimation anim;
+    anim.text = text;
+    anim.colors = colors;
+    anim.currentFrame = 0;
+    anim.frameCount = 0;
+    anim.frameDelay = frameDelay;
+    anim.layer = layer;
+    anim.font = font;
+
+    // 첫 번째 프레임의 텍스트를 렌더링
+    SDL_Surface* surface = TTF_RenderText_Blended(font, text.c_str(), colors[0]);
+    if (!surface) {
+        std::cerr << "Failed to render text: " << TTF_GetError() << std::endl;
+        return;
+    }
+
+    SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, surface);
+    SDL_FreeSurface(surface);
+
+    if (!texture) {
+        std::cerr << "Failed to create text texture: " << SDL_GetError() << std::endl;
+        return;
+    }
+
+    SDL_Rect dst;
+    dst.x = dstX;
+    dst.y = dstY;
+    SDL_QueryTexture(texture, nullptr, nullptr, &dst.w, &dst.h);
+
+    layeredTextures.push_back({ texture, dst, layer, "" });
+    anim.textRect = dst;
+
+    textAnimations.push_back(anim);
+}
+
+
+void Print::updateTextAnimation() {
+    static std::random_device rd;   // 난수 생성기
+    static std::mt19937 gen(rd());  // Mersenne Twister 엔진
+    std::uniform_int_distribution<> dis;
+
+    for (auto& anim : textAnimations) {
+        anim.frameCount++;
+        if (anim.frameCount >= anim.frameDelay) {
+            anim.frameCount = 0;
+
+            int newColorIndex;
+            do {
+                dis = std::uniform_int_distribution<>(0, anim.colors.size() - 1);
+                newColorIndex = dis(gen);
+            } while (newColorIndex == anim.currentFrame);  // 이전 색상과 동일한 경우 반복
+
+            anim.currentFrame = newColorIndex;
+
+            // 새로운 색상으로 텍스트 렌더링
+            SDL_Surface* surface = TTF_RenderText_Blended(anim.font, anim.text.c_str(), anim.colors[anim.currentFrame]);
+            if (!surface) {
+                std::cerr << "Failed to render text: " << TTF_GetError() << std::endl;
+                continue;
+            }
+
+            SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, surface);
+            SDL_FreeSurface(surface);
+
+            if (!texture) {
+                std::cerr << "Failed to create text texture: " << SDL_GetError() << std::endl;
+                continue;
+            }
+
+            for (auto& layeredTexture : layeredTextures) {
+                if (layeredTexture.layer == anim.layer) {
+                    SDL_DestroyTexture(layeredTexture.texture);
+                    layeredTexture.texture = texture;
+                    layeredTexture.dstRect = anim.textRect;
+                }
+            }
+        }
+    }
+}
+

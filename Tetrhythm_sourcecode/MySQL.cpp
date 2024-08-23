@@ -1,5 +1,5 @@
 #include "MySQL.h"
-
+#include <algorithm>
 // 클래스 외부에서 초기화
 const char* MySQL::host = "iu51mf0q32fkhfpl.cbetxkdyhwsb.us-east-1.rds.amazonaws.com";
 const char* MySQL::userName = "c4soupya4kvutpg2";
@@ -375,8 +375,9 @@ void MySQL::initUserInfo(std::string ID) {
     while ((Row = mysql_fetch_row(Result)) != NULL) {
         for (int i = 0; i < numFields; i++) {
             std::cout << (Row[i] ? Row[i] : "NULL") << " ";
-
-            UserInfo::getInstance().setPerfectClear(Row[0]);
+            // Row[i] 값이 "1"이면 true, "0"이면 false로 설정
+            bool isPerfectClear = (std::string(Row[i]) == "1");
+            UserInfo::getInstance().setPerfectClear(isPerfectClear);
         }
         std::cout << std::endl;
     }
@@ -408,3 +409,50 @@ void MySQL::initUserInfo(std::string ID) {
     mysql_close(ConnPtr);
 }
 
+std::string MySQL::printTable()
+{
+    std::string returnResult = "";
+    MYSQL Conn;
+    MYSQL* ConnPtr = NULL;
+    MYSQL_RES* Result;
+    MYSQL_ROW Row;
+    int Stat;
+
+    mysql_init(&Conn);
+
+    ConnPtr = mysql_real_connect(&Conn, host, userName, password, database, 3306, (char*)NULL, 0);
+    if (ConnPtr == NULL) {
+        std::cout << mysql_error(&Conn) << std::endl;
+        exit(-1);
+    }
+    // 테이블 상태 출력 쿼리 실행
+    const char* selectQuery = "SELECT name, highScore FROM Users order by highScore desc";
+    Stat = mysql_query(ConnPtr, selectQuery);
+    if (Stat != 0) {
+        std::cout << mysql_error(&Conn) << std::endl;
+        exit(-1);
+    }
+
+    // 결과를 가져와서 출력
+    Result = mysql_store_result(ConnPtr);
+    int numFields = mysql_num_fields(Result);
+
+    while ((Row = mysql_fetch_row(Result)) != NULL) {
+        for (int i = 0; i < numFields; i++) {
+            std::string cellValue = Row[i] ? Row[i] : "NULL";
+            returnResult += cellValue;
+            std::cout << cellValue;
+            int spaceCount = 12 - cellValue.size();
+            for (int i = 0; i < spaceCount + 1; i++) {
+                returnResult += " ";
+                std::cout << " ";
+            }
+        }
+        returnResult += "\n";
+        std::cout << std::endl;
+    }
+
+    mysql_free_result(Result);
+    mysql_close(ConnPtr);
+    return returnResult;
+}

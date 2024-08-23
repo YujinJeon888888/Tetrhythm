@@ -13,6 +13,7 @@
 #include <regex>
 #include "MySQL.h"
 #include "UserInfo.h"
+#include "SoundManager.h"
 
 class Characters : public Scene
 {
@@ -41,6 +42,7 @@ private:
 	SceneManager& sceneManager;
 	TTF_Font* font;               
 	SDL_Color color;
+	SoundManager* soundManager;
 
 };
 

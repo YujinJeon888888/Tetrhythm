@@ -22,6 +22,8 @@ void MainMenu::handleArrowKey(SDL_Keycode key) {
         sceneManager.changeScene(std::make_unique<ControlExp>(windowManager, sceneManager));
         break;
     case SDLK_ESCAPE:
+        soundManager->loadSound("Musics/Selection.mp3", "Selection"); // 효과음 로드
+        soundManager->playSound("Selection", 0);
         sceneManager.changeScene(std::make_unique<scoreTableScene>(windowManager, sceneManager));
         break;
     case SDLK_UP:

@@ -237,6 +237,8 @@ bool Game::tick()
                     break;
                 case SDLK_ESCAPE:
                     soundManager->stopMusic();
+                    soundManager->loadSound("Musics/Selection.mp3", "Selection"); // 효과음 로드
+                    soundManager->playSound("Selection", 0);
                     sceneManager.changeScene(std::make_unique<MainMenu>(windowManager, sceneManager));
                     break;
                 case SDLK_DOWN:

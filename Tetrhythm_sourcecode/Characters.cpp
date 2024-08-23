@@ -1,7 +1,7 @@
 #include "Characters.h"
 
 Characters::Characters(WindowManager& wm, SceneManager& manager) : windowManager(wm), sceneManager(manager), print(new Print(&wm)),
-data{ false }
+data{ false }, soundManager(new SoundManager())
 {
 	//TTF_Font* font = print->loadFont("DungGeunMo.ttf", 25);
 	//SDL_Color color = { 255, 255, 255 }; // 흰색
@@ -34,33 +34,41 @@ void Characters::handleArrowKey(SDL_Keycode key) {
 
 	switch (key) {
 	case SDLK_UP:
-		
+		soundManager->loadSound("Musics/SelectionMove.mp3", "SelectionMove"); // 효과음 로드
+		soundManager->playSound("SelectionMove", 0);
 	
 
 		if (sIndex > 3) sIndex -= 4;
 		break;
 	case SDLK_DOWN:
-
+		soundManager->loadSound("Musics/SelectionMove.mp3", "SelectionMove"); // 효과음 로드
+		soundManager->playSound("SelectionMove", 0);
 		if (sIndex < 4) sIndex += 4;
 		break;
 
 	case SDLK_LEFT:
-
+		soundManager->loadSound("Musics/SelectionMove.mp3", "SelectionMove"); // 효과음 로드
+		soundManager->playSound("SelectionMove", 0);
 		if (sIndex > 0) sIndex--;
 
 		break;
 	case SDLK_RIGHT:
-
+		soundManager->loadSound("Musics/SelectionMove.mp3", "SelectionMove"); // 효과음 로드
+		soundManager->playSound("SelectionMove", 0);
 		if (sIndex < 7) sIndex++;
 
 		break;
 
 	case SDLK_SPACE: // 뒤로 가기 기능 추가
+		soundManager->loadSound("Musics/Selection.mp3", "Selection"); // 효과음 로드
+		soundManager->playSound("Selection", 0);
 		if (data[sIndex % Width][sIndex / Width])
 			myCharIndex = sIndex;
 		break;
 
 	case SDLK_ESCAPE: // 뒤로 가기 기능 추가
+		soundManager->loadSound("Musics/Selection.mp3", "Selection"); // 효과음 로드
+		soundManager->playSound("Selection", 0);
 		MySQL mysql;
 		mysql.setCharacterName(UserInfo::getInstance().getUserID(), UserInfo::getInstance().getUserCharacter());
 		sceneManager.goBack();

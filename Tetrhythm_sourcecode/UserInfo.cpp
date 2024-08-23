@@ -74,3 +74,12 @@
 	 return perfectClear;
  }
 
+ void UserInfo::setMultiModeWin(const bool multiModeWin)
+ {
+	 this->multiModeWin = multiModeWin;
+ }
+
+ bool UserInfo::getMultiModeWin() const
+ {
+	 return multiModeWin;
+ }

@@ -121,6 +121,14 @@ bool Game::tick()
     {
         switch (e.type)
         {
+        case SDL_KEYUP:
+            switch (e.key.keysym.sym) 
+            {
+            case SDLK_SPACE:
+                spaceLock = false;
+                break;
+            }
+            break;
         case SDL_KEYDOWN:
             switch (e.key.keysym.sym)
             {
@@ -249,14 +257,7 @@ bool Game::tick()
             }
             break;
 
-        case SDL_KEYUP:
-            switch (e.key.keysym.sym){}
-            {
-            case SDLK_SPACE:
-                spaceLock = false;
-                break;
-            }
-            break;
+
         case SDL_QUIT:
             exit(0);
             return false;
@@ -412,7 +413,7 @@ bool Game::tick()
         //최대콤보반영
         comboVector.push_back(comboCount);
         std::sort(comboVector.begin(), comboVector.end(), std::greater<int>());//내림차순정렬
-        score += std::round(comboScore * (comboVector[0] / fullComboCount));
+        score += (int)(std::round((float)comboScore * ((float)comboVector[0] / (float)fullComboCount)));
         return false;
     }
 

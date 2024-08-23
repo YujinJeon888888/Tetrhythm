@@ -14,7 +14,6 @@
 //////////////////////////////////
 //전역변수
 int seriesTetrisCount = 0;
-bool spaceLock = false;
 const int comboScore = 100000;
 int comboCount = 0;
 std::vector<int> comboVector;
@@ -115,30 +114,19 @@ bool Game::tick()
     Uint32 dropDelay = 50;   // 드랍 시 딜레이 (밀리초 단위)
 
 
-    // 이벤트 처리
+   // 이벤트 처리
     SDL_Event e;
+    // SDL_WaitEventTimeout으로 이벤트 기다리기
     if (SDL_WaitEventTimeout(&e, 10))
     {
-        switch (e.type)
-        {
-        case SDL_KEYUP:
-            switch (e.key.keysym.sym) 
+        do {
+            if (e.type == SDL_KEYDOWN)
             {
-            case SDLK_SPACE:
-                spaceLock = false;
-                break;
-            }
-            break;
-        case SDL_KEYDOWN:
-            switch (e.key.keysym.sym)
-            {
-            case SDLK_SPACE:
-                if (!spaceLock) {
-                    bool spacePush = true;
-                    bool spaceApply = false;
+                if (e.key.keysym.sym == SDLK_SPACE && e.key.repeat == 0)
+                {
+                    // 키를 처음 눌렀을 때만 처리
                     if (currentTime > lastDropTime + dropDelay)
                     {
-                        spaceApply = true;
                         Tetromino t = tetromino_;
                         t.drop(well_);
                         check(t);
@@ -158,7 +146,6 @@ bool Game::tick()
                             }
                             else if (heartPosX <= 393)
                             {
-                                // 이 부분에서 하트 노드를 바로 사라지게 처리
                                 deductHeart();
                                 heartVisible = false;
                                 print->deletePNG("heartNote.png");
@@ -167,101 +154,57 @@ bool Game::tick()
                             // 다음 하트 노드 생성 타이밍 설정
                             nextHeartSpawnTime = timeSinceStart + heartSpawnInterval;
                         }
-                        spaceLock = true;
-                    }
-                    if (!spaceApply && spacePush) {
-                        std::cout << "space SSipHim" << std::endl;
                     }
                 }
-                break;
-            case SDLK_ESCAPE:
-                soundManager->stopMusic();
-                sceneManager.changeScene(std::make_unique<MainMenu>(windowManager, sceneManager));
-                break;
-            case SDLK_DOWN:
-                if (currentTime > lastMoveTime + moveDelay)
+                else if (e.key.keysym.sym == SDLK_ESCAPE)
                 {
-                    Tetromino t = tetromino_;
-                    t.move(0, 1);
-                    if (!well_.isCollision(t))
-                    tetromino_ = t;
-                    moveTime_ = SDL_GetTicks() + 400; // 아래로 이동 시 자동 내려오는 시간을 조정
-                    lastMoveTime = currentTime; // 마지막 이동 시간 기록
+                    soundManager->stopMusic();
+                    sceneManager.changeScene(std::make_unique<MainMenu>(windowManager, sceneManager));
                 }
-                break;
-
-            case SDLK_RIGHT:
-            case SDLK_LEFT:
-                if (currentTime > lastMoveTime + moveDelay)
+                else if (e.key.keysym.sym == SDLK_DOWN)
                 {
-                    Tetromino t = tetromino_;
-                    t.move((e.key.keysym.sym == SDLK_RIGHT) ? 1 : -1, 0);
-                    if (!well_.isCollision(t))
-                        tetromino_ = t;
-                    lastMoveTime = currentTime; // 마지막 이동 시간 기록
+                    if (currentTime > lastMoveTime + moveDelay)
+                    {
+                        Tetromino t = tetromino_;
+                        t.move(0, 1);
+                        if (!well_.isCollision(t))
+                            tetromino_ = t;
+                        moveTime_ = SDL_GetTicks() + 400; // 아래로 이동 시 자동 내려오는 시간을 조정
+                        lastMoveTime = currentTime; // 마지막 이동 시간 기록
+                    }
                 }
-                break;
-
-            case SDLK_a:
-                if (currentTime > lastRotationTime + rotateDelay)
+                else if (e.key.keysym.sym == SDLK_RIGHT || e.key.keysym.sym == SDLK_LEFT)
                 {
-                    Tetromino t = tetromino_;
-                    t.rotate();
-                    if (!well_.isCollision(t))
-                        tetromino_ = t;
-                    lastRotationTime = currentTime; // 마지막 회전 시간 기록
+                    if (currentTime > lastMoveTime + moveDelay)
+                    {
+                        Tetromino t = tetromino_;
+                        t.move((e.key.keysym.sym == SDLK_RIGHT) ? 1 : -1, 0);
+                        if (!well_.isCollision(t))
+                            tetromino_ = t;
+                        lastMoveTime = currentTime; // 마지막 이동 시간 기록
+                    }
                 }
-                break;
-
-            case SDLK_d:
-                if (currentTime > lastRotationTime + rotateDelay)
+                else if (e.key.keysym.sym == SDLK_a || e.key.keysym.sym == SDLK_d || e.key.keysym.sym == SDLK_UP || e.key.keysym.sym == SDLK_z || e.key.keysym.sym == SDLK_c)
                 {
-                    Tetromino t = tetromino_;
-                    t.rotateCounterClockwise();
-                    if (!well_.isCollision(t))
-                        tetromino_ = t;
-                    lastRotationTime = currentTime; // 마지막 회전 시간 기록
+                    if (currentTime > lastRotationTime + rotateDelay)
+                    {
+                        Tetromino t = tetromino_;
+                        if (e.key.keysym.sym == SDLK_a || e.key.keysym.sym == SDLK_z || e.key.keysym.sym == SDLK_c)
+                            t.rotateCounterClockwise();
+                        else
+                            t.rotate();
+                        if (!well_.isCollision(t))
+                            tetromino_ = t;
+                        lastRotationTime = currentTime; // 마지막 회전 시간 기록
+                    }
                 }
-                break;
-            case SDLK_UP:
-                if (currentTime > lastRotationTime + rotateDelay)
-                {
-                    Tetromino t = tetromino_;
-                    t.rotate();
-                    if (!well_.isCollision(t))
-                        tetromino_ = t;
-                    lastRotationTime = currentTime; // 마지막 회전 시간 기록
-                }
-                break;
-            case SDLK_z:
-                if (currentTime > lastRotationTime + rotateDelay)
-                {
-                    Tetromino t = tetromino_;
-                    t.rotateCounterClockwise();
-                    if (!well_.isCollision(t))
-                        tetromino_ = t;
-                    lastRotationTime = currentTime; // 마지막 회전 시간 기록
-                }
-                break;
-            case SDLK_c:
-                if (currentTime > lastRotationTime + rotateDelay)
-                {
-                    Tetromino t = tetromino_;
-                    t.rotate();
-                    if (!well_.isCollision(t))
-                        tetromino_ = t;
-                    lastRotationTime = currentTime; // 마지막 회전 시간 기록
-                }
-                break;
-            
             }
-            break;
-
-
-        case SDL_QUIT:
-            exit(0);
-            return false;
-        }
+            else if (e.type == SDL_QUIT)
+            {
+                exit(0);
+                return false;
+            }
+        } while (SDL_PollEvent(&e)); // 추가 이벤트 처리 (이벤트 큐 비우기)
     }
 
     // 프레임 타이밍 관리

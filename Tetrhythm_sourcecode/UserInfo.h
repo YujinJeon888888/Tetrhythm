@@ -17,6 +17,7 @@ private:
 	int highScore;
 	int score;
 	bool perfectClear = false;
+	bool multiModeWin = false;
 public:
 	static UserInfo& getInstance();
 	void setUserID(const std::string& username);

@@ -62,6 +62,8 @@ void MutiMenuScene::handleArrowKey(SDL_Keycode key) {
         break;
     case SDLK_SPACE:
         std::cout << "Selected Menu: " << MenuSelection << std::endl;
+        Multi::resetInstance();
+
         Multi* client = Multi::getInstance();
         switch (MenuSelection)
         {
@@ -194,7 +196,6 @@ void MutiMenuScene::deleteCode() {
     //print->setText(11," ");
 
 }
-
 
 
 

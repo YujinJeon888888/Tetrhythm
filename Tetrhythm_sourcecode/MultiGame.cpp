@@ -150,7 +150,7 @@ bool MultiGame::tick()
         delete soundManager;
         isClear = true;
         gameOver = true;
-        return false;
+       // return false;
     }
     if (gameOver) {
         Multi::getInstance()->sendGameOver();
@@ -158,7 +158,7 @@ bool MultiGame::tick()
         //최대콤보반영
         std::sort(comboVector.begin(), comboVector.end(), std::greater<int>());//내림차순정렬
         score += std::round(comboScore * (comboVector[0] / totalBeats));
-       // return false;
+        return false;
     }
 
     // 이벤트 처리

@@ -9,7 +9,7 @@ Multi::Multi() {
     addr = "127.0.0.1";
     //"52.14.83.66"
     //getRandomRoom();
-    //WSADATA wsaData;
+    //WSADATA wsaData;unknown
     //WSAStartup(MAKEWORD(2, 2), &wsaData);
 
     //clientSocket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);

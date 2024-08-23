@@ -47,9 +47,13 @@ public:
         instance = new Multi();
     }
     void sendID(std::string id, std::string charImageStr);
+    std::pair<std::string, std::string> receiveIDAndCharacter();
     std::string receiveOpponentData();
     void sendData(bool data[10][20], const Tetromino::Type dataTypes[Well::Width][Well::Height]);
+    void sendMessage(int type);
     void sendGameOver();
+    void sendHeartInfo(std::string msg);
+    int receiveHeartData();
     int receiveMessegeData();
     int receiveData(std::array<std::array<bool, 20>, 10>& data, Tetromino::Type(&dataTypes)[Well::Width][Well::Height]);
 

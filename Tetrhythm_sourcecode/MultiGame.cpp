@@ -31,6 +31,13 @@ const int MultiHeart::yPositions[3] = {
     50
 };
 
+const int MultiHeart::xPositions_opponent[3] = {
+    118,
+    171,
+    224
+};
+
+
 MultiGame::MultiGame(WindowManager& wm, Print* pr, SceneManager& sm)
     :
     sceneManager(sm),
@@ -149,6 +156,15 @@ bool MultiGame::tick()
         gameOver = true;
        // return false;
     }
+
+    if (type == 4) {
+        std::cout << "-----";
+        deductHeart_opponent();
+    }
+    else if(type == 5) {
+    
+    }
+
     if (gameOver) {
         Multi::getInstance()->sendGameOver();
       //  Multi::getInstance()->isClear = true;
@@ -530,6 +546,7 @@ void MultiGame::deductHeart()
  //   std::cout << "when heartPosX : " << heartPosX << "deduct heart" << std::endl;
     if (!hearts.empty())
     {
+        Multi::getInstance()->sendHeartInfo("minus");
         MultiHeart lastHeart = hearts.back();
         print->deletePNG(lastHeart.path.c_str());
         hearts.pop_back();
@@ -538,5 +555,23 @@ void MultiGame::deductHeart()
     else
     {
       //  std::cout << "No hearts left to deduct" << std::endl;
+    }
+}
+
+void MultiGame::deductHeart_opponent()
+{
+  
+    //   std::cout << "when heartPosX : " << heartPosX << "deduct heart" << std::endl;
+    if (!oppnentHearts.empty())
+    {
+      //  Multi::getInstance()->sendHeartInfo("minus");
+        MultiHeart lastHeart = oppnentHearts.back();
+        print->deletePNG(lastHeart.path.c_str());
+        oppnentHearts.pop_back();
+        //   std::cout << "Heart deducted! Remaining hearts: " << hearts.size() << std::endl;
+    }
+    else
+    {
+        //  std::cout << "No hearts left to deduct" << std::endl;
     }
 }

@@ -96,7 +96,7 @@ bool MySQL::isDuflicatedUser(const std::string str)
     return false;
 }
 
-bool MySQL::containsInvalidCharacters(const std::string& str){
+bool MySQL::containsInvalidCharacters(const std::string& str) {
     return std::find_if(str.begin(), str.end(), [](unsigned char c) {
         return !(std::isalnum(c)); // 영문자 또는 숫자가 아니면 허용되지 않는 문자
         }) != str.end();
@@ -116,7 +116,7 @@ void MySQL::setLine(std::string ID, int l) {
     }
 
     // 값 삽입 쿼리 실행
-    int newLine = UserInfo::getInstance().getLine()+ l;
+    int newLine = UserInfo::getInstance().getLine() + l;
     std::string updateQuery = "update Users set line = " + std::to_string(newLine) + " where name = '" + ID + "'";
     Stat = mysql_query(ConnPtr, updateQuery.c_str());
     if (Stat != 0) {
@@ -142,7 +142,7 @@ void MySQL::setTetris(std::string ID, int t) {
     }
 
     // 값 삽입 쿼리 실행
-    int newTetris = UserInfo::getInstance().getTetris()+ t;
+    int newTetris = UserInfo::getInstance().getTetris() + t;
     std::string updateQuery = "update Users set tetris = " + std::to_string(newTetris) + " where name = '" + ID + "'";
     Stat = mysql_query(ConnPtr, updateQuery.c_str());
     if (Stat != 0) {
@@ -168,7 +168,7 @@ void MySQL::setHighScore(std::string ID, int s)
     }
 
     // 값 삽입 쿼리 실행
-    int newHighScore = UserInfo::getInstance().getHighScore()<s?s: UserInfo::getInstance().getHighScore();
+    int newHighScore = UserInfo::getInstance().getHighScore() < s ? s : UserInfo::getInstance().getHighScore();
     std::string updateQuery = "update Users set highScore = " + std::to_string(newHighScore) + " where name = '" + ID + "'";
     Stat = mysql_query(ConnPtr, updateQuery.c_str());
     if (Stat != 0) {

@@ -22,6 +22,8 @@ struct MultiHeart {
     static const int maxHeart = 3;
     static const int xPositions[3];
     static const int yPositions[3];
+    static const int xPositions_opponent[3];
+
 };
 
 
@@ -72,6 +74,12 @@ private:
        {MultiHeart::paths[1], MultiHeart::xPositions[1], MultiHeart::yPositions[1]},
        {MultiHeart::paths[2], MultiHeart::xPositions[2], MultiHeart::yPositions[2]}
     };
+
+    std::vector<MultiHeart> oppnentHearts = {
+     {MultiHeart::paths[0], MultiHeart::xPositions_opponent[0], MultiHeart::yPositions[0]},
+     {MultiHeart::paths[1], MultiHeart::xPositions_opponent[1], MultiHeart::yPositions[1]},
+     {MultiHeart::paths[2], MultiHeart::xPositions_opponent[2], MultiHeart::yPositions[2]}
+    };
     //하트로직 
     SoundManager* soundManager; // SoundManager 객체 선언
     int heartPosX; // 하트의 현재 X 좌표
@@ -82,6 +90,7 @@ private:
     double heartSpawnInterval; // 140 BPM 4/4박자마다 생성 간격 (초 단위)
     double nextHeartSpawnTime; // 다음 하트 노드 생성 타이밍
     void deductHeart();
+    void deductHeart_opponent();
     std::chrono::steady_clock::time_point startTime;
     std::chrono::steady_clock::time_point lastFrameTime;
     SceneManager& sceneManager;

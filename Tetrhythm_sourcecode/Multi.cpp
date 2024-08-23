@@ -6,7 +6,7 @@ Multi* Multi::instance = nullptr;
 Multi::Multi() {
 
     //"52.14.83.66";//
-    addr = "52.14.83.66";// "127.0.0.1";
+    addr = "127.0.0.1";
     //"52.14.83.66"
     //getRandomRoom();
     //WSADATA wsaData;
@@ -60,6 +60,33 @@ void Multi::sendID(std::string id, std::string charImageStr) {
     }
 
 }
+
+std::pair<std::string, std::string> Multi::receiveIDAndCharacter() {
+    char idBuffer[1024];
+    char charImageBuffer[1024];
+
+    // 첫 번째 데이터 (ID) 수신
+    int bytesReceived = recv(clientSocket, idBuffer, sizeof(idBuffer) - 1, 0);
+    if (bytesReceived <= 0) {
+        std::cerr << "Failed to receive ID or connection closed" << std::endl;
+        return std::make_pair("ERROR", "ERROR");
+    }
+    idBuffer[bytesReceived] = '\0';  // Null-terminate the buffer
+    std::string id(idBuffer);
+
+    // 두 번째 데이터 (캐릭터 이미지 경로) 수신
+    bytesReceived = recv(clientSocket, charImageBuffer, sizeof(charImageBuffer) - 1, 0);
+    if (bytesReceived <= 0) {
+        std::cerr << "Failed to receive character image path or connection closed" << std::endl;
+        return std::make_pair(id, "ERROR");
+    }
+    charImageBuffer[bytesReceived] = '\0';  // Null-terminate the buffer
+    std::string charImageStr(charImageBuffer);
+
+    // 두 데이터를 페어로 반환
+    return std::make_pair(id, charImageStr);
+}
+
 
 std::string Multi::receiveOpponentData() {
     char buffer[1024];
@@ -139,6 +166,19 @@ void Multi::sendData(bool data[10][20], const Tetromino::Type dataTypes[Well::Wi
     
 }
 
+void Multi::sendMessage(int type) {
+
+    char messageType = type;
+
+    // 메시지 타입 전송
+    if (send(clientSocket, &messageType, sizeof(messageType), 0) == SOCKET_ERROR) {
+        std::cerr << "Failed to send message type for game clear." << std::endl;
+        return;
+    }
+
+}
+
+
 void Multi::sendGameOver() {
 
     char messageType = 2;
@@ -150,6 +190,26 @@ void Multi::sendGameOver() {
     }
 
 }
+
+void Multi::sendHeartInfo(std::string msg) {
+
+    char messageType = 4;
+    
+    if (msg == "plus") messageType = 5;
+
+    // 메시지 타입 전송
+    if (send(clientSocket, &messageType, sizeof(messageType), 0) == SOCKET_ERROR) {
+        std::cerr << "Failed to send message type for type." << std::endl;
+        return;
+    }
+
+   /* if (send(clientSocket, msg.c_str(), sizeof(msg), 0) == SOCKET_ERROR) {
+        std::cerr << "Failed to send message type for msg." << std::endl;
+        return;
+    }*/
+
+}
+
 
 int Multi::receiveMessegeData() {
     char buffer[Well::Width * Well::Height];
@@ -173,7 +233,10 @@ int Multi::receiveMessegeData() {
 
         if (bytesReceived <= 0) return false;
 
-        return messageType;
+
+        if(static_cast<int>(messageType)!=0)
+        std::cout << "Received message type: " << static_cast<int>(messageType) << std::endl;
+        return static_cast<int>(messageType);
         
     }
 }
@@ -212,7 +275,7 @@ int Multi::receiveData(std::array<std::array<bool, 20>, 10>& data, Tetromino::Ty
                         }
                     }
 
-                    bytesReceived = recv(clientSocket, typeBuffer, sizeof(typeBuffer), 0);
+                     bytesReceived = recv(clientSocket, typeBuffer, sizeof(typeBuffer), 0);
 
                     if (bytesReceived > 0) {
                         // Tetromino::Type 배열로 역직렬화
@@ -227,23 +290,14 @@ int Multi::receiveData(std::array<std::array<bool, 20>, 10>& data, Tetromino::Ty
                 }
             }
             else if (messageType == 2) {
-                char Message[256];  // 메시지 저장 버퍼
-
-                return 2;
-               // bytesReceived = recv(clientSocket, Message, sizeof(Message), 0);
-                if (bytesReceived > 0) {
-                    // 게임 클리어 메시지 출력
                 
-                    // 게임 클리어 관련 처리
-                    if (memcmp(buffer, "Game Clear", strlen("Game Clear")) == 0) {
-                       
-                        std::cout << Message << std::endl;
-                        // std::cout << "The game is ready\n";
-                        //한번 더 체크 해야함.
-                        isClear = true;
-                        
-                    }
-                }
+                std::cout << "type 2!";
+                return 2;
+             
+            }
+            
+            else {
+                return messageType;
             }
           
         }

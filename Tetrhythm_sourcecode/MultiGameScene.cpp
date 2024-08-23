@@ -17,12 +17,21 @@ void receiveAndPrintOpponentData(Print* print) {
     SDL_Color color = { 255, 255, 255 }; // 흰색
 
     try {
-        std::string id = Multi::getInstance()->receiveOpponentData();
-        std::string cimg = Multi::getInstance()->receiveOpponentData();
+        std::pair<std::string, std::string> opponentData = Multi::getInstance()->receiveIDAndCharacter();
+        std::string opponentID = opponentData.first;
+        std::string opponentCharacter = opponentData.second;
 
-        std::cout << id << cimg;
-        print->printPNG(cimg.c_str(), 329, 478, 11);     // 상대방 캐릭터 사진
-        print->printText(id.c_str(), 327, 610, 12, font2, color); // 상대방 ID 출력
+        if (opponentID != "ERROR" && opponentCharacter != "ERROR") {
+            std::cout << "Opponent ID: " << opponentID << std::endl;
+            std::cout << "Opponent Character Image: " << opponentCharacter << std::endl;
+        }
+        else {
+            std::cout << "Failed to receive opponent data" << std::endl;
+        }
+
+       // std::cout << id << cimg;
+        print->printPNG(opponentID.c_str(), 329, 478, 11);     // 상대방 캐릭터 사진
+        print->printText(opponentCharacter.c_str(), 327, 610, 12, font2, color); // 상대방 ID 출력
 
     }
     catch (const std::exception& e) {
@@ -55,7 +64,7 @@ void MultiGameScene::drawInit()
     std::thread opponentThread(receiveAndPrintOpponentData, print);
 
     // 스레드가 완료될 때까지 기다림 (병렬 작업이 아니면 join() 필요)
-    opponentThread.join();
+    opponentThread.detach();
     //상대방쪽
     print->printPNG("heart1.png", 118, 50, 1);
     print->printPNG("heart2.png", 171, 50, 2);
@@ -63,8 +72,6 @@ void MultiGameScene::drawInit()
     print->printText("Line: ", 329, 388, 4, font, color);
     print->printText("Tetris: ", 329, 418, 5, font, color);
     print->printText("Score: ", 329, 448, 6, font, color);
-
-
  
     print->printPNG("Background.png", 0, 0, 0); // 전체 배경
     print->printPNG("MultiRhythmUI.png", 475, 186, 10); // 리듬게임 UI 배경

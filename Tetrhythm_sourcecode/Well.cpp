@@ -265,12 +265,7 @@ void Well::unite(const Tetromino& t)
                 data[t.x() + x][t.y() + y] = true;
                 dataTypes[t.x() + x][t.y() + y] = t.getType(); // 블럭 타입 저장
             }
-
-    //멀티 모드 블럭 업데이트
-    if (!isOpponent) {
-        Multi::getInstance()->sendData(data, dataTypes);
-    }
-
+  
     std::vector<int> fullLines;
     for (int y = 0; y < Height; ++y)
     {
@@ -312,6 +307,12 @@ void Well::unite(const Tetromino& t)
             dataTypes[x][0] = Tetromino::Type::I; // 초기값 설정
         }
     }
+
+    //멀티 모드 블럭 업데이트
+    if (!isOpponent) {
+        Multi::getInstance()->sendData(data, dataTypes);
+    }
+
 }
 
 int Well::getLine() const

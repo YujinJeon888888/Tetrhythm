@@ -97,4 +97,11 @@ private:
     bool heartDeduct = false;
     //바닥 자동 닿았나 체크
     int autoLandCheck = 0;
+    bool countdown3Displayed = false;
+    bool countdown2Displayed = false;
+    bool countdown1Displayed = false;
+    bool startDisplayed = false;
+    bool startDeleted = false;
+    double perfectImageStartTime; // Perfect.png 표시 시점 기록
+    bool perfectImageVisible; // Perfect.png 표시 여부
 };

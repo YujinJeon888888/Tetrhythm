@@ -25,6 +25,11 @@ SoundManager::~SoundManager() {
 }
 
 void SoundManager::playMusic(const std::string& filePath, int loops) {
+    // 이미 음악이 재생 중인지 확인
+    if (Mix_PlayingMusic() == 1) {
+        return; // 이미 음악이 재생 중이면 함수 종료
+    }
+
     if (music_) {
         Mix_FreeMusic(music_);  // 기존 음악 메모리 해제
         music_ = nullptr;
@@ -37,6 +42,7 @@ void SoundManager::playMusic(const std::string& filePath, int loops) {
     }
     Mix_PlayMusic(music_, loops);
 }
+
 
 void SoundManager::stopMusic() {
     Mix_HaltMusic();

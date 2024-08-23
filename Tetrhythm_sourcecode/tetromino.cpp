@@ -3,6 +3,7 @@
 #include <algorithm>  // std::shuffle 사용
 #include <random>
 #include <vector>
+#include <iostream> // 디버그 메시지 출력용
 
 const int WELL_WIDTH = 10;
 const int WELL_HEIGHT = 20;
@@ -19,15 +20,23 @@ Tetromino::Tetromino(int xOffset, int yOffset) :
     angle_(0),
     xOffset(xOffset),  // 전달된 매개변수를 사용
     yOffset(yOffset)
-{}
+{
+}
+
 Tetromino::Type Tetromino::getNextType() {
-    if (bagIndex == 0 || bagIndex >= 7) {
+    if (bagIndex >= 7 || bag.empty()) {
         bag = { I, J, L, O, S, T, Z };
         std::shuffle(bag.begin(), bag.end(), rng);
         bagIndex = 0;
+
     }
-    return bag[bagIndex++];
+    Tetromino::Type nextType = bag[bagIndex++];
+
+    return nextType;
 }
+
+
+
 
 void Tetromino::draw(SDL_Renderer* renderer, SDL_Texture* blockTexture) const
 {

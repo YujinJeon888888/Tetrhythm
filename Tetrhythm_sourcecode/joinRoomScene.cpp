@@ -14,6 +14,7 @@ void joinRoomScene::drawInit()
     //객체 연결
     Print* pt = print;
     //프린트 세팅
+    print->printPNG("BackGround.png", 0, 0, 0);
     print->printPNG("IDInputBox.png", 375, 337.5, 1);
     print->printPNG("InputCode.png", 364, 186, 2);
     print->printPNG("ToCompleteSpace.png", 908.25, 582, 3);
@@ -23,9 +24,7 @@ void joinRoomScene::drawInit()
     SDL_Color color = { 255, 255, 255 }; // 흰색
     print->InputText(390, 360, 4, font, color);
     SDL_StartTextInput();
-    //마우스커서 세팅
-    std::vector<std::string> animPaths1 = { "MouseCursorAnim1.png", "MouseCursorAnim2.png" };
-    print->printAnimationPNG(animPaths1, 387, 348, 5, 30); // 0.5초마다 애니메이션 출력
+    
 }
 
 

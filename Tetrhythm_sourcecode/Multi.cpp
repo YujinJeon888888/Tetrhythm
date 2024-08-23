@@ -4,11 +4,11 @@
 
 Multi* Multi::instance = nullptr;
 
-
-
 Multi::Multi() {
 
-    addr = "127.0.0.1";//"52.14.83.66"
+    addr = "52.14.83.66";//"127.0.0.1";
+    //"52.14.83.66"
+    //getRandomRoom();
     //WSADATA wsaData;
     //WSAStartup(MAKEWORD(2, 2), &wsaData);
 
@@ -42,6 +42,84 @@ Multi* Multi::getInstance() {
         instance = new Multi();
     }
     return instance;
+}
+
+void Multi::sendData(bool data[10][20], const Tetromino::Type dataTypes[Well::Width][Well::Height]) {
+
+    // 직렬화: bool 배열을 char 배열로 변환 (bool은 1바이트)
+    char buffer[Well::Width * Well::Height];
+
+    for (int i = 0; i < Well::Width; ++i) {
+       for (int j = 0; j < Well::Height; ++j) {
+                buffer[i * Well::Height + j] = static_cast<char>(data[i][j]);
+       //std::cout << static_cast<int>(buffer[i * Well::Height + j]);
+       }
+       // std::cout << std::endl;
+    }
+
+    char typeBuffer[Well::Width * Well::Height];
+    for (int i = 0; i < Well::Width; ++i) {
+        for (int j = 0; j < Well::Height; ++j) {
+                typeBuffer[i * Well::Height + j] = static_cast<char>(dataTypes[i][j]);
+        }
+    }
+
+    // 3. 데이터 전송 (두 배열을 순서대로 전송)
+    if (send(clientSocket, buffer, sizeof(buffer), 0) == SOCKET_ERROR) {
+            std::cerr << "Failed to send bool data." << std::endl;
+    }
+
+    if (send(clientSocket, typeBuffer, sizeof(typeBuffer), 0) == SOCKET_ERROR) {
+            std::cerr << "Failed to send type data." << std::endl;
+    }
+    
+}
+
+
+bool Multi::receiveData(std::array<std::array<bool, 20>, 10>& data, Tetromino::Type(&dataTypes)[Well::Width][Well::Height]) {
+   
+        char buffer[Well::Width * Well::Height];
+        char typeBuffer[Well::Width * Well::Height];
+
+        fd_set readfds;
+        FD_ZERO(&readfds);
+        FD_SET(clientSocket, &readfds);
+
+        struct timeval timeout;
+        timeout.tv_sec = 0;
+        timeout.tv_usec = 16000;  // 16ms timeout (예: 60 FPS)
+
+        int activity = select(clientSocket + 1, &readfds, NULL, NULL, &timeout);
+
+        if (activity > 0 && FD_ISSET(clientSocket, &readfds)) {
+            char buffer[Well::Width * Well::Height];
+            int bytesReceived = recv(clientSocket, buffer, sizeof(buffer), 0);
+
+            if (bytesReceived > 0) {
+                // 역직렬화: char 배열을 bool 배열로 변환
+                for (int i = 0; i < Well::Width; ++i) {
+                    for (int j = 0; j < Well::Height; ++j) {
+                        data[i][j] = static_cast<bool>(buffer[i * Well::Height + j]);
+                    }
+                }
+
+                bytesReceived = recv(clientSocket, typeBuffer, sizeof(typeBuffer), 0);
+
+                if (bytesReceived > 0) {
+                    // Tetromino::Type 배열로 역직렬화
+                    for (int i = 0; i < Well::Width; ++i) {
+                        for (int j = 0; j < Well::Height; ++j) {
+                            dataTypes[i][j] = static_cast<Tetromino::Type>(typeBuffer[i * Well::Height + j]);
+                        }
+                    }
+                    return true;  // 성공적으로 데이터 수신 및 변환 완료
+                }
+              
+            }
+          
+        }
+       
+        return false;
 }
 
 int Multi::getRandomRoom() {
@@ -114,7 +192,6 @@ int Multi::joinRoom(std::string password) {
     return stoi(password);
 }
 
-
 void Multi::connetOpponent() {
 
     char buffer[1024];
@@ -134,19 +211,17 @@ void Multi::connetOpponent() {
         }
     }
 
-    std::cout << "The game is ready??\n";
+// Create threads for receiving and sending messages
+//  std::thread receiveThread(&Multi::receiveMessages, this);
+//  std::thread sendThread(&Multi::sendMessages, this);
 
-    // Create threads for receiving and sending messages
-    std::thread receiveThread(&Multi::receiveMessages, this);
-    std::thread sendThread(&Multi::sendMessages, this);
-
-    // Wait for both threads to finish
-    receiveThread.join();
-    sendThread.join();
+// Wait for both threads to finish
+//   receiveThread.join();
+//  sendThread.join();
 
 
-    closesocket(clientSocket);
-    WSACleanup();
+// closesocket(clientSocket);
+// WSACleanup();
 }
 
 void Multi::receiveMessages() {

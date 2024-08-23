@@ -1,4 +1,5 @@
 #include "LoadingScene.h"
+#include "MultiGameScene.h"
 
 
 LoadingScene::LoadingScene(WindowManager& wm, SceneManager& manager)
@@ -59,7 +60,7 @@ void LoadingScene::update() {
     // 업데이트 로직 추가
 
     if (Multi::getInstance()->isReady) {
-      //  sceneManager.changeScene(std::make_unique<TetrisScene>(windowManager, sceneManager));
+        sceneManager.changeScene(std::make_unique<MultiGameScene>(windowManager, sceneManager));
     }
 
 }

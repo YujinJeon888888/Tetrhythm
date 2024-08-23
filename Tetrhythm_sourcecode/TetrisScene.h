@@ -1,9 +1,8 @@
 #pragma once
+#include "Game.h"
 #include <iostream>
 #include "ClearScene.h"
 #include "SceneManager.h"
-#include "Game.h"
-#include "TetrisScene.h"
 #include "GameOverScene.h"
 #include "MainMenu.h"
 #include "MySQL.h"

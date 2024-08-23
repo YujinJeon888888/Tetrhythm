@@ -209,9 +209,6 @@ void MutiMenuScene::handleEvents() {
 
 void MutiMenuScene::update() {
     // 업데이트 로직 추가
-    if (Multi::getInstance()->isReady) {
-        sceneManager.changeScene(std::make_unique<TetrisScene>(windowManager, sceneManager));
-    }
 
     if (!isCodeScene && Multi::getInstance()->roomCode != 0) {
         isCodeScene = true;

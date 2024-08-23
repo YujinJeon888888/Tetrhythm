@@ -42,18 +42,12 @@ void MultiGameScene::drawInit()
     print->printText(UserInfo::getInstance().getUserID().c_str(), 327, 610, 12, font2, color); //상대방ID(바꿔야됨) 
 
 
-
- 
- 
-
-
     print->printPNG("Background.png", 0, 0, 0); // 전체 배경
     print->printPNG("MultiRhythmUI.png", 475, 186, 10); // 리듬게임 UI 배경
 }
 
 void MultiGameScene::handleEvents()
 {
-
     print->handleEvents();
 }
 
@@ -71,7 +65,7 @@ void MultiGameScene::update() {
             sceneManager.changeScene(std::make_unique<ClearScene>(windowManager, sceneManager, game->getLine(), game->getTetris()));
         }
         else {
-            sceneManager.changeScene(std::make_unique<GameOverScene>(windowManager, sceneManager, game->getScore(), game->getLine(), game->getTetris()));
+           // sceneManager.changeScene(std::make_unique<GameOverScene>(windowManager, sceneManager, game->getScore(), game->getLine(), game->getTetris()));
         }
     }
 }

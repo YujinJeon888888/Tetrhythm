@@ -40,20 +40,17 @@ void joinRoomThread(std::string pwd) {
 }
 
 
-
-
 void joinRoomScene::whenSpace()
 {
     const std::string pwd = print->getTextInput().c_str();
     try {
-               std::thread joinRoomThreadObj(joinRoomThread, pwd);
+      std::thread joinRoomThreadObj(joinRoomThread, pwd);
+     // 스레드를 detach 또는 join 하여 관리
+      joinRoomThreadObj.detach();
+    }
+    catch (const std::exception& e) {
 
-               // 스레드를 detach 또는 join 하여 관리
-               joinRoomThreadObj.detach();
-           }
-           catch (const std::exception& e) {
-
-               std::cerr << "Exception caught: " << e.what() << std::endl;
+      std::cerr << "Exception caught: " << e.what() << std::endl;
     }
 
 }
@@ -71,15 +68,11 @@ void joinRoomScene::handleArrowKey(SDL_Keycode key) {
     }
 }
 
-
-
 void joinRoomScene::update()
 {
     if (print->getTextInput().size() == 0) {
         print->updateAnimations();
     }
-
-
 }
 
 void joinRoomScene::render()

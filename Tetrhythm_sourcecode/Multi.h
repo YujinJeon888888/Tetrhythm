@@ -1,5 +1,5 @@
 #pragma once
-
+#define _WINSOCK_DEPRECATED_NO_WARNINGS
 #pragma comment(lib, "Ws2_32.lib")
 #include <winsock2.h>
 #include <iostream>
@@ -8,6 +8,8 @@
 #include "SceneManager.h"
 #include "tetrisScene.h"
 #include <conio.h>
+#include "Well.h"
+
 
 class Multi{
 
@@ -26,9 +28,17 @@ private:
     // Receive room number from the server
     int receiveRoomNumber();
 
+
+    //void receiveData(bool data[Well::Width][Well::Height]);
+
+  //  void receiveData(bool data[Well::Width][Well::Height]);
+
 public:
     // Get the singleton instance
     static Multi* getInstance();
+
+    void sendData(bool data[10][20], const Tetromino::Type dataTypes[Well::Width][Well::Height]);
+    bool receiveData(std::array<std::array<bool, 20>, 10>& data, Tetromino::Type(&dataTypes)[Well::Width][Well::Height]);
 
     // Get a random room and start communication
     int getRandomRoom();

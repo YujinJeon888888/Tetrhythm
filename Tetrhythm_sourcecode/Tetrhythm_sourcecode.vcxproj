@@ -133,7 +133,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v143</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
@@ -221,8 +221,13 @@
       <AdditionalLibraryDirectories>$(ProjectDir)\SDL2_ttf-devel-2.0.15-VC\SDL2_ttf-devel-2.0.15-VC\SDL2_ttf-2.0.15\lib\x64;$(ProjectDir)\SDL2_mixer-devel-2.8.0-VC\SDL2_mixer-2.8.0\lib\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
-      <Command>
-      </Command>
+      <Command>xcopy /y /s "$(ProjectDir)Musics\*" "$(OutDir)Musics\"
+xcopy /y /s "$(ProjectDir)Char_image\*" "$(OutDir)Char_image\"
+for %%F in (png ttf mp3 dll) do (
+    for %%G in ("$(ProjectDir)*.%%F") do xcopy /y "%%G" "$(OutDir)"
+)
+
+</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">

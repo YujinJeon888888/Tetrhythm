@@ -1,7 +1,10 @@
 #pragma once
+
+
 #include "tetromino.h"
 #include <SDL.h>
 #include <array>
+
 
 class Well
 {
@@ -19,6 +22,7 @@ public:
     int getLine() const;
     int getTetris() const;
     void addGrayLines(int numLines, bool Gap);
+    bool isOpponent = false;
 private:
     bool data[Width][Height];
     Tetromino::Type dataTypes[Width][Height]; // 각 블럭의 타입을 저장하는 배열

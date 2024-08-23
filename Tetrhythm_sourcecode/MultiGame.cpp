@@ -54,6 +54,8 @@ MultiGame::MultiGame(WindowManager& wm, Print* pr, SceneManager& sm)
     heartSpawnInterval(60.0 / 140.0 * 4),
     nextHeartSpawnTime(0.0)
 {
+    
+    opponentWell_.isOpponent = true;
     const char* textureFiles[7] = {
         "Skyblue_I.png",
         "Blue_J.png",
@@ -95,6 +97,8 @@ MultiGame::MultiGame(WindowManager& wm, Print* pr, SceneManager& sm)
     {
         throw std::runtime_error("Failed to create texture: " + std::string(SDL_GetError()));
     }
+
+
 }
 
 
@@ -130,7 +134,7 @@ bool MultiGame::tick()
     if (hearts.size() == 0)
     {
         gameOver = true;
-        std::cout << "Game Over!" << std::endl;
+      //  std::cout << "Game Over!" << std::endl;
     }
 
     if (gameOver) {
@@ -138,7 +142,7 @@ bool MultiGame::tick()
         //최대콤보반영
         std::sort(comboVector.begin(), comboVector.end(), std::greater<int>());//내림차순정렬
         score += std::round(comboScore * (comboVector[0] / totalBeats));
-        return false;
+       // return false;
     }
 
     // 이벤트 처리
@@ -246,12 +250,12 @@ bool MultiGame::tick()
                                 comboCount += 1;
                                 score += (heartPosX == 729) ? 2000 : 500;
                                 print->setText(9, "       " + std::to_string(score));
-                                std::cout << "safe!" << std::endl;
+                               // std::cout << "safe!" << std::endl;
                                 heartVisible = false;
                                 print->deletePNG("heartNote.png");
                                 if (heartPosX == 729)
                                 {
-                                    std::cout << "perfect!" << std::endl;
+                                  //  std::cout << "perfect!" << std::endl;
                                 }
                             }
                             else if (heartPosX < 690)
@@ -394,9 +398,10 @@ bool MultiGame::tick()
     // 노래가 시작된 후 경과 시간 출력 (1초 간격)
     if (musicPlayed && timeSinceStart - lastLogTime >= 1.0)
     {
-        std::cout << "Elapsed time: " << static_cast<int>(timeSinceStart) << " seconds" << std::endl;
+       // std::cout << "Elapsed time: " << static_cast<int>(timeSinceStart) << " seconds" << std::endl;
         lastLogTime = timeSinceStart;
     }
+
 
     // 화면 업데이트
     SDL_SetRenderDrawColor(windowManager.getRenderer(), 0, 0, 0, 0xff);
@@ -482,7 +487,7 @@ void MultiGame::check(const Tetromino& t)
         if (well_.isCollision(tetromino_))
         {
             gameOver = true;
-            std::cout << "Game Over!" << std::endl;
+           // std::cout << "Game Over!" << std::endl;
         }
     }
     else  // 충돌이 발생하지 않았을 경우에만 tetromino 업데이트
@@ -508,16 +513,16 @@ void MultiGame::deductHeart()
     isPerfectClear = false;
     comboVector.push_back(comboCount);
     comboCount = 0;
-    std::cout << "when heartPosX : " << heartPosX << "deduct heart" << std::endl;
+ //   std::cout << "when heartPosX : " << heartPosX << "deduct heart" << std::endl;
     if (!hearts.empty())
     {
         MultiHeart lastHeart = hearts.back();
         print->deletePNG(lastHeart.path.c_str());
         hearts.pop_back();
-        std::cout << "Heart deducted! Remaining hearts: " << hearts.size() << std::endl;
+     //   std::cout << "Heart deducted! Remaining hearts: " << hearts.size() << std::endl;
     }
     else
     {
-        std::cout << "No hearts left to deduct" << std::endl;
+      //  std::cout << "No hearts left to deduct" << std::endl;
     }
 }

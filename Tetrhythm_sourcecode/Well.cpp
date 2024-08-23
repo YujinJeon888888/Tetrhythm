@@ -1,3 +1,5 @@
+
+#include "Multi.h"
 #include "Well.h"
 #include "Print.h"
 
@@ -115,6 +117,22 @@ void Well::draw(SDL_Renderer* renderer, SDL_Texture* blockTextures[], const std:
 //멀티모드용 draw코드 (회색 텍스처 추가)
 void Well::draw(SDL_Renderer* renderer, SDL_Texture* blockTextures[], SDL_Texture* grayBlockTexture, const std::array<Tetromino, 3>& nextTetrominos)
 {
+
+    if (isOpponent) {
+        std::array<std::array<bool, Well::Height>, Well::Width> tempData = {};
+        std::array<std::array<bool, Well::Height>, Well::Width>& oData = tempData;
+
+        Tetromino::Type (&temp_dataTypes)[Well::Width][Well::Height] = dataTypes;
+        if (Multi::getInstance()->receiveData(oData, temp_dataTypes)) {
+            for (int i = 0; i < Width; ++i) {
+                for (int j = 0; j < Height; ++j) {
+                    data[i][j] = oData[i][j];
+                }
+            }
+        }
+    }
+
+    //data에 따라 코드 그리기 
     for (int x = 0; x < Width; ++x)
     {
         for (int y = 0; y < Height; ++y)
@@ -158,8 +176,6 @@ void Well::draw(SDL_Renderer* renderer, SDL_Texture* blockTextures[], SDL_Textur
 
     // Draw custom bottom border
     SDL_SetRenderDrawColor(renderer, 0xff, 0xff, 0xff, 0xff); // White color for custom border
-    
-
 
     // 블럭 대기열 내부 블럭들 그리기
     for (int i = 0; i < 3; ++i)
@@ -239,6 +255,11 @@ void Well::unite(const Tetromino& t)
                 data[t.x() + x][t.y() + y] = true;
                 dataTypes[t.x() + x][t.y() + y] = t.getType(); // 블럭 타입 저장
             }
+
+    //멀티 모드 블럭 업데이트
+    if (!isOpponent) {
+        Multi::getInstance()->sendData(data, dataTypes);
+    }
 
     std::vector<int> fullLines;
     for (int y = 0; y < Height; ++y)

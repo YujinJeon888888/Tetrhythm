@@ -60,9 +60,6 @@
     <ClCompile Include="SceneManager.cpp">
       <Filter>소스 파일\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="MainMenu.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="폰트.cpp">
       <Filter>소스 파일\유진Test</Filter>
     </ClCompile>
@@ -134,6 +131,9 @@
     </ClCompile>
     <ClCompile Include="MultiGameScene.cpp">
       <Filter>소스 파일\MultiMenu</Filter>
+    </ClCompile>
+    <ClCompile Include="MainMenu.cpp">
+      <Filter>소스 파일\Main</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

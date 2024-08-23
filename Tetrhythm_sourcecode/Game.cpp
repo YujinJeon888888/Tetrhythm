@@ -133,15 +133,17 @@ bool Game::tick()
                     // 하트 노트 위치 판정
                     if (heartVisible)
                     {
-                        if (393 < heartPosX && heartPosX < 469)
+                        if (393 < heartPosX && heartPosX < 471)
                         {
-                            if (393 <= heartPosX && heartPosX <= 471)
                             comboCount += 1;
                             score += (heartPosX == 432) ? 2000 : 500;
                             print->setText(9, "       " + std::to_string(score));
                             //std::cout << "safe!" << std::endl;
                             heartVisible = false;
                             print->deletePNG("heartNote.png");
+                            if (heartPosX == 432) {
+                                std::cout << "perfect!" << std::endl;
+                            }
                         }
                         else if (heartPosX <= 393)
                         {
@@ -176,7 +178,7 @@ bool Game::tick()
                         // 하트 노트 위치 판정
                         if (heartVisible)
                         {
-                            if (393 < heartPosX && heartPosX < 469)
+                            if (393 < heartPosX && heartPosX < 471)
                             {
                                 comboCount += 1;
                                 score += (heartPosX == 432) ? 2000 : 500;
@@ -184,6 +186,9 @@ bool Game::tick()
                                 //std::cout << "safe!" << std::endl;
                                 heartVisible = false;
                                 print->deletePNG("heartNote.png");
+                                if (heartPosX == 432) {
+                                    std::cout << "perfect!" << std::endl;
+                                }
                             }
                             else if (heartPosX <= 393)
                             {
@@ -322,7 +327,7 @@ bool Game::tick()
             // 하트 노트 위치 판정
             if (heartVisible)
             {
-                if (393 < heartPosX && heartPosX < 469)
+                if (393 < heartPosX && heartPosX < 471)
                 {
                     comboCount += 1;
                     score += (heartPosX == 432) ? 2000 : 500;
@@ -330,6 +335,9 @@ bool Game::tick()
                     //std::cout << "safe!" << std::endl;
                     heartVisible = false;
                     print->deletePNG("heartNote.png");
+                    if (heartPosX == 432) {
+                        std::cout << "perfect!" << std::endl;
+                    }
                 }
                 else if (heartPosX <= 393)
                 {

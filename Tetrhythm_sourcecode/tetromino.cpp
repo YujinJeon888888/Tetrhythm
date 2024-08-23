@@ -21,13 +21,14 @@ Tetromino::Tetromino(int xOffset, int yOffset) :
     yOffset(yOffset)
 {}
 Tetromino::Type Tetromino::getNextType() {
-    if (bagIndex == 0 || bagIndex >= 7) {
+    if (bagIndex >= 7) {
         bag = { I, J, L, O, S, T, Z };
         std::shuffle(bag.begin(), bag.end(), rng);
-        bagIndex = 0;
+        bagIndex = 0; // 새로 섞었으므로 인덱스 초기화
     }
     return bag[bagIndex++];
 }
+
 
 void Tetromino::draw(SDL_Renderer* renderer, SDL_Texture* blockTexture) const
 {

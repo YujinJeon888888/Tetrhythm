@@ -9,7 +9,7 @@
 #include "ControlExp.h"
 
 
-MainMenu::MainMenu(WindowManager& wm, SceneManager& manager) : windowManager(wm), sceneManager(manager), print(new Print(&wm)), soundManager()
+MainMenu::MainMenu(WindowManager& wm, SceneManager& manager) : windowManager(wm), sceneManager(manager), print(new Print(&wm)), soundManager(new SoundManager())
 {
     drawInit();
 }
@@ -17,22 +17,30 @@ MainMenu::MainMenu(WindowManager& wm, SceneManager& manager) : windowManager(wm)
 void MainMenu::handleArrowKey(SDL_Keycode key) {
     switch (key) {
     case SDLK_LSHIFT:
+        soundManager->loadSound("Musics/Selection.mp3", "Selection"); // 효과음 로드
+        soundManager->playSound("Selection", 0);
         sceneManager.changeScene(std::make_unique<ControlExp>(windowManager, sceneManager));
         break;
     case SDLK_ESCAPE:
         sceneManager.changeScene(std::make_unique<scoreTableScene>(windowManager, sceneManager));
         break;
     case SDLK_UP:
+        soundManager->loadSound("Musics/SelectionMove.mp3", "SelectionMove"); // 효과음 로드
+        soundManager->playSound("SelectionMove", 0);
         if (MenuSelection > 0) {
             MenuSelection--;
         }
         break;
     case SDLK_DOWN:
+        soundManager->loadSound("Musics/SelectionMove.mp3", "SelectionMove"); // 효과음 로드
+        soundManager->playSound("SelectionMove", 0);
         if (MenuSelection < numOptions - 1) {
             MenuSelection++;
         }
         break;
     case SDLK_SPACE:
+        soundManager->loadSound("Musics/Selection.mp3", "Selection"); // 효과음 로드
+        soundManager->playSound("Selection", 0);
         std::cout << "Selected Menu: " << MenuSelection << std::endl;
 
         switch (MenuSelection)

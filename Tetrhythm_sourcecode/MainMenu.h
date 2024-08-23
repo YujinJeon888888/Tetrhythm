@@ -32,5 +32,5 @@ private:
     Print* print;
     WindowManager& windowManager;
     SceneManager& sceneManager;
-    SoundManager soundManager;  // SoundManager 객체 추가
+    SoundManager * soundManager;  // SoundManager 객체 추가
 };

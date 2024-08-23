@@ -138,12 +138,12 @@ bool Game::tick()
                         if (393 < heartPosX && heartPosX < 471)
                         {
                             comboCount += 1;
-                            score += (heartPosX == 432) ? 2000 : 500;
+                            score += (429 <= heartPosX <= 435) ? 2000 : 500;
                             print->setText(9, "       " + std::to_string(score));
                             //std::cout << "safe!" << std::endl;
                             heartVisible = false;
                             print->deletePNG("heartNote.png");
-                            if (heartPosX == 432) {
+                            if (429<= heartPosX <= 435) {
                                 std::cout << "perfect!" << std::endl;
                             }
                         }
@@ -184,12 +184,12 @@ bool Game::tick()
                             if (393 < heartPosX && heartPosX < 471)
                             {
                                 comboCount += 1;
-                                score += (heartPosX == 432) ? 2000 : 500;
+                                score += (429 <= heartPosX <= 435) ? 2000 : 500;
                                 print->setText(9, "       " + std::to_string(score));
                                 //std::cout << "safe!" << std::endl;
                                 heartVisible = false;
                                 print->deletePNG("heartNote.png");
-                                if (heartPosX == 432) {
+                                if (429 <= heartPosX <= 435) {
                                     std::cout << "perfect!" << std::endl;
                                 }
                             }

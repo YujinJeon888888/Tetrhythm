@@ -85,4 +85,14 @@ private:
     bool isClear = false;
     bool isPerfectClear = true;
     int fullComboCount = 0;
+    //
+    int seriesTetrisCount = 0;
+    const int comboScore = 100000;
+    int comboCount = 0;
+    std::vector<int> comboVector;
+    int forDebugCount = 0;
+    //비트!
+    double beatInterval = 60.0 / 140.0;
+    //하트 깎이는 거 한 번 체크
+    bool heartDeduct = false;
 };

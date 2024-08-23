@@ -11,23 +11,13 @@
 #include <chrono>
 #include "Windows.h"
 #include <functional>
-//////////////////////////////////
-//전역변수
-int seriesTetrisCount = 0;
-const int comboScore = 100000;
-int comboCount = 0;
-std::vector<int> comboVector;
-//비트!
-double beatInterval = 60.0 / 140.0;
-//하트 깎이는 거 한 번 체크
-bool heartDeduct = false;
-//////////////////////////////////
 
 const std::string Heart::paths[3] = {
     "heart1.png",
     "heart2.png",
     "heart3.png"
 };
+
 const int Heart::xPositions[3] = {
     570,
     623,
@@ -116,17 +106,17 @@ bool Game::tick()
     Uint32 dropDelay = 50;   // 드랍 시 딜레이 (밀리초 단위)
 
 
-    //이벤트 처리
+// 이벤트 처리
     SDL_Event e;
-    // SDL_WaitEventTimeout으로 이벤트 기다리기
     if (SDL_WaitEventTimeout(&e, 10))
     {
-        do {
-            if (e.type == SDL_KEYDOWN)
+        switch (e.type)
+        {
+        case SDL_KEYDOWN:
+            switch (e.key.keysym.sym)
             {
-                if (e.key.keysym.sym == SDLK_SPACE && e.key.repeat == 0)
-                {
-                    // 키를 처음 눌렀을 때만 처리
+            case SDLK_SPACE:
+                std::cout << "space " << forDebugCount++ <<std::endl;
                     if (currentTime > lastDropTime + dropDelay)
                     {
                         Tetromino t = tetromino_;
@@ -142,12 +132,13 @@ bool Game::tick()
                                 comboCount += 1;
                                 score += (heartPosX == 432) ? 2000 : 500;
                                 print->setText(9, "       " + std::to_string(score));
-                                std::cout << "safe!" << std::endl;
+                                //std::cout << "safe!" << std::endl;
                                 heartVisible = false;
                                 print->deletePNG("heartNote.png");
                             }
                             else if (heartPosX <= 393)
                             {
+                                // 이 부분에서 하트 노드를 바로 사라지게 처리
                                 if (!heartDeduct) {
                                     deductHeart();
                                 }
@@ -160,56 +151,138 @@ bool Game::tick()
                             nextHeartSpawnTime = timeSinceStart + heartSpawnInterval;
                         }
                     }
-                }
-                else if (e.key.keysym.sym == SDLK_ESCAPE)
+
+                break;
+            case SDLK_ESCAPE:
+                soundManager->stopMusic();
+                sceneManager.changeScene(std::make_unique<MainMenu>(windowManager, sceneManager));
+                break;
+            case SDLK_DOWN:
+                if (currentTime > lastMoveTime + moveDelay)
                 {
-                    soundManager->stopMusic();
-                    sceneManager.changeScene(std::make_unique<MainMenu>(windowManager, sceneManager));
-                }
-                else if (e.key.keysym.sym == SDLK_DOWN)
-                {
-                    if (currentTime > lastMoveTime + moveDelay)
-                    {
-                        Tetromino t = tetromino_;
-                        t.move(0, 1);
-                        if (!well_.isCollision(t))
-                            tetromino_ = t;
-                        moveTime_ = SDL_GetTicks() + 400; // 아래로 이동 시 자동 내려오는 시간을 조정
-                        lastMoveTime = currentTime; // 마지막 이동 시간 기록
+                    Tetromino t = tetromino_;
+                    t.move(0, 1);
+                    if (!well_.isCollision(t)) {
+                        tetromino_ = t;
                     }
-                }
-                else if (e.key.keysym.sym == SDLK_RIGHT || e.key.keysym.sym == SDLK_LEFT)
-                {
-                    if (currentTime > lastMoveTime + moveDelay)
-                    {
-                        Tetromino t = tetromino_;
-                        t.move((e.key.keysym.sym == SDLK_RIGHT) ? 1 : -1, 0);
-                        if (!well_.isCollision(t))
-                            tetromino_ = t;
-                        lastMoveTime = currentTime; // 마지막 이동 시간 기록
+                    else {
+                        // 하트 노트 위치 판정
+                        if (heartVisible)
+                        {
+                            if (393 < heartPosX && heartPosX < 469)
+                            {
+                                comboCount += 1;
+                                score += (heartPosX == 432) ? 2000 : 500;
+                                print->setText(9, "       " + std::to_string(score));
+                                //std::cout << "safe!" << std::endl;
+                                heartVisible = false;
+                                print->deletePNG("heartNote.png");
+                            }
+                            else if (heartPosX <= 393)
+                            {
+                                // 이 부분에서 하트 노드를 바로 사라지게 처리
+                                if (!heartDeduct) {
+                                    deductHeart();
+                                }
+                                heartDeduct = true;
+                                heartVisible = false;
+                                print->deletePNG("heartNote.png");
+                            }
+
+                            // 다음 하트 노드 생성 타이밍 설정
+                            nextHeartSpawnTime = timeSinceStart + heartSpawnInterval;
+                        }
+
                     }
+                    moveTime_ = SDL_GetTicks() + 400; // 아래로 이동 시 자동 내려오는 시간을 조정
+                    lastMoveTime = currentTime; // 마지막 이동 시간 기록
                 }
-                else if (e.key.keysym.sym == SDLK_a || e.key.keysym.sym == SDLK_d || e.key.keysym.sym == SDLK_UP || e.key.keysym.sym == SDLK_z || e.key.keysym.sym == SDLK_c)
+                break;
+
+            case SDLK_RIGHT:
+            case SDLK_LEFT:
+                if (currentTime > lastMoveTime + moveDelay)
                 {
-                    if (currentTime > lastRotationTime + rotateDelay)
-                    {
-                        Tetromino t = tetromino_;
-                        if (e.key.keysym.sym == SDLK_a || e.key.keysym.sym == SDLK_z || e.key.keysym.sym == SDLK_c)
-                            t.rotateCounterClockwise();
-                        else
-                            t.rotate();
-                        if (!well_.isCollision(t))
-                            tetromino_ = t;
-                        lastRotationTime = currentTime; // 마지막 회전 시간 기록
+                    Tetromino t = tetromino_;
+                    t.move((e.key.keysym.sym == SDLK_RIGHT) ? 1 : -1, 0);
+                    if (!well_.isCollision(t)) {
+                        tetromino_ = t;
                     }
+
+                    lastMoveTime = currentTime; // 마지막 이동 시간 기록
                 }
+                break;
+
+            case SDLK_a:
+                if (currentTime > lastRotationTime + rotateDelay)
+                {
+                    Tetromino t = tetromino_;
+                    t.rotate();
+                    if (!well_.isCollision(t)) {
+                        tetromino_ = t;
+                    }
+
+                    lastRotationTime = currentTime; // 마지막 회전 시간 기록
+                }
+                break;
+
+            case SDLK_d:
+                if (currentTime > lastRotationTime + rotateDelay)
+                {
+                    Tetromino t = tetromino_;
+                    t.rotateCounterClockwise();
+                    if (!well_.isCollision(t)) {
+                        tetromino_ = t;
+                    }
+
+                    lastRotationTime = currentTime; // 마지막 회전 시간 기록
+                }
+                break;
+            case SDLK_UP:
+                if (currentTime > lastRotationTime + rotateDelay)
+                {
+                    Tetromino t = tetromino_;
+                    t.rotate();
+                    if (!well_.isCollision(t)) {
+                        tetromino_ = t;
+                    }
+
+                    lastRotationTime = currentTime; // 마지막 회전 시간 기록
+                }
+                break;
+            case SDLK_z:
+                if (currentTime > lastRotationTime + rotateDelay)
+                {
+                    Tetromino t = tetromino_;
+                    t.rotateCounterClockwise();
+                    if (!well_.isCollision(t)) {
+                        tetromino_ = t;
+                    }
+
+                    lastRotationTime = currentTime; // 마지막 회전 시간 기록
+                }
+                break;
+            case SDLK_c:
+                if (currentTime > lastRotationTime + rotateDelay)
+                {
+                    Tetromino t = tetromino_;
+                    t.rotate();
+                    if (!well_.isCollision(t)) {
+                        tetromino_ = t;
+                    }
+
+                    lastRotationTime = currentTime; // 마지막 회전 시간 기록
+                }
+                break;
+
             }
-            else if (e.type == SDL_QUIT)
-            {
-                exit(0);
-                return false;
-            }
-        } while (SDL_PollEvent(&e)); // 추가 이벤트 처리 (이벤트 큐 비우기)
+            break;
+
+  
+        case SDL_QUIT:
+            exit(0);
+            return false;
+        }
     }
 
     // 프레임 타이밍 관리
@@ -230,34 +303,6 @@ bool Game::tick()
         }
         else
         {
-            //충돌났을때 바로 하트노드 위치 체크 
-            if (heartVisible)
-            {
-                if (393 < heartPosX && heartPosX < 469)
-                {
-                    comboCount += 1;
-                    score += (heartPosX == 432) ? 2000 : 500;
-                    print->setText(9, "       " + std::to_string(score));
-                    std::cout << "safe!" << std::endl;
-                    heartVisible = false;
-                    print->deletePNG("heartNote.png");
-                }
-                else
-                {
-                    if (!heartDeduct) {
-                        deductHeart();
-                    }
-                    heartDeduct = true;
-                    heartVisible = false;
-                    print->deletePNG("heartNote.png");
-                }
-
-                // heartVisible = false;
-                // print->deletePNG("heartNote.png");
-
-                // 다음 하트 노드 생성 타이밍 설정
-                nextHeartSpawnTime = timeSinceStart + heartSpawnInterval;
-            }
 
             check(t);
         }
@@ -405,7 +450,6 @@ bool Game::tick()
     return true;
 }
 
-
 void Game::check(const Tetromino& t)
 {
 
@@ -433,7 +477,6 @@ void Game::check(const Tetromino& t)
         tetromino_ = t;
     }
 }
-
 
 bool Game::isGameOver() const
 {

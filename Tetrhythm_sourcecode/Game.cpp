@@ -306,42 +306,6 @@ bool Game::tick()
                     break;
 
                 case SDLK_a:
-                    if (currentTime > lastRotationTime + rotateDelay)
-                    {
-                        Tetromino t = tetromino_;
-                        t.rotate();
-                        if (!well_.isCollision(t)) {
-                            tetromino_ = t;
-                        }
-
-                        lastRotationTime = currentTime; // 마지막 회전 시간 기록
-                    }
-                    break;
-
-                case SDLK_d:
-                    if (currentTime > lastRotationTime + rotateDelay)
-                    {
-                        Tetromino t = tetromino_;
-                        t.rotateCounterClockwise();
-                        if (!well_.isCollision(t)) {
-                            tetromino_ = t;
-                        }
-
-                        lastRotationTime = currentTime; // 마지막 회전 시간 기록
-                    }
-                    break;
-                case SDLK_UP:
-                    if (currentTime > lastRotationTime + rotateDelay)
-                    {
-                        Tetromino t = tetromino_;
-                        t.rotate();
-                        if (!well_.isCollision(t)) {
-                            tetromino_ = t;
-                        }
-
-                        lastRotationTime = currentTime; // 마지막 회전 시간 기록
-                    }
-                    break;
                 case SDLK_z:
                     if (currentTime > lastRotationTime + rotateDelay)
                     {
@@ -354,7 +318,10 @@ bool Game::tick()
                         lastRotationTime = currentTime; // 마지막 회전 시간 기록
                     }
                     break;
+
+                case SDLK_d:
                 case SDLK_c:
+                case SDLK_UP:
                     if (currentTime > lastRotationTime + rotateDelay)
                     {
                         Tetromino t = tetromino_;
@@ -366,7 +333,6 @@ bool Game::tick()
                         lastRotationTime = currentTime; // 마지막 회전 시간 기록
                     }
                     break;
-
                 }
                 break;
 

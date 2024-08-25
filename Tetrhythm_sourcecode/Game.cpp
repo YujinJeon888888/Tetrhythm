@@ -140,7 +140,7 @@ bool Game::tick()
         musicPlayed = true;
     }
 
-// 이벤트 처리
+    // 이벤트 처리
    
 
     // 프레임 타이밍 관리
@@ -183,6 +183,60 @@ bool Game::tick()
 
 
     if (timeSinceStart >= 4.0) {
+        // 현재 키보드 상태 확인
+        const Uint8* keystates = SDL_GetKeyboardState(NULL);
+        // 스페이스바가 눌렸는지 확인
+        if (keystates[SDL_SCANCODE_SPACE]) {
+            if (!spacePressed) {  // 이전 프레임에서 스페이스바가 눌리지 않은 상태였다면
+                if (currentTime > lastDropTime + dropDelay)
+                {
+                    Tetromino t = tetromino_;
+                    t.drop(well_);
+                    check(t);
+                    lastDropTime = currentTime; // 마지막 드랍 시간 기록
+                    soundManager->playSound("BlockDrop", 0);
+                    // 하트 노트 위치 판정
+                    if (heartVisible)                    
+                    {
+                        if (393 < heartPosX && heartPosX < 471)
+                        {
+                            comboCount += 1;
+                            score += (heartPosX == 432) ? 2000 : 500;
+                            print->setText(9, "       " + std::to_string(score));
+                            //std::cout << "safe!" << std::endl;
+                            heartVisible = false;
+                            print->deletePNG("heartNote.png");
+                            if (heartPosX == 432) {
+                                std::cout << "perfect!" << std::endl;
+                                print->printPNG("Perfect.png", 376, 169, 1);
+                                perfectImageStartTime = timeSinceStart; // 표시 시점 기록
+                                perfectImageVisible = true;
+                            }
+                        }
+                        else if (heartPosX <= 393)
+                        {
+                            // 이 부분에서 하트 노드를 바로 사라지게 처리
+                            if (!heartDeduct) {
+                                deductHeart();
+                            }
+                            heartDeduct = true;
+                            heartVisible = false;
+                            print->deletePNG("heartNote.png");
+                        }
+
+                        // 다음 하트 노드 생성 타이밍 설정
+                        nextHeartSpawnTime = timeSinceStart + heartSpawnInterval;
+                    }
+                }
+
+
+                spacePressed = 1;  // 스페이스바가 눌렸음을 기록
+            }
+        }
+        else {
+            spacePressed = 0;  // 스페이스바가 눌리지 않은 상태로 리셋
+        }
+
         if (SDL_WaitEventTimeout(&e, 10))
         {
             switch (e.type)
@@ -190,51 +244,7 @@ bool Game::tick()
             case SDL_KEYDOWN:
                 switch (e.key.keysym.sym)
                 {
-                case SDLK_SPACE:
-                    std::cout << "space " << forDebugCount++ << std::endl;
-                    if (currentTime > lastDropTime + dropDelay)
-                    {
-                        Tetromino t = tetromino_;
-                        t.drop(well_);
-                        check(t);
-                        lastDropTime = currentTime; // 마지막 드랍 시간 기록
-
-                        // 하트 노트 위치 판정
-                        if (heartVisible)
-                            soundManager->playSound("BlockDrop", 0);
-                        {
-                            if (393 < heartPosX && heartPosX < 471)
-                            {
-                                comboCount += 1;
-                                score += (heartPosX == 432) ? 2000 : 500;
-                                print->setText(9, "       " + std::to_string(score));
-                                //std::cout << "safe!" << std::endl;
-                                heartVisible = false;
-                                print->deletePNG("heartNote.png");
-                                if (heartPosX == 432) {
-                                    std::cout << "perfect!" << std::endl;
-                                    print->printPNG("Perfect.png", 376, 169, 1);
-                                    perfectImageStartTime = timeSinceStart; // 표시 시점 기록
-                                    perfectImageVisible = true;
-                                }
-                            }
-                            else if (heartPosX <= 393)
-                            {
-                                // 이 부분에서 하트 노드를 바로 사라지게 처리
-                                if (!heartDeduct) {
-                                    deductHeart();
-                                }
-                                heartDeduct = true;
-                                heartVisible = false;
-                                print->deletePNG("heartNote.png");
-                            }
-
-                            // 다음 하트 노드 생성 타이밍 설정
-                            nextHeartSpawnTime = timeSinceStart + heartSpawnInterval;
-                        }
-                    }
-
-                    break;
+            
                 case SDLK_ESCAPE:
                     soundManager->stopMusic();
                     soundManager->loadSound("Musics/Selection.mp3", "Selection"); // 효과음 로드

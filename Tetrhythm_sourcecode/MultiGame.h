@@ -52,6 +52,9 @@ public:
     bool getIsPerfectClear() const {
         return isPerfectClear;
     }
+    int getMaxCombo() const {
+        return maxCombo;
+    }
 private:
     MultiGame(const MultiGame&);
     MultiGame& operator=(const MultiGame&);
@@ -108,4 +111,5 @@ private:
     double beatInterval = 60.0 / 140.0;
     //하트 깎이는 거 한 번 체크
     bool heartDeduct = false;
+    int maxCombo;
 };

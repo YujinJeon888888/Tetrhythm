@@ -363,11 +363,10 @@ void MySQL::initUserInfo(std::string ID) {
     // 테이블 상태 출력 쿼리 실행
     query = "SELECT perfectClear FROM Users where name = '" + ID + "'";
     selectQuery = query.c_str();
-    Stat = mysql_query(ConnPtr, selectQuery);
-    if (Stat != 0) {
-        std::cout << mysql_error(&Conn) << std::endl;
-        exit(-1);
-    }
+    do {
+        std::cout << "server connect try!!" << std::endl;
+        Stat = mysql_query(ConnPtr, selectQuery);
+    } while (Stat != 0);
 
     // 결과를 가져와서 출력
     Result = mysql_store_result(ConnPtr);

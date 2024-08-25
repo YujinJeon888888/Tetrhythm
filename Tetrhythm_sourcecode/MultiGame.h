@@ -108,4 +108,12 @@ private:
     double beatInterval = 60.0 / 140.0;
     //하트 깎이는 거 한 번 체크
     bool heartDeduct = false;
+    bool countdown3Displayed = false;
+    bool countdown2Displayed = false;
+    bool countdown1Displayed = false;
+    bool startDisplayed = false;
+    bool startDeleted = false;
+    double perfectImageStartTime; // Perfect.png 표시 시점 기록
+    bool perfectImageVisible;
+
 };

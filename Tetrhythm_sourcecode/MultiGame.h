@@ -115,5 +115,5 @@ private:
     bool startDeleted = false;
     double perfectImageStartTime; // Perfect.png 표시 시점 기록
     bool perfectImageVisible;
-
+    int spacePressed=0;
 };

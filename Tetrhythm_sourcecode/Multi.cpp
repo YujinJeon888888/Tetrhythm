@@ -21,7 +21,7 @@ Multi::Multi() {
     //std::cout << "connect to server";
     //connect(clientSocket, (sockaddr*)&serverAddr, sizeof(serverAddr));
 }
-
+              
 void Multi::connectServer() {
 
     WSADATA wsaData;
@@ -172,7 +172,7 @@ void Multi::sendMessage(int type) {
 
     // 메시지 타입 전송
     if (send(clientSocket, &messageType, sizeof(messageType), 0) == SOCKET_ERROR) {
-        std::cerr << "Failed to send message type for game clear." << std::endl;
+        std::cerr << "Failed to send message type for message" << std::endl;
         return;
     }
 
@@ -185,7 +185,7 @@ void Multi::sendGameOver() {
 
     // 메시지 타입 전송
     if (send(clientSocket, &messageType, sizeof(messageType), 0) == SOCKET_ERROR) {
-        std::cerr << "Failed to send message type for game clear." << std::endl;
+        std::cerr << "Failed to send message type for game over/clear." << std::endl;
         return;
     }
 
@@ -199,7 +199,7 @@ void Multi::sendHeartInfo(std::string msg) {
 
     // 메시지 타입 전송
     if (send(clientSocket, &messageType, sizeof(messageType), 0) == SOCKET_ERROR) {
-        std::cerr << "Failed to send message type for type." << std::endl;
+        std::cerr << "Failed to send message type for heart." << std::endl;
         return;
     }
 
@@ -446,6 +446,7 @@ void Multi::sendMessages() {
 }
 
 void Multi::closeConnection() {
+    shutdown(clientSocket, SD_BOTH);  // 전송 종료
     closesocket(clientSocket);
     WSACleanup();
   

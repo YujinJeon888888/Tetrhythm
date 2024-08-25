@@ -66,7 +66,8 @@ MultiGame::MultiGame(WindowManager& wm, Print* pr, SceneManager& sm)
     startDisplayed(false),
     startDeleted(false),
     perfectImageStartTime(0.0), // 초기화
-    perfectImageVisible(false)
+    perfectImageVisible(false),
+    maxCombo(0)
 {
     
     opponentWell_.isOpponent = true;
@@ -180,6 +181,7 @@ bool MultiGame::tick()
         //최대콤보반영
         comboVector.push_back(comboCount);
         std::sort(comboVector.begin(), comboVector.end(), std::greater<int>());//내림차순정렬
+        if(fullComboCount!=0)
         score += (int)(std::round((float)comboScore * ((float)comboVector[0] / (float)fullComboCount)));
         maxCombo = comboVector[0];
         return false;

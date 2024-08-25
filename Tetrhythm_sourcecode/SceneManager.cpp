@@ -22,7 +22,6 @@ void SceneManager::goBack() {
     }
 }
 
-
 void SceneManager::handleEvents() {
     if (!scenes.empty()) {
         scenes.top()->handleEvents();

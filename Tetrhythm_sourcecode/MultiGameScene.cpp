@@ -93,13 +93,13 @@ void MultiGameScene::update() {
         // 게임 종료 시
        
         if (game->getIsClear()) {
-            sceneManager.changeScene(std::make_unique<ClearScene>(windowManager, sceneManager, game->getLine(), game->getTetris()));
             //유저정보에 multiModeWin저장.
             MySQL mysql;
             mysql.setMultiModeWin(UserInfo::getInstance().getUserID(), (game->getIsClear()));
+            sceneManager.changeScene(std::make_unique<ClearScene>(windowManager, sceneManager, game->getLine(), game->getTetris(),game->getMaxCombo()));
         }
         else {
-           sceneManager.changeScene(std::make_unique<GameOverScene>(windowManager, sceneManager, game->getScore(), game->getLine(), game->getTetris()));
+           sceneManager.changeScene(std::make_unique<GameOverScene>(windowManager, sceneManager, game->getScore(), game->getLine(), game->getTetris(),game->getMaxCombo()));
         }
     }
 }

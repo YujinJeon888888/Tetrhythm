@@ -1,7 +1,7 @@
 #include "ClearScene.h"
 
-ClearScene::ClearScene(WindowManager& wm, SceneManager& manager, int line, int tetris)
-	: windowManager(wm), sceneManager(manager), print(new Print(&wm)), line(line),tetris(tetris),soundManager(new SoundManager())
+ClearScene::ClearScene(WindowManager& wm, SceneManager& manager, int line, int tetris, int combo)
+	: windowManager(wm), sceneManager(manager), print(new Print(&wm)), line(line),tetris(tetris),soundManager(new SoundManager()), combo(combo)
 {
 	drawInit();
     soundManager->loadSound("Musics/YouWin.mp3", "YouWin"); // 효과음 로드
@@ -19,10 +19,12 @@ void ClearScene::drawInit()
     print->printText("Line: ", 739.5, 237, 3, font, color);
     print->printText("Tetris: ", 739.5, 267, 4, font, color);
     print->printText("Score: ", 739.5, 297, 5, font, color);
+    print->printText("Combo: ", 739.5, 327, 6, font, color);
     //점수 text
     print->printText("      " + std::to_string(line), 739.5, 237, 6, font, color);
     print->printText("        " + std::to_string(tetris), 739.5, 267, 7, font, color);
     print->printText("       " + std::to_string(UserInfo::getInstance().getScore()), 739.5, 297, 8, font, color);
+    print->printText("       " + std::to_string(combo), 739.5, 327, 9, font, color);
 }
 
 void ClearScene::handleEvents()

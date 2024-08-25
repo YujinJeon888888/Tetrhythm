@@ -72,6 +72,9 @@ void MultiGameScene::drawInit()
     print->printText("Line: ", 329, 388, 4, font, color);
     print->printText("Tetris: ", 329, 418, 5, font, color);
     print->printText("Score: ", 329, 448, 6, font, color);
+    print->printText("      0", 329, 388, 11, font, color);
+    print->printText("        0", 329, 418, 12, font, color);
+    print->printText("       0", 329, 448, 13, font, color);
  
     print->printPNG("Background.png", 0, 0, 0); // 전체 배경
     print->printPNG("MultiRhythmUI.png", 475, 186, 10); // 리듬게임 UI 배경

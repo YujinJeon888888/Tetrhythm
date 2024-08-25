@@ -49,7 +49,7 @@ public:
     void sendID(std::string id, std::string charImageStr);
     std::pair<std::string, std::string> receiveIDAndCharacter();
     std::string receiveOpponentData();
-    void sendData(bool data[10][20], const Tetromino::Type dataTypes[Well::Width][Well::Height]);
+    void sendData(bool data[10][20], const Tetromino::Type dataTypes[Well::Width][Well::Height], int line, int tetris);
     void sendMessage(int type);
     void sendGameOver();
     void sendHeartInfo(std::string msg);
@@ -82,6 +82,8 @@ public:
     bool isClear = false;
     bool isReady = false;
     bool hasCode = false;
+    int opponentLine = 0;
+    int opponentTetris = 0;
 
 };
 

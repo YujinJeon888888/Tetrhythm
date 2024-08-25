@@ -128,7 +128,7 @@ std::string Multi::receiveOpponentData() {
     return "NO_DATA";    // 데이터가 없음을 명시하는 문자열 반환
 }
 
-void Multi::sendData(bool data[10][20], const Tetromino::Type dataTypes[Well::Width][Well::Height]) {
+void Multi::sendData(bool data[10][20], const Tetromino::Type dataTypes[Well::Width][Well::Height],int line,int tetris) {
 
     char messageType = 3;
 
@@ -159,10 +159,23 @@ void Multi::sendData(bool data[10][20], const Tetromino::Type dataTypes[Well::Wi
     if (send(clientSocket, buffer, sizeof(buffer), 0) == SOCKET_ERROR) {
             std::cerr << "Failed to send bool data." << std::endl;
     }
-
     if (send(clientSocket, typeBuffer, sizeof(typeBuffer), 0) == SOCKET_ERROR) {
+        std::cerr << "Failed to send type data." << std::endl;
+    }
+
+    int networkINT= htonl(line);
+
+    // 데이터를 전송합니다.
+
+    if (send(clientSocket, (char*)&networkINT, sizeof(networkINT), 0) == SOCKET_ERROR) {
             std::cerr << "Failed to send type data." << std::endl;
     }
+    networkINT = htonl(tetris);
+  
+    if (send(clientSocket, (char*)&networkINT, sizeof(networkINT), 0) == SOCKET_ERROR) {
+        std::cerr << "Failed to send type data." << std::endl;
+    }
+  
     
 }
 
@@ -284,7 +297,21 @@ int Multi::receiveData(std::array<std::array<bool, 20>, 10>& data, Tetromino::Ty
                                 dataTypes[i][j] = static_cast<Tetromino::Type>(typeBuffer[i * Well::Height + j]);
                             }
                         }
-                        return 3;  // 성공적으로 데이터 수신 및 변환 완료
+                        int networkInt;
+                        bytesReceived = recv(clientSocket, (char*)&networkInt, sizeof(networkInt), 0);
+
+                        if (bytesReceived > 0) {
+                            opponentLine = ntohl(networkInt);
+
+                    
+                            bytesReceived = recv(clientSocket, (char*)&networkInt, sizeof(networkInt), 0);
+
+                            if (bytesReceived > 0) {
+                                opponentTetris = ntohl(networkInt);
+                                return 3;  // 성공적으로 데이터 수신 및 변환 완료
+                            }
+                        }
+                      
                     }
 
                 }

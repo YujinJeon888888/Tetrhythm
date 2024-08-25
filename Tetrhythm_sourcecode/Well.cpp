@@ -310,7 +310,7 @@ void Well::unite(const Tetromino& t)
 
     //멀티 모드 블럭 업데이트
     if (!isOpponent) {
-        Multi::getInstance()->sendData(data, dataTypes);
+        Multi::getInstance()->sendData(data, dataTypes,line,tetris);
     }
 
 }

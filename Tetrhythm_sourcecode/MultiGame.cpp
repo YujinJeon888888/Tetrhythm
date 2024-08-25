@@ -67,7 +67,9 @@ MultiGame::MultiGame(WindowManager& wm, Print* pr, SceneManager& sm)
     startDeleted(false),
     perfectImageStartTime(0.0), // 초기화
     perfectImageVisible(false),
-    maxCombo(0)
+    maxCombo(0),
+    oppPreviousLine(0),
+    oppPreviousTetris(0)
 {
     
     opponentWell_.isOpponent = true;
@@ -201,8 +203,17 @@ bool MultiGame::tick()
     //상대방 보드(+대기열) 그리기
     opponentWell_.draw(windowManager.getRenderer(), blockTextures_, grayBlockTexture_, nextTetrominos_);
     // 상대 필드를 빈 상태로 그리기
+    if (oppPreviousLine != Multi::getInstance()->opponentLine) {
 
+        oppPreviousLine = Multi::getInstance()->opponentLine;
+        print->setText(11, "      " + std::to_string(Multi::getInstance()->opponentLine));
 
+    }
+    if (oppPreviousTetris != Multi::getInstance()->opponentTetris)
+    {
+        oppPreviousTetris = Multi::getInstance()->opponentTetris;
+        print->setText(12, "        " + std::to_string(Multi::getInstance()->opponentTetris));
+    }
     SDL_Event e;
 
 

@@ -120,4 +120,6 @@ private:
     bool perfectImageVisible;
     int spacePressed=0;
     int maxCombo;
+    int oppPreviousLine;
+    int oppPreviousTetris;
 };

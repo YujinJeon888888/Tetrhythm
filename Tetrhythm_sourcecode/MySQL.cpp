@@ -253,6 +253,7 @@ void MySQL::setMultiModeWin(std::string ID, bool b)
         mysql_close(ConnPtr);
         exit(-1);
     }
+
     UserInfo::getInstance().setMultiModeWin(b);
     mysql_close(ConnPtr);
 }

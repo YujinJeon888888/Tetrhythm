@@ -265,11 +265,11 @@ void Characters::unlock() {
 	data[0][0] = true;
 
 	//2. 첫 멀티모드 승리
-	MySQL mysql;
-	if (UserInfo::getInstance().getMultiModeWin()) {
-		data[1][0] = true;
-	}
-
+	//MySQL mysql;
+	//if (UserInfo::getInstance().getMultiModeWin()) {
+	//	data[1][0] = true;
+	//}
+	//mysql.setMultiModeWin(UserInfo::getInstance().getUserID(), UserInfo::getInstance().getMultiModeWin());
 
 	//3.총 120 lines
 	if (UserInfo::getInstance().getLine() >= 120) {

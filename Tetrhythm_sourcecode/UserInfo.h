@@ -36,4 +36,5 @@ public:
 	bool getPerfectClear() const;
 	void setMultiModeWin(const bool multiModeWin);
 	bool getMultiModeWin() const;
+
 };

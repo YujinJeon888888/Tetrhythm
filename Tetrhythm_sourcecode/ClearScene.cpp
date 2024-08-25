@@ -1,5 +1,5 @@
 #include "ClearScene.h"
-
+#include "UserInfo.h"
 ClearScene::ClearScene(WindowManager& wm, SceneManager& manager, int line, int tetris, int combo)
 	: windowManager(wm), sceneManager(manager), print(new Print(&wm)), line(line),tetris(tetris),soundManager(new SoundManager()), combo(combo)
 {
@@ -12,8 +12,7 @@ ClearScene::ClearScene(WindowManager& wm, SceneManager& manager, int line, int t
 	: windowManager(wm), sceneManager(manager), print(new Print(&wm)), line(line),tetris(tetris),soundManager(new SoundManager()), combo(combo), isMultiModeWin(isMultiModeWin)
 {
     //유저정보에 multiModeWin저장.
-    MySQL mysql;
-    mysql.setMultiModeWin(UserInfo::getInstance().getUserID(), isMultiModeWin);
+    //UserInfo::getInstance().setMultiModeWin(isMultiModeWin);
 	drawInit();
     soundManager->loadSound("Musics/YouWin.mp3", "YouWin"); // 효과음 로드
     soundManager->playSound("YouWin", 0);

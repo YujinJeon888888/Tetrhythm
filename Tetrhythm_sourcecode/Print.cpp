@@ -280,7 +280,7 @@ void Print::handleTextEvents(const std::function<void()>& whenSpace, const std::
                     temp = NULL;
                 }
             }
-            if (event.key.keysym.sym == SDLK_SPACE && !textInput.empty()) {
+            if ((event.key.keysym.sym == SDLK_SPACE|| event.key.keysym.sym == SDLK_RETURN) && !textInput.empty()) {
 
                 whenSpace();
 

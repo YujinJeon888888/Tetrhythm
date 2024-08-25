@@ -23,7 +23,7 @@ void ControlExp::drawInit()
 
 	// 애니메이션 출력
 	std::vector<std::string> animPaths1 = { "CholangSands1.png","CholangSands2.png","CholangSands3.png","CholangSands4.png","CholangSands5.png","CholangSands6.png" };
-	print->printAnimationPNG(animPaths1, 780, 300, 11, 15); // 1초마다 애니메이션 출력
+	print->printAnimationPNG(animPaths1, 780, 300, 11, 7); // 1초마다 애니메이션 출력
 
 	// 텍스트 애니메이션 초기화
 	font = print->loadFont("DungGeunMo.ttf", 85);

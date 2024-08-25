@@ -440,9 +440,10 @@ bool MultiGame::tick()
                         //std::cout << "safe!" << std::endl;
                         heartVisible = false;
                         print->deletePNG("heartNote.png");
-                        if (heartPosX == 432) {
+                        if (heartPosX == 432)
+                        {
                             std::cout << "perfect!" << std::endl;
-                            print->printPNG("Perfect.png", 376, 169, 1);
+                            print->printPNG("Perfect.png", 662, 150, 30);
                             perfectImageStartTime = timeSinceStart; // 표시 시점 기록
                             perfectImageVisible = true;
                         }

@@ -6,6 +6,8 @@
 class ClearScene : public Scene{
 public:
 	ClearScene(WindowManager& wm, SceneManager& manager, int line, int tetris, int combo);
+	ClearScene(WindowManager& wm, SceneManager& manager, int line, int tetris, int combo, bool isMultiModeWin);
+
 	void drawInit() override;
 	void handleEvents() override;
 	void update() override;
@@ -19,4 +21,5 @@ private:
 	int tetris;
 	SoundManager* soundManager;
 	int combo;
+	bool isMultiModeWin;
 };

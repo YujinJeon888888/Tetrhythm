@@ -8,8 +8,21 @@ ClearScene::ClearScene(WindowManager& wm, SceneManager& manager, int line, int t
     soundManager->playSound("YouWin", 0);
 }
 
+ClearScene::ClearScene(WindowManager& wm, SceneManager& manager, int line, int tetris, int combo, bool isMultiModeWin)
+	: windowManager(wm), sceneManager(manager), print(new Print(&wm)), line(line),tetris(tetris),soundManager(new SoundManager()), combo(combo), isMultiModeWin(isMultiModeWin)
+{
+    //유저정보에 multiModeWin저장.
+    MySQL mysql;
+    mysql.setMultiModeWin(UserInfo::getInstance().getUserID(), isMultiModeWin);
+	drawInit();
+    soundManager->loadSound("Musics/YouWin.mp3", "YouWin"); // 효과음 로드
+    soundManager->playSound("YouWin", 0);
+}
+
 void ClearScene::drawInit()
 {
+    
+
 	print->printPNG("BackGround.png", 0, 0, 0);
 	print->printPNG("clearImage.png", 259.5, 157.5, 1);
 	print->printPNG("clearText.png", 259.5, 26.25, 2);

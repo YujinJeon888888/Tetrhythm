@@ -59,8 +59,7 @@ public:
 
     // Get a random room and start communication
     int getRandomRoom();
-
-    
+   
     int createRoom();
 
     std::string addr;

@@ -14,6 +14,7 @@ void LoadingScene::handleArrowKey(SDL_Keycode key) {
 
     case SDLK_ESCAPE:
         Multi::getInstance()->closeConnection();
+        Multi::resetInstance();
         sceneManager.goBack();
     case SDLK_UP:
      

@@ -261,26 +261,26 @@ bool MultiGame::tick()
                     t.drop(well_);
                     check(t);
                     lastDropTime = currentTime; // 마지막 드랍 시간 기록
-                    soundManager->playSound("BlockDrop", 0);
+                   // soundManager->playSound("BlockDrop", 0);
                     // 하트 노트 위치 판정
                     if (heartVisible)
                     {
-                        if (393 < heartPosX && heartPosX < 471)
+                        if (690 <= heartPosX && heartPosX <= 768)
                         {
                             comboCount += 1;
-                            score += (heartPosX == 432) ? 2000 : 500;
+                            score += (heartPosX == 729) ? 2000 : 500;
                             print->setText(9, "       " + std::to_string(score));
                             //std::cout << "safe!" << std::endl;
                             heartVisible = false;
                             print->deletePNG("heartNote.png");
-                            if (heartPosX == 432) {
+                            if (heartPosX == 729) {
                                 std::cout << "perfect!" << std::endl;
                                 print->printPNG("Perfect.png", 376, 169, 1);
                                 perfectImageStartTime = timeSinceStart; // 표시 시점 기록
                                 perfectImageVisible = true;
                             }
                         }
-                        else if (heartPosX <= 393)
+                        else if (heartPosX <= 690)
                         {
                             // 이 부분에서 하트 노드를 바로 사라지게 처리
                             if (!heartDeduct) {
@@ -329,15 +329,15 @@ bool MultiGame::tick()
                             // 하트 노트 위치 판정
                             if (heartVisible)
                             {
-                                if (393 < heartPosX && heartPosX < 471)
+                                if (690 <= heartPosX && heartPosX <= 768)
                                 {
                                     comboCount += 1;
-                                    score += (heartPosX == 432) ? 2000 : 500;
+                                    score += (heartPosX == 729) ? 2000 : 500;
                                     print->setText(9, "       " + std::to_string(score));
                                     //std::cout << "safe!" << std::endl;
                                     heartVisible = false;
                                     print->deletePNG("heartNote.png");
-                                    if (heartPosX == 432)
+                                    if (heartPosX == 729)
                                     {
                                         std::cout << "perfect!" << std::endl;
                                         print->printPNG("Perfect.png", 376, 169, 1);
@@ -345,7 +345,7 @@ bool MultiGame::tick()
                                         perfectImageVisible = true;
                                     }
                                 }
-                                else if (heartPosX <= 393)
+                                else if (heartPosX <= 690)
                                 {
                                     // 이 부분에서 하트 노드를 바로 사라지게 처리
                                     if (!heartDeduct) {
@@ -441,15 +441,15 @@ bool MultiGame::tick()
                 // 하트 노트 위치 판정
                 if (heartVisible)
                 {
-                    if (393 < heartPosX && heartPosX < 471)
+                    if (690 <= heartPosX && heartPosX <= 768)
                     {
                         comboCount += 1;
-                        score += (heartPosX == 432) ? 2000 : 500;
+                        score += (heartPosX == 729) ? 2000 : 500;
                         print->setText(9, "       " + std::to_string(score));
                         //std::cout << "safe!" << std::endl;
                         heartVisible = false;
                         print->deletePNG("heartNote.png");
-                        if (heartPosX == 432)
+                        if (heartPosX == 729)
                         {
                             std::cout << "perfect!" << std::endl;
                             print->printPNG("Perfect.png", 662, 150, 30);
@@ -457,7 +457,7 @@ bool MultiGame::tick()
                             perfectImageVisible = true;
                         }
                     }
-                    else if (heartPosX <= 393)
+                    else if (heartPosX <= 690)
                     {
                         // 이 부분에서 하트 노드를 바로 사라지게 처리
                         if (!heartDeduct) {

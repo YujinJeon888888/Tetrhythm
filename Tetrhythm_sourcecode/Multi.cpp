@@ -6,7 +6,7 @@ Multi* Multi::instance = nullptr;
 Multi::Multi() {
 
     addr ="52.14.83.66";//
-    //addr = "127.0.0.1";
+   // addr = "127.0.0.1";
     //"52.14.83.66"
     //getRandomRoom();
     //WSADATA wsaData;unknown
@@ -448,10 +448,12 @@ void Multi::sendMessages() {
 void Multi::closeConnection() {
     closesocket(clientSocket);
     WSACleanup();
+  
 }
 
 Multi::~Multi() {
 
+    std::cout << "exit";
     send(clientSocket, "exit", strlen("exit"), 0);
     closeConnection();
 }

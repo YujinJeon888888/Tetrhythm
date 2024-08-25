@@ -52,6 +52,9 @@ public:
     bool getIsPerfectClear() const {
         return isPerfectClear;
     }
+    int getMaxCombo() const {
+        return maxCombo;
+    }
 private:
     MultiGame(const MultiGame&);
     MultiGame& operator=(const MultiGame&);
@@ -116,4 +119,5 @@ private:
     double perfectImageStartTime; // Perfect.png 표시 시점 기록
     bool perfectImageVisible;
     int spacePressed=0;
+    int maxCombo;
 };

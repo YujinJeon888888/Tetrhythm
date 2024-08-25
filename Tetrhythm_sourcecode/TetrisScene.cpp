@@ -60,10 +60,10 @@ void TetrisScene::update() {
             mysql.setPerfectClear(UserInfo::getInstance().getUserID(), (game->getIsPerfectClear()));
         }
         if (game->getIsClear()) {
-            sceneManager.changeScene(std::make_unique<ClearScene>(windowManager, sceneManager,game->getLine(),game->getTetris()));
+            sceneManager.changeScene(std::make_unique<ClearScene>(windowManager, sceneManager,game->getLine(),game->getTetris(),game->getMaxCombo()));
         }
         else {
-            sceneManager.changeScene(std::make_unique<GameOverScene>(windowManager, sceneManager, game->getScore(), game->getLine(), game->getTetris()));
+            sceneManager.changeScene(std::make_unique<GameOverScene>(windowManager, sceneManager, game->getScore(), game->getLine(), game->getTetris(),game->getMaxCombo()));
         }
     }
 }

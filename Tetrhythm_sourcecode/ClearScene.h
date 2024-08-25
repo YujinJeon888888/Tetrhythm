@@ -5,7 +5,7 @@
 
 class ClearScene : public Scene{
 public:
-	ClearScene(WindowManager& wm, SceneManager& manager, int line, int tetris);
+	ClearScene(WindowManager& wm, SceneManager& manager, int line, int tetris, int combo);
 	void drawInit() override;
 	void handleEvents() override;
 	void update() override;
@@ -18,5 +18,5 @@ private:
 	int line;
 	int tetris;
 	SoundManager* soundManager;
-
+	int combo;
 };

@@ -41,6 +41,7 @@ void MainMenu::handleArrowKey(SDL_Keycode key) {
         }
         break;
     case SDLK_SPACE:
+    case SDLK_RETURN:
         soundManager->loadSound("Musics/Selection.mp3", "Selection"); // 효과음 로드
         soundManager->playSound("Selection", 0);
         std::cout << "Selected Menu: " << MenuSelection << std::endl;

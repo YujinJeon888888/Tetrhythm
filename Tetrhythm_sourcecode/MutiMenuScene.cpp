@@ -61,6 +61,7 @@ void MutiMenuScene::handleArrowKey(SDL_Keycode key) {
         
         break;
     case SDLK_SPACE:
+    case SDLK_RETURN:
         std::cout << "Selected Menu: " << MenuSelection << std::endl;
         Multi::resetInstance();
 

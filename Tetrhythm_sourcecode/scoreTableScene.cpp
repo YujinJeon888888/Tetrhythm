@@ -38,29 +38,31 @@ void scoreTableScene::drawInit()
 	print->printPNG("BackGround.png", 0, 0, -1);
 	int y = 0;
 	int x = 0;
-	for (auto& token : tokens) {
-		if (y >= 625) {
-			y = 0;
-			x += 240;
-		}
-		if (y == 0 && x == 0) {
-			// 애니메이션 초기화
-			print->textAnimation(token, x, y, _1stfont, colors, 15, 1);
-			y += 35;
-		}
-		else if (y == 35 && x == 0) {
-			print->printText(token, x, y, 0, _2stfont, color);
-			y += 35;
-		}
-		else if (y == 70 && x == 0) {
-			print->printText(token, x, y, 0, _3stfont, color);
-			y += 35;
-		}
-		else {
-			print->printText(token, x, y, 0, font, color);
-			y += 25;
-		}
+	if (x <= 1200) {
+		for (auto& token : tokens) {
+			if (y >= 625) {
+				y = 0;
+				x += 240;
+			}
+			if (y == 0 && x == 0) {
+				// 애니메이션 초기화
+				print->textAnimation(token, x, y, _1stfont, colors, 15, 1);
+				y += 35;
+			}
+			else if (y == 35 && x == 0) {
+				print->printText(token, x, y, 0, _2stfont, color);
+				y += 35;
+			}
+			else if (y == 70 && x == 0) {
+				print->printText(token, x, y, 0, _3stfont, color);
+				y += 35;
+			}
+			else {
+				print->printText(token, x, y, 0, font, color);
+				y += 25;
+			}
 
+		}
 	}
 }
 

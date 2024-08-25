@@ -4,8 +4,7 @@
 #include "SoundManager.h"
 class GameOverScene : public Scene {
 public:
-	GameOverScene(WindowManager& wm, SceneManager& manager); // 클래스 이름에 맞게 생성자 이름 변경 해줘야함.
-	GameOverScene(WindowManager& wm, SceneManager& manager, int score, int line, int tetris); // 클래스 이름에 맞게 생성자 이름 변경 해줘야함.
+	GameOverScene(WindowManager& wm, SceneManager& manager, int score, int line, int tetris, int combo); // 클래스 이름에 맞게 생성자 이름 변경 해줘야함.
 	void drawInit() override;
 	void handleEvents() override;
 	void update() override;
@@ -19,4 +18,5 @@ private:
 	int score;
 	int line;
 	int tetris;
+	int combo;
 };

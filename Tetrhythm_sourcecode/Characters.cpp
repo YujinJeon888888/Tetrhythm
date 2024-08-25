@@ -7,24 +7,24 @@ data{ false }, soundManager(new SoundManager())
 	//SDL_Color color = { 255, 255, 255 }; // 흰색
 	// data[0][3] = true;
 	 //data[1][0] = true;
-	 myCharIndex = getXValueFromUserCharacter();
-	 sIndex = myCharIndex;
-	 drawInit();
+	myCharIndex = getXValueFromUserCharacter();
+	sIndex = myCharIndex;
+	drawInit();
 }
 
 int Characters::getXValueFromUserCharacter() {
 	// 사용자 캐릭터의 경로를 가져옵니다.
 	std::string userCharacter = UserInfo::getInstance().getUserCharacter();
 
-		// 정규 표현식을 이용해 경로에서 숫자를 추출합니다.
-		std::regex regex("Char_image/character(\\d+)\\.png");
-		std::smatch match;
+	// 정규 표현식을 이용해 경로에서 숫자를 추출합니다.
+	std::regex regex("Char_image/character(\\d+)\\.png");
+	std::smatch match;
 
-		if (std::regex_search(userCharacter, match, regex) && match.size() > 1) {
-			// match[1]에 해당하는 부분이 숫자(x 값)입니다.
-			std::cout << std::stoi(match.str(1)) <<"charIndex";
-			return std::stoi(match.str(1)) - 1; // x 값이므로 1을 빼줍니다.
-		}
+	if (std::regex_search(userCharacter, match, regex) && match.size() > 1) {
+		// match[1]에 해당하는 부분이 숫자(x 값)입니다.
+		std::cout << std::stoi(match.str(1)) << "charIndex";
+		return std::stoi(match.str(1)) - 1; // x 값이므로 1을 빼줍니다.
+	}
 
 	// 해당 경로에서 숫자를 찾을 수 없는 경우, 적절한 오류 처리
 	throw std::runtime_error("Invalid user character path");
@@ -36,7 +36,7 @@ void Characters::handleArrowKey(SDL_Keycode key) {
 	case SDLK_UP:
 		soundManager->loadSound("Musics/SelectionMove.mp3", "SelectionMove"); // 효과음 로드
 		soundManager->playSound("SelectionMove", 0);
-	
+
 
 		if (sIndex > 3) sIndex -= 4;
 		break;
@@ -60,6 +60,7 @@ void Characters::handleArrowKey(SDL_Keycode key) {
 		break;
 
 	case SDLK_SPACE: // 뒤로 가기 기능 추가
+	case SDLK_RETURN:
 		soundManager->loadSound("Musics/Selection.mp3", "Selection"); // 효과음 로드
 		soundManager->playSound("Selection", 0);
 		if (data[sIndex % Width][sIndex / Width])
@@ -79,7 +80,7 @@ void Characters::handleArrowKey(SDL_Keycode key) {
 
 // main에서 여러번 그려지는 함수
 void Characters::drawSelection() {
-	
+
 	for (auto x = 0; x < Width; ++x)
 		for (auto y = 0; y < Height; y++) {
 			if (x == sIndex % Width && sIndex / Width == y) {
@@ -99,8 +100,8 @@ void Characters::drawSelection() {
 				else {
 					oss << "Char_image/character" << x + y * Width + 1 << "_L.png";
 				}
-			
-		
+
+
 				std::string fileName = oss.str();
 				print->printPNG(fileName.c_str(), 813, 207, 100);
 			}
@@ -180,7 +181,7 @@ void Characters::drawSelection() {
 	}
 	else {//아랫줄
 		//잠금상태면 해금 조건 표시
-		if (!data[sIndex%4][1]) {
+		if (!data[sIndex % 4][1]) {
 			print->printPNG("openedLock 1.png", 813, 142, 7);
 			//텍스트
 			switch (sIndex)
@@ -215,8 +216,8 @@ void Characters::drawInit() {
 
 	std::cout << sIndex << "charIndex";
 
-    Print* pt = print;
-    pt->printPNG("BackGround.png", 0, 0, 0);
+	Print* pt = print;
+	pt->printPNG("BackGround.png", 0, 0, 0);
 	pt->printPNG("explanation.png", 351, 34, 2);
 	pt->printPNG("openedLock 1.png", 813, 142, 7);
 
@@ -239,20 +240,20 @@ void Characters::drawInit() {
 
 		}
 
-		
 
-    //text
-        //text
-    //text 세팅
-    TTF_Font* font = print->loadFont("DungGeunMo.ttf", 25);
-    SDL_Color color = { 255, 255, 255 }; // 흰색
-    print->printText("Line: ", 777, 526, 4, font, color);
-    print->printText("Tetris: ", 777, 556, 5, font, color);
-    print->printText("HighScore: ", 777, 586, 6, font, color);
-    //점수 text
-    print->printText("      "+ std::to_string(UserInfo::getInstance().getLine()), 777, 526, 8, font, color);
-    print->printText("        "+ std::to_string(UserInfo::getInstance().getTetris()), 777, 556, 8, font, color);
-    print->printText("           "+ std::to_string(UserInfo::getInstance().getHighScore()), 777, 586, 9, font, color);
+
+	//text
+		//text
+	//text 세팅
+	TTF_Font* font = print->loadFont("DungGeunMo.ttf", 25);
+	SDL_Color color = { 255, 255, 255 }; // 흰색
+	print->printText("Line: ", 777, 526, 4, font, color);
+	print->printText("Tetris: ", 777, 556, 5, font, color);
+	print->printText("HighScore: ", 777, 586, 6, font, color);
+	//점수 text
+	print->printText("      " + std::to_string(UserInfo::getInstance().getLine()), 777, 526, 8, font, color);
+	print->printText("        " + std::to_string(UserInfo::getInstance().getTetris()), 777, 556, 8, font, color);
+	print->printText("           " + std::to_string(UserInfo::getInstance().getHighScore()), 777, 586, 9, font, color);
 	//해금조건 text
 	print->printText("Unlock Condition", 853, 152, 10, font, color);
 
@@ -279,22 +280,22 @@ void Characters::unlock() {
 	if (UserInfo::getInstance().getTetris() >= 50) {
 		data[3][0] = true;
 	}
-	
+
 	//  5. 싱글모드 퍼펙트 클리어
 	if (UserInfo::getInstance().getPerfectClear()) {
 		data[0][1] = true;
 	}
 
-    //  6. high score - 150000
-	if (UserInfo::getInstance().getHighScore()>= 150000) {
+	//  6. high score - 150000
+	if (UserInfo::getInstance().getHighScore() >= 150000) {
 		data[1][1] = true;
 	}
-    //  7. 총 150 Tetris
-	if (UserInfo::getInstance().getTetris()>= 150) {
+	//  7. 총 150 Tetris
+	if (UserInfo::getInstance().getTetris() >= 150) {
 		data[2][1] = true;
 	}
 	// 8. high score - 300000
-	if (UserInfo::getInstance().getHighScore()>= 300000) {
+	if (UserInfo::getInstance().getHighScore() >= 300000) {
 		data[3][1] = true;
 	}
 }

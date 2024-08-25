@@ -66,7 +66,7 @@ private:
     void check(const Tetromino&);
     int previousLine;
     int previousTetris;
-    int score;
+    int score=0;
     bool gameOver;
     SDL_Texture* blockTextures_[7]; // 7개의 블럭 텍스처를 저장하는 배열
     SDL_Texture* grayBlockTexture_;

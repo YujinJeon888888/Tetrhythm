@@ -49,12 +49,12 @@ void MultiGameScene::drawInit()
     TTF_Font* font = print->loadFont("DungGeunMo.ttf", 25);
     TTF_Font* font2 = print->loadFont("DungGeunMo.ttf", 20);
     SDL_Color color = { 255, 255, 255 }; // 흰색
-    print->printText("Line: ", 650, 388, 4, font, color);
-    print->printText("Tetris: ", 650, 418, 5, font, color);
-    print->printText("Score: ", 650, 448, 6, font, color);
-    print->printText("      0", 650, 388, 7, font, color);
-    print->printText("        0", 650, 418, 8, font, color);
-    print->printText("       0", 650, 448, 9, font, color);
+    print->printText("Line: ", 625, 388, 4, font, color);
+    print->printText("Tetris: ", 625, 418, 5, font, color);
+    print->printText("Score: ", 625, 448, 6, font, color);
+    print->printText("      0", 625, 388, 7, font, color);
+    print->printText("        0", 625, 418, 8, font, color);
+    print->printText("       0", 625, 448, 9, font, color);
     print->printPNG(UserInfo::getInstance().getUserCharacter().c_str(), 654, 478, 13);
     print->printText(UserInfo::getInstance().getUserID().c_str(), 654, 610, 12, font2, color); //플레이어ID
 

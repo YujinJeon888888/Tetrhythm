@@ -9,6 +9,7 @@
 #include "tetrisScene.h"
 #include <conio.h>
 #include "Well.h"
+#include "Tetromino.h"
 
 
 class Multi{
@@ -50,12 +51,16 @@ public:
     std::pair<std::string, std::string> receiveIDAndCharacter();
     std::string receiveOpponentData();
     void sendData(bool data[10][20], const Tetromino::Type dataTypes[Well::Width][Well::Height], int line, int tetris);
+    void sendScore(int Score);
     void sendMessage(int type);
     void sendGameOver();
     void sendHeartInfo(std::string msg);
     int receiveHeartData();
     int receiveMessegeData();
+    int recevType3Data();
     int receiveData(std::array<std::array<bool, 20>, 10>& data, Tetromino::Type(&dataTypes)[Well::Width][Well::Height]);
+
+    int receiveScore();
 
     // Get a random room and start communication
     int getRandomRoom();
@@ -82,8 +87,12 @@ public:
     bool isClear = false;
     bool isReady = false;
     bool hasCode = false;
+    bool hasData = false;
     int opponentLine = 0;
     int opponentTetris = 0;
+    int opponentScore = 0;
+    std::array<std::array<bool, 20>, 10> data ;
+    Tetromino::Type dataTypes[10][20] ;
 
 };
 

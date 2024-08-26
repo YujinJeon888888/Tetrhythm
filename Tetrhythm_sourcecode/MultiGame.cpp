@@ -160,33 +160,31 @@ bool MultiGame::tick()
 
     if (type == 2|| Multi::getInstance()->isClear) //클리어 임시 구?현
     {
-         Multi::resetInstance();
+        std::cout << "type 2";
+        Multi::resetInstance();
         soundManager->stopMusic(); // TetrisScene 객체가 파괴될 때 음악을 중지
         delete soundManager;
         isClear = true;
         gameOver = true;
-       // return false;
+     
     }
 
     if (type == 4) {
-        std::cout << "-----";
         deductHeart_opponent();
     }
     else if(type == 5) {
-    
+        plusHeart_opponent();
+    }
+    else if (type == 6) {
+     
+        print->setText(13, "      " + std::to_string(Multi::getInstance()->opponentScore));
+
     }
 
-    if (gameOver) {
-        Multi::getInstance()->sendGameOver();
-      //  Multi::getInstance()->isClear = true;
-        soundManager->stopMusic(); // 다른 창으로 이동하기 전에 음악을 중지합니다.
-        //최대콤보반영
-        comboVector.push_back(comboCount);
-        std::sort(comboVector.begin(), comboVector.end(), std::greater<int>());//내림차순정렬
-        if(fullComboCount!=0)
-        score += (int)(std::round((float)comboScore * ((float)comboVector[0] / (float)fullComboCount)));
-        maxCombo = comboVector[0];
-        return false;
+    if (Multi::getInstance()->hasData) {
+
+        print->setText(11, "      " + std::to_string(Multi::getInstance()->opponentLine));
+        print->setText(14, "        " + std::to_string(Multi::getInstance()->opponentTetris));
     }
 
 
@@ -203,17 +201,15 @@ bool MultiGame::tick()
     //상대방 보드(+대기열) 그리기
     opponentWell_.draw(windowManager.getRenderer(), blockTextures_, grayBlockTexture_, nextTetrominos_);
     // 상대 필드를 빈 상태로 그리기
-    if (oppPreviousLine != Multi::getInstance()->opponentLine) {
+  
 
-        oppPreviousLine = Multi::getInstance()->opponentLine;
-        print->setText(11, "      " + std::to_string(Multi::getInstance()->opponentLine));
+ /*   if (Multi::getInstance()->receiveScore()) {
+        print->setText(13, "      " + std::to_string(Multi::getInstance()->opponentScore));
+    }*/
 
-    }
-    if (oppPreviousTetris != Multi::getInstance()->opponentTetris)
-    {
-        oppPreviousTetris = Multi::getInstance()->opponentTetris;
-        print->setText(12, "        " + std::to_string(Multi::getInstance()->opponentTetris));
-    }
+
+
+
     SDL_Event e;
 
 
@@ -282,13 +278,14 @@ bool MultiGame::tick()
                         {
                             comboCount += 1;
                             score += (heartPosX == 729) ? 2000 : 500;
+                            Multi::getInstance()->sendScore(score);
                             print->setText(9, "       " + std::to_string(score));
                             //std::cout << "safe!" << std::endl;
                             heartVisible = false;
                             print->deletePNG("heartNote.png");
                             if (heartPosX == 729) {
                                 std::cout << "perfect!" << std::endl;
-                                print->printPNG("Perfect.png", 376, 169, 1);
+                                print->printPNG("Perfect.png", 662, 150, 1);
                                 perfectImageStartTime = timeSinceStart; // 표시 시점 기록
                                 perfectImageVisible = true;
                             }
@@ -346,6 +343,7 @@ bool MultiGame::tick()
                                 {
                                     comboCount += 1;
                                     score += (heartPosX == 729) ? 2000 : 500;
+                                    Multi::getInstance()->sendScore(score);
                                     print->setText(9, "       " + std::to_string(score));
                                     //std::cout << "safe!" << std::endl;
                                     heartVisible = false;
@@ -353,7 +351,7 @@ bool MultiGame::tick()
                                     if (heartPosX == 729)
                                     {
                                         std::cout << "perfect!" << std::endl;
-                                        print->printPNG("Perfect.png", 376, 169, 1);
+                                        print->printPNG("Perfect.png", 662, 150, 1);
                                         perfectImageStartTime = timeSinceStart; // 표시 시점 기록
                                         perfectImageVisible = true;
                                     }
@@ -458,6 +456,7 @@ bool MultiGame::tick()
                     {
                         comboCount += 1;
                         score += (heartPosX == 729) ? 2000 : 500;
+                        Multi::getInstance()->sendScore(score);
                         print->setText(9, "       " + std::to_string(score));
                         //std::cout << "safe!" << std::endl;
                         heartVisible = false;
@@ -514,7 +513,7 @@ bool MultiGame::tick()
                 break;
             }
 
-
+            Multi::getInstance()->sendScore(score);
             print->setText(9, "       " + std::to_string(score));
         }
 
@@ -531,11 +530,12 @@ bool MultiGame::tick()
             }
             //하트 맥시멈(3)보다 작을때만, 목숨 추가.
             if (hearts.size() < Heart::maxHeart && hearts.size() != 0) {
+                Multi::getInstance()->sendMessage(5);
                 MultiHeart heart{ MultiHeart::paths[hearts.size()], MultiHeart::xPositions[hearts.size()], MultiHeart::yPositions[hearts.size()] };
                 hearts.push_back(heart);
                 print->printPNG(heart.path.c_str(), heart.xPosition, heart.yPosition);
             }
-
+            Multi::getInstance()->sendScore(score);
             std::cout << "Tetris: " << currentTetris << std::endl;
             previousTetris = currentTetris;
             print->setText(8, "        " + std::to_string(previousTetris));
@@ -565,10 +565,14 @@ bool MultiGame::tick()
         }
 
         if (gameOver) {
+            if(comboVector.size() != 0)
+             maxCombo = comboVector[0];
+            Multi::getInstance()->sendGameOver();
             soundManager->stopMusic(); // 다른 창으로 이동하기 전에 음악을 중지합니다.
             //최대콤보반영
             comboVector.push_back(comboCount);
             std::sort(comboVector.begin(), comboVector.end(), std::greater<int>());//내림차순정렬
+            if (fullComboCount != 0)
             score += (int)(std::round((float)comboScore * ((float)comboVector[0] / (float)fullComboCount)));
             return false;
         }
@@ -686,4 +690,16 @@ void MultiGame::deductHeart_opponent()
     {
         //  std::cout << "No hearts left to deduct" << std::endl;
     }
+}
+
+
+void MultiGame::plusHeart_opponent()
+{
+    if (oppnentHearts.size() < Heart::maxHeart && oppnentHearts.size() != 0) {
+    
+        MultiHeart heart{ MultiHeart::paths[oppnentHearts.size()], MultiHeart::xPositions[oppnentHearts.size()], MultiHeart::yPositions[oppnentHearts.size()] };
+        oppnentHearts.push_back(heart);
+        print->printPNG(heart.path.c_str(), heart.xPosition, heart.yPosition);
+    }
+    
 }

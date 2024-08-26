@@ -73,7 +73,7 @@ void MultiGameScene::drawInit()
     print->printText("Tetris: ", 329, 418, 5, font, color);
     print->printText("Score: ", 329, 448, 6, font, color);
     print->printText("      0", 329, 388, 11, font, color);
-    print->printText("        0", 329, 418, 12, font, color);
+    print->printText("        0", 329, 418, 14, font, color);
     print->printText("       0", 329, 448, 13, font, color);
  
     print->printPNG("Background.png", 0, 0, 0); // 전체 배경

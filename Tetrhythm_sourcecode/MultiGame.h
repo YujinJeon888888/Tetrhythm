@@ -94,6 +94,7 @@ private:
     double nextHeartSpawnTime; // 다음 하트 노드 생성 타이밍
     void deductHeart();
     void deductHeart_opponent();
+    void plusHeart_opponent();
     std::chrono::steady_clock::time_point startTime;
     std::chrono::steady_clock::time_point lastFrameTime;
     SceneManager& sceneManager;

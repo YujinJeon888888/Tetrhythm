@@ -59,13 +59,13 @@ void MultiGameScene::drawInit()
     print->printPNG(UserInfo::getInstance().getUserCharacter().c_str(), 654, 478, 13);
     print->printText(UserInfo::getInstance().getUserID().c_str(), 654, 610, 12, font2, color); //플레이어ID
 
-    Multi::getInstance()->sendID(UserInfo::getInstance().getUserCharacter(), UserInfo::getInstance().getUserID());
+  //  Multi::getInstance()->sendID(UserInfo::getInstance().getUserCharacter(), UserInfo::getInstance().getUserID());
 
     // 스레드를 생성하고 실행
-    std::thread opponentThread(receiveAndPrintOpponentData, print);
+   // std::thread opponentThread(receiveAndPrintOpponentData, print);
 
     // 스레드가 완료될 때까지 기다림 (병렬 작업이 아니면 join() 필요)
-    opponentThread.detach();
+   // opponentThread.detach();
     //상대방쪽
     print->printPNG("heart1.png", 118, 50, 1);
     print->printPNG("heart2.png", 171, 50, 2);
@@ -97,7 +97,7 @@ void MultiGameScene::update() {
         // 게임 종료 시
        
         if (game->getIsClear()) {
-            sceneManager.changeScene(std::make_unique<ClearScene>(windowManager, sceneManager, game->getLine(), game->getTetris(),game->getMaxCombo(),game->getIsClear()));
+           // sceneManager.changeScene(std::make_unique<ClearScene>(windowManager, sceneManager, game->getLine(), game->getTetris(),game->getMaxCombo(),game->getIsClear()));
         }
         else {
        

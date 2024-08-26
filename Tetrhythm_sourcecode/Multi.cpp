@@ -3,10 +3,11 @@
 #include "Multi.h"
 
 Multi* Multi::instance = nullptr;
-Multi::Multi() {
+Multi::Multi() : tetromino(61, 100) {
 
    // addr ="52.14.83.66";//
     addr = "127.0.0.1";
+  
     //"52.14.83.66"
     //getRandomRoom();
     //WSADATA wsaData;unknown
@@ -125,6 +126,22 @@ std::string Multi::receiveOpponentData() {
 
     // 소켓 상태가 변경되지 않은 경우
     return "NO_DATA";    // 데이터가 없음을 명시하는 문자열 반환
+}
+
+void Multi::sendTetromino( Tetromino& tetromino) {
+
+    char messageType = 7;
+    char data[sizeof(Tetromino)];
+    tetromino.serialize(data);
+
+    if (send(clientSocket, &messageType, sizeof(messageType), 0) == SOCKET_ERROR) {
+        std::cerr << "Failed to send message type for message type of tetromino data." << std::endl;
+        return;
+    }
+
+    if (send(clientSocket, data, sizeof(data), 0) == SOCKET_ERROR) {
+        std::cerr << "Failed to send Tetromino data." << std::endl;
+    }
 }
 
 void Multi::sendData(bool data[10][20], const Tetromino::Type dataTypes[Well::Width][Well::Height],int line,int tetris) {
@@ -265,9 +282,7 @@ int Multi::receiveMessegeData() {
 
         if (bytesReceived <= 0) return false;
 
-
-       
-         if (static_cast<int>(messageType) == 3) {
+        if (static_cast<int>(messageType) == 3) {
           return recevType3Data();
         }
         else if (messageType == 6) {
@@ -286,11 +301,34 @@ int Multi::receiveMessegeData() {
 
             }
 
-        } else if (static_cast<int>(messageType) != 0)
+        } 
+        else if (messageType == 7) {
+
+             receiveTetromino();
+
+         }
+        else if (static_cast<int>(messageType) != 0)
             std::cout << "Received message type: " << static_cast<int>(messageType) << std::endl;
 
         return static_cast<int>(messageType);
         
+    }
+}
+
+void Multi::receiveTetromino() {
+    char data[sizeof(Tetromino)];
+    int receivedBytes = recv(clientSocket, data, sizeof(data), 0);
+
+    if (receivedBytes == SOCKET_ERROR) {
+        std::cerr << "Failed to receive Tetromino data." << std::endl;
+    }
+    else if (receivedBytes >0) {
+        tetromino.deserialize(data);
+           
+        hasTetromino = true;
+    }
+    else {
+        std::cerr << "Received partial Tetromino data." << std::endl;
     }
 }
 

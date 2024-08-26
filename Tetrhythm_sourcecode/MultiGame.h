@@ -60,8 +60,8 @@ private:
     MultiGame& operator=(const MultiGame&);
     Well well_; //플레이어 보드
     Well opponentWell_; //상대방 보드
-    Tetromino tetromino_;
-    std::array<Tetromino, 3> nextTetrominos_; // 대기열 블럭
+    Tetromino tetromino_,opponentTetromino_;
+    std::array<Tetromino, 3> nextTetrominos_, opponentNextTetrominos_; // 대기열 블럭
     uint32_t moveTime_;
     void check(const Tetromino&);
     int previousLine;

@@ -8,7 +8,7 @@ class Well;
 class Tetromino
 {
 public:
-    enum Type { I = 0, J, L, O, S, T, Z, GRAY };
+    enum Type { I = 0, J=1, L=2, O=3, S=4, T=5, Z=6, GRAY=7 };
     Tetromino(int xOffset = 513, int yOffset = 116);
     void draw(SDL_Renderer*, SDL_Texture* blockTexture) const;
     void move(int dx, int dy);
@@ -20,6 +20,21 @@ public:
     int y() const;
     Type getType() const;
     Tetromino calculateShadow(const Well& well) const;
+    // 직렬화 함수
+    void serialize(char* data) const {
+        std::memcpy(data, &type_, sizeof(type_));
+        std::memcpy(data + sizeof(type_), &x_, sizeof(x_));
+        std::memcpy(data + sizeof(type_) + sizeof(x_), &y_, sizeof(y_));
+        std::memcpy(data + sizeof(type_) + sizeof(x_) + sizeof(y_), &angle_, sizeof(angle_));
+    }
+
+    // 역직렬화 함수
+    void deserialize(const char* data) {
+        std::memcpy(&type_, data, sizeof(type_));
+        std::memcpy(&x_, data + sizeof(type_), sizeof(x_));
+        std::memcpy(&y_, data + sizeof(type_) + sizeof(x_), sizeof(y_));
+        std::memcpy(&angle_, data + sizeof(type_) + sizeof(x_) + sizeof(y_), sizeof(angle_));
+    }
 
 private:
     Type type_;

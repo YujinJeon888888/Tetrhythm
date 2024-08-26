@@ -44,6 +44,7 @@ MultiGame::MultiGame(WindowManager& wm, Print* pr, SceneManager& sm)
     tetromino_(801, 100), // 플레이어 보드
     nextTetrominos_{ Tetromino{801, 100}, Tetromino{801, 100}, Tetromino{801, 100} }, // 다음 블럭 3개 초기화
     opponentWell_(61, 100,344,165), // 상대방 보드
+    opponentTetromino_(61, 100),
     moveTime_(SDL_GetTicks() + 1000),
     previousLine(0),
     previousTetris(0),
@@ -117,6 +118,7 @@ MultiGame::MultiGame(WindowManager& wm, Print* pr, SceneManager& sm)
         throw std::runtime_error("Failed to create texture: " + std::string(SDL_GetError()));
     }
 
+    Multi::getInstance()->sendTetromino(tetromino_);
 
 }
 
@@ -211,7 +213,14 @@ bool MultiGame::tick()
     tetromino_.draw(windowManager.getRenderer(), blockTextures_[tetromino_.getType()]);
 
     //상대방 보드(+대기열) 그리기
-    opponentWell_.draw(windowManager.getRenderer(), blockTextures_, grayBlockTexture_, nextTetrominos_);
+    opponentWell_.draw(windowManager.getRenderer(), blockTextures_, grayBlockTexture_, opponentNextTetrominos_);
+   
+    
+  //  if (Multi::getInstance()->hasTetromino) {
+       // Multi::getInstance()->hasTetromino = false;
+        opponentTetromino_ = Multi::getInstance()->tetromino;
+       opponentTetromino_.draw(windowManager.getRenderer(), blockTextures_[opponentTetromino_.getType()]);
+  //  }
 
 
 
@@ -275,8 +284,9 @@ bool MultiGame::tick()
                     Tetromino t = tetromino_;
                     t.drop(well_);
                     check(t);
+                    Multi::getInstance()->sendTetromino(t);
                     lastDropTime = currentTime; // 마지막 드랍 시간 기록
-                   // soundManager->playSound("BlockDrop", 0);
+                    // soundManager->playSound("BlockDrop", 0);
                     // 하트 노트 위치 판정
                     if (heartVisible)
                     {
@@ -339,6 +349,7 @@ bool MultiGame::tick()
                         t.move(0, 1);
                         if (!well_.isCollision(t)) {
                             tetromino_ = t;
+                            Multi::getInstance()->sendTetromino(t);
                         }
                         else {
                             soundManager->playSound("BlockDrop", 0);
@@ -391,6 +402,7 @@ bool MultiGame::tick()
                         t.move((e.key.keysym.sym == SDLK_RIGHT) ? 1 : -1, 0);
                         if (!well_.isCollision(t)) {
                             tetromino_ = t;
+                           Multi::getInstance()->sendTetromino(t);
                         }
 
                         lastMoveTime = currentTime; // 마지막 이동 시간 기록
@@ -405,6 +417,7 @@ bool MultiGame::tick()
                         t.rotateCounterClockwise();
                         if (!well_.isCollision(t)) {
                             tetromino_ = t;
+                            Multi::getInstance()->sendTetromino(t);
                         }
 
                         lastRotationTime = currentTime; // 마지막 회전 시간 기록
@@ -420,6 +433,7 @@ bool MultiGame::tick()
                         t.rotate();
                         if (!well_.isCollision(t)) {
                             tetromino_ = t;
+                            Multi::getInstance()->sendTetromino(t);
                         }
 
                         lastRotationTime = currentTime; // 마지막 회전 시간 기록
@@ -446,6 +460,7 @@ bool MultiGame::tick()
             if (!well_.isCollision(t))
             {
                 tetromino_ = t;
+                Multi::getInstance()->sendTetromino(t);
                 moveTime_ = SDL_GetTicks() + 1000; // 다음 내려오는 시간 설정         
             }
             else//충돌

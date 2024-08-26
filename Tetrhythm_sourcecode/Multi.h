@@ -50,11 +50,13 @@ public:
     void sendID(std::string id, std::string charImageStr);
     std::pair<std::string, std::string> receiveIDAndCharacter();
     std::string receiveOpponentData();
+    void sendTetromino(Tetromino& tetromino);
     void sendData(bool data[10][20], const Tetromino::Type dataTypes[Well::Width][Well::Height], int line, int tetris);
     void sendScore(int Score);
     void sendMessage(int type);
     void sendGameOver();
     void sendHeartInfo(std::string msg);
+    void receiveTetromino();
     int receiveHeartData();
     int receiveMessegeData();
     int recevType3Data();
@@ -88,11 +90,13 @@ public:
     bool isReady = false;
     bool hasCode = false;
     bool hasData = false;
+    bool hasTetromino = false;
     int opponentLine = 0;
     int opponentTetris = 0;
     int opponentScore = 0;
+
     std::array<std::array<bool, 20>, 10> data ;
     Tetromino::Type dataTypes[10][20] ;
-
+    Tetromino tetromino;
 };
 

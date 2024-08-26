@@ -120,24 +120,25 @@ void Well::draw(SDL_Renderer* renderer, SDL_Texture* blockTextures[], SDL_Textur
     if (Multi::getInstance()->isClear)
         return;
 
-    if (isOpponent) {
-        std::array<std::array<bool, Well::Height>, Well::Width> tempData = {};
-        std::array<std::array<bool, Well::Height>, Well::Width>& oData = tempData;
+    if (isOpponent&& Multi::getInstance()->hasData) {
+      //  std::array<std::array<bool, Well::Height>, Well::Width> tempData = {};
+      //  std::array<std::array<bool, Well::Height>, Well::Width>& oData = tempData;
 
-        Tetromino::Type(&temp_dataTypes)[Well::Width][Well::Height] = dataTypes;
-        int type = Multi::getInstance()->receiveData(oData, temp_dataTypes);
-        if (type == 3) {
+       // Tetromino::Type(&temp_dataTypes)[Well::Width][Well::Height] = dataTypes;
+       // int type = Multi::getInstance()->receiveData(oData, temp_dataTypes);
+
+        std::copy(&Multi::getInstance()->dataTypes[0][0],
+            &Multi::getInstance()->dataTypes[0][0] + Well::Width * Well::Height,
+            &dataTypes[0][0]);
+
+     
             for (int i = 0; i < Width; ++i) {
                 for (int j = 0; j < Height; ++j) {
-                    data[i][j] = oData[i][j];
+                    data[i][j] = Multi::getInstance()->data[i][j];
                 }
             }
-        }
-        else if (type == 2) {
-            std::cout << "type 2";
-            Multi::getInstance()->isClear = true;
-            return;
-        }
+      
+            Multi::getInstance()->hasData = false;
     }
 
     //data에 따라 코드 그리기 

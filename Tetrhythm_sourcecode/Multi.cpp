@@ -5,8 +5,8 @@
 Multi* Multi::instance = nullptr;
 Multi::Multi() {
 
-    addr ="52.14.83.66";//
-   // addr = "127.0.0.1";
+   // addr ="52.14.83.66";//
+    addr = "127.0.0.1";
     //"52.14.83.66"
     //getRandomRoom();
     //WSADATA wsaData;unknown
@@ -87,7 +87,6 @@ std::pair<std::string, std::string> Multi::receiveIDAndCharacter() {
     return std::make_pair(id, charImageStr);
 }
 
-
 std::string Multi::receiveOpponentData() {
     char buffer[1024];
 
@@ -163,14 +162,14 @@ void Multi::sendData(bool data[10][20], const Tetromino::Type dataTypes[Well::Wi
         std::cerr << "Failed to send type data." << std::endl;
     }
 
-    int networkINT= htonl(line);
+    int networkINT= line;
 
     // 데이터를 전송합니다.
 
     if (send(clientSocket, (char*)&networkINT, sizeof(networkINT), 0) == SOCKET_ERROR) {
             std::cerr << "Failed to send type data." << std::endl;
     }
-    networkINT = htonl(tetris);
+    networkINT = tetris;
   
     if (send(clientSocket, (char*)&networkINT, sizeof(networkINT), 0) == SOCKET_ERROR) {
         std::cerr << "Failed to send type data." << std::endl;
@@ -178,6 +177,26 @@ void Multi::sendData(bool data[10][20], const Tetromino::Type dataTypes[Well::Wi
   
     
 }
+
+
+void Multi::sendScore(int Score) {
+    char messageType = 6;
+
+    // 메시지 타입 전송
+    if (send(clientSocket, &messageType, sizeof(messageType), 0) == SOCKET_ERROR) {
+        std::cerr << "Failed to send message type for message" << std::endl;
+        return;
+    }
+
+    int networkINT = Score;
+
+    // 데이터를 전송합니다.
+
+      if (send(clientSocket, (char*)&networkINT, sizeof(networkINT), 0) == SOCKET_ERROR) {
+        std::cerr << "Failed to send score data." << std::endl;
+    }
+}
+
 
 void Multi::sendMessage(int type) {
 
@@ -247,11 +266,78 @@ int Multi::receiveMessegeData() {
         if (bytesReceived <= 0) return false;
 
 
-        if(static_cast<int>(messageType)!=0)
-        std::cout << "Received message type: " << static_cast<int>(messageType) << std::endl;
+       
+         if (static_cast<int>(messageType) == 3) {
+          return recevType3Data();
+        }
+        else if (messageType == 6) {
+
+             int networkInt;
+            int bytesReceived = recv(clientSocket, (char*)&networkInt, sizeof(networkInt), 0);
+
+            if (bytesReceived > 0) {
+
+              //  int score = ntohl(networkInt);
+
+                opponentScore = networkInt;
+            
+
+                return messageType;
+
+            }
+
+        } else if (static_cast<int>(messageType) != 0)
+            std::cout << "Received message type: " << static_cast<int>(messageType) << std::endl;
+
         return static_cast<int>(messageType);
         
     }
+}
+
+int Multi::recevType3Data() {
+
+    char buffer[Well::Width * Well::Height];
+    char typeBuffer[Well::Width * Well::Height];
+
+    int bytesReceived = recv(clientSocket, buffer, sizeof(buffer), 0);
+    if (bytesReceived > 0) {
+        // 역직렬화: char 배열을 bool 배열로 변환
+        for (int i = 0; i < Well::Width; ++i) {
+            for (int j = 0; j < Well::Height; ++j) {
+                data[i][j] = static_cast<bool>(buffer[i * Well::Height + j]);
+            }
+        }
+
+        bytesReceived = recv(clientSocket, typeBuffer, sizeof(typeBuffer), 0);
+
+        if (bytesReceived > 0) {
+            // Tetromino::Type 배열로 역직렬화
+            for (int i = 0; i < Well::Width; ++i) {
+                for (int j = 0; j < Well::Height; ++j) {
+                    dataTypes[i][j] = static_cast<Tetromino::Type>(typeBuffer[i * Well::Height + j]);
+                }
+            }
+            int networkInt;
+            bytesReceived = recv(clientSocket, (char*)&networkInt, sizeof(networkInt), 0);
+
+            if (bytesReceived > 0) {
+                opponentLine = networkInt;
+
+
+                bytesReceived = recv(clientSocket, (char*)&networkInt, sizeof(networkInt), 0);
+
+                if (bytesReceived > 0) {
+                    opponentTetris = networkInt;
+                    hasData = true;
+                    return 3;
+                }
+            }
+
+        }
+
+    }
+
+    return false;
 }
 
 int Multi::receiveData(std::array<std::array<bool, 20>, 10>& data, Tetromino::Type(&dataTypes)[Well::Width][Well::Height]) {
@@ -297,18 +383,18 @@ int Multi::receiveData(std::array<std::array<bool, 20>, 10>& data, Tetromino::Ty
                                 dataTypes[i][j] = static_cast<Tetromino::Type>(typeBuffer[i * Well::Height + j]);
                             }
                         }
-                        int networkInt;
+                        char networkInt;
                         bytesReceived = recv(clientSocket, (char*)&networkInt, sizeof(networkInt), 0);
 
                         if (bytesReceived > 0) {
-                            opponentLine = ntohl(networkInt);
+                            opponentLine = networkInt;
 
                     
                             bytesReceived = recv(clientSocket, (char*)&networkInt, sizeof(networkInt), 0);
 
                             if (bytesReceived > 0) {
-                                opponentTetris = ntohl(networkInt);
-                                return 3;  // 성공적으로 데이터 수신 및 변환 완료
+                                opponentTetris = networkInt;
+                                return messageType;  // 성공적으로 데이터 수신 및 변환 완료
                             }
                         }
                       
@@ -330,6 +416,51 @@ int Multi::receiveData(std::array<std::array<bool, 20>, 10>& data, Tetromino::Ty
         }
        
         return false;
+}
+
+
+int Multi::receiveScore() {
+
+    char messageType;
+    fd_set readfds;
+    FD_ZERO(&readfds);
+    FD_SET(clientSocket, &readfds);
+
+    struct timeval timeout;
+    timeout.tv_sec = 0;
+    timeout.tv_usec = 16000;  // 16ms timeout (예: 60 FPS)
+
+    int activity = select(clientSocket + 1, &readfds, NULL, NULL, &timeout);
+
+    if (activity > 0 && FD_ISSET(clientSocket, &readfds)) {
+
+        // 메시지 타입 수신 (1바이트)
+        int bytesReceived = recv(clientSocket, &messageType, sizeof(messageType), 0);
+
+        if (bytesReceived <= 0) return false;
+        if (messageType == 6) {
+
+            char networkInt;
+            int bytesReceived = recv(clientSocket, &networkInt, sizeof(networkInt), 0);
+           
+                if (bytesReceived > 0) {
+                 
+                    
+                   
+                  opponentScore = networkInt;
+                  std::cout << opponentScore;
+
+                  return true;
+                    
+
+                }
+
+        }
+      
+
+    }
+
+    return false;
 }
 
 int Multi::getRandomRoom() {

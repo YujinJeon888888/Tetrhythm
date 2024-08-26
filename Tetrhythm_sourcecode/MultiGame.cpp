@@ -177,14 +177,26 @@ bool MultiGame::tick()
     }
     else if (type == 6) {
      
-        print->setText(13, "      " + std::to_string(Multi::getInstance()->opponentScore));
-
+        print->setText(23, "      " + std::to_string(Multi::getInstance()->opponentScore));
     }
 
     if (Multi::getInstance()->hasData) {
 
-        print->setText(11, "      " + std::to_string(Multi::getInstance()->opponentLine));
-        print->setText(14, "        " + std::to_string(Multi::getInstance()->opponentTetris));
+        int attack = Multi::getInstance()->opponentLine - oppPreviousLine;
+        if (attack == 2) {
+            //1줄 공격
+            well_.addGrayLines(1, true);
+        }
+        else if (attack == 3) {
+            well_.addGrayLines(2, true);
+        }
+        else if (attack == 4) {
+            well_.addGrayLines(4, true);
+        }
+
+        oppPreviousLine = Multi::getInstance()->opponentLine;
+        print->setText(21, "      " + std::to_string(Multi::getInstance()->opponentLine));
+        print->setText(22, "        " + std::to_string(Multi::getInstance()->opponentTetris));
     }
 
 
@@ -200,12 +212,6 @@ bool MultiGame::tick()
 
     //상대방 보드(+대기열) 그리기
     opponentWell_.draw(windowManager.getRenderer(), blockTextures_, grayBlockTexture_, nextTetrominos_);
-    // 상대 필드를 빈 상태로 그리기
-  
-
- /*   if (Multi::getInstance()->receiveScore()) {
-        print->setText(13, "      " + std::to_string(Multi::getInstance()->opponentScore));
-    }*/
 
 
 
@@ -697,7 +703,7 @@ void MultiGame::plusHeart_opponent()
 {
     if (oppnentHearts.size() < Heart::maxHeart && oppnentHearts.size() != 0) {
     
-        MultiHeart heart{ MultiHeart::paths[oppnentHearts.size()], MultiHeart::xPositions[oppnentHearts.size()], MultiHeart::yPositions[oppnentHearts.size()] };
+        MultiHeart heart{ MultiHeart::paths[oppnentHearts.size()], MultiHeart::xPositions_opponent[oppnentHearts.size()], MultiHeart::yPositions[oppnentHearts.size()] };
         oppnentHearts.push_back(heart);
         print->printPNG(heart.path.c_str(), heart.xPosition, heart.yPosition);
     }

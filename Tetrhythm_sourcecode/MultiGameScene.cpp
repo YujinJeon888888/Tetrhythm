@@ -13,8 +13,7 @@ MultiGameScene::~MultiGameScene() {
     delete game;
 }
 void receiveAndPrintOpponentData(Print* print) {
-    TTF_Font* font2 = print->loadFont("DungGeunMo.ttf", 20);
-    SDL_Color color = { 255, 255, 255 }; // 흰색
+ 
 
     try {
         std::pair<std::string, std::string> opponentData = Multi::getInstance()->receiveIDAndCharacter();
@@ -29,6 +28,8 @@ void receiveAndPrintOpponentData(Print* print) {
             std::cout << "Failed to receive opponent data" << std::endl;
         }
 
+        TTF_Font* font2 = print->loadFont("DungGeunMo.ttf", 20);
+        SDL_Color color = { 255, 255, 255 }; // 흰색
        // std::cout << id << cimg;
         print->printPNG(opponentID.c_str(), 329, 478, 11);     // 상대방 캐릭터 사진
         print->printText(opponentCharacter.c_str(), 327, 610, 12, font2, color); // 상대방 ID 출력
@@ -72,9 +73,9 @@ void MultiGameScene::drawInit()
     print->printText("Line: ", 329, 388, 4, font, color);
     print->printText("Tetris: ", 329, 418, 5, font, color);
     print->printText("Score: ", 329, 448, 6, font, color);
-    print->printText("      0", 329, 388, 11, font, color);
-    print->printText("        0", 329, 418, 14, font, color);
-    print->printText("       0", 329, 448, 13, font, color);
+    print->printText("      0", 329, 388, 21, font, color);
+    print->printText("        0", 329, 418, 22, font, color);
+    print->printText("       0", 329, 448, 23, font, color);
  
     print->printPNG("Background.png", 0, 0, 0); // 전체 배경
     print->printPNG("MultiRhythmUI.png", 475, 186, 10); // 리듬게임 UI 배경

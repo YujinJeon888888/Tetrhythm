@@ -34,6 +34,8 @@ public:
         std::memcpy(&x_, data + sizeof(type_), sizeof(x_));
         std::memcpy(&y_, data + sizeof(type_) + sizeof(x_), sizeof(y_));
         std::memcpy(&angle_, data + sizeof(type_) + sizeof(x_) + sizeof(y_), sizeof(angle_));
+        xOffset = 61;
+        yOffset = 100;
     }
 
 private:

@@ -8,19 +8,6 @@ Multi::Multi() : tetromino(61, 100) {
    // addr ="52.14.83.66";//
     addr = "127.0.0.1";
   
-    //"52.14.83.66"
-    //getRandomRoom();
-    //WSADATA wsaData;unknown
-    //WSAStartup(MAKEWORD(2, 2), &wsaData);
-
-    //clientSocket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
-    //sockaddr_in serverAddr;
-    //serverAddr.sin_family = AF_INET;
-    //serverAddr.sin_addr.s_addr = inet_addr(addr.c_str());
-    //serverAddr.sin_port = htons(8080);
-
-    //std::cout << "connect to server";
-    //connect(clientSocket, (sockaddr*)&serverAddr, sizeof(serverAddr));
 }
               
 void Multi::connectServer() {
@@ -143,6 +130,23 @@ void Multi::sendTetromino( Tetromino& tetromino) {
         std::cerr << "Failed to send Tetromino data." << std::endl;
     }
 }
+void Multi::sendNextTetrominos(const std::array<Tetromino, 3>& tetrominoArray) {
+
+    char messageType = 8;
+    char data[sizeof(Tetromino) * 3];
+    for (size_t i = 0; i < tetrominoArray.size(); ++i) {
+        tetrominoArray[i].serialize(data + i * sizeof(Tetromino));
+    }
+    if (send(clientSocket, &messageType, sizeof(messageType), 0) == SOCKET_ERROR) {
+        std::cerr << "Failed to send message type for message type of tetromino data." << std::endl;
+        return;
+    }
+
+    if (send(clientSocket, data, sizeof(data), 0) == SOCKET_ERROR) {
+        std::cerr << "Failed to send Tetromino data." << std::endl;
+    }
+}
+
 
 void Multi::sendData(bool data[10][20], const Tetromino::Type dataTypes[Well::Width][Well::Height],int line,int tetris) {
 
@@ -304,9 +308,12 @@ int Multi::receiveMessegeData() {
         } 
         else if (messageType == 7) {
 
-             receiveTetromino();
+            receiveTetromino();
 
-         }
+        }
+        else if (messageType == 8) {
+            receiveTetrominos();
+        }
         else if (static_cast<int>(messageType) != 0)
             std::cout << "Received message type: " << static_cast<int>(messageType) << std::endl;
 
@@ -315,6 +322,23 @@ int Multi::receiveMessegeData() {
     }
 }
 
+void Multi::receiveTetrominos() {
+    char data[sizeof(Tetromino) * 3];
+    int receivedBytes = recv(clientSocket, data, sizeof(data), 0);
+
+    if (receivedBytes == SOCKET_ERROR) {
+        std::cerr << "Failed to receive Tetromino array." << std::endl;
+    }
+    else if (receivedBytes == sizeof(data)) {
+        for (size_t i = 0; i < nextTetrominos.size(); ++i) {
+            nextTetrominos[i].deserialize(data + i * sizeof(Tetromino));
+         
+        }
+    }
+    else {
+        std::cerr << "Received partial Tetromino array data." << std::endl;
+    }
+}
 void Multi::receiveTetromino() {
     char data[sizeof(Tetromino)];
     int receivedBytes = recv(clientSocket, data, sizeof(data), 0);
@@ -590,17 +614,6 @@ void Multi::connetOpponent() {
         }
     }
 
-// Create threads for receiving and sending messages
-//  std::thread receiveThread(&Multi::receiveMessages, this);
-//  std::thread sendThread(&Multi::sendMessages, this);
-
-// Wait for both threads to finish
-//   receiveThread.join();
-//  sendThread.join();
-
-
-// closesocket(clientSocket);
-// WSACleanup();
 }
 
 void Multi::receiveMessages() {
@@ -639,6 +652,8 @@ void Multi::sendMessages() {
            
         }
     }
+
+    
 }
 
 void Multi::closeConnection() {

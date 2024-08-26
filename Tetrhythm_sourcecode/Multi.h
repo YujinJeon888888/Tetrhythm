@@ -51,6 +51,7 @@ public:
     std::pair<std::string, std::string> receiveIDAndCharacter();
     std::string receiveOpponentData();
     void sendTetromino(Tetromino& tetromino);
+    void sendNextTetrominos(const std::array<Tetromino, 3>& tetrominoArray);
     void sendData(bool data[10][20], const Tetromino::Type dataTypes[Well::Width][Well::Height], int line, int tetris);
     void sendScore(int Score);
     void sendMessage(int type);
@@ -61,7 +62,7 @@ public:
     int receiveMessegeData();
     int recevType3Data();
     int receiveData(std::array<std::array<bool, 20>, 10>& data, Tetromino::Type(&dataTypes)[Well::Width][Well::Height]);
-
+    void receiveTetrominos();
     int receiveScore();
 
     // Get a random room and start communication
@@ -98,5 +99,6 @@ public:
     std::array<std::array<bool, 20>, 10> data ;
     Tetromino::Type dataTypes[10][20] ;
     Tetromino tetromino;
+    std::array<Tetromino, 3> nextTetrominos;
 };
 

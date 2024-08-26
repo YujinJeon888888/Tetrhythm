@@ -119,7 +119,7 @@ MultiGame::MultiGame(WindowManager& wm, Print* pr, SceneManager& sm)
     }
 
     Multi::getInstance()->sendTetromino(tetromino_);
-
+    Multi::getInstance()->sendNextTetrominos(opponentNextTetrominos_);
 }
 
 
@@ -182,6 +182,7 @@ bool MultiGame::tick()
         print->setText(23, "      " + std::to_string(Multi::getInstance()->opponentScore));
     }
 
+
     if (Multi::getInstance()->hasData) {
 
         int attack = Multi::getInstance()->opponentLine - oppPreviousLine;
@@ -213,14 +214,10 @@ bool MultiGame::tick()
     tetromino_.draw(windowManager.getRenderer(), blockTextures_[tetromino_.getType()]);
 
     //상대방 보드(+대기열) 그리기
+    opponentTetromino_ = Multi::getInstance()->tetromino;
+    opponentNextTetrominos_ = Multi::getInstance()->nextTetrominos;
     opponentWell_.draw(windowManager.getRenderer(), blockTextures_, grayBlockTexture_, opponentNextTetrominos_);
-   
-    
-  //  if (Multi::getInstance()->hasTetromino) {
-       // Multi::getInstance()->hasTetromino = false;
-        opponentTetromino_ = Multi::getInstance()->tetromino;
-       opponentTetromino_.draw(windowManager.getRenderer(), blockTextures_[opponentTetromino_.getType()]);
-  //  }
+    opponentTetromino_.draw(windowManager.getRenderer(), blockTextures_[opponentTetromino_.getType()]);
 
 
 
@@ -649,6 +646,8 @@ void MultiGame::check(const Tetromino& t)
         nextTetrominos_[0] = nextTetrominos_[1];
         nextTetrominos_[1] = nextTetrominos_[2];
         nextTetrominos_[2] = Tetromino(801, 100);  // 새로운 위치로 테트로미노를 생성
+
+        Multi::getInstance()->sendNextTetrominos(nextTetrominos_);
 
         // 새로운 블록이 Well에 충돌하면 게임 오버 처리
         if (well_.isCollision(tetromino_))

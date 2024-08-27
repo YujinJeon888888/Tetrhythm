@@ -320,7 +320,7 @@ bool MultiGame::tick()
                     Tetromino t = tetromino_;
                     t.drop(well_);
                     check(t);
-                 //   Multi::getInstance()->sendTetromino(t);
+               
                     lastDropTime = currentTime; // 마지막 드랍 시간 기록
                     // soundManager->playSound("BlockDrop", 0);
                     // 하트 노트 위치 판정
@@ -686,7 +686,7 @@ void MultiGame::check(const Tetromino& t)
         nextTetrominos_[1] = nextTetrominos_[2];
         nextTetrominos_[2] = Tetromino(801, 100);  // 새로운 위치로 테트로미노를 생성
 
-        Multi::getInstance()->sendNextTetrominos(nextTetrominos_);
+       // Multi::getInstance()->sendNextTetrominos(nextTetrominos_);
 
         // 새로운 블록이 Well에 충돌하면 게임 오버 처리
         if (well_.isCollision(tetromino_))

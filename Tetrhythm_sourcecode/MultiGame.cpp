@@ -158,7 +158,7 @@ bool MultiGame::tick()
       //  std::cout << "Game Over!" << std::endl;
     }
 
-    int type = Multi::getInstance()->receiveMessegeData();
+    int type  = Multi::getInstance()->receiveMessegeData();
 
     if (type == 2|| Multi::getInstance()->isClear) //클리어 임시 구?현
     {

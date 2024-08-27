@@ -5,8 +5,8 @@
 Multi* Multi::instance = nullptr;
 Multi::Multi() : tetromino(61, 100) {
 
-    addr ="52.14.83.66";//
-   // addr = "127.0.0.1";
+   // addr ="52.14.83.66";//
+    addr = "127.0.0.1";
   
 }
               
@@ -115,16 +115,17 @@ std::string Multi::receiveOpponentData() {
     return "NO_DATA";    // 데이터가 없음을 명시하는 문자열 반환
 }
 
-void Multi::sendTetromino( Tetromino& tetromino) {
+void Multi::sendTetromino(Tetromino& tetromino) {
 
-    char messageType = 7;
+    char messageType = '7';
     char data[sizeof(Tetromino)];
+   
+        if (send(clientSocket, &messageType, sizeof(messageType), 0) == SOCKET_ERROR) {
+            std::cerr << "Failed to send message type for message type of tetromino data." << std::endl;
+            return;
+        }
+ 
     tetromino.serialize(data);
-
-    if (send(clientSocket, &messageType, sizeof(messageType), 0) == SOCKET_ERROR) {
-        std::cerr << "Failed to send message type for message type of tetromino data." << std::endl;
-        return;
-    }
 
     if (send(clientSocket, data, sizeof(data), 0) == SOCKET_ERROR) {
         std::cerr << "Failed to send Tetromino data." << std::endl;
@@ -306,7 +307,7 @@ int Multi::receiveMessegeData() {
             }
 
         } 
-        else if (messageType == 7) {
+        else if (messageType == '7') {
 
             receiveTetromino();
 

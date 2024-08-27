@@ -54,16 +54,22 @@ void SoundManager::loadSound(const std::string& path, const std::string& soundNa
 }
 
 void SoundManager::playSound(const std::string& soundName, int loops) {
-    auto it = sounds.find(soundName);
-    if (it != sounds.end()) {
-        Mix_Chunk* chunk = it->second.get();
-        int channel = Mix_PlayChannel(-1, chunk, loops); // -1을 사용하여 빈 채널에서 재생
-        if (channel == -1) {
-            std::cerr << "Failed to play sound: " << Mix_GetError() << std::endl;
+    try {
+        auto it = sounds.find(soundName);
+
+        if (it != sounds.end()) {
+            Mix_Chunk* chunk = it->second.get();
+            int channel = Mix_PlayChannel(-1, chunk, loops); // -1을 사용하여 빈 채널에서 재생
+            if (channel == -1) {
+                std::cerr << "Failed to play sound: " << Mix_GetError() << std::endl;
+            }
+        }
+        else {
+            std::cerr << "Sound not found: " << soundName << std::endl;
         }
     }
-    else {
-        std::cerr << "Sound not found: " << soundName << std::endl;
+    catch (std::exception) {
+
     }
 }
 

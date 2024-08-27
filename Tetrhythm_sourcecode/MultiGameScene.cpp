@@ -16,17 +16,9 @@ void receiveAndPrintOpponentData(Print* print) {
  
 
     try {
-        std::pair<std::string, std::string> opponentData = Multi::getInstance()->receiveIDAndCharacter();
-        std::string opponentID = opponentData.first;
-        std::string opponentCharacter = opponentData.second;
-
-        if (opponentID != "ERROR" && opponentCharacter != "ERROR") {
-            std::cout << "Opponent ID: " << opponentID << std::endl;
-            std::cout << "Opponent Character Image: " << opponentCharacter << std::endl;
-        }
-        else {
-            std::cout << "Failed to receive opponent data" << std::endl;
-        }
+        Multi::getInstance()->receiveMessegeData();
+        std::string opponentID = Multi::getInstance()->opponentId;
+        std::string opponentCharacter = Multi::getInstance()->opponentCharacter;
 
         TTF_Font* font2 = print->loadFont("DungGeunMo.ttf", 20);
         SDL_Color color = { 255, 255, 255 }; // 흰색
@@ -59,13 +51,13 @@ void MultiGameScene::drawInit()
     print->printPNG(UserInfo::getInstance().getUserCharacter().c_str(), 654, 478, 13);
     print->printText(UserInfo::getInstance().getUserID().c_str(), 654, 610, 12, font2, color); //플레이어ID
 
-  //  Multi::getInstance()->sendID(UserInfo::getInstance().getUserCharacter(), UserInfo::getInstance().getUserID());
-
+   
+   // receiveAndPrintOpponentData(print);
     // 스레드를 생성하고 실행
-   // std::thread opponentThread(receiveAndPrintOpponentData, print);
+    //std::thread opponentThread(receiveAndPrintOpponentData, print);
 
     // 스레드가 완료될 때까지 기다림 (병렬 작업이 아니면 join() 필요)
-   // opponentThread.detach();
+    //opponentThread.detach();
     //상대방쪽
     print->printPNG("heart1.png", 118, 50, 1);
     print->printPNG("heart2.png", 171, 50, 2);

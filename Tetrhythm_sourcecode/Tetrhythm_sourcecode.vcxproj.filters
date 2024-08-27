@@ -72,9 +72,6 @@
     <ClCompile Include="MySQL.cpp">
       <Filter>소스 파일\MySQL</Filter>
     </ClCompile>
-    <ClCompile Include="LoginScene.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="Login.cpp">
       <Filter>소스 파일\유진Test</Filter>
     </ClCompile>
@@ -117,9 +114,6 @@
     <ClCompile Include="LoadingScene.cpp">
       <Filter>소스 파일\MultiMenu</Filter>
     </ClCompile>
-    <ClCompile Include="joinRoomScene.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="createRoomScene.cpp">
       <Filter>소스 파일\MultiMenu</Filter>
     </ClCompile>
@@ -140,6 +134,12 @@
     </ClCompile>
     <ClCompile Include="ControlExp.cpp">
       <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="LoginScene.cpp">
+      <Filter>소스 파일\MultiMenu</Filter>
+    </ClCompile>
+    <ClCompile Include="joinRoomScene.cpp">
+      <Filter>소스 파일\MultiMenu</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -168,9 +168,6 @@
     </ClInclude>
     <ClInclude Include="WindowManager.h">
       <Filter>소스 파일\Window</Filter>
-    </ClInclude>
-    <ClInclude Include="LoginScene.h">
-      <Filter>소스 파일</Filter>
     </ClInclude>
     <ClInclude Include="UserInfo.h">
       <Filter>소스 파일</Filter>
@@ -228,6 +225,9 @@
     </ClInclude>
     <ClInclude Include="ControlExp.h">
       <Filter>소스 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="LoginScene.h">
+      <Filter>소스 파일\MultiMenu</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

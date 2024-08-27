@@ -48,8 +48,7 @@ public:
         instance = new Multi();
     }
     void sendID(std::string id, std::string charImageStr);
-    std::pair<std::string, std::string> receiveIDAndCharacter();
-    std::string receiveOpponentData();
+    void receiveIDAndCharacter();
     void sendTetromino(Tetromino& tetromino);
     void sendNextTetrominos(const std::array<Tetromino, 3>& tetrominoArray);
     void sendData(bool data[10][20], const Tetromino::Type dataTypes[Well::Width][Well::Height], int line, int tetris);
@@ -95,6 +94,7 @@ public:
     int opponentLine = 0;
     int opponentTetris = 0;
     int opponentScore = 0;
+    std::string opponentId ="", opponentCharacter="";
 
     std::array<std::array<bool, 20>, 10> data ;
     Tetromino::Type dataTypes[10][20] ;

@@ -1,4 +1,5 @@
 #include "joinRoomScene.h"
+#include "MultiGameScene.h"
 
 
 joinRoomScene::joinRoomScene(WindowManager& wm, SceneManager& manager)
@@ -71,6 +72,11 @@ void joinRoomScene::update()
 {
     if (print->getTextInput().size() == 0) {
         print->updateAnimations();
+    }
+
+
+    if (Multi::getInstance()->isReady) {
+        sceneManager.changeScene(std::make_unique<MultiGameScene>(windowManager, sceneManager));
     }
 }
 

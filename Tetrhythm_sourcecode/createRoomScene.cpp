@@ -1,4 +1,5 @@
 #include "createRoomScene.h"
+#include "MultiGameScene.h"
 
 
 createRoomScene::createRoomScene(WindowManager& wm, SceneManager& manager)
@@ -41,6 +42,11 @@ void createRoomScene::handleEvents() {
 
 void createRoomScene::update()
 {
+
+	if (Multi::getInstance()->isReady) {
+		sceneManager.changeScene(std::make_unique<MultiGameScene>(windowManager, sceneManager));
+	}
+
 }
 
 void createRoomScene::render()

@@ -118,6 +118,9 @@ MultiGame::MultiGame(WindowManager& wm, Print* pr, SceneManager& sm)
         throw std::runtime_error("Failed to create texture: " + std::string(SDL_GetError()));
     }
 
+    std::string id = UserInfo::getInstance().getUserID();
+    std::string char_img = UserInfo::getInstance().getUserCharacter();
+    Multi::getInstance()->sendID(id, char_img);
     Multi::getInstance()->sendTetromino(tetromino_);
     Multi::getInstance()->sendNextTetrominos(opponentNextTetrominos_);
 }
@@ -180,6 +183,17 @@ bool MultiGame::tick()
     else if (type == 6) {
      
         print->setText(23, "      " + std::to_string(Multi::getInstance()->opponentScore));
+    }
+    else if (type == 9) {
+        std::string opponentID = Multi::getInstance()->opponentId;
+        std::string opponentCharacter = Multi::getInstance()->opponentCharacter;
+
+        TTF_Font* font2 = print->loadFont("DungGeunMo.ttf", 20);
+        SDL_Color color = { 255, 255, 255 }; // 흰색
+       // std::cout << id << cimg;
+       
+        print->printText(opponentID.c_str(), 327, 610, 32, font2, color); // 상대방 ID 출력
+        print->printPNG(opponentCharacter.c_str(), 329, 478, 131);     // 상대방 캐릭터 사진
     }
 
 

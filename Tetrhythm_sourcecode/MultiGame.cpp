@@ -188,12 +188,21 @@ bool MultiGame::tick()
         int attack = Multi::getInstance()->opponentLine - oppPreviousLine;
         if (attack == 2) {
             //1줄 공격
+            print->printPNG("HIT.png", 26, 229, print->getLayeredTextures().back().layer + 1);
+            hitImageStartTime = timeSinceStart; // 표시 시점 기록
+            hitImageVisible = true;
             well_.addGrayLines(1, true);
         }
         else if (attack == 3) {
+            print->printPNG("FATAL.png", 26, 229, print->getLayeredTextures().back().layer + 1);
+            fatalImageStartTime = timeSinceStart; // 표시 시점 기록
+            fatalImageVisible = true;
             well_.addGrayLines(2, true);
         }
         else if (attack == 4) {
+            print->printPNG("CRITICAL.png", 26, 229, print->getLayeredTextures().back().layer + 1);
+            criticalImageStartTime = timeSinceStart; // 표시 시점 기록
+            criticalImageVisible = true;
             well_.addGrayLines(4, true);
         }
 
@@ -241,6 +250,22 @@ bool MultiGame::tick()
     if (perfectImageVisible && (timeSinceStart - perfectImageStartTime) >= 0.5) {
         print->deletePNG("Perfect.png");
         perfectImageVisible = false;
+    }
+    
+    //hit이미지 삭제되게하기 
+    if (hitImageVisible && (timeSinceStart - hitImageStartTime) >= 1) {
+        print->deletePNG("HIT.png");
+        hitImageVisible = false;
+    }
+    //fatal이미지 삭제되게하기 
+    if (fatalImageVisible && (timeSinceStart - fatalImageStartTime) >= 1) {
+        print->deletePNG("FATAL.png");
+        fatalImageVisible = false;
+    }
+    //critical이미지 삭제되게하기 
+    if (criticalImageVisible && (timeSinceStart - criticalImageStartTime) >= 1) {
+        print->deletePNG("CRITICAL.png");
+        criticalImageVisible = false;
     }
 
     //// 카운트다운 이미지 출력 및 삭제

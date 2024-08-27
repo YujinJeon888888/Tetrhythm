@@ -123,4 +123,10 @@ private:
     int maxCombo;
     int oppPreviousLine;
     int oppPreviousTetris;
+    double criticalImageStartTime; // critical.png 표시 시점 기록
+    bool criticalImageVisible;    
+    double fatalImageStartTime; // fatal.png 표시 시점 기록
+    bool fatalImageVisible;
+    double hitImageStartTime; // hit.png 표시 시점 기록
+    bool hitImageVisible;
 };

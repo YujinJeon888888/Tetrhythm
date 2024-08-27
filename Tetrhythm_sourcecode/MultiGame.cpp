@@ -320,7 +320,7 @@ bool MultiGame::tick()
                     Tetromino t = tetromino_;
                     t.drop(well_);
                     check(t);
-                    Multi::getInstance()->sendTetromino(t);
+                 //   Multi::getInstance()->sendTetromino(t);
                     lastDropTime = currentTime; // 마지막 드랍 시간 기록
                     // soundManager->playSound("BlockDrop", 0);
                     // 하트 노트 위치 판정
@@ -385,7 +385,7 @@ bool MultiGame::tick()
                         t.move(0, 1);
                         if (!well_.isCollision(t)) {
                             tetromino_ = t;
-                            Multi::getInstance()->sendTetromino(t);
+                           // Multi::getInstance()->sendTetromino(t);
                         }
                         else {
                             soundManager->playSound("BlockDrop", 0);
@@ -438,7 +438,7 @@ bool MultiGame::tick()
                         t.move((e.key.keysym.sym == SDLK_RIGHT) ? 1 : -1, 0);
                         if (!well_.isCollision(t)) {
                             tetromino_ = t;
-                           Multi::getInstance()->sendTetromino(t);
+                          // Multi::getInstance()->sendTetromino(t);
                         }
 
                         lastMoveTime = currentTime; // 마지막 이동 시간 기록
@@ -453,7 +453,7 @@ bool MultiGame::tick()
                         t.rotateCounterClockwise();
                         if (!well_.isCollision(t)) {
                             tetromino_ = t;
-                            Multi::getInstance()->sendTetromino(t);
+                           // Multi::getInstance()->sendTetromino(t);
                         }
 
                         lastRotationTime = currentTime; // 마지막 회전 시간 기록
@@ -469,7 +469,7 @@ bool MultiGame::tick()
                         t.rotate();
                         if (!well_.isCollision(t)) {
                             tetromino_ = t;
-                            Multi::getInstance()->sendTetromino(t);
+                          //  Multi::getInstance()->sendTetromino(t);
                         }
 
                         lastRotationTime = currentTime; // 마지막 회전 시간 기록

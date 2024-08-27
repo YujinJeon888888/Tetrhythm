@@ -15,10 +15,7 @@ SoundManager::~SoundManager() {
         music_ = nullptr;
     }
 
-    // 모든 로드된 효과음을 해제
-    for (auto& sound : sounds) {
-        Mix_FreeChunk(sound.second);
-    }
+    // 모든 로드된 효과음의 메모리는 스마트 포인터에 의해 자동으로 해제됨
     sounds.clear();
 
     Mix_CloseAudio();
@@ -43,14 +40,13 @@ void SoundManager::playMusic(const std::string& filePath, int loops) {
     Mix_PlayMusic(music_, loops);
 }
 
-
 void SoundManager::stopMusic() {
     Mix_HaltMusic();
 }
 
 void SoundManager::loadSound(const std::string& path, const std::string& soundName) {
-    Mix_Chunk* sound = Mix_LoadWAV(path.c_str());
-    if (sound == nullptr) {
+    std::shared_ptr<Mix_Chunk> sound(Mix_LoadWAV(path.c_str()), Mix_FreeChunk);
+    if (!sound) {
         std::cerr << "Failed to load sound: " << Mix_GetError() << std::endl;
         return;
     }
@@ -58,8 +54,10 @@ void SoundManager::loadSound(const std::string& path, const std::string& soundNa
 }
 
 void SoundManager::playSound(const std::string& soundName, int loops) {
-    if (sounds.find(soundName) != sounds.end()) {
-        int channel = Mix_PlayChannel(-1, sounds[soundName], loops); // -1을 사용하여 빈 채널에서 재생
+    auto it = sounds.find(soundName);
+    if (it != sounds.end()) {
+        Mix_Chunk* chunk = it->second.get();
+        int channel = Mix_PlayChannel(-1, chunk, loops); // -1을 사용하여 빈 채널에서 재생
         if (channel == -1) {
             std::cerr << "Failed to play sound: " << Mix_GetError() << std::endl;
         }
@@ -70,10 +68,17 @@ void SoundManager::playSound(const std::string& soundName, int loops) {
 }
 
 void SoundManager::stopSound(const std::string& soundName) {
-    for (int i = 0; i < Mix_AllocateChannels(-1); ++i) {
-        if (Mix_Playing(i) && Mix_GetChunk(i) == sounds[soundName]) {
-            Mix_HaltChannel(i);
-            break;
+    auto it = sounds.find(soundName);
+    if (it != sounds.end()) {
+        Mix_Chunk* chunk = it->second.get();
+        for (int i = 0; i < Mix_AllocateChannels(-1); ++i) {
+            if (Mix_Playing(i) && Mix_GetChunk(i) == chunk) {
+                Mix_HaltChannel(i);
+                break;
+            }
         }
+    }
+    else {
+        std::cerr << "Sound not found: " << soundName << std::endl;
     }
 }

@@ -4,6 +4,7 @@
 #include <SDL_mixer.h>
 #include <string>
 #include <map>
+#include <memory>
 #include <iostream>
 
 class SoundManager {
@@ -19,8 +20,8 @@ public:
     void stopSound(const std::string& soundName); // 특정 효과음 정지
 
 private:
-    Mix_Music* music_;
-    std::map<std::string, Mix_Chunk*> sounds; // 효과음을 저장하는 맵
+    Mix_Music* music_ = nullptr;
+    std::map<std::string, std::shared_ptr<Mix_Chunk>> sounds; // 스마트 포인터로 효과음 저장
 };
 
 #endif // SOUNDMANAGER_H

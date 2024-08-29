@@ -552,19 +552,19 @@ bool MultiGame::tick()
             switch (linesCleared) { // 1, 2, 3줄에 대한 점수 계산
             case 1:
                 //1줄 공격
-                print->printPNG("HIT.png", 26, 229, print->getLayeredTextures().back().layer + 1);
+                print->printPNG("HIT.png", 110, 285, print->getLayeredTextures().back().layer + 1);
                 hitImageStartTime = timeSinceStart; // 표시 시점 기록
                 hitImageVisible = true;
                 score += 900;
                 break;
             case 2:
-                print->printPNG("HIT.png", 26, 229, print->getLayeredTextures().back().layer + 1);
+                print->printPNG("HIT.png", 110, 285, print->getLayeredTextures().back().layer + 1);
                 hitImageStartTime = timeSinceStart; // 표시 시점 기록
                 hitImageVisible = true;
                 score += 1700;
                 break;
             case 3:
-                print->printPNG("FATAL.png", 26, 229, print->getLayeredTextures().back().layer + 1);
+                print->printPNG("FATAL.png", 75, 275, print->getLayeredTextures().back().layer + 1);
                 fatalImageStartTime = timeSinceStart; // 표시 시점 기록
                 fatalImageVisible = true;
                 score += 2500;

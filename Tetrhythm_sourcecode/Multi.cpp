@@ -34,86 +34,42 @@ Multi* Multi::getInstance() {
 
 
 void Multi::sendID(std::string id, std::string charImageStr) {
+    char messageType = '9';
 
     // 메시지 타입 전송
-    if (send(clientSocket, id.c_str(), sizeof(id), 0) == SOCKET_ERROR) {
-        std::cerr << "Failed to send message type for id" << std::endl;
+    if (send(clientSocket, &messageType, sizeof(messageType), 0) == SOCKET_ERROR) {
+        std::cerr << "Failed to send message type for message type of ID." << std::endl;
         return;
     }
 
-    // 메시지 타입 전송
-    if (send(clientSocket, charImageStr.c_str(), sizeof(charImageStr), 0) == SOCKET_ERROR) {
-        std::cerr << "Failed to send message type for character." << std::endl;
+    // ID 길이 전송
+    int idLength = id.size();
+    if (send(clientSocket, reinterpret_cast<char*>(&idLength), sizeof(idLength), 0) == SOCKET_ERROR) {
+        std::cerr << "Failed to send ID length." << std::endl;
         return;
     }
 
-}
-
-std::pair<std::string, std::string> Multi::receiveIDAndCharacter() {
-    char idBuffer[1024];
-    char charImageBuffer[1024];
-
-    // 첫 번째 데이터 (ID) 수신
-    int bytesReceived = recv(clientSocket, idBuffer, sizeof(idBuffer) - 1, 0);
-    if (bytesReceived <= 0) {
-        std::cerr << "Failed to receive ID or connection closed" << std::endl;
-        return std::make_pair("ERROR", "ERROR");
-    }
-    idBuffer[bytesReceived] = '\0';  // Null-terminate the buffer
-    std::string id(idBuffer);
-
-    // 두 번째 데이터 (캐릭터 이미지 경로) 수신
-    bytesReceived = recv(clientSocket, charImageBuffer, sizeof(charImageBuffer) - 1, 0);
-    if (bytesReceived <= 0) {
-        std::cerr << "Failed to receive character image path or connection closed" << std::endl;
-        return std::make_pair(id, "ERROR");
-    }
-    charImageBuffer[bytesReceived] = '\0';  // Null-terminate the buffer
-    std::string charImageStr(charImageBuffer);
-
-    // 두 데이터를 페어로 반환
-    return std::make_pair(id, charImageStr);
-}
-
-std::string Multi::receiveOpponentData() {
-    char buffer[1024];
-
-    // fd_set과 timeout 설정
-    fd_set readfds;
-    FD_ZERO(&readfds);
-    FD_SET(clientSocket, &readfds);
-
-    struct timeval timeout;
-    timeout.tv_sec = 0;
-    timeout.tv_usec = 16000;  // 16ms timeout (예: 60 FPS)
-
-    // select로 소켓의 상태를 확인
-    int activity = select(clientSocket + 1, &readfds, NULL, NULL, &timeout);
-
-    if (activity > 0 && FD_ISSET(clientSocket, &readfds)) {
-        // 데이터 수신
-        int bytesReceived = recv(clientSocket, buffer, sizeof(buffer) - 1, 0);
-
-        // 수신된 바이트가 0보다 큰 경우에만 처리
-        if (bytesReceived > 0) {
-            buffer[bytesReceived] = '\0';  // Null-terminate the buffer
-            return std::string(buffer);    // 문자열로 반환
-        }
-        // 연결이 종료된 경우
-        else if (bytesReceived == 0) {
-          //  std::cerr << "Connection closed by the peer" << std::endl;
-            return "CONNECTION_CLOSED";    // 연결 종료 시 명시적 문자열 반환
-        }
-        // 오류가 발생한 경우
-        else {
-           // std::cerr << "Receive error: " << strerror(errno) << std::endl;
-            return "ERROR";    // 오류 시 명시적 문자열 반환
-        }
+    // ID 데이터 전송
+    if (send(clientSocket, id.c_str(), idLength, 0) == SOCKET_ERROR) {
+        std::cerr << "Failed to send ID data." << std::endl;
+        return;
     }
 
-    // 소켓 상태가 변경되지 않은 경우
-    return "NO_DATA";    // 데이터가 없음을 명시하는 문자열 반환
+    // 캐릭터 이미지 문자열 길이 전송
+    int charImageStrLength = charImageStr.size();
+    if (send(clientSocket, reinterpret_cast<char*>(&charImageStrLength), sizeof(charImageStrLength), 0) == SOCKET_ERROR) {
+        std::cerr << "Failed to send character image string length." << std::endl;
+        return;
+    }
+    //std::cout << reinterpret_cast<char*>(&charImageStrLength);
+    // 캐릭터 이미지 문자열 데이터 전송
+    if (send(clientSocket, charImageStr.c_str(), charImageStrLength, 0) == SOCKET_ERROR) {
+        std::cerr << "Failed to send character image string data." << std::endl;
+        return;
+    }
 }
+
+
 
 void Multi::sendTetromino(Tetromino& tetromino) {
 
@@ -243,6 +199,8 @@ void Multi::sendGameOver() {
         return;
     }
 
+  
+
 }
 
 void Multi::sendHeartInfo(std::string msg) {
@@ -310,10 +268,15 @@ int Multi::receiveMessegeData() {
         else if (messageType == '7') {
 
             receiveTetromino();
-
+            return 7;
         }
         else if (messageType == 8) {
             receiveTetrominos();
+        }
+        else if (messageType == '9') {
+            receiveIDAndCharacter();
+            std::cout << 9;
+            return 9;
         }
         else if (static_cast<int>(messageType) != 0)
             std::cout << "Received message type: " << static_cast<int>(messageType) << std::endl;
@@ -322,6 +285,50 @@ int Multi::receiveMessegeData() {
         
     }
 }
+
+void Multi::receiveIDAndCharacter() {
+
+    int idLength = 0;
+
+    int bytesReceived = recv(clientSocket, reinterpret_cast<char*>(&idLength), sizeof(idLength), 0);
+    if (bytesReceived <= 0) {
+        std::cerr << "Failed to receive ID or connection closed" << std::endl;
+        return;
+    }
+
+
+    std::vector<char> idBuffer(idLength + 1);
+    // 첫 번째 데이터 (ID) 수신
+    bytesReceived = recv(clientSocket, idBuffer.data(), idLength, 0);
+    if (bytesReceived <= 0) {
+        std::cerr << "Failed to receive ID or connection closed" << std::endl;
+        return;
+    }
+    idBuffer[idLength] = '\0'; // NULL 종료
+    opponentId = std::string(idBuffer.data());
+    int charImageStrLength = 0;
+
+    bytesReceived = recv(clientSocket, reinterpret_cast<char*>(&charImageStrLength), sizeof(charImageStrLength), 0);
+    if (bytesReceived <= 0) {
+        std::cerr << "Failed to receive ID or connection closed" << std::endl;
+        return;
+    }
+
+    std::vector<char> charImageStrBuffer(charImageStrLength + 1);
+  
+    // 두 번째 데이터 (캐릭터 이미지 경로) 수신
+    bytesReceived = recv(clientSocket, charImageStrBuffer.data(), charImageStrLength, 0);
+    if (bytesReceived <= 0) {
+        std::cerr << "Failed to receive character image path or connection closed" << std::endl;
+        return;
+    }
+    charImageStrBuffer[charImageStrLength] = '\0'; // NULL 종료
+    opponentCharacter = std::string(charImageStrBuffer.data());
+
+    return;
+
+}
+
 
 void Multi::receiveTetrominos() {
     char data[sizeof(Tetromino) * 3];
@@ -668,5 +675,5 @@ Multi::~Multi() {
 
     std::cout << "exit";
     send(clientSocket, "exit", strlen("exit"), 0);
-    closeConnection();
+   // closeConnection();
 }

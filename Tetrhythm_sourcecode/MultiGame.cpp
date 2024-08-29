@@ -19,6 +19,14 @@ const std::string MultiHeart::paths[3] = {
     "heart2.png",
     "heart3.png"
 };
+
+
+const std::string MultiHeart::paths_opponent[3] = {
+    "heart1o.png",
+    "heart2o.png",
+    "heart3o.png"
+};
+
 const int MultiHeart::xPositions[3] = {
     857,
     910,
@@ -118,6 +126,9 @@ MultiGame::MultiGame(WindowManager& wm, Print* pr, SceneManager& sm)
         throw std::runtime_error("Failed to create texture: " + std::string(SDL_GetError()));
     }
 
+    std::string id = UserInfo::getInstance().getUserID();
+    std::string char_img = UserInfo::getInstance().getUserCharacter();
+    Multi::getInstance()->sendID(id, char_img);
     Multi::getInstance()->sendTetromino(tetromino_);
     Multi::getInstance()->sendNextTetrominos(opponentNextTetrominos_);
 }
@@ -163,7 +174,8 @@ bool MultiGame::tick()
     if (type == 2|| Multi::getInstance()->isClear) //클리어 임시 구?현
     {
         std::cout << "type 2";
-        Multi::resetInstance();
+      //   Multi::getInstance()->closeConnection();
+         Multi::resetInstance();
         soundManager->stopMusic(); // TetrisScene 객체가 파괴될 때 음악을 중지
         delete soundManager;
         isClear = true;
@@ -181,19 +193,32 @@ bool MultiGame::tick()
      
         print->setText(23, "      " + std::to_string(Multi::getInstance()->opponentScore));
     }
+    else if (type == 9) {
+        std::string opponentID = Multi::getInstance()->opponentId;
+        std::string opponentCharacter = Multi::getInstance()->opponentCharacter;
+
+        TTF_Font* font2 = print->loadFont("DungGeunMo.ttf", 20);
+        SDL_Color color = { 255, 255, 255 }; // 흰색
+       // std::cout << id << cimg;
+       
+        print->printText(opponentID.c_str(), 327, 610, 32, font2, color); // 상대방 ID 출력
+        print->printPNG(opponentCharacter.c_str(), 329, 478, 131);     // 상대방 캐릭터 사진
+    }
 
 
     if (Multi::getInstance()->hasData) {
 
         int attack = Multi::getInstance()->opponentLine - oppPreviousLine;
         if (attack == 2) {
-            //1줄 공격
+            
             well_.addGrayLines(1, true);
         }
         else if (attack == 3) {
+        
             well_.addGrayLines(2, true);
         }
         else if (attack == 4) {
+
             well_.addGrayLines(4, true);
         }
 
@@ -242,6 +267,22 @@ bool MultiGame::tick()
         print->deletePNG("Perfect.png");
         perfectImageVisible = false;
     }
+    
+    //hit이미지 삭제되게하기 
+    if (hitImageVisible && (timeSinceStart - hitImageStartTime) >= 1) {
+        print->deletePNG("HIT.png");
+        hitImageVisible = false;
+    }
+    //fatal이미지 삭제되게하기 
+    if (fatalImageVisible && (timeSinceStart - fatalImageStartTime) >= 1) {
+        print->deletePNG("FATAL.png");
+        fatalImageVisible = false;
+    }
+    //critical이미지 삭제되게하기 
+    if (criticalImageVisible && (timeSinceStart - criticalImageStartTime) >= 1) {
+        print->deletePNG("CRITICAL.png");
+        criticalImageVisible = false;
+    }
 
     //// 카운트다운 이미지 출력 및 삭제
     if (timeSinceStart >= 0.0 && timeSinceStart < 1.0 && !countdown3Displayed) {
@@ -281,7 +322,7 @@ bool MultiGame::tick()
                     Tetromino t = tetromino_;
                     t.drop(well_);
                     check(t);
-                    Multi::getInstance()->sendTetromino(t);
+               
                     lastDropTime = currentTime; // 마지막 드랍 시간 기록
                     // soundManager->playSound("BlockDrop", 0);
                     // 하트 노트 위치 판정
@@ -346,7 +387,7 @@ bool MultiGame::tick()
                         t.move(0, 1);
                         if (!well_.isCollision(t)) {
                             tetromino_ = t;
-                            Multi::getInstance()->sendTetromino(t);
+                           // Multi::getInstance()->sendTetromino(t);
                         }
                         else {
                             soundManager->playSound("BlockDrop", 0);
@@ -399,7 +440,7 @@ bool MultiGame::tick()
                         t.move((e.key.keysym.sym == SDLK_RIGHT) ? 1 : -1, 0);
                         if (!well_.isCollision(t)) {
                             tetromino_ = t;
-                           Multi::getInstance()->sendTetromino(t);
+                          // Multi::getInstance()->sendTetromino(t);
                         }
 
                         lastMoveTime = currentTime; // 마지막 이동 시간 기록
@@ -414,7 +455,7 @@ bool MultiGame::tick()
                         t.rotateCounterClockwise();
                         if (!well_.isCollision(t)) {
                             tetromino_ = t;
-                            Multi::getInstance()->sendTetromino(t);
+                           // Multi::getInstance()->sendTetromino(t);
                         }
 
                         lastRotationTime = currentTime; // 마지막 회전 시간 기록
@@ -430,7 +471,7 @@ bool MultiGame::tick()
                         t.rotate();
                         if (!well_.isCollision(t)) {
                             tetromino_ = t;
-                            Multi::getInstance()->sendTetromino(t);
+                          //  Multi::getInstance()->sendTetromino(t);
                         }
 
                         lastRotationTime = currentTime; // 마지막 회전 시간 기록
@@ -519,12 +560,22 @@ bool MultiGame::tick()
 
             switch (linesCleared) { // 1, 2, 3줄에 대한 점수 계산
             case 1:
+                //1줄 공격
+                print->printPNG("HIT.png", 110, 285, print->getLayeredTextures().back().layer + 1);
+                hitImageStartTime = timeSinceStart; // 표시 시점 기록
+                hitImageVisible = true;
                 score += 900;
                 break;
             case 2:
+                print->printPNG("HIT.png", 110, 285, print->getLayeredTextures().back().layer + 1);
+                hitImageStartTime = timeSinceStart; // 표시 시점 기록
+                hitImageVisible = true;
                 score += 1700;
                 break;
             case 3:
+                print->printPNG("FATAL.png", 75, 275, print->getLayeredTextures().back().layer + 1);
+                fatalImageStartTime = timeSinceStart; // 표시 시점 기록
+                fatalImageVisible = true;
                 score += 2500;
                 break;
             default:
@@ -538,6 +589,9 @@ bool MultiGame::tick()
         //테트리스
         if (currentTetris > previousTetris)
         {
+            print->printPNG("CRITICAL.png", 26, 229, print->getLayeredTextures().back().layer + 1);
+            criticalImageStartTime = timeSinceStart; // 표시 시점 기록
+            criticalImageVisible = true;
             // 4줄 깬 경우
             seriesTetrisCount += 1;
             if (seriesTetrisCount % 2 == 0) {
@@ -647,7 +701,7 @@ void MultiGame::check(const Tetromino& t)
         nextTetrominos_[1] = nextTetrominos_[2];
         nextTetrominos_[2] = Tetromino(801, 100);  // 새로운 위치로 테트로미노를 생성
 
-        Multi::getInstance()->sendNextTetrominos(nextTetrominos_);
+       // Multi::getInstance()->sendNextTetrominos(nextTetrominos_);
 
         // 새로운 블록이 Well에 충돌하면 게임 오버 처리
         if (well_.isCollision(tetromino_))
@@ -686,7 +740,7 @@ void MultiGame::deductHeart()
         MultiHeart lastHeart = hearts.back();
         print->deletePNG(lastHeart.path.c_str());
         hearts.pop_back();
-     //   std::cout << "Heart deducted! Remaining hearts: " << hearts.size() << std::endl;
+      //  std::cout << "Heart deducted! Remaining hearts: " << hearts.size() << std::endl;
     }
     else
     {
@@ -702,14 +756,12 @@ void MultiGame::deductHeart_opponent()
     {
       //  Multi::getInstance()->sendHeartInfo("minus");
         MultiHeart lastHeart = oppnentHearts.back();
+        std::cout<<"opp" << lastHeart.path.c_str();
         print->deletePNG(lastHeart.path.c_str());
         oppnentHearts.pop_back();
-        //   std::cout << "Heart deducted! Remaining hearts: " << hearts.size() << std::endl;
+          std::cout << "opp Heart deducted! Remaining hearts: " << hearts.size() << std::endl;
     }
-    else
-    {
-        //  std::cout << "No hearts left to deduct" << std::endl;
-    }
+   
 }
 
 
@@ -717,7 +769,7 @@ void MultiGame::plusHeart_opponent()
 {
     if (oppnentHearts.size() < Heart::maxHeart && oppnentHearts.size() != 0) {
     
-        MultiHeart heart{ MultiHeart::paths[oppnentHearts.size()], MultiHeart::xPositions_opponent[oppnentHearts.size()], MultiHeart::yPositions[oppnentHearts.size()] };
+        MultiHeart heart{ MultiHeart::paths_opponent[oppnentHearts.size()], MultiHeart::xPositions_opponent[oppnentHearts.size()], MultiHeart::yPositions[oppnentHearts.size()] };
         oppnentHearts.push_back(heart);
         print->printPNG(heart.path.c_str(), heart.xPosition, heart.yPosition);
     }

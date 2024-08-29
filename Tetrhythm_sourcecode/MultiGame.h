@@ -19,6 +19,7 @@ struct MultiHeart {
     int xPosition;
     int yPosition;
     static const std::string paths[3];
+    static const std::string paths_opponent[3];
     static const int maxHeart = 3;
     static const int xPositions[3];
     static const int yPositions[3];
@@ -79,9 +80,9 @@ private:
     };
 
     std::vector<MultiHeart> oppnentHearts = {
-     {MultiHeart::paths[0], MultiHeart::xPositions_opponent[0], MultiHeart::yPositions[0]},
-     {MultiHeart::paths[1], MultiHeart::xPositions_opponent[1], MultiHeart::yPositions[1]},
-     {MultiHeart::paths[2], MultiHeart::xPositions_opponent[2], MultiHeart::yPositions[2]}
+     {MultiHeart::paths_opponent[0], MultiHeart::xPositions_opponent[0], MultiHeart::yPositions[0]},
+     {MultiHeart::paths_opponent[1], MultiHeart::xPositions_opponent[1], MultiHeart::yPositions[1]},
+     {MultiHeart::paths_opponent[2], MultiHeart::xPositions_opponent[2], MultiHeart::yPositions[2]}
     };
     //하트로직 
     SoundManager* soundManager; // SoundManager 객체 선언
@@ -123,4 +124,10 @@ private:
     int maxCombo;
     int oppPreviousLine;
     int oppPreviousTetris;
+    double criticalImageStartTime; // critical.png 표시 시점 기록
+    bool criticalImageVisible;    
+    double fatalImageStartTime; // fatal.png 표시 시점 기록
+    bool fatalImageVisible;
+    double hitImageStartTime; // hit.png 표시 시점 기록
+    bool hitImageVisible;
 };

@@ -732,7 +732,7 @@ void MultiGame::deductHeart()
         MultiHeart lastHeart = hearts.back();
         print->deletePNG(lastHeart.path.c_str());
         hearts.pop_back();
-     //   std::cout << "Heart deducted! Remaining hearts: " << hearts.size() << std::endl;
+        std::cout << "Heart deducted! Remaining hearts: " << hearts.size() << std::endl;
     }
     else
     {
@@ -752,10 +752,7 @@ void MultiGame::deductHeart_opponent()
         oppnentHearts.pop_back();
         //   std::cout << "Heart deducted! Remaining hearts: " << hearts.size() << std::endl;
     }
-    else
-    {
-        //  std::cout << "No hearts left to deduct" << std::endl;
-    }
+   
 }
 
 

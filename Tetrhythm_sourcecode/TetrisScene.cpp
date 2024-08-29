@@ -29,7 +29,12 @@ void TetrisScene::drawInit()
     print->printText("        0", 777, 556, 8, font, color);
     print->printText("       0", 777, 586, 9, font, color);
     print->printPNG(UserInfo::getInstance().getUserCharacter().c_str(), 317, 429, 10);
-    print->printText(UserInfo::getInstance().getUserID(), 317, 570, 10, font, color);
+    int spaceCount= ((12-UserInfo::getInstance().getUserID().size())/2)-1;
+    std::string space = "";
+    for (int i = 0; i < spaceCount; i++) {
+        space += " ";
+    }
+    print->printText(space+UserInfo::getInstance().getUserID(), 317, 570, 10, font, color);
 
 
     print->printPNG("Background.png", 0, 0, 0); // 전체 배경

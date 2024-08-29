@@ -166,7 +166,8 @@ bool MultiGame::tick()
     if (type == 2|| Multi::getInstance()->isClear) //클리어 임시 구?현
     {
         std::cout << "type 2";
-        Multi::resetInstance();
+      //   Multi::getInstance()->closeConnection();
+         Multi::resetInstance();
         soundManager->stopMusic(); // TetrisScene 객체가 파괴될 때 음악을 중지
         delete soundManager;
         isClear = true;

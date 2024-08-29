@@ -89,7 +89,7 @@ void MultiGameScene::update() {
         // 게임 종료 시
        
         if (game->getIsClear()) {
-           // sceneManager.changeScene(std::make_unique<ClearScene>(windowManager, sceneManager, game->getLine(), game->getTetris(),game->getMaxCombo(),game->getIsClear()));
+            sceneManager.changeScene(std::make_unique<ClearScene>(windowManager, sceneManager, game->getLine(), game->getTetris(),game->getMaxCombo(),game->getIsClear()));
         }
         else {
        

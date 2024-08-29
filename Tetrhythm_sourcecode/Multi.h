@@ -43,6 +43,7 @@ public:
            
             delete instance;
             instance = nullptr;
+     
         }
         // 새로운 인스턴스 생성
         instance = new Multi();

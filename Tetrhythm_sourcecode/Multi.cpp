@@ -5,8 +5,8 @@
 Multi* Multi::instance = nullptr;
 Multi::Multi() : tetromino(61, 100) {
 
-    addr ="52.14.83.66";//
-    //addr = "127.0.0.1";
+   // addr ="52.14.83.66";//
+    addr = "127.0.0.1";
   
 }
               
@@ -198,6 +198,8 @@ void Multi::sendGameOver() {
         std::cerr << "Failed to send message type for game over/clear." << std::endl;
         return;
     }
+
+  
 
 }
 
@@ -673,5 +675,5 @@ Multi::~Multi() {
 
     std::cout << "exit";
     send(clientSocket, "exit", strlen("exit"), 0);
-    closeConnection();
+   // closeConnection();
 }

@@ -19,6 +19,14 @@ const std::string MultiHeart::paths[3] = {
     "heart2.png",
     "heart3.png"
 };
+
+
+const std::string MultiHeart::paths_opponent[3] = {
+    "heart1o.png",
+    "heart2o.png",
+    "heart3o.png"
+};
+
 const int MultiHeart::xPositions[3] = {
     857,
     910,
@@ -732,7 +740,7 @@ void MultiGame::deductHeart()
         MultiHeart lastHeart = hearts.back();
         print->deletePNG(lastHeart.path.c_str());
         hearts.pop_back();
-        std::cout << "Heart deducted! Remaining hearts: " << hearts.size() << std::endl;
+      //  std::cout << "Heart deducted! Remaining hearts: " << hearts.size() << std::endl;
     }
     else
     {
@@ -748,9 +756,10 @@ void MultiGame::deductHeart_opponent()
     {
       //  Multi::getInstance()->sendHeartInfo("minus");
         MultiHeart lastHeart = oppnentHearts.back();
+        std::cout<<"opp" << lastHeart.path.c_str();
         print->deletePNG(lastHeart.path.c_str());
         oppnentHearts.pop_back();
-        //   std::cout << "Heart deducted! Remaining hearts: " << hearts.size() << std::endl;
+          std::cout << "opp Heart deducted! Remaining hearts: " << hearts.size() << std::endl;
     }
    
 }
@@ -760,7 +769,7 @@ void MultiGame::plusHeart_opponent()
 {
     if (oppnentHearts.size() < Heart::maxHeart && oppnentHearts.size() != 0) {
     
-        MultiHeart heart{ MultiHeart::paths[oppnentHearts.size()], MultiHeart::xPositions_opponent[oppnentHearts.size()], MultiHeart::yPositions[oppnentHearts.size()] };
+        MultiHeart heart{ MultiHeart::paths_opponent[oppnentHearts.size()], MultiHeart::xPositions_opponent[oppnentHearts.size()], MultiHeart::yPositions[oppnentHearts.size()] };
         oppnentHearts.push_back(heart);
         print->printPNG(heart.path.c_str(), heart.xPosition, heart.yPosition);
     }

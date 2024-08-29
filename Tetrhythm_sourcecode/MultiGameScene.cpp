@@ -36,9 +36,9 @@ void MultiGameScene::drawInit()
 
   
     //상대방쪽
-    print->printPNG("heart1.png", 118, 50, 1);
-    print->printPNG("heart2.png", 171, 50, 2);
-    print->printPNG("heart3.png", 224, 50, 3);
+    print->printPNG("heart1o.png", 118, 50, 1);
+    print->printPNG("heart2o.png", 171, 50, 2);
+    print->printPNG("heart3o.png", 224, 50, 3);
     print->printText("Line: ", 329, 388, 4, font, color);
     print->printText("Tetris: ", 329, 418, 5, font, color);
     print->printText("Score: ", 329, 448, 6, font, color);

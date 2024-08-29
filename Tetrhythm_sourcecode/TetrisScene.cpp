@@ -29,6 +29,8 @@ void TetrisScene::drawInit()
     print->printText("        0", 777, 556, 8, font, color);
     print->printText("       0", 777, 586, 9, font, color);
     print->printPNG(UserInfo::getInstance().getUserCharacter().c_str(), 317, 429, 10);
+    print->printText(UserInfo::getInstance().getUserID(), 317, 570, 10, font, color);
+
 
     print->printPNG("Background.png", 0, 0, 0); // 전체 배경
     print->printPNG("RhythmUIBackground.png", 70, 241, 10); // 리듬게임 UI 배경

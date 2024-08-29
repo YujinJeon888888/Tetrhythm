@@ -6,7 +6,16 @@ const char* MySQL::userName = "c4soupya4kvutpg2";
 const char* MySQL::password = "nyryixy9qhnhzfze";
 const char* MySQL::database = "ljk5c9ot0z8wofa5";
 
+// MySQL 작업을 실행하기 전에 Winsock을 다시 초기화합니다.
+void initializeWinsock() {
+    WSADATA wsaData;
+    if (WSAStartup(MAKEWORD(2, 2), &wsaData) != 0) {
+        std::cerr << "WSAStartup failed." << std::endl;
+        exit(-1);
+    }
+}
 void MySQL::insertAndShowUsers(const std::string& str) {
+    initializeWinsock();
     MYSQL Conn;
     MYSQL* ConnPtr = NULL;
     MYSQL_RES* Result;
@@ -55,6 +64,7 @@ void MySQL::insertAndShowUsers(const std::string& str) {
 
 bool MySQL::isDuflicatedUser(const std::string str)
 {
+    initializeWinsock();
     MYSQL Conn;
     MYSQL* ConnPtr = NULL;
     MYSQL_RES* Result;
@@ -97,12 +107,14 @@ bool MySQL::isDuflicatedUser(const std::string str)
 }
 
 bool MySQL::containsInvalidCharacters(const std::string& str) {
+    initializeWinsock();
     return std::find_if(str.begin(), str.end(), [](unsigned char c) {
         return !(std::isalnum(c)); // 영문자 또는 숫자가 아니면 허용되지 않는 문자
         }) != str.end();
 }
 
 void MySQL::setLine(std::string ID, int l) {
+    initializeWinsock();
     MYSQL Conn;
     MYSQL* ConnPtr = NULL;
     int Stat;
@@ -129,6 +141,7 @@ void MySQL::setLine(std::string ID, int l) {
 }
 
 void MySQL::setTetris(std::string ID, int t) {
+    initializeWinsock();
     MYSQL Conn;
     MYSQL* ConnPtr = NULL;
     int Stat;
@@ -155,6 +168,7 @@ void MySQL::setTetris(std::string ID, int t) {
 }
 void MySQL::setHighScore(std::string ID, int s)
 {
+    initializeWinsock();
     MYSQL Conn;
     MYSQL* ConnPtr = NULL;
     int Stat;
@@ -182,6 +196,7 @@ void MySQL::setHighScore(std::string ID, int s)
 
 void MySQL::setCharacterName(std::string ID, std::string c)
 {
+    initializeWinsock();
     MYSQL Conn;
     MYSQL* ConnPtr = NULL;
     int Stat;
@@ -208,6 +223,7 @@ void MySQL::setCharacterName(std::string ID, std::string c)
 
 void MySQL::setPerfectClear(std::string ID, bool b)
 {
+    initializeWinsock();
     MYSQL Conn;
     MYSQL* ConnPtr = NULL;
     int Stat;
@@ -233,6 +249,7 @@ void MySQL::setPerfectClear(std::string ID, bool b)
 }
 void MySQL::setMultiModeWin(std::string ID, bool b)
 {
+    initializeWinsock();
     MYSQL Conn;
     MYSQL* ConnPtr = NULL;
     int Stat;
@@ -259,6 +276,7 @@ void MySQL::setMultiModeWin(std::string ID, bool b)
 }
 
 void MySQL::initUserInfo(std::string ID) {
+    initializeWinsock();
     MYSQL Conn;
     MYSQL* ConnPtr = NULL;
     MYSQL_RES* Result;
@@ -411,6 +429,7 @@ void MySQL::initUserInfo(std::string ID) {
 
 std::string MySQL::printTable()
 {
+    initializeWinsock();
     std::string returnResult = "";
     MYSQL Conn;
     MYSQL* ConnPtr = NULL;

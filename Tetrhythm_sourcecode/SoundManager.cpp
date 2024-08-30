@@ -69,7 +69,7 @@ void SoundManager::playSound(const std::string& soundName, int loops) {
         }
     }
     catch (std::exception) {
-
+        throw;
     }
 }
 

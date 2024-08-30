@@ -70,7 +70,7 @@ void MultiGameScene::update() {
         }
         else {
        
-           sceneManager.changeScene(std::make_unique<GameOverScene>(windowManager, sceneManager, game->getScore(), game->getLine(), game->getTetris(),game->getMaxCombo()));
+           sceneManager.changeScene(std::make_unique<GameOverScene>(windowManager, sceneManager, game->getScore(), game->getLine(), game->getTetris(),game->getMaxCombo(),true));
         }
     }
 }

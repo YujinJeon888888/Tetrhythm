@@ -2,8 +2,8 @@
 
 
 
-GameOverScene::GameOverScene(WindowManager& wm, SceneManager& manager, int score, int line, int tetris, int combo)
-	: windowManager(wm), sceneManager(manager), print(new Print(&wm)), score(score), line(line), tetris(tetris), soundManager(new SoundManager()), combo(combo)
+GameOverScene::GameOverScene(WindowManager& wm, SceneManager& manager, int score, int line, int tetris, int combo,bool multi)
+	: windowManager(wm), sceneManager(manager), print(new Print(&wm)), score(score), line(line), tetris(tetris), soundManager(new SoundManager()), combo(combo),multi(multi)
 {
 	drawInit();
 	soundManager->loadSound("Musics/YouLose.mp3", "YouLose"); // 효과음 로드
@@ -14,7 +14,11 @@ GameOverScene::GameOverScene(WindowManager& wm, SceneManager& manager, int score
 void GameOverScene::drawInit()
 {
 	print->printPNG("BackGround.png", 0, 0, 0);
-	print->printPNG("GameOver.png", 180, 50, 1);
+	if (multi) {
+		print->printPNG("YouLose1.png", 201, 20, 1);
+		print->printPNG("YouLose2.png", 152, 134, 1);
+	}
+	else print->printPNG("GameOver.png", 373, 68, 1);
 	//text 세팅
 	TTF_Font* font = print->loadFont("DungGeunMo.ttf", 30);
 	SDL_Color color = { 255, 255, 255 }; // 흰색

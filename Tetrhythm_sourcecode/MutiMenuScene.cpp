@@ -94,9 +94,7 @@ void MutiMenuScene::handleArrowKey(SDL_Keycode key) {
 
                 std::cerr << "Exception caught: " << e.what() << std::endl;
             }
-          // sceneManager.changeScene(std::make_unique<createRoomScene>(windowManager, sceneManager));
-
-           
+         
             break;
         case 2: //enter room code 
 

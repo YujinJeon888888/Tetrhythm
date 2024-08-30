@@ -5,8 +5,8 @@
 Multi* Multi::instance = nullptr;
 Multi::Multi() : tetromino(61, 100) {
 
-   // addr ="52.14.83.66";//
-    addr = "127.0.0.1";
+   addr ="52.14.83.66";
+   // addr = "127.0.0.1";
   
 }
               
@@ -560,7 +560,9 @@ int Multi::getRandomRoom() {
 
 int Multi::createRoom() {
     connectServer();
+    
     std::string msg = "create_room";
+
     if (send(clientSocket, msg.c_str(), msg.size(), 0) == SOCKET_ERROR) {
         std::cerr << "Failed to send message." << std::endl;
     }
@@ -607,6 +609,7 @@ void Multi::connetOpponent() {
 
     char buffer[1024];
     int len = recv(clientSocket, buffer, 1024, 0);
+
 
     if (len > 0) {
 

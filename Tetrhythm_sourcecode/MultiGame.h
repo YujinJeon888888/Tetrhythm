@@ -102,7 +102,7 @@ private:
     bool isClear = false;
     bool isPerfectClear = true;
 
-    int fullComboCount = 0;
+    const int fullComboCount = 62;
     //
     int seriesTetrisCount = 0;
     const int comboScore = 100000;

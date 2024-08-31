@@ -647,8 +647,8 @@ bool MultiGame::tick()
         }
 
         if (gameOver) {
-            if (comboVector.size() != 0)
-                maxCombo = comboVector[0];
+            /*if (comboVector.size() != 0)
+                maxCombo = comboVector[0];*/
             Multi::getInstance()->sendGameOver();
             soundManager->stopMusic(); // 다른 창으로 이동하기 전에 음악을 중지합니다.
             //최대콤보반영

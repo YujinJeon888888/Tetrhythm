@@ -48,8 +48,7 @@ Game::Game(WindowManager& wm, Print* pr, SceneManager& sm)
     lastFrameTime(std::chrono::steady_clock::now()),
     musicPlayed(false),
     soundManager(new SoundManager()), // SoundManager 객체 초기화
-    heartSpawnInterval(60.0 / 140.0 * 4), // 140 BPM 4/4박자마다 생성 간격 (초 단위)
-    fullComboCount((static_cast<int>(223.0 / heartSpawnInterval)) / 2),
+    //heartSpawnInterval(60.0 / 140.0 * 4), // 140 BPM 4/4박자마다 생성 간격 (초 단위)
     nextHeartSpawnTime(0.0),  // 다음 하트 노드 생성 타이밍
     countdown3Displayed(false),
     countdown2Displayed(false),
@@ -119,6 +118,20 @@ bool Game::tick()
     Uint32 moveDelay = 50;   // 이동 시 딜레이 (밀리초 단위)
     Uint32 rotateDelay = 50; // 회전 시 딜레이 (밀리초 단위)
     Uint32 dropDelay = 50;   // 드랍 시 딜레이 (밀리초 단위)
+
+    // 시간에 따라 heartSpawnInterval을 업데이트
+    if (timeSinceStart >= 0.0 && timeSinceStart < 42.0) {
+        heartSpawnInterval = 3.5;  // 42초 동안 3.5초마다 하트 생성
+    }
+    else if (timeSinceStart >= 42.0 && timeSinceStart < 52.5) {
+        heartSpawnInterval = 2.1;  // 10.5초 동안 2.1초마다 하트 생성
+    }
+    else if (timeSinceStart >= 52.5 && timeSinceStart < 189.5) {
+        heartSpawnInterval = 3.5;  // 137초 동안 3.5초마다 하트 생성
+    }
+    else if (timeSinceStart >= 189.5) {
+        heartSpawnInterval = 2.1;  // 노래 끝날 때까지 2.1초마다 하트 생성
+    }
 
     // 화면 업데이트
     SDL_SetRenderDrawColor(windowManager.getRenderer(), 0, 0, 0, 0xff);
@@ -239,7 +252,7 @@ bool Game::tick()
                         }
 
                         // 다음 하트 노드 생성 타이밍 설정
-                        nextHeartSpawnTime = timeSinceStart + heartSpawnInterval;
+                        nextHeartSpawnTime += heartSpawnInterval;
                     }
                 }
 
@@ -312,7 +325,7 @@ bool Game::tick()
                                 }
 
                                 // 다음 하트 노드 생성 타이밍 설정
-                                nextHeartSpawnTime = timeSinceStart + heartSpawnInterval;
+                                nextHeartSpawnTime += heartSpawnInterval;
                             }
 
                         }
@@ -430,7 +443,7 @@ bool Game::tick()
                     }
 
                     // 다음 하트 노드 생성 타이밍 설정
-                    nextHeartSpawnTime = timeSinceStart + heartSpawnInterval;
+                    nextHeartSpawnTime += heartSpawnInterval;
                 }
 
                 std::cout << "reach!" << std::endl;
@@ -545,7 +558,7 @@ bool Game::tick()
                 heartVisible = false;
                 print->deletePNG("heartNote.png");
                 // 다음 하트 노드 생성 타이밍 설정
-                nextHeartSpawnTime = timeSinceStart + heartSpawnInterval;
+                nextHeartSpawnTime += heartSpawnInterval;
             }
         }
         else if (timeSinceStart >= nextHeartSpawnTime && !heartVisible)

@@ -60,13 +60,15 @@ private:
     FontInfo textInputObj;
     std::vector<TextAnimation> textAnimations;
     std::vector<SDL_Color> colors = {
+    {238, 130, 238},   // 보라 (바이올렛)
     {255, 0, 0},      // 빨강
     {255, 165, 0},    // 주황
     {255, 255, 0},    // 노랑
     {0, 255, 0},      // 초록
     {0, 0, 255},      // 파랑
-    {75, 0, 130},     // 남색 (인디고)
-    {238, 130, 238}   // 보라 (바이올렛)
+    {75, 0, 130}    // 남색 (인디고)
+
+
     };
 
 public:

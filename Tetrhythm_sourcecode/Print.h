@@ -59,6 +59,16 @@ private:
     std::string textInput = "";
     FontInfo textInputObj;
     std::vector<TextAnimation> textAnimations;
+    std::vector<SDL_Color> colors = {
+    {255, 0, 0},      // 빨강
+    {255, 165, 0},    // 주황
+    {255, 255, 0},    // 노랑
+    {0, 255, 0},      // 초록
+    {0, 0, 255},      // 파랑
+    {75, 0, 130},     // 남색 (인디고)
+    {238, 130, 238}   // 보라 (바이올렛)
+    };
+
 public:
     Print(WindowManager* wm);
     ~Print();
@@ -78,6 +88,7 @@ public:
     void printText(const std::string& text, const int& dstX, const int& dstY, int layer, TTF_Font* font, SDL_Color color); // 폰트출력추가
     void InputText(const int& dstX, const int& dstY, int layer, TTF_Font* font, SDL_Color color);
     void setText(int layer, const std::string& newText);
+    void setText(int layer, const std::string& newText, int color);
     TTF_Font* loadFont(const char* path, int size); // 폰트출력추가
     void unloadFont(TTF_Font* font); // 폰트출력추가
     void renderWithTextInputAndPNG();
@@ -86,6 +97,6 @@ public:
     void renderForTetris();
     void textAnimation(const std::string& text, const int& dstX, const int& dstY, TTF_Font* font, const std::vector<SDL_Color>& colors, int frameDelay, int layer);
     void updateTextAnimation();
-
+    TTF_Font* loadFont(const char* path, int size, bool italic);
 
 };

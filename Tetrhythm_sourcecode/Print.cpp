@@ -449,6 +449,60 @@ void Print::setText(int layer, const std::string& newText) {
     }
 }
 
+//로드폰트: 오버로드( 기울임체)
+TTF_Font* Print::loadFont(const char* path, int size, bool italic)
+{
+    TTF_Font* font = TTF_OpenFont(path, size);
+    if (!font) {
+        std::cerr << "Failed to load font: " << TTF_GetError() << std::endl;
+        return nullptr;
+    }
+
+    // 기울임체를 적용할 경우
+    if (italic) {
+        TTF_SetFontStyle(font, TTF_STYLE_ITALIC);
+    }
+
+    return font;
+}
+
+void Print::setText(int layer, const std::string& newText, int color) {
+    for (auto& fontInfo : fontInfos) {
+        if (fontInfo.layer == layer) {
+            TTF_Font* beforeTextFontInfo = fontInfo.font;
+
+            // 새로운 텍스트를 렌더링하여 SDL_Surface 생성
+            SDL_Surface* surface = TTF_RenderText_Blended(fontInfo.font, newText.c_str(), colors[color]);
+            if (!surface) {
+                std::cerr << "Failed to render text: " << TTF_GetError() << std::endl;
+                return;
+            }
+
+            // SDL_Surface에서 SDL_Texture로 변환
+            SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, surface);
+            SDL_FreeSurface(surface); // Surface는 이제 필요 없으므로 해제
+            if (!texture) {
+                std::cerr << "Failed to create text texture: " << SDL_GetError() << std::endl;
+                return;
+            }
+
+            // 텍스처의 실제 크기를 쿼리하여 dstRect에 설정
+            SDL_QueryTexture(texture, nullptr, nullptr, &fontInfo.dst.w, &fontInfo.dst.h);
+
+            // 기존 텍스처를 새로운 텍스처로 대체
+            for (auto& layeredTexture : layeredTextures) {
+                if (layeredTexture.layer == fontInfo.layer) {
+                    SDL_DestroyTexture(layeredTexture.texture); // 이전 텍스처 삭제
+                    layeredTexture.texture = texture; // 새 텍스처 설정
+                    layeredTexture.dstRect = fontInfo.dst; // 텍스처 크기 설정
+                    fontInfo.texture = texture; // 텍스처 정보 갱신
+                }
+            }
+        }
+    }
+}
+
+
 TTF_Font* Print::loadFont(const char* path, int size) { // 폰트출력추가
     TTF_Font* font = TTF_OpenFont(path, size);
     if (!font) {
@@ -457,6 +511,7 @@ TTF_Font* Print::loadFont(const char* path, int size) { // 폰트출력추가
     }
     return font;
 }
+
 
 void Print::unloadFont(TTF_Font* font) { // 폰트출력추가
     if (font) {

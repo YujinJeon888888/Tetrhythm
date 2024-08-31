@@ -203,6 +203,8 @@ bool Game::tick()
                             comboCount += 1;
                             score += (heartPosX == 432) ? 2000 : 500;
                             print->setText(9, "       " + std::to_string(score));
+                            print->setText(500, "Combo: "+std::to_string(comboCount), comboCount % 7);
+
                             //std::cout << "safe!" << std::endl;
                             heartVisible = false;
                             print->deletePNG("heartNote.png");
@@ -269,7 +271,8 @@ bool Game::tick()
                                     comboCount += 1;
                                     score += (heartPosX == 432) ? 2000 : 500;
                                     print->setText(9, "       " + std::to_string(score));
-                                    //std::cout << "safe!" << std::endl;
+                                    print->setText(500, "Combo: " + std::to_string(comboCount),comboCount%7);
+;                                    //std::cout << "safe!" << std::endl;
                                     heartVisible = false;
                                     print->deletePNG("heartNote.png");
                                     if (heartPosX == 432)
@@ -381,6 +384,8 @@ bool Game::tick()
                         comboCount += 1;
                         score += (heartPosX == 432) ? 2000 : 500;
                         print->setText(9, "       " + std::to_string(score));
+                        print->setText(500, "Combo: " + std::to_string(comboCount), comboCount % 7);
+
                         //std::cout << "safe!" << std::endl;
                         heartVisible = false;
                         print->deletePNG("heartNote.png");
@@ -578,6 +583,8 @@ void Game::deductHeart()
     isPerfectClear = false;
     comboVector.push_back(comboCount);
     comboCount = 0;
+    print->setText(500, "Combo: ", comboCount % 7);
+
     std::cout << "when heartPosX : " << heartPosX << "deduct heart" << std::endl;
     if (!hearts.empty())
     {

@@ -66,7 +66,7 @@ void TetrisScene::update() {
             //유저정보에 perfect clear저장.
             mysql.setPerfectClear(UserInfo::getInstance().getUserID(), (game->getIsPerfectClear()));
         }
-        if (game->getIsClear()||true) {
+        if (game->getIsClear()) {
             sceneManager.changeScene(std::make_unique<ClearScene>(windowManager, sceneManager,game->getLine(),game->getTetris(),game->getMaxCombo()));
         }
         else {

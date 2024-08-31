@@ -114,9 +114,6 @@
     <ClCompile Include="LoadingScene.cpp">
       <Filter>소스 파일\MultiMenu</Filter>
     </ClCompile>
-    <ClCompile Include="createRoomScene.cpp">
-      <Filter>소스 파일\MultiMenu</Filter>
-    </ClCompile>
     <ClCompile Include="ClearScene.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>

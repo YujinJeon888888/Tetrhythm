@@ -215,6 +215,10 @@ void MutiMenuScene::update() {
         drawCode();
     }
 
+    if (isCodeScene && Multi::getInstance()->isReady) {
+        sceneManager.changeScene(std::make_unique<MultiGameScene>(windowManager, sceneManager));
+
+    }
 }
 
 void MutiMenuScene::render() {

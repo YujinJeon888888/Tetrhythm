@@ -598,7 +598,7 @@ int Multi::joinRoom(std::string password) {
         return -1;
     }
 
-    std::cout << "try join room " << password << std::endl;
+    std::cout << "You enter room " << password << std::endl;
 
     connetOpponent();
 

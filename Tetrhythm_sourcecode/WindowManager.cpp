@@ -17,6 +17,12 @@ WindowManager::WindowManager(const char* title, int width, int height) {
         SDL_Quit();
         exit(1);
     }
+
+    // [추가된 부분 시작] 기본 배경색을 검은색으로 설정
+    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255); // R, G, B, A 값 (0, 0, 0, 255 = 검은색)
+    SDL_RenderClear(renderer);
+    SDL_RenderPresent(renderer);
+    // [추가된 부분 끝]
 }
 
 WindowManager::~WindowManager() {
@@ -34,7 +40,10 @@ SDL_Renderer* WindowManager::getRenderer() const {
 }
 
 void WindowManager::clear() {
+    // [추가된 부분 시작] 기본 배경색을 검은색으로 설정
+    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255); // R, G, B, A 값 (0, 0, 0, 255 = 검은색)
     SDL_RenderClear(renderer);
+    // [추가된 부분 끝]
 }
 
 void WindowManager::present() {

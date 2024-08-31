@@ -52,7 +52,6 @@ void MultiGameScene::drawInit()
     print->printText("        0", 329, 418, 22, font, color);
     print->printText("       0", 329, 448, 23, font, color);
 
-    print->printPNG("Background.png", 0, 0, 0); // 전체 배경
     print->printPNG("MultiRhythmUI.png", 475, 186, 10); // 리듬게임 UI 배경
 }
 

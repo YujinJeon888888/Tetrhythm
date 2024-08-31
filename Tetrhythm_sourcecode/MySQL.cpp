@@ -493,7 +493,7 @@ bool MySQL::server1st(std::string ID)
                 return true;
             }
         }
-        
+
     }
 
     mysql_free_result(Result);

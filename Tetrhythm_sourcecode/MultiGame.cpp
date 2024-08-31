@@ -236,7 +236,7 @@ bool MultiGame::tick()
 
     SDL_SetRenderDrawColor(windowManager.getRenderer(), 0, 0, 0, 0xff);
     SDL_RenderClear(windowManager.getRenderer());
-    print->renderForTetris();
+    
 
     // 그림자 위치 계산 및 그리기
     Tetromino shadow = tetromino_.calculateShadow(well_);
@@ -250,7 +250,8 @@ bool MultiGame::tick()
     opponentWell_.draw(windowManager.getRenderer(), blockTextures_, grayBlockTexture_, opponentNextTetrominos_);
     opponentTetromino_.draw(windowManager.getRenderer(), blockTextures_[opponentTetromino_.getType()]);
 
-
+    //print내용 렌더링
+    print->renderForTetris();
 
 
     SDL_Event e;

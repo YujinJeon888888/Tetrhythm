@@ -252,7 +252,7 @@ bool MultiGame::tick()
 
     //print내용 렌더링
     print->renderForTetris();
-
+    print->updateTextAnimation();
 
     SDL_Event e;
 
@@ -347,6 +347,12 @@ bool MultiGame::tick()
                             score += (heartPosX == 729) ? 2000 : 500;
                             Multi::getInstance()->sendScore(score);
                             print->setText(9, "       " + std::to_string(score));
+                            if (comboCount >= 30) {
+                                print->setText(500, "Combo: " + std::to_string(comboCount), comboCount);
+                            }
+                            else {
+                                print->setText(500, "Combo: " + std::to_string(comboCount), comboCount % 7);
+                            }
                             //std::cout << "safe!" << std::endl;
                             heartVisible = false;
                             print->deletePNG("heartNote.png");
@@ -413,6 +419,12 @@ bool MultiGame::tick()
                                     score += (heartPosX == 729) ? 2000 : 500;
                                     Multi::getInstance()->sendScore(score);
                                     print->setText(9, "       " + std::to_string(score));
+                                    if (comboCount >= 30) {
+                                        print->setText(500, "Combo: " + std::to_string(comboCount), comboCount);
+                                    }
+                                    else {
+                                        print->setText(500, "Combo: " + std::to_string(comboCount), comboCount % 7);
+                                    }
                                     //std::cout << "safe!" << std::endl;
                                     heartVisible = false;
                                     print->deletePNG("heartNote.png");
@@ -530,6 +542,12 @@ bool MultiGame::tick()
                         score += (heartPosX == 729) ? 2000 : 500;
                         Multi::getInstance()->sendScore(score);
                         print->setText(9, "       " + std::to_string(score));
+                        if (comboCount >= 30) {
+                            print->setText(500, "Combo: " + std::to_string(comboCount), comboCount);
+                        }
+                        else {
+                            print->setText(500, "Combo: " + std::to_string(comboCount), comboCount % 7);
+                        }
                         //std::cout << "safe!" << std::endl;
                         heartVisible = false;
                         print->deletePNG("heartNote.png");
@@ -753,6 +771,7 @@ void MultiGame::deductHeart()
     isPerfectClear = false;
     comboVector.push_back(comboCount);
     comboCount = 0;
+    print->setText(500, "Combo: ", comboCount % 7);
     //   std::cout << "when heartPosX : " << heartPosX << "deduct heart" << std::endl;
     if (!hearts.empty())
     {

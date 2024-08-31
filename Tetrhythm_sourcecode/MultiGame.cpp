@@ -87,9 +87,9 @@ MultiGame::MultiGame(WindowManager& wm, Print* pr, SceneManager& sm)
         "Blue_J.png",
         "Orange_L.png",
         "Yellow_O.png",
-        "Green_S.png",
+        "Red_S.png",
         "Purple_T.png",
-        "Red_Z.png"
+        "Green_Z.png"
     };
 
 
@@ -191,7 +191,7 @@ bool MultiGame::tick()
     }
     else if (type == 6) {
 
-        print->setText(23, "      " + std::to_string(Multi::getInstance()->opponentScore));
+        print->setText(23, "       " + std::to_string(Multi::getInstance()->opponentScore));
     }
     else if (type == 9) {
         std::string opponentID = Multi::getInstance()->opponentId;
@@ -236,7 +236,7 @@ bool MultiGame::tick()
 
     SDL_SetRenderDrawColor(windowManager.getRenderer(), 0, 0, 0, 0xff);
     SDL_RenderClear(windowManager.getRenderer());
-    print->renderForTetris();
+    
 
     // 그림자 위치 계산 및 그리기
     Tetromino shadow = tetromino_.calculateShadow(well_);
@@ -250,8 +250,9 @@ bool MultiGame::tick()
     opponentWell_.draw(windowManager.getRenderer(), blockTextures_, grayBlockTexture_, opponentNextTetrominos_);
     opponentTetromino_.draw(windowManager.getRenderer(), blockTextures_[opponentTetromino_.getType()]);
 
-
-
+    //print내용 렌더링
+    print->renderForTetris();
+    print->updateTextAnimation();
 
     SDL_Event e;
 
@@ -272,6 +273,12 @@ bool MultiGame::tick()
     if (perfectImageVisible && (timeSinceStart - perfectImageStartTime) >= 0.5) {
         print->deletePNG("Perfect.png");
         perfectImageVisible = false;
+    }
+
+    //miss이미지 삭제되게하기 
+    if (missImageVisible && (timeSinceStart - missImageStartTime) >= 0.5) {
+        print->deletePNG("miss.png");
+        missImageVisible = false;
     }
 
     //hit이미지 삭제되게하기 
@@ -340,6 +347,12 @@ bool MultiGame::tick()
                             score += (heartPosX == 729) ? 2000 : 500;
                             Multi::getInstance()->sendScore(score);
                             print->setText(9, "       " + std::to_string(score));
+                            if (comboCount >= 30) {
+                                print->setText(500, "Combo: " + std::to_string(comboCount), comboCount);
+                            }
+                            else {
+                                print->setText(500, "Combo: " + std::to_string(comboCount), comboCount % 7);
+                            }
                             //std::cout << "safe!" << std::endl;
                             heartVisible = false;
                             print->deletePNG("heartNote.png");
@@ -406,6 +419,12 @@ bool MultiGame::tick()
                                     score += (heartPosX == 729) ? 2000 : 500;
                                     Multi::getInstance()->sendScore(score);
                                     print->setText(9, "       " + std::to_string(score));
+                                    if (comboCount >= 30) {
+                                        print->setText(500, "Combo: " + std::to_string(comboCount), comboCount);
+                                    }
+                                    else {
+                                        print->setText(500, "Combo: " + std::to_string(comboCount), comboCount % 7);
+                                    }
                                     //std::cout << "safe!" << std::endl;
                                     heartVisible = false;
                                     print->deletePNG("heartNote.png");
@@ -523,6 +542,12 @@ bool MultiGame::tick()
                         score += (heartPosX == 729) ? 2000 : 500;
                         Multi::getInstance()->sendScore(score);
                         print->setText(9, "       " + std::to_string(score));
+                        if (comboCount >= 30) {
+                            print->setText(500, "Combo: " + std::to_string(comboCount), comboCount);
+                        }
+                        else {
+                            print->setText(500, "Combo: " + std::to_string(comboCount), comboCount % 7);
+                        }
                         //std::cout << "safe!" << std::endl;
                         heartVisible = false;
                         print->deletePNG("heartNote.png");
@@ -576,7 +601,7 @@ bool MultiGame::tick()
                 score += 1700;
                 break;
             case 3:
-                print->printPNG("FATAL.png", 75, 275, print->getLayeredTextures().back().layer + 1);
+                print->printPNG("FATAL.png", 75, 275, print->getLayeredTextures().back().layer);
                 fatalImageStartTime = timeSinceStart; // 표시 시점 기록
                 fatalImageVisible = true;
                 score += 2500;
@@ -592,7 +617,7 @@ bool MultiGame::tick()
         //테트리스
         if (currentTetris > previousTetris)
         {
-            print->printPNG("CRITICAL.png", 26, 229, print->getLayeredTextures().back().layer + 1);
+            print->printPNG("CRITICAL.png", 26, 229, print->getLayeredTextures().back().layer);
             criticalImageStartTime = timeSinceStart; // 표시 시점 기록
             criticalImageVisible = true;
             // 4줄 깬 경우
@@ -640,15 +665,20 @@ bool MultiGame::tick()
         }
 
         if (gameOver) {
-            if (comboVector.size() != 0)
-                maxCombo = comboVector[0];
+            /*if (comboVector.size() != 0)
+                maxCombo = comboVector[0];*/
             Multi::getInstance()->sendGameOver();
             soundManager->stopMusic(); // 다른 창으로 이동하기 전에 음악을 중지합니다.
             //최대콤보반영
             comboVector.push_back(comboCount);
             std::sort(comboVector.begin(), comboVector.end(), std::greater<int>());//내림차순정렬
             if (fullComboCount != 0)
+            {
                 score += (int)(std::round((float)comboScore * ((float)comboVector[0] / (float)fullComboCount)));
+            }
+            maxCombo = comboVector[0];
+            //하트점수반영
+            score += hearts.size() * 50000;
             return false;
         }
 
@@ -733,9 +763,15 @@ SDL_Texture* MultiGame::getBlockTexture(Tetromino::Type type) const
 
 void MultiGame::deductHeart()
 {
+    std::cout << "miss!" << std::endl;
+    print->printPNG("miss.png", 713, 156, 100);
+    missImageStartTime = timeSinceStart; // 표시 시점 기록
+    missImageVisible = true;
+
     isPerfectClear = false;
     comboVector.push_back(comboCount);
     comboCount = 0;
+    print->setText(500, "Combo: ", comboCount % 7);
     //   std::cout << "when heartPosX : " << heartPosX << "deduct heart" << std::endl;
     if (!hearts.empty())
     {

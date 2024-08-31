@@ -66,9 +66,9 @@ Game::Game(WindowManager& wm, Print* pr, SceneManager& sm)
         "Blue_J.png",
         "Orange_L.png",
         "Yellow_O.png",
-        "Green_S.png",
+        "Red_S.png",
         "Purple_T.png",
-        "Red_Z.png"
+        "Green_Z.png"
     };
 
     for (int i = 0; i < 7; ++i)

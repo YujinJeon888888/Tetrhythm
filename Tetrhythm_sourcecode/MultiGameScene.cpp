@@ -39,7 +39,9 @@ void MultiGameScene::drawInit()
         space += " ";
     }
     print->printText(space + UserInfo::getInstance().getUserID().c_str(), 654, 610, 12, font2, color); //플레이어ID
-
+    //콤보 텍스트 
+    TTF_Font* fontCombo = print->loadFont("DungGeunMo.ttf", 75, true);
+    print->printText("Combo: ", 432, 62, 500, fontCombo, color);
 
     //상대방쪽
     print->printPNG("heart1o.png", 118, 50, 1);
@@ -52,7 +54,6 @@ void MultiGameScene::drawInit()
     print->printText("        0", 329, 418, 22, font, color);
     print->printText("       0", 329, 448, 23, font, color);
 
-    print->printPNG("Background.png", 0, 0, 0); // 전체 배경
     print->printPNG("MultiRhythmUI.png", 475, 186, 10); // 리듬게임 UI 배경
 }
 
@@ -70,14 +71,23 @@ void MultiGameScene::update() {
     }
     else {
         // 게임 종료 시
+        MySQL mysql;
+        mysql.setLine(UserInfo::getInstance().getUserID(), (game->getLine()));
+        mysql.setTetris(UserInfo::getInstance().getUserID(), (game->getTetris()));
+        mysql.setHighScore(UserInfo::getInstance().getUserID(), (game->getScore()));
+        UserInfo::getInstance().setScore(game->getScore());
 
+        if (game->getIsPerfectClear()) {
+            //유저정보에 perfect clear저장.
+            mysql.setPerfectClear(UserInfo::getInstance().getUserID(), (game->getIsPerfectClear()));
+        }
         if (game->getIsClear()) {
             sceneManager.changeScene(std::make_unique<ClearScene>(windowManager, sceneManager, game->getLine(), game->getTetris(), game->getMaxCombo(), game->getIsClear()));
         }
         else {
-
             sceneManager.changeScene(std::make_unique<GameOverScene>(windowManager, sceneManager, game->getScore(), game->getLine(), game->getTetris(), game->getMaxCombo(), true));
         }
+
     }
 }
 

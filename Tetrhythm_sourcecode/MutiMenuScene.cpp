@@ -3,7 +3,7 @@
 bool isCodeScene = false;
 
 MutiMenuScene::MutiMenuScene(WindowManager& wm, SceneManager& manager) 
-	: windowManager(wm), sceneManager(manager), print(new Print(&wm))
+	: windowManager(wm), sceneManager(manager), print(new Print(&wm)), soundManager(new SoundManager())
 {
 	drawInit();
     MenuSelection = 0;
@@ -38,31 +38,43 @@ void MutiMenuScene::handleArrowKey(SDL_Keycode key) {
             isCodeScene = false;
         }
         else {
+            soundManager->loadSound("Musics/Selection.mp3", "Selection"); // 효과음 로드
+            soundManager->playSound("Selection", 0);
             sceneManager.goBack();
         }
     case SDLK_UP:
+        soundManager->loadSound("Musics/SelectionMove.mp3", "SelectionMove"); // 효과음 로드
+        soundManager->playSound("SelectionMove", 0);
         if (MenuSelection > 0) {
             MenuSelection--;
         }
         break;
     case SDLK_DOWN:
+        soundManager->loadSound("Musics/SelectionMove.mp3", "SelectionMove"); // 효과음 로드
+        soundManager->playSound("SelectionMove", 0);
         if (MenuSelection < numOptions - 1) {
             MenuSelection++;
         }
         break;
     case SDLK_RIGHT:
+        soundManager->loadSound("Musics/SelectionMove.mp3", "SelectionMove"); // 효과음 로드
+        soundManager->playSound("SelectionMove", 0);
         if (MenuSelection < numOptions - 1) {
             MenuSelection++;
         }
         break;
     case SDLK_LEFT:
-
-            MenuSelection =0;
         
+        MenuSelection =0;
+        soundManager->loadSound("Musics/SelectionMove.mp3", "SelectionMove"); // 효과음 로드
+        soundManager->playSound("SelectionMove", 0);
         break;
     case SDLK_SPACE:
     case SDLK_RETURN:
+        
         std::cout << "Selected Menu: " << MenuSelection << std::endl;
+        soundManager->loadSound("Musics/Selection.mp3", "Selection"); // 효과음 로드
+        soundManager->playSound("Selection", 0);
         Multi::resetInstance();
 
         Multi* client = Multi::getInstance();

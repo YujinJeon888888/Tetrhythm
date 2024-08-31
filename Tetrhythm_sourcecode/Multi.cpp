@@ -5,8 +5,9 @@
 Multi* Multi::instance = nullptr;
 Multi::Multi() : tetromino(61, 100) {
 
-  // addr ="52.14.83.66";
-   addr = "127.0.0.1";
+    addr = "13.125.65.119";
+//   addr ="52.14.83.66";
+//   addr = "127.0.0.1";
   
 }
               
@@ -598,7 +599,7 @@ int Multi::joinRoom(std::string password) {
         return -1;
     }
 
-    std::cout << "You enter room " << password << std::endl;
+    std::cout << "try join room " << password << std::endl;
 
     connetOpponent();
 

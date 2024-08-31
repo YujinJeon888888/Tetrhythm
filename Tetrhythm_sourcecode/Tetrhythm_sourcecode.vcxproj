@@ -22,7 +22,6 @@
     <ClCompile Include="Characters.cpp" />
     <ClCompile Include="ClearScene.cpp" />
     <ClCompile Include="ControlExp.cpp" />
-    <ClCompile Include="createRoomScene.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameOverScene.cpp" />
     <ClCompile Include="joinRoomScene.cpp" />

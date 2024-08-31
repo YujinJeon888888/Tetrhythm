@@ -32,9 +32,15 @@ void MultiGameScene::drawInit()
     print->printText("        0", 625, 418, 8, font, color);
     print->printText("       0", 625, 448, 9, font, color);
     print->printPNG(UserInfo::getInstance().getUserCharacter().c_str(), 654, 478, 13);
-    print->printText(UserInfo::getInstance().getUserID().c_str(), 654, 610, 12, font2, color); //플레이어ID
+    //아이디: 가운데정렬로 출력
+    int spaceCount = ((12 - UserInfo::getInstance().getUserID().size()) / 2)+1;
+    std::string space = "";
+    for (int i = 0; i < spaceCount; i++) {
+        space += " ";
+    }
+    print->printText(space + UserInfo::getInstance().getUserID().c_str(), 654, 610, 12, font2, color); //플레이어ID
 
-  
+
     //상대방쪽
     print->printPNG("heart1o.png", 118, 50, 1);
     print->printPNG("heart2o.png", 171, 50, 2);
@@ -45,7 +51,7 @@ void MultiGameScene::drawInit()
     print->printText("      0", 329, 388, 21, font, color);
     print->printText("        0", 329, 418, 22, font, color);
     print->printText("       0", 329, 448, 23, font, color);
- 
+
     print->printPNG("Background.png", 0, 0, 0); // 전체 배경
     print->printPNG("MultiRhythmUI.png", 475, 186, 10); // 리듬게임 UI 배경
 }
@@ -64,13 +70,13 @@ void MultiGameScene::update() {
     }
     else {
         // 게임 종료 시
-       
+
         if (game->getIsClear()) {
-            sceneManager.changeScene(std::make_unique<ClearScene>(windowManager, sceneManager, game->getLine(), game->getTetris(),game->getMaxCombo(),game->getIsClear()));
+            sceneManager.changeScene(std::make_unique<ClearScene>(windowManager, sceneManager, game->getLine(), game->getTetris(), game->getMaxCombo(), game->getIsClear()));
         }
         else {
-       
-           sceneManager.changeScene(std::make_unique<GameOverScene>(windowManager, sceneManager, game->getScore(), game->getLine(), game->getTetris(),game->getMaxCombo(),true));
+
+            sceneManager.changeScene(std::make_unique<GameOverScene>(windowManager, sceneManager, game->getScore(), game->getLine(), game->getTetris(), game->getMaxCombo(), true));
         }
     }
 }

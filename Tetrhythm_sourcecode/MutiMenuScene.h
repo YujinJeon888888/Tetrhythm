@@ -16,6 +16,9 @@
 #include "joinRoomScene.h"
 
 #include "MultiGameScene.h"
+#include "createRoomScene.h"
+#include "SoundManager.h"
+
 class MutiMenuScene : public Scene
 {
 public:
@@ -37,5 +40,6 @@ private:
 	SceneManager& sceneManager;
 	int MenuSelection;
 	const int numOptions = 3;
+	SoundManager* soundManager;
 };
 

@@ -86,6 +86,7 @@ void MainMenu::drawInit() {
     pt->printPNG("Shift_1.png", 930.75, 546.5, 1);
     pt->printPNG("title.png", 214, 29, 2);
     pt->printPNG("MainExplain.png", 966.75, 586.5, 3);
+    pt->printPNG("main_esc.png", 65, 586.5, 3);
 
     // 초기 선택 상태 설정
     int posX = 407;

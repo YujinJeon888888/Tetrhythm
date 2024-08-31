@@ -520,6 +520,8 @@ bool Game::tick()
             if (fullComboCount != 0)
             score += (int)(std::round((float)comboScore * ((float)comboVector[0] / (float)fullComboCount)));
             maxCombo = comboVector[0];
+            //하트점수반영
+            score += hearts.size() * 50000;
             return false;
         }
 

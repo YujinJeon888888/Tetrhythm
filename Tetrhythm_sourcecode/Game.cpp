@@ -49,7 +49,6 @@ Game::Game(WindowManager& wm, Print* pr, SceneManager& sm)
     musicPlayed(false),
     soundManager(new SoundManager()), // SoundManager 객체 초기화
     //heartSpawnInterval(60.0 / 140.0 * 4), // 140 BPM 4/4박자마다 생성 간격 (초 단위)
-    fullComboCount((static_cast<int>(223.0 / heartSpawnInterval)) / 2),
     nextHeartSpawnTime(0.0),  // 다음 하트 노드 생성 타이밍
     countdown3Displayed(false),
     countdown2Displayed(false),

@@ -3,7 +3,18 @@
 ClearScene::ClearScene(WindowManager& wm, SceneManager& manager, int line, int tetris, int combo)
 	: windowManager(wm), sceneManager(manager), print(new Print(&wm)), line(line),tetris(tetris),soundManager(new SoundManager()), combo(combo)
 {
-    drawInit();
+    print->printPNG("BackGround.png", 0, 0, 0);
+    TTF_Font* font = print->loadFont("DungGeunMo.ttf", 30);
+    SDL_Color color = { 255, 255, 255 }; // 흰색
+    print->printText("Line: ", 441, 415, 3, font, color);
+    print->printText("Tetris: ", 441, 445, 4, font, color);
+    print->printText("Score: ", 441, 475, 5, font, color);
+    print->printText("Combo: ", 441, 505, 6, font, color);
+    //점수 text
+    print->printText("      " + std::to_string(line), 441, 415, 6, font, color);
+    print->printText("        " + std::to_string(tetris), 441, 445, 7, font, color);
+    print->printText("       " + std::to_string(UserInfo::getInstance().getScore()), 441, 475, 8, font, color);
+    print->printText("       " + std::to_string(combo), 441, 505, 9, font, color);
     print->printPNG("GameClear.png", 320, 69, 1);
    
     soundManager->loadSound("Musics/YouWin.mp3", "YouWin"); // 효과음 로드
@@ -25,8 +36,7 @@ ClearScene::ClearScene(WindowManager& wm, SceneManager& manager, int line, int t
 
 void ClearScene::drawInit()
 {
-    
-
+   
 	print->printPNG("BackGround.png", 0, 0, 0);
 
     //text 세팅

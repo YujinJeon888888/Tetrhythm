@@ -29,6 +29,13 @@ void TetrisScene::drawInit()
     print->printText("        0", 777, 556, 8, font, color);
     print->printText("       0", 777, 586, 9, font, color);
     print->printPNG(UserInfo::getInstance().getUserCharacter().c_str(), 317, 429, 10);
+    int spaceCount= ((12-UserInfo::getInstance().getUserID().size())/2)-1;
+    std::string space = "";
+    for (int i = 0; i < spaceCount; i++) {
+        space += " ";
+    }
+    print->printText(space+UserInfo::getInstance().getUserID(), 317, 570, 10, font, color);
+
 
     print->printPNG("Background.png", 0, 0, 0); // 전체 배경
     print->printPNG("RhythmUIBackground.png", 70, 241, 10); // 리듬게임 UI 배경
@@ -59,7 +66,7 @@ void TetrisScene::update() {
             //유저정보에 perfect clear저장.
             mysql.setPerfectClear(UserInfo::getInstance().getUserID(), (game->getIsPerfectClear()));
         }
-        if (game->getIsClear()) {
+        if (game->getIsClear()||true) {
             sceneManager.changeScene(std::make_unique<ClearScene>(windowManager, sceneManager,game->getLine(),game->getTetris(),game->getMaxCombo()));
         }
         else {

@@ -14,18 +14,27 @@ GameOverScene::GameOverScene(WindowManager& wm, SceneManager& manager, int score
 void GameOverScene::drawInit()
 {
 	print->printPNG("BackGround.png", 0, 0, 0);
-	if (multi) {
-		print->printPNG("YouLose1.png", 201, 20, 1);
-		print->printPNG("YouLose2.png", 152, 134, 1);
-	}
-	else print->printPNG("GameOver.png", 373, 68, 1);
+
 	//text 세팅
 	TTF_Font* font = print->loadFont("DungGeunMo.ttf", 30);
 	SDL_Color color = { 255, 255, 255 }; // 흰색
-	print->printText("Score: " + std::to_string(score), 442,430,print->getLayeredTextures().back().layer+1,font, color);
-	print->printText("Line: " + std::to_string(line), 442,460,print->getLayeredTextures().back().layer+1,font, color);
-	print->printText("Tetris: " + std::to_string(tetris), 442,490,print->getLayeredTextures().back().layer+1,font, color);
-	print->printText("Combo: " + std::to_string(combo), 442,520,print->getLayeredTextures().back().layer+1,font, color);
+
+	if (multi) {
+
+		print->printPNG("YouLose1.png", 201, 20, 1);
+		print->printPNG("YouLose2.png", 152, 134, 1);
+		print->printText("Score: " + std::to_string(score), 739.5, 237, print->getLayeredTextures().back().layer + 1, font, color);
+		print->printText("Line: " + std::to_string(line), 739.5, 267, print->getLayeredTextures().back().layer + 1, font, color);
+		print->printText("Tetris: " + std::to_string(tetris), 739.5, 297, print->getLayeredTextures().back().layer + 1, font, color);
+		print->printText("Combo: " + std::to_string(combo), 739.5, 327, print->getLayeredTextures().back().layer + 1, font, color);
+	}
+	else {
+		print->printPNG("GameOver.png", 373, 68, 1);
+		print->printText("Score: " + std::to_string(score), 442, 430, print->getLayeredTextures().back().layer + 1, font, color);
+		print->printText("Line: " + std::to_string(line), 442, 460, print->getLayeredTextures().back().layer + 1, font, color);
+		print->printText("Tetris: " + std::to_string(tetris), 442, 490, print->getLayeredTextures().back().layer + 1, font, color);
+		print->printText("Combo: " + std::to_string(combo), 442, 520, print->getLayeredTextures().back().layer + 1, font, color);
+	}
 }
 
 void GameOverScene::handleEvents()

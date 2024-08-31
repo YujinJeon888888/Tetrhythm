@@ -475,3 +475,49 @@ std::string MySQL::printTable()
     mysql_close(ConnPtr);
     return returnResult;
 }
+
+bool MySQL::server1st(std::string ID)
+
+{
+    initializeWinsock();
+    MYSQL Conn;
+    MYSQL* ConnPtr = NULL;
+    MYSQL_RES* Result;
+    MYSQL_ROW Row;
+    int Stat;
+
+    mysql_init(&Conn);
+
+    ConnPtr = mysql_real_connect(&Conn, host, userName, password, database, 3306, (char*)NULL, 0);
+    if (ConnPtr == NULL) {
+        std::cout << mysql_error(&Conn) << std::endl;
+        exit(-1);
+    }
+
+    // 테이블 상태 출력 쿼리 실행
+    const char* selectQuery = "select name from Users order by highScore desc limit 1 ";
+    Stat = mysql_query(ConnPtr, selectQuery);
+    if (Stat != 0) {
+        std::cout << mysql_error(&Conn) << std::endl;
+        exit(-1);
+    }
+
+    // 결과를 가져와서 출력
+    Result = mysql_store_result(ConnPtr);
+    int numFields = mysql_num_fields(Result);
+
+    while ((Row = mysql_fetch_row(Result)) != NULL) {
+        for (int i = 0; i < numFields; i++) {
+            if (Row[i] == ID) {
+                std::cout << "server 1st!" << std::endl;
+                return true;
+            }
+        }
+        
+    }
+
+    mysql_free_result(Result);
+    mysql_close(ConnPtr);
+
+    return false;
+}

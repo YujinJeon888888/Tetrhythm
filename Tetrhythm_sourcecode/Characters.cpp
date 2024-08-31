@@ -98,7 +98,12 @@ void Characters::drawSelection() {
 					oss << "Char_image/character" << x + y * Width + 1 << "_Lu.png";
 				}
 				else {
-					oss << "Char_image/character" << x + y * Width + 1 << "_L.png";
+					if (x == 0 && y == 0 && server1st) {
+						oss << "Char_image/character9_L.png";
+					}
+					else {
+						oss << "Char_image/character" << x + y * Width + 1 << "_L.png";
+					}
 				}
 
 
@@ -123,7 +128,12 @@ void Characters::drawSelection() {
 					switch (x)
 					{
 					case 0:
-						UserInfo::getInstance().setUserCharacter("Char_image/character" + std::to_string(x + 1) + ".png");
+						if (server1st) {
+							UserInfo::getInstance().setUserCharacter("Char_image/character9.png");
+						}
+						else {
+							UserInfo::getInstance().setUserCharacter("Char_image/character" + std::to_string(x + 1) + ".png");
+						}
 						break;
 					case 1:
 						UserInfo::getInstance().setUserCharacter("Char_image/character" + std::to_string(x + 1) + ".png");						break;
@@ -232,7 +242,12 @@ void Characters::drawInit() {
 				oss << "Char_image/character" << x + y * Width + 1 << "_su.png";
 			}
 			else {
-				oss << "Char_image/character" << x + y * Width + 1 << ".png";
+				if (x == 0 && y == 0 && server1st) {
+					oss << "Char_image/character9.png";
+				}
+				else {
+					oss << "Char_image/character" << x + y * Width + 1 << ".png";
+				}
 			}
 			std::string fileName = oss.str();
 
@@ -263,6 +278,11 @@ void Characters::unlock() {
 
 	//1. 자동 해금
 	data[0][0] = true;
+	MySQL mysql;
+	if (mysql.server1st(UserInfo::getInstance().getUserID())) {
+		server1st = true;
+	}
+
 
 	//2. 첫 멀티모드 승리
 	if (UserInfo::getInstance().getMultiModeWin()) {

@@ -43,6 +43,6 @@ private:
 	TTF_Font* font;               
 	SDL_Color color;
 	SoundManager* soundManager;
-
+	bool server1st = false;
 };
 

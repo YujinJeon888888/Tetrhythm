@@ -191,7 +191,7 @@ bool MultiGame::tick()
     }
     else if (type == 6) {
 
-        print->setText(23, "      " + std::to_string(Multi::getInstance()->opponentScore));
+        print->setText(23, "       " + std::to_string(Multi::getInstance()->opponentScore));
     }
     else if (type == 9) {
         std::string opponentID = Multi::getInstance()->opponentId;

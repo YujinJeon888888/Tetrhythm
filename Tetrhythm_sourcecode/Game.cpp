@@ -124,6 +124,7 @@ bool Game::tick()
     SDL_SetRenderDrawColor(windowManager.getRenderer(), 0, 0, 0, 0xff);
     SDL_RenderClear(windowManager.getRenderer());
     print->renderForTetris();
+    print->updateTextAnimation();
 
     // 그림자 위치 계산 및 그리기
     Tetromino shadow = tetromino_.calculateShadow(well_);
@@ -203,6 +204,13 @@ bool Game::tick()
                             comboCount += 1;
                             score += (heartPosX == 432) ? 2000 : 500;
                             print->setText(9, "       " + std::to_string(score));
+                            if (comboCount >= 30) {
+                                print->setText(500, "Combo: " + std::to_string(comboCount), comboCount );
+                            }
+                            else {
+                                print->setText(500, "Combo: " + std::to_string(comboCount), comboCount % 7);
+                            }
+
                             //std::cout << "safe!" << std::endl;
                             heartVisible = false;
                             print->deletePNG("heartNote.png");
@@ -269,6 +277,12 @@ bool Game::tick()
                                     comboCount += 1;
                                     score += (heartPosX == 432) ? 2000 : 500;
                                     print->setText(9, "       " + std::to_string(score));
+                                    if (comboCount >= 30) {
+                                        print->setText(500, "Combo: " + std::to_string(comboCount), comboCount);
+                                    }
+                                    else {
+                                        print->setText(500, "Combo: " + std::to_string(comboCount), comboCount % 7);
+                                    };                                    
                                     //std::cout << "safe!" << std::endl;
                                     heartVisible = false;
                                     print->deletePNG("heartNote.png");
@@ -381,6 +395,13 @@ bool Game::tick()
                         comboCount += 1;
                         score += (heartPosX == 432) ? 2000 : 500;
                         print->setText(9, "       " + std::to_string(score));
+                        if (comboCount >= 30) {
+                            print->setText(500, "Combo: " + std::to_string(comboCount), comboCount);
+                        }
+                        else {
+                            print->setText(500, "Combo: " + std::to_string(comboCount), comboCount % 7);
+                        }
+
                         //std::cout << "safe!" << std::endl;
                         heartVisible = false;
                         print->deletePNG("heartNote.png");
@@ -578,6 +599,8 @@ void Game::deductHeart()
     isPerfectClear = false;
     comboVector.push_back(comboCount);
     comboCount = 0;
+    print->setText(500, "Combo: ", comboCount % 7);
+
     std::cout << "when heartPosX : " << heartPosX << "deduct heart" << std::endl;
     if (!hearts.empty())
     {

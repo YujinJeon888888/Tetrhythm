@@ -36,6 +36,9 @@ void TetrisScene::drawInit()
     }
     print->printText(space+UserInfo::getInstance().getUserID(), 317, 570, 10, font, color);
 
+    TTF_Font* fontCombo = print->loadFont("DungGeunMo.ttf", 75,true);
+
+    print->printText("Combo: ", 80, 90, 500, fontCombo, color);
 
     print->printPNG("Background.png", 0, 0, 0); // 전체 배경
     print->printPNG("RhythmUIBackground.png", 70, 241, 10); // 리듬게임 UI 배경
@@ -66,7 +69,7 @@ void TetrisScene::update() {
             //유저정보에 perfect clear저장.
             mysql.setPerfectClear(UserInfo::getInstance().getUserID(), (game->getIsPerfectClear()));
         }
-        if (game->getIsClear()||true) {
+        if (game->getIsClear()) {
             sceneManager.changeScene(std::make_unique<ClearScene>(windowManager, sceneManager,game->getLine(),game->getTetris(),game->getMaxCombo()));
         }
         else {

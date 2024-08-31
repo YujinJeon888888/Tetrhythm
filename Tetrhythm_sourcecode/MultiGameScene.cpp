@@ -41,7 +41,7 @@ void MultiGameScene::drawInit()
     print->printText(space + UserInfo::getInstance().getUserID().c_str(), 654, 610, 12, font2, color); //플레이어ID
     //콤보 텍스트 
     TTF_Font* fontCombo = print->loadFont("DungGeunMo.ttf", 75, true);
-    print->printText("Combo: ", 442, 62, 500, fontCombo, color);
+    print->printText("Combo: ", 432, 62, 500, fontCombo, color);
 
     //상대방쪽
     print->printPNG("heart1o.png", 118, 50, 1);

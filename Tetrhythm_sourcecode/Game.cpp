@@ -156,6 +156,12 @@ bool Game::tick()
         perfectImageVisible = false;
     }
 
+    //miss이미지 삭제되게하기 
+    if (missImageVisible && (timeSinceStart - missImageStartTime) >= 0.5) {
+        print->deletePNG("miss.png");
+        missImageVisible = false;
+    }
+
     // 카운트다운 이미지 출력 및 삭제
     if (timeSinceStart >= 0.0 && timeSinceStart < 1.0 && !countdown3Displayed) {
         soundManager->playMusic("Musics/Countdown.mp3", 1); // 배경음악 재생
@@ -596,6 +602,12 @@ SDL_Texture* Game::getBlockTexture(Tetromino::Type type) const
 
 void Game::deductHeart()
 {
+
+    std::cout << "miss!" << std::endl;
+    print->printPNG("miss.png", 407, 174, 1);
+    missImageStartTime = timeSinceStart; // 표시 시점 기록
+    missImageVisible = true;
+
     isPerfectClear = false;
     comboVector.push_back(comboCount);
     comboCount = 0;

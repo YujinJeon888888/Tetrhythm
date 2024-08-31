@@ -655,7 +655,12 @@ bool MultiGame::tick()
             comboVector.push_back(comboCount);
             std::sort(comboVector.begin(), comboVector.end(), std::greater<int>());//내림차순정렬
             if (fullComboCount != 0)
+            {
                 score += (int)(std::round((float)comboScore * ((float)comboVector[0] / (float)fullComboCount)));
+            }
+            maxCombo = comboVector[0];
+            //하트점수반영
+            score += hearts.size() * 50000;
             return false;
         }
 

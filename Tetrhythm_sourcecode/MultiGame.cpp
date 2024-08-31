@@ -576,7 +576,7 @@ bool MultiGame::tick()
                 score += 1700;
                 break;
             case 3:
-                print->printPNG("FATAL.png", 75, 275, print->getLayeredTextures().back().layer + 1);
+                print->printPNG("FATAL.png", 75, 275, print->getLayeredTextures().back().layer);
                 fatalImageStartTime = timeSinceStart; // 표시 시점 기록
                 fatalImageVisible = true;
                 score += 2500;
@@ -592,7 +592,7 @@ bool MultiGame::tick()
         //테트리스
         if (currentTetris > previousTetris)
         {
-            print->printPNG("CRITICAL.png", 26, 229, print->getLayeredTextures().back().layer + 1);
+            print->printPNG("CRITICAL.png", 26, 229, print->getLayeredTextures().back().layer);
             criticalImageStartTime = timeSinceStart; // 표시 시점 기록
             criticalImageVisible = true;
             // 4줄 깬 경우

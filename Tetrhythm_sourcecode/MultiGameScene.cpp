@@ -71,14 +71,23 @@ void MultiGameScene::update() {
     }
     else {
         // 게임 종료 시
+        MySQL mysql;
+        mysql.setLine(UserInfo::getInstance().getUserID(), (game->getLine()));
+        mysql.setTetris(UserInfo::getInstance().getUserID(), (game->getTetris()));
+        mysql.setHighScore(UserInfo::getInstance().getUserID(), (game->getScore()));
+        UserInfo::getInstance().setScore(game->getScore());
 
+        if (game->getIsPerfectClear()) {
+            //유저정보에 perfect clear저장.
+            mysql.setPerfectClear(UserInfo::getInstance().getUserID(), (game->getIsPerfectClear()));
+        }
         if (game->getIsClear()) {
             sceneManager.changeScene(std::make_unique<ClearScene>(windowManager, sceneManager, game->getLine(), game->getTetris(), game->getMaxCombo(), game->getIsClear()));
         }
         else {
-
             sceneManager.changeScene(std::make_unique<GameOverScene>(windowManager, sceneManager, game->getScore(), game->getLine(), game->getTetris(), game->getMaxCombo(), true));
         }
+
     }
 }
 

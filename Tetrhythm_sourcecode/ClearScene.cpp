@@ -11,9 +11,9 @@ ClearScene::ClearScene(WindowManager& wm, SceneManager& manager, int line, int t
     print->printText("Line: ", 441, 475, 5, font, color);
     print->printText("Combo: ", 441, 505, 6, font, color);
     //점수 text
-    print->printText("       " + std::to_string(line), 441, 415, 6, font, color);
+    print->printText("       " + std::to_string(UserInfo::getInstance().getScore()) , 441, 415, 6, font, color);
     print->printText("        " + std::to_string(tetris), 441, 445, 7, font, color);
-    print->printText("      " + std::to_string(UserInfo::getInstance().getScore()), 441, 475, 8, font, color);
+    print->printText("      "  + std::to_string(line), 441, 475, 8, font, color);
     print->printText("       " + std::to_string(combo), 441, 505, 9, font, color);
     print->printPNG("GameClear.png", 320, 69, 1);
    
@@ -47,9 +47,9 @@ void ClearScene::drawInit()
     print->printText("Line: ", 739.5, 297, 5, font, color);
     print->printText("Combo: ", 739.5, 327, 6, font, color);
     //점수 text
-    print->printText("       " + std::to_string(line), 739.5, 237, 6, font, color);
+    print->printText("       " + std::to_string(UserInfo::getInstance().getScore()) , 739.5, 237, 6, font, color);
     print->printText("        " + std::to_string(tetris), 739.5, 267, 7, font, color);
-    print->printText("      " + std::to_string(UserInfo::getInstance().getScore()), 739.5, 297, 8, font, color);
+    print->printText("      "  + std::to_string(line), 739.5, 297, 8, font, color);
     print->printText("       " + std::to_string(combo), 739.5, 327, 9, font, color);
 }
 

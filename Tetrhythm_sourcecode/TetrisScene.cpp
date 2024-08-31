@@ -36,6 +36,9 @@ void TetrisScene::drawInit()
     }
     print->printText(space+UserInfo::getInstance().getUserID(), 317, 570, 10, font, color);
 
+    TTF_Font* fontCombo = print->loadFont("DungGeunMo.ttf", 75,true);
+
+    print->printText("Combo: ", 80, 90, 500, fontCombo, color);
 
     print->printPNG("Background.png", 0, 0, 0); // 전체 배경
     print->printPNG("RhythmUIBackground.png", 70, 241, 10); // 리듬게임 UI 배경

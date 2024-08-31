@@ -27,4 +27,5 @@ public:
     void setMultiModeWin(std::string ID, bool b);
     void initUserInfo(std::string ID);
     std::string printTable();
+    bool server1st(std::string ID);
 };

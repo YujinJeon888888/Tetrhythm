@@ -253,7 +253,7 @@ bool Game::tick()
                         }
 
                         // 다음 하트 노드 생성 타이밍 설정
-                        nextHeartSpawnTime = timeSinceStart + heartSpawnInterval;
+                        nextHeartSpawnTime += heartSpawnInterval;
                     }
                 }
 
@@ -326,7 +326,7 @@ bool Game::tick()
                                 }
 
                                 // 다음 하트 노드 생성 타이밍 설정
-                                nextHeartSpawnTime = timeSinceStart + heartSpawnInterval;
+                                nextHeartSpawnTime += heartSpawnInterval;
                             }
 
                         }
@@ -444,7 +444,7 @@ bool Game::tick()
                     }
 
                     // 다음 하트 노드 생성 타이밍 설정
-                    nextHeartSpawnTime = timeSinceStart + heartSpawnInterval;
+                    nextHeartSpawnTime += heartSpawnInterval;
                 }
 
                 std::cout << "reach!" << std::endl;
@@ -559,7 +559,7 @@ bool Game::tick()
                 heartVisible = false;
                 print->deletePNG("heartNote.png");
                 // 다음 하트 노드 생성 타이밍 설정
-                nextHeartSpawnTime = timeSinceStart + heartSpawnInterval;
+                nextHeartSpawnTime += heartSpawnInterval;
             }
         }
         else if (timeSinceStart >= nextHeartSpawnTime && !heartVisible)

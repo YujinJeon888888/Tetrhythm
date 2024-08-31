@@ -275,6 +275,12 @@ bool MultiGame::tick()
         perfectImageVisible = false;
     }
 
+    //miss이미지 삭제되게하기 
+    if (missImageVisible && (timeSinceStart - missImageStartTime) >= 0.5) {
+        print->deletePNG("miss.png");
+        missImageVisible = false;
+    }
+
     //hit이미지 삭제되게하기 
     if (hitImageVisible && (timeSinceStart - hitImageStartTime) >= 1) {
         print->deletePNG("HIT.png");
@@ -734,6 +740,11 @@ SDL_Texture* MultiGame::getBlockTexture(Tetromino::Type type) const
 
 void MultiGame::deductHeart()
 {
+    std::cout << "miss!" << std::endl;
+    print->printPNG("miss.png", 713, 156, 100);
+    missImageStartTime = timeSinceStart; // 표시 시점 기록
+    missImageVisible = true;
+
     isPerfectClear = false;
     comboVector.push_back(comboCount);
     comboCount = 0;

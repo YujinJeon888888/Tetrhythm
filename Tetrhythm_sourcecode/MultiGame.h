@@ -120,6 +120,8 @@ private:
     bool startDeleted = false;
     double perfectImageStartTime; // Perfect.png 표시 시점 기록
     bool perfectImageVisible;
+    double missImageStartTime; // miss.png 표시 시점 기록
+    bool missImageVisible; // miss.png 표시 여부
     int spacePressed=0;
     int maxCombo;
     int oppPreviousLine;

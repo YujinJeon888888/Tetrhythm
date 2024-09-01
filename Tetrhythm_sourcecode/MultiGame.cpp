@@ -371,14 +371,14 @@ bool MultiGame::tick()
                             if ((heartPosX >= 690 && heartPosX <= 710) || (heartPosX >= 748 && heartPosX <= 768)) {
                                 std::cout << "good!" << std::endl;
                                 print->printPNG("Good.png", 662, 150, 1);
-                                perfectImageStartTime = timeSinceStart; // 표시 시점 기록
-                                perfectImageVisible = true;
+                                goodImageStartTime = timeSinceStart; // 표시 시점 기록
+                                goodImageVisible = true;
                             }
                             else if ((heartPosX > 710 && heartPosX < 729) || (heartPosX > 729 && heartPosX < 748)) {
                                 std::cout << "great!" << std::endl;
                                 print->printPNG("Great.png", 662, 150, 1);
-                                perfectImageStartTime = timeSinceStart; // 표시 시점 기록
-                                perfectImageVisible = true;
+                                greatImageStartTime = timeSinceStart; // 표시 시점 기록
+                                greatImageVisible = true;
                             }
                             else if (heartPosX == 729) {
                                 std::cout << "perfect!" << std::endl;
@@ -395,8 +395,8 @@ bool MultiGame::tick()
                             }
                             std::cout << "miss" << std::endl;
                             print->printPNG("Miss.png", 662, 150, 1);
-                            perfectImageStartTime = timeSinceStart; // 표시 시점 기록
-                            perfectImageVisible = true;
+                            missImageStartTime = timeSinceStart; // 표시 시점 기록
+                            missImageVisible = true;
                             
                             heartDeduct = true;
                             heartVisible = false;

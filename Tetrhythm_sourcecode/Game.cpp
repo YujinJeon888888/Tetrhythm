@@ -173,6 +173,26 @@ bool Game::tick()
         perfectImageVisible = false;
     }
 
+
+
+    //great이미지 삭제되게하기 
+    if (greatImageVisible && (timeSinceStart - greatImageStartTime) >= 0.5) {
+        print->deletePNG("Great.png");
+        greatImageVisible = false;
+    }
+
+    //good이미지 삭제되게하기 
+    if (goodImageVisible && (timeSinceStart - goodImageStartTime) >= 0.5) {
+        print->deletePNG("Good.png");
+        goodImageVisible = false;
+    }
+
+    //heart anim이미지 삭제되게하기 
+    if (heartImageVisible && (timeSinceStart - heartImageStartTime) >= 1) {
+        print->deleteAnimation(heartAnim);
+        heartImageVisible = false;
+    }
+
     //miss이미지 삭제되게하기 
     if (missImageVisible && (timeSinceStart - missImageStartTime) >= 0.5) {
         print->deletePNG("miss.png");

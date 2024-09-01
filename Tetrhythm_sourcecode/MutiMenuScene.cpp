@@ -43,6 +43,7 @@ void MutiMenuScene::handleArrowKey(SDL_Keycode key) {
             soundManager->playSound("Selection", 0);
             sceneManager.goBack();
         }
+        break;
     case SDLK_UP:
         soundManager->loadSound("Musics/SelectionMove.mp3", "SelectionMove"); // 효과음 로드
         soundManager->playSound("SelectionMove", 0);

@@ -175,11 +175,7 @@ bool Game::tick()
         perfectImageVisible = false;
     }
 
-    //line anim이미지 삭제되게하기 
-    if (lineImageVisible && (timeSinceStart - lineImageStartTime) >= 1) {
-        print->deleteAnimation(lineAnimPath);
-        lineImageVisible = false;
-    }
+
 
     //great이미지 삭제되게하기 
     if (greatImageVisible && (timeSinceStart - greatImageStartTime) >= 0.5) {
@@ -530,12 +526,6 @@ bool Game::tick()
 
         if (currentLine > previousLine)
         {
-            int animX = well_.xOffset - 25;
-            double animY = well_.yOffset + well_.getClearedLineYPos() * Well::BLOCK_SIZE -12.5 ; // 깨진 라인의 y 좌표를 이용하여 애니메이션 위치 설정
-            //라인 애니메이션
-            print->printAnimationPNG(lineAnimPath, animX, animY, 15, 6); // 1초마다 애니메이션 출력
-            lineImageStartTime = timeSinceStart; // 표시 시점 기록
-            lineImageVisible = true;
 
             soundManager->playSound("LineClear", 0);
             std::cout << "Line: " << currentLine << std::endl;

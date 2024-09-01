@@ -57,6 +57,10 @@ Game::Game(WindowManager& wm, Print* pr, SceneManager& sm)
     startDeleted(false),
     perfectImageStartTime(0.0), // 초기화
     perfectImageVisible(false)  // 초기화
+    greatImageStartTime(0.0), // 초기화
+    greatImageVisible(false)  // 초기화
+    goodImageStartTime(0.0), // 초기화
+    goodImageVisible(false)  // 초기화
 
 {
     // 7개의 텍스처 로드
@@ -170,6 +174,18 @@ bool Game::tick()
         perfectImageVisible = false;
     }
 
+    //great이미지 삭제되게하기 
+    if (greatImageVisible && (timeSinceStart - greatImageStartTime) >= 0.5) {
+        print->deletePNG("Great.png");
+        greatImageVisible = false;
+    }
+
+    //good이미지 삭제되게하기 
+    if (goodImageVisible && (timeSinceStart - goodImageStartTime) >= 0.5) {
+        print->deletePNG("Good.png");
+        goodImageVisible = false;
+    }
+
     //heart anim이미지 삭제되게하기 
     if (heartImageVisible && (timeSinceStart - heartImageStartTime) >=1) {
         print->deleteAnimation(heartAnim);
@@ -240,19 +256,36 @@ bool Game::tick()
                             //std::cout << "safe!" << std::endl;
                             heartVisible = false;
                             print->deletePNG("heartNote.png");
-                            if (heartPosX == 432) {
+                            if ((heartPosX >= 393 && heartPosX <= 413) || (heartPosX >= 451 && heartPosX <= 471)) {
+                                std::cout << "good!" << std::endl;
+                                print->printPNG("Good.png", 376, 169, 1);
+                                goodImageStartTime = timeSinceStart; // 표시 시점 기록
+                                goodImageVisible = true
+                                    }
+                            else if ((heartPosX > 413 && heartPosX < 432) || (heartPosX > 432 && heartPosX < 451)) {
+                                std::cout << "great!" << std::endl;
+                                print->printPNG("Great.png", 376, 169, 1);
+                                greatImageStartTime = timeSinceStart; // 표시 시점 기록
+                                greatImageVisible = true;
+                            else if (heartPosX == 432) {
                                 std::cout << "perfect!" << std::endl;
                                 print->printPNG("Perfect.png", 376, 169, 1);
                                 perfectImageStartTime = timeSinceStart; // 표시 시점 기록
                                 perfectImageVisible = true;
                             }
                         }
+                                
                         else if (heartPosX <= 393)
                         {
                             // 이 부분에서 하트 노드를 바로 사라지게 처리
                             if (!heartDeduct) {
                                 deductHeart();
                             }
+                            std::cout << "miss" << std::endl;
+                            print->printPNG("Miss.png", 376, 169, 1);
+                            missImageStartTime = timeSinceStart; // 표시 시점 기록
+                            missImageVisible = true;
+                            
                             heartDeduct = true;
                             heartVisible = false;
                             print->deletePNG("heartNote.png");

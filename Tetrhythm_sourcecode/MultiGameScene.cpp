@@ -67,7 +67,6 @@ void MultiGameScene::update() {
 
     // 게임 상태 업데이트
     if (game->tick()) {
-        game->tick();
     }
     else {
         // 게임 종료 시
@@ -77,11 +76,19 @@ void MultiGameScene::update() {
         mysql.setHighScore(UserInfo::getInstance().getUserID(), (game->getScore()));
         UserInfo::getInstance().setScore(game->getScore());
 
+        bool isLose = false;
+        
+     
+
+      //  if (Multi::getInstance()->opponentScore > game->getScore())
+         //   isLose = true;
+
+       
         if (game->getIsPerfectClear()) {
             //유저정보에 perfect clear저장.
             mysql.setPerfectClear(UserInfo::getInstance().getUserID(), (game->getIsPerfectClear()));
         }
-        if (game->getIsClear()) {
+        if (game->getIsClear()&& !isLose) {
             sceneManager.changeScene(std::make_unique<ClearScene>(windowManager, sceneManager, game->getLine(), game->getTetris(), game->getMaxCombo(), game->getIsClear()));
         }
         else {

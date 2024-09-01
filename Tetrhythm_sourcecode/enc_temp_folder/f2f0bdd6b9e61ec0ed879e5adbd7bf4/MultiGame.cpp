@@ -695,7 +695,7 @@ bool MultiGame::tick()
 
 
 
-        if (timeSinceStart >= 224.0) //클리어 임시 구?현
+        if (timeSinceStart >= 7.0) //클리어 임시 구?현
         {   
             isClear = true;
             gameOver = true;
@@ -708,7 +708,7 @@ bool MultiGame::tick()
             std::cout << "Game Over!" << std::endl;
         }
 
-        if (gameOver && !handleScoreOnce) {
+        if (gameOver) {
             /*if (comboVector.size() != 0)
                 maxCombo = comboVector[0];*/
             Multi::getInstance()->sendGameOver();
@@ -740,7 +740,6 @@ bool MultiGame::tick()
 
             std::cout << " me: " << score << "opp: " << Multi::getInstance()->opponentScore;
             Multi::resetInstance();
-            handleScoreOnce = true;
             return false;
         }
 

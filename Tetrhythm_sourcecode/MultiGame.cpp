@@ -708,7 +708,7 @@ bool MultiGame::tick()
             std::cout << "Game Over!" << std::endl;
         }
 
-        if (gameOver) {
+        if (gameOver && !handleScoreOnce) {
             /*if (comboVector.size() != 0)
                 maxCombo = comboVector[0];*/
             Multi::getInstance()->sendGameOver();
@@ -740,6 +740,7 @@ bool MultiGame::tick()
 
             std::cout << " me: " << score << "opp: " << Multi::getInstance()->opponentScore;
             Multi::resetInstance();
+            handleScoreOnce = true;
             return false;
         }
 

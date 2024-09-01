@@ -375,7 +375,7 @@ bool MultiGame::tick()
                             }
                             else if ((heartPosX > 710 && heartPosX < 729) || (heartPosX > 729 && heartPosX < 748)) {
                                 std::cout << "great!" << std::endl;
-                                print->printPNG("Great.png", 703, 156, 1);
+                                print->printPNG("Great.png", 700, 156, 1);
                                 greatImageStartTime = timeSinceStart; // 표시 시점 기록
                                 greatImageVisible = true;
                             }
@@ -461,7 +461,7 @@ bool MultiGame::tick()
                                     }
                                     else if ((heartPosX > 710 && heartPosX < 729) || (heartPosX > 729 && heartPosX < 748)) {
                                         std::cout << "great!" << std::endl;
-                                        print->printPNG("Great.png", 703, 156, 1);
+                                        print->printPNG("Great.png", 700, 156, 1);
                                         greatImageStartTime = timeSinceStart; // 표시 시점 기록
                                         greatImageVisible = true;
                                     }
@@ -596,7 +596,7 @@ bool MultiGame::tick()
                         }
                         else if ((heartPosX > 710 && heartPosX < 729) || (heartPosX > 729 && heartPosX < 748)) {
                             std::cout << "great!" << std::endl;
-                            print->printPNG("Great.png", 703, 156, 1);
+                            print->printPNG("Great.png", 700, 156, 1);
                             greatImageStartTime = timeSinceStart; // 표시 시점 기록
                             greatImageVisible = true;
                         }
@@ -732,7 +732,6 @@ bool MultiGame::tick()
            
             Multi::getInstance()->sendScore(score);
           
-                
             return false;
         }
 

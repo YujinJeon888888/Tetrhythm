@@ -41,7 +41,7 @@ void MultiGameScene::drawInit()
     print->printText(space + UserInfo::getInstance().getUserID().c_str(), 654, 610, 12, font2, color); //플레이어ID
     //콤보 텍스트 
     TTF_Font* fontCombo = print->loadFont("DungGeunMo.ttf", 75, true);
-    print->printText("Combo: ", 432, 62, 500, fontCombo, color);
+    print->printText("Combo: ", 432, 62, -5, fontCombo, color);
 
     //상대방쪽
     print->printPNG("heart1o.png", 118, 50, -1);
@@ -50,9 +50,9 @@ void MultiGameScene::drawInit()
     print->printText("Line: ", 329, 388, 4, font, color);
     print->printText("Tetris: ", 329, 418, 5, font, color);
     print->printText("Score: ", 329, 448, 6, font, color);
-    print->printText("      0", 329, 388, 21, font, color);
-    print->printText("        0", 329, 418, 22, font, color);
-    print->printText("       0", 329, 448, 23, font, color);
+    print->printText("      0", 329, 388, -6, font, color);
+    print->printText("        0", 329, 418, -7, font, color);
+    print->printText("       0", 329, 448, -8, font, color);
 
     print->printPNG("MultiRhythmUI.png", 475, 186, 10); // 리듬게임 UI 배경
 }

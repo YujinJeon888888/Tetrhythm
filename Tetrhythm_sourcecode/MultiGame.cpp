@@ -67,8 +67,8 @@ MultiGame::MultiGame(WindowManager& wm, Print* pr, SceneManager& sm)
     lastFrameTime(std::chrono::steady_clock::now()),
     musicPlayed(false),
     soundManager(new SoundManager()),
-    heartSpawnInterval(60.0 / 140.0 * 4),
-    nextHeartSpawnTime(0.0),
+    //heartSpawnInterval(60.0 / 140.0 * 4),
+    nextHeartSpawnTime(5.0),
     countdown3Displayed(false),
     countdown2Displayed(false),
     countdown1Displayed(false),
@@ -231,6 +231,19 @@ bool MultiGame::tick()
         print->setText(22, "        " + std::to_string(Multi::getInstance()->opponentTetris));
     }
 
+    // 시간에 따라 heartSpawnInterval을 업데이트
+    if (timeSinceStart >= 5.0 && timeSinceStart < 47.0) {
+        heartSpawnInterval = 3.5;  // 42초 동안 3.5초마다 하트 생성
+    }
+    else if (timeSinceStart >= 47.0 && timeSinceStart < 57.5) {
+        heartSpawnInterval = 2.1;  // 10.5초 동안 2.1초마다 하트 생성
+    }
+    else if (timeSinceStart >= 57.5 && timeSinceStart < 194.5) {
+        heartSpawnInterval = 3.5;  // 137초 동안 3.5초마다 하트 생성
+    }
+    else if (timeSinceStart >= 194.5) {
+        heartSpawnInterval = 2.1;  // 노래 끝날 때까지 2.1초마다 하트 생성
+    }
 
     SDL_SetRenderDrawColor(windowManager.getRenderer(), 0, 0, 0, 0xff);
     SDL_RenderClear(windowManager.getRenderer());
@@ -398,7 +411,7 @@ bool MultiGame::tick()
                         }
 
                         // 다음 하트 노드 생성 타이밍 설정
-                        nextHeartSpawnTime = timeSinceStart + heartSpawnInterval;
+                        nextHeartSpawnTime += heartSpawnInterval;
                     }
                 }
 
@@ -484,7 +497,7 @@ bool MultiGame::tick()
                                 }
 
                                 // 다음 하트 노드 생성 타이밍 설정
-                                nextHeartSpawnTime = timeSinceStart + heartSpawnInterval;
+                                nextHeartSpawnTime += heartSpawnInterval;
                             }
 
                         }
@@ -619,7 +632,7 @@ bool MultiGame::tick()
                     }
 
                     // 다음 하트 노드 생성 타이밍 설정
-                    nextHeartSpawnTime = timeSinceStart + heartSpawnInterval;
+                    nextHeartSpawnTime += heartSpawnInterval;
                 }
 
                 std::cout << "reach!" << std::endl;
@@ -764,7 +777,7 @@ bool MultiGame::tick()
                 heartVisible = false;
                 print->deletePNG("heartNote.png");
                 // 다음 하트 노드 생성 타이밍 설정
-                nextHeartSpawnTime = timeSinceStart + heartSpawnInterval;
+                nextHeartSpawnTime += heartSpawnInterval;
             }
         }
         else if (timeSinceStart >= nextHeartSpawnTime && !heartVisible)

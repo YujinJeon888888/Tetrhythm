@@ -70,7 +70,6 @@ void Multi::sendID(std::string id, std::string charImageStr) {
 }
 
 
-
 void Multi::sendTetromino(Tetromino& tetromino) {
 
     char messageType = '7';

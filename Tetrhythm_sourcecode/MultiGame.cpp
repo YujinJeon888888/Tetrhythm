@@ -280,6 +280,8 @@ bool MultiGame::tick()
     std::chrono::duration<double> deltaTime = currentFrameTime - lastFrameTime;
     lastFrameTime = currentFrameTime;
     timeSinceStart += deltaTime.count();
+    // 프레임 타이밍 관리 부분 - 여기에 추가!
+    well_.updateClearDelay(deltaTime.count());
 
     //perfect이미지 삭제되게하기 
     if (perfectImageVisible && (timeSinceStart - perfectImageStartTime) >= 0.5) {

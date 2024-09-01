@@ -180,7 +180,7 @@ void Characters::drawSelection() {
 				print->setText(10, "over 120 lines");
 				break;
 			case 3:
-				print->setText(10, "over 50 tetrises");
+				print->setText(10, "over 25 tetrises");
 				break;
 			}
 		}
@@ -204,7 +204,7 @@ void Characters::drawSelection() {
 				print->setText(10, "over 150,000 highscores");
 				break;
 			case 6:
-				print->setText(10, "over 150 tetrises");
+				print->setText(10, "over 50 tetrises");
 				break;
 			case 7:
 				print->setText(10, "over 300,000 highscores");
@@ -294,8 +294,8 @@ void Characters::unlock() {
 		data[2][0] = true;
 	}
 
-	// 4. 총 50 Tetris
-	if (UserInfo::getInstance().getTetris() >= 50) {
+	// 4. 총 25 Tetris
+	if (UserInfo::getInstance().getTetris() >= 25) {
 		data[3][0] = true;
 	}
 
@@ -308,8 +308,8 @@ void Characters::unlock() {
 	if (UserInfo::getInstance().getHighScore() >= 150000) {
 		data[1][1] = true;
 	}
-	//  7. 총 150 Tetris
-	if (UserInfo::getInstance().getTetris() >= 150) {
+	//  7. 총 50 Tetris
+	if (UserInfo::getInstance().getTetris() >= 50) {
 		data[2][1] = true;
 	}
 	// 8. high score - 300000

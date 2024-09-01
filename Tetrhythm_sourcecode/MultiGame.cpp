@@ -591,7 +591,6 @@ bool MultiGame::tick()
 
             switch (linesCleared) { // 1, 2, 3줄에 대한 점수 계산
             case 1:
-                //1줄 공격
                 score += 900;
                 break;
             case 2:
@@ -655,6 +654,7 @@ bool MultiGame::tick()
             delete soundManager;
             isClear = true;
             gameOver = true;
+           
 
         }
 
@@ -679,6 +679,11 @@ bool MultiGame::tick()
             maxCombo = comboVector[0];
             //하트점수반영
             score += hearts.size() * 50000;
+           
+            Multi::getInstance()->sendScore(score);
+            if (Multi::getInstance()->opponentScore > score)
+                isClear = false;
+                
             return false;
         }
 

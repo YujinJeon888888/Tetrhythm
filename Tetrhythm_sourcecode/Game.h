@@ -87,7 +87,7 @@ private:
     SceneManager& sceneManager;
     bool isClear = false;
     bool isPerfectClear = true;
-    int fullComboCount = 0;
+    const int fullComboCount = 70;
     //
     int seriesTetrisCount = 0;
     const int comboScore = 100000;
@@ -111,4 +111,13 @@ private:
     bool missImageVisible; // miss.png 표시 여부
     int maxCombo;
     int spacePressed = 0;  // 스페이스바가 눌린 상태를 추적하는 변수
+    double heartImageStartTime=0.0; // heart anim표시 시점 기록
+    bool heartImageVisible=false; // heart anim 표시 여부  
+    std::vector<std::string> heartAnim = {
+       "tile000.png","tile001.png","tile002.png","tile003.png","tile004.png","tile005.png"
+    };
+    bool goodImageVisible = false;
+    bool greatImageVisible = false;
+    double goodImageStartTime;
+    double greatImageStartTime;
 };

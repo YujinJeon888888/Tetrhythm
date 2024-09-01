@@ -87,7 +87,7 @@ private:
     SceneManager& sceneManager;
     bool isClear = false;
     bool isPerfectClear = true;
-    const int fullComboCount = 62;
+    const int fullComboCount = 70;
     //
     int seriesTetrisCount = 0;
     const int comboScore = 100000;

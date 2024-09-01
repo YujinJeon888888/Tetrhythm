@@ -695,7 +695,7 @@ bool MultiGame::tick()
 
 
 
-        if (timeSinceStart >= 224.0) //클리어 임시 구?현
+        if (timeSinceStart >= 7.0) //클리어 임시 구?현
         {   
             isClear = true;
             gameOver = true;

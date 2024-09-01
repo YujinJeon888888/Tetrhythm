@@ -79,19 +79,12 @@ void MultiGameScene::update() {
 
         bool isLose = false;
         
-        int type = Multi::getInstance()->receiveMessegeData();
-        int flag = 0;
-        while (type != 6 && flag < 5) {//점수
-           type = Multi::getInstance()->receiveMessegeData();
-           Multi::getInstance()->sendScore(game->getScore());
-           flag++;
-        }
+     
 
-        if (Multi::getInstance()->opponentScore > game->getScore())
-            isLose = true;
+      //  if (Multi::getInstance()->opponentScore > game->getScore())
+         //   isLose = true;
 
-        std::cout << " me: " << game->getScore() << "opp: " << Multi::getInstance()->opponentScore;
-
+       
         if (game->getIsPerfectClear()) {
             //유저정보에 perfect clear저장.
             mysql.setPerfectClear(UserInfo::getInstance().getUserID(), (game->getIsPerfectClear()));

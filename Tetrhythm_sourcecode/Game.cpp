@@ -138,6 +138,7 @@ bool Game::tick()
     SDL_RenderClear(windowManager.getRenderer());
     print->renderForTetris();
     print->updateTextAnimation();
+    print->updateAnimations();
 
     // 그림자 위치 계산 및 그리기
     Tetromino shadow = tetromino_.calculateShadow(well_);
@@ -167,6 +168,12 @@ bool Game::tick()
     if (perfectImageVisible && (timeSinceStart - perfectImageStartTime) >= 0.5) {
         print->deletePNG("Perfect.png");
         perfectImageVisible = false;
+    }
+
+    //heart anim이미지 삭제되게하기 
+    if (heartImageVisible && (timeSinceStart - heartImageStartTime) >=1) {
+        print->deleteAnimation(heartAnim);
+        heartImageVisible = false;
     }
 
     //miss이미지 삭제되게하기 
@@ -632,7 +639,12 @@ void Game::deductHeart()
     if (!hearts.empty())
     {
         Heart lastHeart = hearts.back();
+        //애니메이션 재생
         print->deletePNG(lastHeart.path.c_str());
+        print->printAnimationPNG(heartAnim, lastHeart.xPosition,lastHeart.yPosition,hearts.size(),10);
+        heartImageStartTime = timeSinceStart; // 표시 시점 기록
+        heartImageVisible = true;
+
         hearts.pop_back();
         std::cout << "Heart deducted! Remaining hearts: " << hearts.size() << std::endl;
     }

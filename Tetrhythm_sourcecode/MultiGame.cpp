@@ -189,7 +189,7 @@ bool MultiGame::tick()
     }
     else if (type == 6) {
 
-        print->setText(23, "       " + std::to_string(Multi::getInstance()->opponentScore));
+        print->setText(13, "       " + std::to_string(Multi::getInstance()->opponentScore));
     }
     else if (type == 9) {
         std::string opponentID = Multi::getInstance()->opponentId;
@@ -227,8 +227,8 @@ bool MultiGame::tick()
         }
 
         oppPreviousLine = Multi::getInstance()->opponentLine;
-        print->setText(21, "      " + std::to_string(Multi::getInstance()->opponentLine));
-        print->setText(22, "        " + std::to_string(Multi::getInstance()->opponentTetris));
+        print->setText(11, "      " + std::to_string(Multi::getInstance()->opponentLine));
+        print->setText(12, "        " + std::to_string(Multi::getInstance()->opponentTetris));
     }
 
     // 시간에 따라 heartSpawnInterval을 업데이트
@@ -381,10 +381,10 @@ bool MultiGame::tick()
                             Multi::getInstance()->sendScore(score);
                             print->setText(9, "       " + std::to_string(score));
                             if (comboCount >= 30) {
-                                print->setText(500, "Combo: " + std::to_string(comboCount), comboCount);
+                                print->setText(-5, "Combo: " + std::to_string(comboCount), comboCount);
                             }
                             else {
-                                print->setText(500, "Combo: " + std::to_string(comboCount), comboCount % 7);
+                                print->setText(-5, "Combo: " + std::to_string(comboCount), comboCount % 7);
                             }
                             //std::cout << "safe!" << std::endl;
                             heartVisible = false;
@@ -467,10 +467,10 @@ bool MultiGame::tick()
                                     Multi::getInstance()->sendScore(score);
                                     print->setText(9, "       " + std::to_string(score));
                                     if (comboCount >= 30) {
-                                        print->setText(500, "Combo: " + std::to_string(comboCount), comboCount);
+                                        print->setText(-5, "Combo: " + std::to_string(comboCount), comboCount);
                                     }
                                     else {
-                                        print->setText(500, "Combo: " + std::to_string(comboCount), comboCount % 7);
+                                        print->setText(-5, "Combo: " + std::to_string(comboCount), comboCount % 7);
                                     }
                                     //std::cout << "safe!" << std::endl;
                                     heartVisible = false;
@@ -602,10 +602,10 @@ bool MultiGame::tick()
                         Multi::getInstance()->sendScore(score);
                         print->setText(9, "       " + std::to_string(score));
                         if (comboCount >= 30) {
-                            print->setText(500, "Combo: " + std::to_string(comboCount), comboCount);
+                            print->setText(-5, "Combo: " + std::to_string(comboCount), comboCount);
                         }
                         else {
-                            print->setText(500, "Combo: " + std::to_string(comboCount), comboCount % 7);
+                            print->setText(-5, "Combo: " + std::to_string(comboCount), comboCount % 7);
                         }
                         //std::cout << "safe!" << std::endl;
                         heartVisible = false;
@@ -860,7 +860,7 @@ void MultiGame::deductHeart()
     isPerfectClear = false;
     comboVector.push_back(comboCount);
     comboCount = 0;
-    print->setText(500, "Combo: ", comboCount % 7);
+    print->setText(-5, "Combo: ", comboCount % 7);
     //   std::cout << "when heartPosX : " << heartPosX << "deduct heart" << std::endl;
     if (!hearts.empty())
     {

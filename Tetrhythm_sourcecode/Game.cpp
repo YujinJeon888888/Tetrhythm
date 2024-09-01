@@ -11,6 +11,8 @@
 #include <chrono>
 #include "Windows.h"
 #include <functional>
+#include <cstdlib>  // For rand() and srand()
+#include <ctime>    // For time()
 
 const std::string Heart::paths[3] = {
     "heart1.png",
@@ -63,6 +65,8 @@ Game::Game(WindowManager& wm, Print* pr, SceneManager& sm)
     goodImageVisible(false)  // 초기화
 
 {
+    // Initialize random number generator
+    srand(static_cast<unsigned int>(time(0)));
     // 7개의 텍스처 로드
     const char* textureFiles[7] = {
         "Skyblue_I.png",
@@ -93,6 +97,19 @@ Game::Game(WindowManager& wm, Print* pr, SceneManager& sm)
     soundManager->loadSound("Musics/LineClear.mp3", "LineClear"); // 효과음 로드
     soundManager->loadSound("Musics/YouWin.mp3", "YouWin"); // 효과음 로드
     soundManager->loadSound("Musics/Countdown.mp3", "Countdown");
+
+    // Define a list of background songs
+    const char* backgroundSongs[5] = {
+        "Musics/CRAZY.mp3",
+        "Musics/Accendio.mp3",
+        "Musics/Crush.mp3",
+        "Musics/Diver.mp3",
+        "Musics/Shinjyo.mp3"
+    };
+
+    // Select a random song from the list
+    int randomIndex = rand() % 5;
+    selectedSong = backgroundSongs[randomIndex];
 }
 
 Game::~Game()
@@ -156,7 +173,9 @@ bool Game::tick()
 
     if (timeSinceStart >= 5.0 && !musicPlayed)
     {
-        soundManager->playMusic("Musics/Megalovania 8Bit Remix Audio.mp3", -1);
+
+        soundManager->playMusic(selectedSong, -1);
+
         musicPlayed = true;
     }
 

@@ -125,4 +125,5 @@ private:
     bool greatImageVisible = false;
     double goodImageStartTime;
     double greatImageStartTime;
+    const char* selectedSong;
 };

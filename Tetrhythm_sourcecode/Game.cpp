@@ -58,6 +58,7 @@ Game::Game(WindowManager& wm, Print* pr, SceneManager& sm)
     startDeleted(false),
     perfectImageStartTime(0.0), // 초기화
     perfectImageVisible(false)  // 초기화
+    
 
 {
     // 7개의 텍스처 로드
@@ -442,11 +443,17 @@ bool Game::tick()
 
         if (currentLine > previousLine)
         {
+            int animX = well_.xOffset - 25;
+            double animY = well_.yOffset + 12.5;
+
+            std::vector<std::string> animPaths1 = { "B1.png","B2.png","B3.png","B4.png","B5.png","B6.png" ,"B7.png" ,"B8.png","B9.png","B10.png"};
+            print->printAnimationPNG(animPaths1, animX, animY, 15, 1); // 1초마다 애니메이션 출력
             soundManager->playSound("LineClear", 0);
             std::cout << "Line: " << currentLine << std::endl;
             int linesCleared = currentLine - previousLine;
             previousLine = currentLine;
             print->setText(7, "      " + std::to_string(previousLine));
+            print->deleteAnimation(animPaths1);
 
             switch (linesCleared) { // 1, 2, 3줄에 대한 점수 계산
             case 1:

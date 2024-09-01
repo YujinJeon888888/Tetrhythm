@@ -111,4 +111,5 @@ private:
     bool missImageVisible; // miss.png 표시 여부
     int maxCombo;
     int spacePressed = 0;  // 스페이스바가 눌린 상태를 추적하는 변수
+    const int BLOCK_SIZE = 25;
 };

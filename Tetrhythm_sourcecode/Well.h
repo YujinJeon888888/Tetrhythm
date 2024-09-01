@@ -22,14 +22,18 @@ public:
     int getLine() const;
     int getTetris() const;
     void addGrayLines(int numLines, bool Gap);
+
+    static const int BLOCK_SIZE = 25;
     bool isOpponent = false;
+    int xOffset;
+    int yOffset;
+    int line;
 private:
     bool data[Width][Height];
     Tetromino::Type dataTypes[Width][Height]; // 각 블럭의 타입을 저장하는 배열
-    int xOffset;
-    int yOffset;
+    
     int queueXOffset;  // 블럭 대기열의 X 오프셋
     int queueYOffset;  // 블럭 대기열의 Y 오프셋
-    int line;
+
     int tetris;
 };

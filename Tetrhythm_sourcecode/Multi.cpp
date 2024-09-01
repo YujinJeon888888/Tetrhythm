@@ -5,9 +5,8 @@
 Multi* Multi::instance = nullptr;
 Multi::Multi() : tetromino(61, 100) {
 
-    addr = "13.125.65.119";
-//   addr ="52.14.83.66";
-//   addr = "127.0.0.1";
+     addr = "13.125.65.119";
+   //addr = "127.0.0.1";
   
 }
               

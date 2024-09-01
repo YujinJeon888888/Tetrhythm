@@ -119,30 +119,3 @@ void MainMenu::render() {
     print->render();
 }
 
-// MAIN.cpp 파일로 옮김. 필요없으면 지워 주세요! 
-//int main(int argc, char* argv[]) {
-//    // 프레임 속도: 60
-//    const int targetFPS = 60;
-//    const std::chrono::milliseconds frameDuration(1000 / targetFPS);
-//    WindowManager windowManager("Tetrhythm", 1200, 675);
-//
-//    Print* print = new Print(&windowManager);
-//    MainMenu mn ;
-//    mn.drawInit(print);
-//
-//    while (true) {
-//        print->handleEvents([&](SDL_Event& event) {
-//            if (event.type == SDL_KEYDOWN) {
-//                mn.handleArrowKey(event.key.keysym.sym);
-//            }
-//            });
-//        mn.drawSelection(print);
-//
-//        print->updateAnimations();
-//        print->render();
-//
-//        std::this_thread::sleep_for(frameDuration);
-//    }
-//
-//    return 0;
-//}

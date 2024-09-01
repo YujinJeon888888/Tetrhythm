@@ -5,6 +5,7 @@ bool isCodeScene = false;
 MutiMenuScene::MutiMenuScene(WindowManager& wm, SceneManager& manager) 
 	: windowManager(wm), sceneManager(manager), print(new Print(&wm)), soundManager(new SoundManager())
 {
+    Multi::resetInstance();
 	drawInit();
     MenuSelection = 0;
 }

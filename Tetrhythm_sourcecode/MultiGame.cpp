@@ -174,7 +174,6 @@ bool MultiGame::tick()
     if (type == 2 || Multi::getInstance()->isClear) //클리어 임시 구?현
     {
         std::cout << "type 2";
-        //   Multi::getInstance()->closeConnection();
         Multi::resetInstance();
         soundManager->stopMusic(); // TetrisScene 객체가 파괴될 때 음악을 중지
         delete soundManager;
@@ -210,7 +209,7 @@ bool MultiGame::tick()
 
         print->printPNG(opponentCharacter.c_str(), 329, 478, 131);     // 상대방 캐릭터 사진
     }
-
+   
 
     if (Multi::getInstance()->hasData) {
 
@@ -394,6 +393,7 @@ bool MultiGame::tick()
                 switch (e.key.keysym.sym)
                 {
                 case SDLK_ESCAPE:
+                    Multi::getInstance()->sendGameOver();
                     soundManager->stopMusic();
                     soundManager->loadSound("Musics/Selection.mp3", "Selection"); // 효과음 로드
                     soundManager->playSound("Selection", 0);
@@ -681,8 +681,7 @@ bool MultiGame::tick()
             score += hearts.size() * 50000;
            
             Multi::getInstance()->sendScore(score);
-            if (Multi::getInstance()->opponentScore > score)
-                isClear = false;
+          
                 
             return false;
         }
@@ -739,7 +738,7 @@ void MultiGame::check(const Tetromino& t)
         nextTetrominos_[1] = nextTetrominos_[2];
         nextTetrominos_[2] = Tetromino(801, 100);  // 새로운 위치로 테트로미노를 생성
 
-       // Multi::getInstance()->sendNextTetrominos(nextTetrominos_);
+        Multi::getInstance()->sendNextTetrominos(nextTetrominos_);
 
         // 새로운 블록이 Well에 충돌하면 게임 오버 처리
         if (well_.isCollision(tetromino_))

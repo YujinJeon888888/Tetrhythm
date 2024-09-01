@@ -29,6 +29,7 @@ public:
     int xOffset;
     int yOffset;
     int line;
+    void updateClearDelay(double deltaTime);
 private:
     bool data[Width][Height];
     Tetromino::Type dataTypes[Width][Height]; // 각 블럭의 타입을 저장하는 배열
@@ -37,4 +38,11 @@ private:
     int queueYOffset;  // 블럭 대기열의 Y 오프셋
 
     int tetris;
+    void uniteLine(std::vector<int> fullLines, float timeCount);
+    // 지연 삭제를 위한 변수들
+    bool clearDelayActive = false; // 라인 삭제 지연 활성화 플래그
+    double clearDelayTimer = 0.0; // 타이머
+    std::vector<int> linesToClear; // 지연된 라인을 저장하는 변수
+
+
 };

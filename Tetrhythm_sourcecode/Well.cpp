@@ -293,21 +293,11 @@ void Well::unite(const Tetromino& t)
         tetris += 1;
     }
 
-    for (int line : fullLines)
-    {
-        for (int y = line; y > 0; --y)
-        {
-            for (int x = 0; x < Width; ++x)
-            {
-                data[x][y] = data[x][y - 1];
-                dataTypes[x][y] = dataTypes[x][y - 1];
-            }
-        }
-        for (int x = 0; x < Width; ++x)
-        {
-            data[x][0] = false;
-            dataTypes[x][0] = Tetromino::Type::I; // 초기값 설정
-        }
+    // 라인이 완성된 경우 지연 타이머 시작
+    if (!fullLines.empty()) {
+        clearDelayActive = true; // 삭제 지연 활성화
+        clearDelayTimer = 0.5; // 0.5초 후에 실행되도록 설정
+        linesToClear = fullLines; // 지연 삭제할 라인을 저장
     }
 
     //멀티 모드 블럭 업데이트
@@ -362,7 +352,39 @@ void Well::addGrayLines(int numLines, bool Gap)
     }
 }
 
+void Well::uniteLine(std::vector<int> fullLines, float timeCount)
+{
+    for (int line : fullLines)
+    {
+        for (int y = line; y > 0; --y)
+        {
+            for (int x = 0; x < Width; ++x)
+            {
+                data[x][y] = data[x][y - 1];
+                dataTypes[x][y] = dataTypes[x][y - 1];
+            }
+        }
+        for (int x = 0; x < Width; ++x)
+        {
+            data[x][0] = false;
+            dataTypes[x][0] = Tetromino::Type::I; // 초기값 설정
+        }
+    }
+
+}
+
 int Well::getClearedLineYPos() const {
     return clearedLineYPos;
 }
 
+void Well::updateClearDelay(double deltaTime)
+{
+    if (clearDelayActive) {
+        clearDelayTimer -= deltaTime; // 경과 시간만큼 타이머 감소
+        if (clearDelayTimer <= 0) {
+            clearDelayActive = false; // 지연 해제
+            uniteLine(linesToClear, 0.5f); // 라인 삭제 함수 호출
+            linesToClear.clear(); // 라인 목록 초기화
+        }
+    }
+}

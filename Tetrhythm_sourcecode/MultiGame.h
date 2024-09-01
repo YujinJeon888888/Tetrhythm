@@ -61,7 +61,7 @@ private:
     MultiGame& operator=(const MultiGame&);
     Well well_; //플레이어 보드
     Well opponentWell_; //상대방 보드
-    Tetromino tetromino_,opponentTetromino_;
+    Tetromino tetromino_, opponentTetromino_;
     std::array<Tetromino, 3> nextTetrominos_, opponentNextTetrominos_; // 대기열 블럭
     uint32_t moveTime_;
     void check(const Tetromino&);
@@ -122,12 +122,12 @@ private:
     bool perfectImageVisible;
     double missImageStartTime; // miss.png 표시 시점 기록
     bool missImageVisible; // miss.png 표시 여부
-    int spacePressed=0;
+    int spacePressed = 0;
     int maxCombo;
     int oppPreviousLine;
     int oppPreviousTetris;
     double criticalImageStartTime; // critical.png 표시 시점 기록
-    bool criticalImageVisible;    
+    bool criticalImageVisible;
     double fatalImageStartTime; // fatal.png 표시 시점 기록
     bool fatalImageVisible;
     double hitImageStartTime; // hit.png 표시 시점 기록
@@ -137,4 +137,14 @@ private:
     double goodImageStartTime;
     double greatImageStartTime;
     bool handleScoreOnce = false;
+    double heartImageStartTime = 0.0; // heart anim표시 시점 기록
+    bool heartImageVisible = false; // heart anim 표시 여부  
+    std::vector<std::string> heartAnim = {
+       "tile000.png","tile001.png","tile002.png","tile003.png","tile004.png","tile005.png"
+    };
+    double heartOppImageStartTime = 0.0; // heartOpp anim표시 시점 기록
+    bool heartOppImageVisible = false; // heartOpp anim 표시 여부  
+    std::vector<std::string> heartOppAnim = {
+       "tile000.png","tile001.png","tile002.png","tile003.png","tile004.png","tile005.png"
+    };
 };

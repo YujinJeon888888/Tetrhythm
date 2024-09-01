@@ -145,6 +145,6 @@ private:
     double heartOppImageStartTime = 0.0; // heartOpp anim표시 시점 기록
     bool heartOppImageVisible = false; // heartOpp anim 표시 여부  
     std::vector<std::string> heartOppAnim = {
-       "tile000.png","tile001.png","tile002.png","tile003.png","tile004.png","tile005.png"
+       "tile000Opp.png","tile001Opp.png","tile002Opp.png","tile003Opp.png","tile004Opp.png","tile005Opp.png"
     };
 };

@@ -731,7 +731,20 @@ bool MultiGame::tick()
             score += hearts.size() * 50000;
            
             Multi::getInstance()->sendScore(score);
-          
+            int type = Multi::getInstance()->receiveMessegeData();
+            int flag = 0;
+
+            while (type != 6 && flag < 5) {//점수
+                type = Multi::getInstance()->receiveMessegeData();
+                Multi::getInstance()->sendScore(score);
+                flag++;
+            }
+
+            if (Multi::getInstance()->opponentScore > score)
+                isClear = false;
+
+            std::cout << " me: " << score << "opp: " << Multi::getInstance()->opponentScore;
+
                 
             return false;
         }

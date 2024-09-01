@@ -136,4 +136,5 @@ private:
     bool greatImageVisible = false;
     double goodImageStartTime;
     double greatImageStartTime;
+    bool handleScoreOnce = false;
 };

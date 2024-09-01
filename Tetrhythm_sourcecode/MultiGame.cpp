@@ -698,7 +698,7 @@ bool MultiGame::tick()
 
         if (timeSinceStart >= 224.0) //클리어 임시 구?현
         {
-            soundManager->playSound("YouWin", 0);
+           // soundManager->playSound("YouWin", 0);
             soundManager->stopMusic(); // TetrisScene 객체가 파괴될 때 음악을 중지
             delete soundManager;
             isClear = true;
@@ -731,7 +731,19 @@ bool MultiGame::tick()
             score += hearts.size() * 50000;
            
             Multi::getInstance()->sendScore(score);
-          
+            int type = Multi::getInstance()->receiveMessegeData();
+            int flag = 0;
+
+            while (type != 6 && flag < 5) {//점수
+                type = Multi::getInstance()->receiveMessegeData();
+                Multi::getInstance()->sendScore(score);
+                flag++;
+            }
+
+            if (Multi::getInstance()->opponentScore > score)
+                isClear = false;
+
+            std::cout << " me: " << score << "opp: " << Multi::getInstance()->opponentScore;
             return false;
         }
 

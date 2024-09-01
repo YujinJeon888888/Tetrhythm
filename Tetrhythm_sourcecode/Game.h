@@ -111,4 +111,10 @@ private:
     bool missImageVisible; // miss.png 표시 여부
     int maxCombo;
     int spacePressed = 0;  // 스페이스바가 눌린 상태를 추적하는 변수
+    double heartImageStartTime=0.0; // heart anim표시 시점 기록
+    bool heartImageVisible=false; // heart anim 표시 여부  
+    std::vector<std::string> heartAnim = {
+       "tile000.png","tile001.png","tile002.png","tile003.png","tile004.png","tile005.png"
+    };
+
 };

@@ -189,7 +189,7 @@ bool MultiGame::tick()
     }
     else if (type == 6) {
 
-        print->setText(13, "       " + std::to_string(Multi::getInstance()->opponentScore));
+        print->setText(-8, "       " + std::to_string(Multi::getInstance()->opponentScore));
     }
     else if (type == 9) {
         std::string opponentID = Multi::getInstance()->opponentId;
@@ -227,8 +227,8 @@ bool MultiGame::tick()
         }
 
         oppPreviousLine = Multi::getInstance()->opponentLine;
-        print->setText(11, "      " + std::to_string(Multi::getInstance()->opponentLine));
-        print->setText(12, "        " + std::to_string(Multi::getInstance()->opponentTetris));
+        print->setText(-6, "      " + std::to_string(Multi::getInstance()->opponentLine));
+        print->setText(-7, "        " + std::to_string(Multi::getInstance()->opponentTetris));
     }
 
     // 시간에 따라 heartSpawnInterval을 업데이트

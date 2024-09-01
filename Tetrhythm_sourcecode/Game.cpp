@@ -140,16 +140,15 @@ bool Game::tick()
     // 화면 업데이트
     SDL_SetRenderDrawColor(windowManager.getRenderer(), 0, 0, 0, 0xff);
     SDL_RenderClear(windowManager.getRenderer());
+    print->renderForTetris();
+    print->updateTextAnimation();
+    print->updateAnimations();
 
     // 그림자 위치 계산 및 그리기
     Tetromino shadow = tetromino_.calculateShadow(well_);
     well_.drawShadow(windowManager.getRenderer(), blockTextures_[tetromino_.getType()], shadow);
     well_.draw(windowManager.getRenderer(), blockTextures_, nextTetrominos_);
     tetromino_.draw(windowManager.getRenderer(), blockTextures_[tetromino_.getType()]);
-    //print렌더링
-    print->renderForTetris();
-    print->updateTextAnimation();
-    print->updateAnimations();
 
     SDL_Event e;
 

@@ -40,6 +40,7 @@ void TetrisScene::drawInit()
 
     print->printText("Combo: ", 80, 90, 500, fontCombo, color);
 
+    print->printPNG("Background.png", 0, 0, 0); // 전체 배경
     print->printPNG("RhythmUIBackground.png", 70, 241, 10); // 리듬게임 UI 배경
 }
 

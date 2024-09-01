@@ -258,13 +258,13 @@ bool Game::tick()
                             print->deletePNG("heartNote.png");
                             if ((heartPosX >= 393 && heartPosX <= 413) || (heartPosX >= 451 && heartPosX <= 471)) {
                                 std::cout << "good!" << std::endl;
-                                print->printPNG("Good.png", 376, 169, 1);
+                                print->printPNG("Good.png", 407, 174, 1);
                                 goodImageStartTime = timeSinceStart; // 표시 시점 기록
                                 goodImageVisible = true;
                             }
                             else if ((heartPosX > 413 && heartPosX < 432) || (heartPosX > 432 && heartPosX < 451)) {
                                 std::cout << "great!" << std::endl;
-                                print->printPNG("Great.png", 376, 169, 1);
+                                print->printPNG("Great.png", 400, 174, 1);
                                 greatImageStartTime = timeSinceStart; // 표시 시점 기록
                                 greatImageVisible = true;
                             }
@@ -346,13 +346,13 @@ bool Game::tick()
                                         print->deletePNG("heartNote.png");
                                         if ((heartPosX >= 393 && heartPosX <= 413) || (heartPosX >= 451 && heartPosX <= 471)) {
                                             std::cout << "good!" << std::endl;
-                                            print->printPNG("Good.png", 376, 169, 1);
+                                            print->printPNG("Good.png", 407, 174, 1);
                                             goodImageStartTime = timeSinceStart; // 표시 시점 기록
                                             goodImageVisible = true;
                                         }
                                         else if ((heartPosX > 413 && heartPosX < 432) || (heartPosX > 432 && heartPosX < 451)) {
                                             std::cout << "great!" << std::endl;
-                                            print->printPNG("Great.png", 376, 169, 1);
+                                            print->printPNG("Great.png", 400, 174, 1);
                                             greatImageStartTime = timeSinceStart; // 표시 시점 기록
                                             greatImageVisible = true;
                                         }
@@ -479,13 +479,13 @@ bool Game::tick()
                             print->deletePNG("heartNote.png");
                             if ((heartPosX >= 393 && heartPosX <= 413) || (heartPosX >= 451 && heartPosX <= 471)) {
                                 std::cout << "good!" << std::endl;
-                                print->printPNG("Good.png", 376, 169, 1);
+                                print->printPNG("Good.png", 407, 174, 1);
                                 goodImageStartTime = timeSinceStart; // 표시 시점 기록
                                 goodImageVisible = true;
                             }
                             else if ((heartPosX > 413 && heartPosX < 432) || (heartPosX > 432 && heartPosX < 451)) {
                                 std::cout << "great!" << std::endl;
-                                print->printPNG("Great.png", 376, 169, 1);
+                                print->printPNG("Great.png", 400, 174, 1);
                                 greatImageStartTime = timeSinceStart; // 표시 시점 기록
                                 greatImageVisible = true;
                             }

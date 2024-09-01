@@ -55,7 +55,6 @@ void TetrisScene::update() {
 
     // 게임 상태 업데이트
     if (game->tick()) {
-        game->tick();
     }
     else {
         // 게임 종료 시

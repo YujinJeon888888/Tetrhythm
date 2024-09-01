@@ -745,8 +745,7 @@ bool MultiGame::tick()
                 score += (int)(std::round((float)comboScore * ((float)comboVector[0] / (float)fullComboCount)));
             }
             maxCombo = comboVector[0];
-            //하트점수반영
-            score += hearts.size() * 50000;
+          
 
             Multi::getInstance()->sendScore(score);
             int type = Multi::getInstance()->receiveMessegeData();
@@ -760,6 +759,11 @@ bool MultiGame::tick()
 
             if (Multi::getInstance()->opponentScore > score)
                 isClear = false;
+
+            //하트점수반영
+            if (isClear) {
+                score += hearts.size() * 50000;
+            }
 
             std::cout << " me: " << score << "opp: " << Multi::getInstance()->opponentScore;
             Multi::resetInstance();

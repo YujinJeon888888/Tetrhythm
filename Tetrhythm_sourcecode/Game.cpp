@@ -339,24 +339,39 @@ bool Game::tick()
                                         }
                                         else {
                                             print->setText(500, "Combo: " + std::to_string(comboCount), comboCount % 7);
-                                        };
+                                        }
+
                                         //std::cout << "safe!" << std::endl;
                                         heartVisible = false;
                                         print->deletePNG("heartNote.png");
-                                        if (heartPosX == 432)
-                                        {
+                                        if ((heartPosX >= 393 && heartPosX <= 413) || (heartPosX >= 451 && heartPosX <= 471)) {
+                                            std::cout << "good!" << std::endl;
+                                            print->printPNG("Good.png", 376, 169, 1);
+                                            goodImageStartTime = timeSinceStart; // 표시 시점 기록
+                                            goodImageVisible = true;
+                                        }
+                                        else if ((heartPosX > 413 && heartPosX < 432) || (heartPosX > 432 && heartPosX < 451)) {
+                                            std::cout << "great!" << std::endl;
+                                            print->printPNG("Great.png", 376, 169, 1);
+                                            greatImageStartTime = timeSinceStart; // 표시 시점 기록
+                                            greatImageVisible = true;
+                                        }
+                                        else if (heartPosX == 432) {
                                             std::cout << "perfect!" << std::endl;
                                             print->printPNG("Perfect.png", 376, 169, 1);
                                             perfectImageStartTime = timeSinceStart; // 표시 시점 기록
                                             perfectImageVisible = true;
                                         }
                                     }
+
                                     else if (heartPosX <= 393)
                                     {
                                         // 이 부분에서 하트 노드를 바로 사라지게 처리
                                         if (!heartDeduct) {
                                             deductHeart();
                                         }
+
+
                                         heartDeduct = true;
                                         heartVisible = false;
                                         print->deletePNG("heartNote.png");
@@ -462,19 +477,34 @@ bool Game::tick()
                             //std::cout << "safe!" << std::endl;
                             heartVisible = false;
                             print->deletePNG("heartNote.png");
-                            if (heartPosX == 432) {
+                            if ((heartPosX >= 393 && heartPosX <= 413) || (heartPosX >= 451 && heartPosX <= 471)) {
+                                std::cout << "good!" << std::endl;
+                                print->printPNG("Good.png", 376, 169, 1);
+                                goodImageStartTime = timeSinceStart; // 표시 시점 기록
+                                goodImageVisible = true;
+                            }
+                            else if ((heartPosX > 413 && heartPosX < 432) || (heartPosX > 432 && heartPosX < 451)) {
+                                std::cout << "great!" << std::endl;
+                                print->printPNG("Great.png", 376, 169, 1);
+                                greatImageStartTime = timeSinceStart; // 표시 시점 기록
+                                greatImageVisible = true;
+                            }
+                            else if (heartPosX == 432) {
                                 std::cout << "perfect!" << std::endl;
                                 print->printPNG("Perfect.png", 376, 169, 1);
                                 perfectImageStartTime = timeSinceStart; // 표시 시점 기록
                                 perfectImageVisible = true;
                             }
                         }
+
                         else if (heartPosX <= 393)
                         {
                             // 이 부분에서 하트 노드를 바로 사라지게 처리
                             if (!heartDeduct) {
                                 deductHeart();
                             }
+
+
                             heartDeduct = true;
                             heartVisible = false;
                             print->deletePNG("heartNote.png");

@@ -126,4 +126,5 @@ private:
     double goodImageStartTime;
     double greatImageStartTime;
     const char* selectedSong;
+    void selectRandomSong();
 };

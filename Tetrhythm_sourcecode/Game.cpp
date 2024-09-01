@@ -98,18 +98,7 @@ Game::Game(WindowManager& wm, Print* pr, SceneManager& sm)
     soundManager->loadSound("Musics/YouWin.mp3", "YouWin"); // 효과음 로드
     soundManager->loadSound("Musics/Countdown.mp3", "Countdown");
 
-    // Define a list of background songs
-    const char* backgroundSongs[5] = {
-        "Musics/CRAZY.mp3",
-        "Musics/Accendio.mp3",
-        "Musics/Crush.mp3",
-        "Musics/Diver.mp3",
-        "Musics/Shinjyo.mp3"
-    };
 
-    // Select a random song from the list
-    int randomIndex = rand() % 5;
-    selectedSong = backgroundSongs[randomIndex];
 }
 
 Game::~Game()
@@ -173,7 +162,7 @@ bool Game::tick()
 
     if (timeSinceStart >= 5.0 && !musicPlayed)
     {
-
+        selectRandomSong();
         soundManager->playMusic(selectedSong, -1);
 
         musicPlayed = true;
@@ -752,4 +741,22 @@ void Game::deductHeart()
     {
         std::cout << "No hearts left to deduct" << std::endl;
     }
+}
+
+void Game::selectRandomSong() {
+    // Define a list of background songs
+    const char* backgroundSongs[8] = {
+        "Musics/CRAZY.mp3",
+        "Musics/Accendio.mp3",
+        "Musics/Crush.mp3",
+        "Musics/Diver.mp3",
+        "Musics/Shinjyo.mp3",
+        "Musics/Departure.mp3",
+        "Musics/Megalovania 8Bit Remix Audio.mp3",
+        "Musics/Live My Life.mp3"
+    };
+
+    // Select a random song from the list
+    int randomIndex = rand() % 8;
+    selectedSong = backgroundSongs[randomIndex];
 }

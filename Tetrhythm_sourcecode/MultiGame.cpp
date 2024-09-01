@@ -886,7 +886,7 @@ void MultiGame::deductHeart_opponent()
         std::cout << "opp" << lastHeart.path.c_str();
         //애니메이션 재생
         print->deletePNG(lastHeart.path.c_str());
-        print->printAnimationPNG(heartOppAnim, lastHeart.xPosition, lastHeart.yPosition, 20+oppnentHearts.size(), 10);
+        print->printAnimationPNG(heartOppAnim, lastHeart.xPosition, lastHeart.yPosition, 50 + oppnentHearts.size(), 10);
         heartOppImageStartTime = timeSinceStart; // 표시 시점 기록
         heartOppImageVisible = true;
         oppnentHearts.pop_back();

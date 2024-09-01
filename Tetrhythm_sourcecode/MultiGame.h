@@ -132,4 +132,10 @@ private:
     bool fatalImageVisible;
     double hitImageStartTime; // hit.png 표시 시점 기록
     bool hitImageVisible;
+    double heartImageStartTime = 0.0; // heart anim표시 시점 기록
+    bool heartImageVisible = false; // heart anim 표시 여부  
+    std::vector<std::string> heartAnim = {
+       "tile000.png","tile001.png","tile002.png","tile003.png","tile004.png","tile005.png"
+    };
+
 };

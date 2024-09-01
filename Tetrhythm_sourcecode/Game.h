@@ -111,6 +111,11 @@ private:
     bool missImageVisible; // miss.png 표시 여부
     int maxCombo;
     int spacePressed = 0;  // 스페이스바가 눌린 상태를 추적하는 변수
+    const int BLOCK_SIZE = 25;
+
+    double lineImageStartTime = 0.0; // line anim표시 시점 기록
+    bool lineImageVisible = false; // line anim 표시 여부  
+    std::vector<std::string> lineAnimPath= { "B1.png","B2.png","B3.png","B4.png","B5.png","B6.png" ,"B7.png" ,"B8.png","B9.png","B10.png" };
     double heartImageStartTime=0.0; // heart anim표시 시점 기록
     bool heartImageVisible=false; // heart anim 표시 여부  
     std::vector<std::string> heartAnim = {

@@ -140,15 +140,16 @@ bool Game::tick()
     // 화면 업데이트
     SDL_SetRenderDrawColor(windowManager.getRenderer(), 0, 0, 0, 0xff);
     SDL_RenderClear(windowManager.getRenderer());
-    print->renderForTetris();
-    print->updateTextAnimation();
-    print->updateAnimations();
 
     // 그림자 위치 계산 및 그리기
     Tetromino shadow = tetromino_.calculateShadow(well_);
     well_.drawShadow(windowManager.getRenderer(), blockTextures_[tetromino_.getType()], shadow);
     well_.draw(windowManager.getRenderer(), blockTextures_, nextTetrominos_);
     tetromino_.draw(windowManager.getRenderer(), blockTextures_[tetromino_.getType()]);
+    //print렌더링
+    print->renderForTetris();
+    print->updateTextAnimation();
+    print->updateAnimations();
 
     SDL_Event e;
 
@@ -172,6 +173,12 @@ bool Game::tick()
     if (perfectImageVisible && (timeSinceStart - perfectImageStartTime) >= 0.5) {
         print->deletePNG("Perfect.png");
         perfectImageVisible = false;
+    }
+
+    //line anim이미지 삭제되게하기 
+    if (lineImageVisible && (timeSinceStart - lineImageStartTime) >= 1) {
+        print->deleteAnimation(lineAnimPath);
+        lineImageVisible = false;
     }
 
     //great이미지 삭제되게하기 
@@ -521,13 +528,21 @@ bool Game::tick()
             int currentLine = well_.getLine();
             int currentTetris = well_.getTetris();
 
-            if (currentLine > previousLine)
-            {
-                soundManager->playSound("LineClear", 0);
-                std::cout << "Line: " << currentLine << std::endl;
-                int linesCleared = currentLine - previousLine;
-                previousLine = currentLine;
-                print->setText(7, "      " + std::to_string(previousLine));
+        if (currentLine > previousLine)
+        {
+            int animX = well_.xOffset - 25;
+            double animY = well_.yOffset + well_.getClearedLineYPos() * Well::BLOCK_SIZE -12.5 ; // 깨진 라인의 y 좌표를 이용하여 애니메이션 위치 설정
+            //라인 애니메이션
+            print->printAnimationPNG(lineAnimPath, animX, animY, 15, 6); // 1초마다 애니메이션 출력
+            lineImageStartTime = timeSinceStart; // 표시 시점 기록
+            lineImageVisible = true;
+
+            soundManager->playSound("LineClear", 0);
+            std::cout << "Line: " << currentLine << std::endl;
+            int linesCleared = currentLine - previousLine;
+            previousLine = currentLine;
+            print->setText(7, "      " + std::to_string(previousLine));
+          
 
                 switch (linesCleared) { // 1, 2, 3줄에 대한 점수 계산
                 case 1:

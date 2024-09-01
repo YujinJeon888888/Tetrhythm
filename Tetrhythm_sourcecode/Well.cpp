@@ -281,6 +281,7 @@ void Well::unite(const Tetromino& t)
         }
         if (solid)
         {
+            clearedLineYPos = y;  // 깨진 라인의 y 좌표를 저장
             fullLines.push_back(y);
         }
     }
@@ -359,5 +360,9 @@ void Well::addGrayLines(int numLines, bool Gap)
             }
         }
     }
+}
+
+int Well::getClearedLineYPos() const {
+    return clearedLineYPos;
 }
 

@@ -294,7 +294,7 @@ void Characters::unlock() {
 		data[2][0] = true;
 	}
 
-	// 4. 총 50 Tetris
+	// 4. 총 25 Tetris
 	if (UserInfo::getInstance().getTetris() >= 25) {
 		data[3][0] = true;
 	}
@@ -308,7 +308,7 @@ void Characters::unlock() {
 	if (UserInfo::getInstance().getHighScore() >= 150000) {
 		data[1][1] = true;
 	}
-	//  7. 총 150 Tetris
+	//  7. 총 50 Tetris
 	if (UserInfo::getInstance().getTetris() >= 50) {
 		data[2][1] = true;
 	}

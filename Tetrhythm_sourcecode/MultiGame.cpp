@@ -67,8 +67,8 @@ MultiGame::MultiGame(WindowManager& wm, Print* pr, SceneManager& sm)
     lastFrameTime(std::chrono::steady_clock::now()),
     musicPlayed(false),
     soundManager(new SoundManager()),
-    heartSpawnInterval(60.0 / 140.0 * 4),
-    nextHeartSpawnTime(0.0),
+    //heartSpawnInterval(60.0 / 140.0 * 4),
+    nextHeartSpawnTime(5.0),
     countdown3Displayed(false),
     countdown2Displayed(false),
     countdown1Displayed(false),
@@ -137,8 +137,8 @@ MultiGame::MultiGame(WindowManager& wm, Print* pr, SceneManager& sm)
 MultiGame::~MultiGame()
 {
     soundManager->stopMusic();
-  //  delete soundManager;
-    //soundManager = nullptr;
+    //  delete soundManager;
+      //soundManager = nullptr;
 
     for (int i = 0; i < 7; ++i)
     {
@@ -173,9 +173,9 @@ bool MultiGame::tick()
 
     if (type == 2 || Multi::getInstance()->isClear) //클리어 임시 구?현
     {
-    
+
         std::cout << "type 2";
-       
+
         isClear = true;
         gameOver = true;
 
@@ -198,7 +198,7 @@ bool MultiGame::tick()
         TTF_Font* font2 = print->loadFont("DungGeunMo.ttf", 20);
         SDL_Color color = { 255, 255, 255 }; // 흰색
         // std::cout << id << cimg;
-        int spaceCount = ((12 - opponentID.size()) / 2)+1;
+        int spaceCount = ((12 - opponentID.size()) / 2) + 1;
         std::string space = "";
         for (int i = 0; i < spaceCount; i++) {
             space += " ";
@@ -208,7 +208,7 @@ bool MultiGame::tick()
 
         print->printPNG(opponentCharacter.c_str(), 329, 478, 131);     // 상대방 캐릭터 사진
     }
-   
+
 
     if (Multi::getInstance()->hasData) {
 
@@ -231,10 +231,23 @@ bool MultiGame::tick()
         print->setText(22, "        " + std::to_string(Multi::getInstance()->opponentTetris));
     }
 
+    // 시간에 따라 heartSpawnInterval을 업데이트
+    if (timeSinceStart >= 5.0 && timeSinceStart < 47.0) {
+        heartSpawnInterval = 3.5;  // 42초 동안 3.5초마다 하트 생성
+    }
+    else if (timeSinceStart >= 47.0 && timeSinceStart < 57.5) {
+        heartSpawnInterval = 2.1;  // 10.5초 동안 2.1초마다 하트 생성
+    }
+    else if (timeSinceStart >= 57.5 && timeSinceStart < 194.5) {
+        heartSpawnInterval = 3.5;  // 137초 동안 3.5초마다 하트 생성
+    }
+    else if (timeSinceStart >= 194.5) {
+        heartSpawnInterval = 2.1;  // 노래 끝날 때까지 2.1초마다 하트 생성
+    }
 
     SDL_SetRenderDrawColor(windowManager.getRenderer(), 0, 0, 0, 0xff);
     SDL_RenderClear(windowManager.getRenderer());
-    
+
 
     // 그림자 위치 계산 및 그리기
     Tetromino shadow = tetromino_.calculateShadow(well_);
@@ -251,6 +264,7 @@ bool MultiGame::tick()
     //print내용 렌더링
     print->renderForTetris();
     print->updateTextAnimation();
+    print->updateAnimations();
 
     SDL_Event e;
 
@@ -272,7 +286,16 @@ bool MultiGame::tick()
         print->deletePNG("Perfect.png");
         perfectImageVisible = false;
     }
-
+    //heart anim이미지 삭제되게하기 
+    if (heartImageVisible && (timeSinceStart - heartImageStartTime) >= 1) {
+        print->deleteAnimation(heartAnim);
+        heartImageVisible = false;
+    }
+    //heartOpp anim이미지 삭제되게하기 
+    if (heartOppImageVisible && (timeSinceStart - heartOppImageStartTime) >= 1) {
+        print->deleteAnimation(heartOppAnim);
+        heartOppImageVisible = false;
+    }
     //great이미지 삭제되게하기 
     if (greatImageVisible && (timeSinceStart - greatImageStartTime) >= 0.5) {
         print->deletePNG("Great.png");
@@ -391,14 +414,14 @@ bool MultiGame::tick()
                             if (!heartDeduct) {
                                 deductHeart();
                             }
-                            
+
                             heartDeduct = true;
                             heartVisible = false;
                             print->deletePNG("heartNote.png");
                         }
 
                         // 다음 하트 노드 생성 타이밍 설정
-                        nextHeartSpawnTime = timeSinceStart + heartSpawnInterval;
+                        nextHeartSpawnTime += heartSpawnInterval;
                     }
                 }
 
@@ -484,7 +507,7 @@ bool MultiGame::tick()
                                 }
 
                                 // 다음 하트 노드 생성 타이밍 설정
-                                nextHeartSpawnTime = timeSinceStart + heartSpawnInterval;
+                                nextHeartSpawnTime += heartSpawnInterval;
                             }
 
                         }
@@ -619,7 +642,7 @@ bool MultiGame::tick()
                     }
 
                     // 다음 하트 노드 생성 타이밍 설정
-                    nextHeartSpawnTime = timeSinceStart + heartSpawnInterval;
+                    nextHeartSpawnTime += heartSpawnInterval;
                 }
 
                 std::cout << "reach!" << std::endl;
@@ -696,10 +719,10 @@ bool MultiGame::tick()
 
 
         if (timeSinceStart >= 224.0) //클리어 임시 구?현
-        {   
+        {
             isClear = true;
             gameOver = true;
-           
+
         }
 
         if (hearts.size() == 0)
@@ -716,7 +739,7 @@ bool MultiGame::tick()
             //최대콤보반영
             comboVector.push_back(comboCount);
             std::sort(comboVector.begin(), comboVector.end(), std::greater<int>());//내림차순정렬
-           
+
             if (fullComboCount != 0)
             {
                 score += (int)(std::round((float)comboScore * ((float)comboVector[0] / (float)fullComboCount)));
@@ -724,7 +747,7 @@ bool MultiGame::tick()
             maxCombo = comboVector[0];
             //하트점수반영
             score += hearts.size() * 50000;
-           
+
             Multi::getInstance()->sendScore(score);
             int type = Multi::getInstance()->receiveMessegeData();
             int flag = 0;
@@ -764,7 +787,7 @@ bool MultiGame::tick()
                 heartVisible = false;
                 print->deletePNG("heartNote.png");
                 // 다음 하트 노드 생성 타이밍 설정
-                nextHeartSpawnTime = timeSinceStart + heartSpawnInterval;
+                nextHeartSpawnTime += heartSpawnInterval;
             }
         }
         else if (timeSinceStart >= nextHeartSpawnTime && !heartVisible)
@@ -839,7 +862,11 @@ void MultiGame::deductHeart()
     {
         Multi::getInstance()->sendHeartInfo("minus");
         MultiHeart lastHeart = hearts.back();
+        //애니메이션 재생
         print->deletePNG(lastHeart.path.c_str());
+        print->printAnimationPNG(heartAnim, lastHeart.xPosition, lastHeart.yPosition, hearts.size(), 10);
+        heartImageStartTime = timeSinceStart; // 표시 시점 기록
+        heartImageVisible = true;
         hearts.pop_back();
         //  std::cout << "Heart deducted! Remaining hearts: " << hearts.size() << std::endl;
     }
@@ -851,18 +878,20 @@ void MultiGame::deductHeart()
 
 void MultiGame::deductHeart_opponent()
 {
-
     //   std::cout << "when heartPosX : " << heartPosX << "deduct heart" << std::endl;
     if (!oppnentHearts.empty())
     {
         //  Multi::getInstance()->sendHeartInfo("minus");
         MultiHeart lastHeart = oppnentHearts.back();
         std::cout << "opp" << lastHeart.path.c_str();
+        //애니메이션 재생
         print->deletePNG(lastHeart.path.c_str());
+        print->printAnimationPNG(heartOppAnim, lastHeart.xPosition, lastHeart.yPosition, -1 * oppnentHearts.size(), 10);
+        heartOppImageStartTime = timeSinceStart; // 표시 시점 기록
+        heartOppImageVisible = true;
         oppnentHearts.pop_back();
-        std::cout << "opp Heart deducted! Remaining hearts: " << hearts.size() << std::endl;
+        std::cout << "opp Heart deducted! other's Remaining hearts: " << oppnentHearts.size() << std::endl;
     }
-
 }
 
 

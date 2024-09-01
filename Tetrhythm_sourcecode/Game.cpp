@@ -452,8 +452,7 @@ bool Game::tick()
         if (currentLine > previousLine)
         {
             int animX = well_.xOffset - 25;
-            double animY = well_.yOffset + 12.5;
-
+            double animY = well_.yOffset + well_.getClearedLineYPos() * Well::BLOCK_SIZE -12.5 ; // 깨진 라인의 y 좌표를 이용하여 애니메이션 위치 설정
             //라인 애니메이션
             print->printAnimationPNG(lineAnimPath, animX, animY, 15, 6); // 1초마다 애니메이션 출력
             lineImageStartTime = timeSinceStart; // 표시 시점 기록

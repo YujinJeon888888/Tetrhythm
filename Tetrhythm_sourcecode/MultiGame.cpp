@@ -286,6 +286,13 @@ bool MultiGame::tick()
         print->deletePNG("Perfect.png");
         perfectImageVisible = false;
     }
+    //line anim이미지 삭제되게하기 
+
+    if (lineImageVisible && (timeSinceStart - lineImageStartTime) >= 1) {
+        print->deleteAnimation(lineAnimPath);
+        lineImageVisible = false;
+    }
+
     //heart anim이미지 삭제되게하기 
     if (heartImageVisible && (timeSinceStart - heartImageStartTime) >= 1) {
         print->deleteAnimation(heartAnim);
@@ -654,6 +661,13 @@ bool MultiGame::tick()
 
         if (currentLine > previousLine)
         {
+            //라인 애니메이션
+            int animX = well_.xOffset - 25;
+            double animY = well_.yOffset + well_.getClearedLineYPos() * Well::BLOCK_SIZE - 12.5; // 깨진 라인의 y 좌표를 이용하여 애니메이션 위치 설정        
+            print->printAnimationPNG(lineAnimPath, animX, animY, 15, 6); // 1초마다 애니메이션 출력
+            lineImageStartTime = timeSinceStart; // 표시 시점 기록
+            lineImageVisible = true;
+
             soundManager->playSound("LineClear", 0);
             std::cout << "Line: " << currentLine << std::endl;
             int linesCleared = currentLine - previousLine;

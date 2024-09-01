@@ -282,10 +282,7 @@ bool Game::tick()
                                 if (!heartDeduct) {
                                     deductHeart();
                                 }
-                                std::cout << "miss" << std::endl;
-                                print->printPNG("Miss.png", 376, 169, 1);
-                                missImageStartTime = timeSinceStart; // 표시 시점 기록
-                                missImageVisible = true;
+
 
                                 heartDeduct = true;
                                 heartVisible = false;

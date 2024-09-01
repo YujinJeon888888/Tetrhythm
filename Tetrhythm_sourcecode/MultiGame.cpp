@@ -375,7 +375,7 @@ bool MultiGame::tick()
                             }
                             else if ((heartPosX > 710 && heartPosX < 729) || (heartPosX > 729 && heartPosX < 748)) {
                                 std::cout << "great!" << std::endl;
-                                print->printPNG("Great.png", 703, 156, 1);
+                                print->printPNG("Great.png", 700, 156, 1);
                                 greatImageStartTime = timeSinceStart; // 표시 시점 기록
                                 greatImageVisible = true;
                             }
@@ -461,7 +461,7 @@ bool MultiGame::tick()
                                     }
                                     else if ((heartPosX > 710 && heartPosX < 729) || (heartPosX > 729 && heartPosX < 748)) {
                                         std::cout << "great!" << std::endl;
-                                        print->printPNG("Great.png", 703, 156, 1);
+                                        print->printPNG("Great.png", 700, 156, 1);
                                         greatImageStartTime = timeSinceStart; // 표시 시점 기록
                                         greatImageVisible = true;
                                     }
@@ -596,7 +596,7 @@ bool MultiGame::tick()
                         }
                         else if ((heartPosX > 710 && heartPosX < 729) || (heartPosX > 729 && heartPosX < 748)) {
                             std::cout << "great!" << std::endl;
-                            print->printPNG("Great.png", 703, 156, 1);
+                            print->printPNG("Great.png", 700, 156, 1);
                             greatImageStartTime = timeSinceStart; // 표시 시점 기록
                             greatImageVisible = true;
                         }
@@ -731,21 +731,7 @@ bool MultiGame::tick()
             score += hearts.size() * 50000;
            
             Multi::getInstance()->sendScore(score);
-            int type = Multi::getInstance()->receiveMessegeData();
-            int flag = 0;
-
-            while (type != 6 && flag < 5) {//점수
-                type = Multi::getInstance()->receiveMessegeData();
-                Multi::getInstance()->sendScore(score);
-                flag++;
-            }
-
-            if (Multi::getInstance()->opponentScore > score)
-                isClear = false;
-
-            std::cout << " me: " << score << "opp: " << Multi::getInstance()->opponentScore;
-
-                
+          
             return false;
         }
 

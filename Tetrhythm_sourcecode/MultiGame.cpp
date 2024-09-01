@@ -392,10 +392,6 @@ bool MultiGame::tick()
                             if (!heartDeduct) {
                                 deductHeart();
                             }
-                            std::cout << "miss" << std::endl;
-                            print->printPNG("Miss.png", 662, 150, 1);
-                            missImageStartTime = timeSinceStart; // 표시 시점 기록
-                            missImageVisible = true;
                             
                             heartDeduct = true;
                             heartVisible = false;
@@ -457,8 +453,19 @@ bool MultiGame::tick()
                                     //std::cout << "safe!" << std::endl;
                                     heartVisible = false;
                                     print->deletePNG("heartNote.png");
-                                    if (heartPosX == 729)
-                                    {
+                                    if ((heartPosX >= 690 && heartPosX <= 710) || (heartPosX >= 748 && heartPosX <= 768)) {
+                                        std::cout << "good!" << std::endl;
+                                        print->printPNG("Good.png", 662, 150, 1);
+                                        goodImageStartTime = timeSinceStart; // 표시 시점 기록
+                                        goodImageVisible = true;
+                                    }
+                                    else if ((heartPosX > 710 && heartPosX < 729) || (heartPosX > 729 && heartPosX < 748)) {
+                                        std::cout << "great!" << std::endl;
+                                        print->printPNG("Great.png", 662, 150, 1);
+                                        greatImageStartTime = timeSinceStart; // 표시 시점 기록
+                                        greatImageVisible = true;
+                                    }
+                                    else if (heartPosX == 729) {
                                         std::cout << "perfect!" << std::endl;
                                         print->printPNG("Perfect.png", 662, 150, 1);
                                         perfectImageStartTime = timeSinceStart; // 표시 시점 기록
@@ -471,6 +478,7 @@ bool MultiGame::tick()
                                     if (!heartDeduct) {
                                         deductHeart();
                                     }
+
                                     heartDeduct = true;
                                     heartVisible = false;
                                     print->deletePNG("heartNote.png");
@@ -580,10 +588,21 @@ bool MultiGame::tick()
                         //std::cout << "safe!" << std::endl;
                         heartVisible = false;
                         print->deletePNG("heartNote.png");
-                        if (heartPosX == 729)
-                        {
+                        if ((heartPosX >= 690 && heartPosX <= 710) || (heartPosX >= 748 && heartPosX <= 768)) {
+                            std::cout << "good!" << std::endl;
+                            print->printPNG("Good.png", 662, 150, 1);
+                            goodImageStartTime = timeSinceStart; // 표시 시점 기록
+                            goodImageVisible = true;
+                        }
+                        else if ((heartPosX > 710 && heartPosX < 729) || (heartPosX > 729 && heartPosX < 748)) {
+                            std::cout << "great!" << std::endl;
+                            print->printPNG("Great.png", 662, 150, 1);
+                            greatImageStartTime = timeSinceStart; // 표시 시점 기록
+                            greatImageVisible = true;
+                        }
+                        else if (heartPosX == 729) {
                             std::cout << "perfect!" << std::endl;
-                            print->printPNG("Perfect.png", 662, 150, 30);
+                            print->printPNG("Perfect.png", 662, 150, 1);
                             perfectImageStartTime = timeSinceStart; // 표시 시점 기록
                             perfectImageVisible = true;
                         }
@@ -594,6 +613,7 @@ bool MultiGame::tick()
                         if (!heartDeduct) {
                             deductHeart();
                         }
+
                         heartDeduct = true;
                         heartVisible = false;
                         print->deletePNG("heartNote.png");

@@ -168,6 +168,8 @@ bool Game::tick()
     std::chrono::duration<double> deltaTime = currentFrameTime - lastFrameTime;
     lastFrameTime = currentFrameTime;
     timeSinceStart += deltaTime.count();
+    // 프레임 타이밍 관리 부분 - 여기에 추가!
+    well_.updateClearDelay(deltaTime.count());
 
     //perfect이미지 삭제되게하기 
     if (perfectImageVisible && (timeSinceStart - perfectImageStartTime) >= 0.5) {
@@ -176,7 +178,7 @@ bool Game::tick()
     }
 
     //line anim이미지 삭제되게하기 
-    if (lineImageVisible && (timeSinceStart - lineImageStartTime) >= 1) {
+    if (lineImageVisible && (timeSinceStart - lineImageStartTime) >= 0.5) {
         print->deleteAnimation(lineAnimPath);
         lineImageVisible = false;
     }
@@ -533,7 +535,7 @@ bool Game::tick()
             int animX = well_.xOffset - 25;
             double animY = well_.yOffset + well_.getClearedLineYPos() * Well::BLOCK_SIZE -12.5 ; // 깨진 라인의 y 좌표를 이용하여 애니메이션 위치 설정
             //라인 애니메이션
-            print->printAnimationPNG(lineAnimPath, animX, animY, 15, 6); // 1초마다 애니메이션 출력
+            print->printAnimationPNG(lineAnimPath, animX, animY, 15, 3); // 1초마다 애니메이션 출력
             lineImageStartTime = timeSinceStart; // 표시 시점 기록
             lineImageVisible = true;
 

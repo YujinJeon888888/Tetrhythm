@@ -189,7 +189,7 @@ bool MultiGame::tick()
     }
     else if (type == 6) {
 
-        print->setText(23, "       " + std::to_string(Multi::getInstance()->opponentScore));
+        print->setText(-8, "       " + std::to_string(Multi::getInstance()->opponentScore));
     }
     else if (type == 9) {
         std::string opponentID = Multi::getInstance()->opponentId;
@@ -227,8 +227,8 @@ bool MultiGame::tick()
         }
 
         oppPreviousLine = Multi::getInstance()->opponentLine;
-        print->setText(21, "      " + std::to_string(Multi::getInstance()->opponentLine));
-        print->setText(22, "        " + std::to_string(Multi::getInstance()->opponentTetris));
+        print->setText(-6, "      " + std::to_string(Multi::getInstance()->opponentLine));
+        print->setText(-7, "        " + std::to_string(Multi::getInstance()->opponentTetris));
     }
 
     // 시간에 따라 heartSpawnInterval을 업데이트
@@ -280,12 +280,21 @@ bool MultiGame::tick()
     std::chrono::duration<double> deltaTime = currentFrameTime - lastFrameTime;
     lastFrameTime = currentFrameTime;
     timeSinceStart += deltaTime.count();
+    // 프레임 타이밍 관리 부분 - 여기에 추가!
+    well_.updateClearDelay(deltaTime.count());
 
     //perfect이미지 삭제되게하기 
     if (perfectImageVisible && (timeSinceStart - perfectImageStartTime) >= 0.5) {
         print->deletePNG("Perfect.png");
         perfectImageVisible = false;
     }
+    //line anim이미지 삭제되게하기 
+
+    if (lineImageVisible && (timeSinceStart - lineImageStartTime) >= 0.5) {
+        print->deleteAnimation(lineAnimPath);
+        lineImageVisible = false;
+    }
+
     //heart anim이미지 삭제되게하기 
     if (heartImageVisible && (timeSinceStart - heartImageStartTime) >= 1) {
         print->deleteAnimation(heartAnim);
@@ -381,10 +390,10 @@ bool MultiGame::tick()
                             Multi::getInstance()->sendScore(score);
                             print->setText(9, "       " + std::to_string(score));
                             if (comboCount >= 30) {
-                                print->setText(500, "Combo: " + std::to_string(comboCount), comboCount);
+                                print->setText(-5, "Combo: " + std::to_string(comboCount), comboCount);
                             }
                             else {
-                                print->setText(500, "Combo: " + std::to_string(comboCount), comboCount % 7);
+                                print->setText(-5, "Combo: " + std::to_string(comboCount), comboCount % 7);
                             }
                             //std::cout << "safe!" << std::endl;
                             heartVisible = false;
@@ -467,10 +476,10 @@ bool MultiGame::tick()
                                     Multi::getInstance()->sendScore(score);
                                     print->setText(9, "       " + std::to_string(score));
                                     if (comboCount >= 30) {
-                                        print->setText(500, "Combo: " + std::to_string(comboCount), comboCount);
+                                        print->setText(-5, "Combo: " + std::to_string(comboCount), comboCount);
                                     }
                                     else {
-                                        print->setText(500, "Combo: " + std::to_string(comboCount), comboCount % 7);
+                                        print->setText(-5, "Combo: " + std::to_string(comboCount), comboCount % 7);
                                     }
                                     //std::cout << "safe!" << std::endl;
                                     heartVisible = false;
@@ -602,10 +611,10 @@ bool MultiGame::tick()
                         Multi::getInstance()->sendScore(score);
                         print->setText(9, "       " + std::to_string(score));
                         if (comboCount >= 30) {
-                            print->setText(500, "Combo: " + std::to_string(comboCount), comboCount);
+                            print->setText(-5, "Combo: " + std::to_string(comboCount), comboCount);
                         }
                         else {
-                            print->setText(500, "Combo: " + std::to_string(comboCount), comboCount % 7);
+                            print->setText(-5, "Combo: " + std::to_string(comboCount), comboCount % 7);
                         }
                         //std::cout << "safe!" << std::endl;
                         heartVisible = false;
@@ -654,6 +663,13 @@ bool MultiGame::tick()
 
         if (currentLine > previousLine)
         {
+            //라인 애니메이션
+            int animX = well_.xOffset - 25;
+            double animY = well_.yOffset + well_.getClearedLineYPos() * Well::BLOCK_SIZE - 12.5; // 깨진 라인의 y 좌표를 이용하여 애니메이션 위치 설정        
+            print->printAnimationPNG(lineAnimPath, animX, animY, 15, 3); // 1초마다 애니메이션 출력
+            lineImageStartTime = timeSinceStart; // 표시 시점 기록
+            lineImageVisible = true;
+
             soundManager->playSound("LineClear", 0);
             std::cout << "Line: " << currentLine << std::endl;
             int linesCleared = currentLine - previousLine;
@@ -860,7 +876,7 @@ void MultiGame::deductHeart()
     isPerfectClear = false;
     comboVector.push_back(comboCount);
     comboCount = 0;
-    print->setText(500, "Combo: ", comboCount % 7);
+    print->setText(-5, "Combo: ", comboCount % 7);
     //   std::cout << "when heartPosX : " << heartPosX << "deduct heart" << std::endl;
     if (!hearts.empty())
     {

@@ -116,5 +116,8 @@ private:
     std::vector<std::string> heartAnim = {
        "tile000.png","tile001.png","tile002.png","tile003.png","tile004.png","tile005.png"
     };
-
+    bool goodImageVisible = false;
+    bool greatImageVisible = false;
+    double goodImageStartTime;
+    double greatImageStartTime;
 };

@@ -56,9 +56,9 @@ Game::Game(WindowManager& wm, Print* pr, SceneManager& sm)
     startDisplayed(false),
     startDeleted(false),
     perfectImageStartTime(0.0), // 초기화
-    perfectImageVisible(false)  // 초기화
+    perfectImageVisible(false),  // 초기화
     greatImageStartTime(0.0), // 초기화
-    greatImageVisible(false)  // 초기화
+    greatImageVisible(false),  // 초기화
     goodImageStartTime(0.0), // 초기화
     goodImageVisible(false)  // 초기화
 
@@ -151,7 +151,7 @@ bool Game::tick()
     tetromino_.draw(windowManager.getRenderer(), blockTextures_[tetromino_.getType()]);
 
     SDL_Event e;
-   
+
 
     if (timeSinceStart >= 5.0 && !musicPlayed)
     {
@@ -160,14 +160,14 @@ bool Game::tick()
     }
 
     // 이벤트 처리
-   
+
 
     // 프레임 타이밍 관리
     auto currentFrameTime = std::chrono::steady_clock::now();
     std::chrono::duration<double> deltaTime = currentFrameTime - lastFrameTime;
     lastFrameTime = currentFrameTime;
     timeSinceStart += deltaTime.count();
-    
+
     //perfect이미지 삭제되게하기 
     if (perfectImageVisible && (timeSinceStart - perfectImageStartTime) >= 0.5) {
         print->deletePNG("Perfect.png");
@@ -187,7 +187,7 @@ bool Game::tick()
     }
 
     //heart anim이미지 삭제되게하기 
-    if (heartImageVisible && (timeSinceStart - heartImageStartTime) >=1) {
+    if (heartImageVisible && (timeSinceStart - heartImageStartTime) >= 1) {
         print->deleteAnimation(heartAnim);
         heartImageVisible = false;
     }
@@ -239,7 +239,7 @@ bool Game::tick()
                     lastDropTime = currentTime; // 마지막 드랍 시간 기록
                     soundManager->playSound("BlockDrop", 0);
                     // 하트 노트 위치 판정
-                    if (heartVisible)                    
+                    if (heartVisible)
                     {
                         if (393 < heartPosX && heartPosX < 471)
                         {
@@ -247,7 +247,7 @@ bool Game::tick()
                             score += (heartPosX == 432) ? 2000 : 500;
                             print->setText(9, "       " + std::to_string(score));
                             if (comboCount >= 30) {
-                                print->setText(500, "Combo: " + std::to_string(comboCount), comboCount );
+                                print->setText(500, "Combo: " + std::to_string(comboCount), comboCount);
                             }
                             else {
                                 print->setText(500, "Combo: " + std::to_string(comboCount), comboCount % 7);
@@ -260,32 +260,224 @@ bool Game::tick()
                                 std::cout << "good!" << std::endl;
                                 print->printPNG("Good.png", 376, 169, 1);
                                 goodImageStartTime = timeSinceStart; // 표시 시점 기록
-                                goodImageVisible = true
-                                    }
+                                goodImageVisible = true;
+                            }
                             else if ((heartPosX > 413 && heartPosX < 432) || (heartPosX > 432 && heartPosX < 451)) {
                                 std::cout << "great!" << std::endl;
                                 print->printPNG("Great.png", 376, 169, 1);
                                 greatImageStartTime = timeSinceStart; // 표시 시점 기록
                                 greatImageVisible = true;
+                            }
                             else if (heartPosX == 432) {
                                 std::cout << "perfect!" << std::endl;
                                 print->printPNG("Perfect.png", 376, 169, 1);
                                 perfectImageStartTime = timeSinceStart; // 표시 시점 기록
                                 perfectImageVisible = true;
                             }
+                            }
+
+                            else if (heartPosX <= 393)
+                            {
+                                // 이 부분에서 하트 노드를 바로 사라지게 처리
+                                if (!heartDeduct) {
+                                    deductHeart();
+                                }
+                                std::cout << "miss" << std::endl;
+                                print->printPNG("Miss.png", 376, 169, 1);
+                                missImageStartTime = timeSinceStart; // 표시 시점 기록
+                                missImageVisible = true;
+
+                                heartDeduct = true;
+                                heartVisible = false;
+                                print->deletePNG("heartNote.png");
+                            }
+
+                            // 다음 하트 노드 생성 타이밍 설정
+                            nextHeartSpawnTime += heartSpawnInterval;
                         }
-                                
+                    }
+
+
+                    spacePressed = 1;  // 스페이스바가 눌렸음을 기록
+                }
+            }
+            else {
+                spacePressed = 0;  // 스페이스바가 눌리지 않은 상태로 리셋
+            }
+
+            if (SDL_WaitEventTimeout(&e, 10))
+            {
+                switch (e.type)
+                {
+                case SDL_KEYDOWN:
+                    switch (e.key.keysym.sym)
+                    {
+
+                    case SDLK_ESCAPE:
+                        soundManager->stopMusic();
+                        soundManager->loadSound("Musics/Selection.mp3", "Selection"); // 효과음 로드
+                        soundManager->playSound("Selection", 0);
+                        sceneManager.changeScene(std::make_unique<MainMenu>(windowManager, sceneManager));
+                        break;
+                    case SDLK_DOWN:
+                        if (currentTime > lastMoveTime + moveDelay)
+                        {
+                            Tetromino t = tetromino_;
+                            t.move(0, 1);
+                            if (!well_.isCollision(t)) {
+                                tetromino_ = t;
+                            }
+                            else {
+                                soundManager->playSound("BlockDrop", 0);
+                                // 하트 노트 위치 판정
+                                if (heartVisible)
+                                {
+                                    if (393 < heartPosX && heartPosX < 471)
+                                    {
+                                        comboCount += 1;
+                                        score += (heartPosX == 432) ? 2000 : 500;
+                                        print->setText(9, "       " + std::to_string(score));
+                                        if (comboCount >= 30) {
+                                            print->setText(500, "Combo: " + std::to_string(comboCount), comboCount);
+                                        }
+                                        else {
+                                            print->setText(500, "Combo: " + std::to_string(comboCount), comboCount % 7);
+                                        };
+                                        //std::cout << "safe!" << std::endl;
+                                        heartVisible = false;
+                                        print->deletePNG("heartNote.png");
+                                        if (heartPosX == 432)
+                                        {
+                                            std::cout << "perfect!" << std::endl;
+                                            print->printPNG("Perfect.png", 376, 169, 1);
+                                            perfectImageStartTime = timeSinceStart; // 표시 시점 기록
+                                            perfectImageVisible = true;
+                                        }
+                                    }
+                                    else if (heartPosX <= 393)
+                                    {
+                                        // 이 부분에서 하트 노드를 바로 사라지게 처리
+                                        if (!heartDeduct) {
+                                            deductHeart();
+                                        }
+                                        heartDeduct = true;
+                                        heartVisible = false;
+                                        print->deletePNG("heartNote.png");
+                                    }
+
+                                    // 다음 하트 노드 생성 타이밍 설정
+                                    nextHeartSpawnTime += heartSpawnInterval;
+                                }
+
+                            }
+                            moveTime_ = SDL_GetTicks() + 400; // 아래로 이동 시 자동 내려오는 시간을 조정
+                            lastMoveTime = currentTime; // 마지막 이동 시간 기록
+                        }
+                        break;
+
+                    case SDLK_RIGHT:
+                    case SDLK_LEFT:
+                        if (currentTime > lastMoveTime + moveDelay)
+                        {
+                            Tetromino t = tetromino_;
+                            t.move((e.key.keysym.sym == SDLK_RIGHT) ? 1 : -1, 0);
+                            if (!well_.isCollision(t)) {
+                                tetromino_ = t;
+                            }
+
+                            lastMoveTime = currentTime; // 마지막 이동 시간 기록
+                        }
+                        break;
+
+                    case SDLK_a:
+                    case SDLK_z:
+                        if (currentTime > lastRotationTime + rotateDelay)
+                        {
+                            Tetromino t = tetromino_;
+                            t.rotateCounterClockwise();
+                            if (!well_.isCollision(t)) {
+                                tetromino_ = t;
+                            }
+
+                            lastRotationTime = currentTime; // 마지막 회전 시간 기록
+                        }
+                        break;
+
+                    case SDLK_d:
+                    case SDLK_c:
+                    case SDLK_UP:
+                        if (currentTime > lastRotationTime + rotateDelay)
+                        {
+                            Tetromino t = tetromino_;
+                            t.rotate();
+                            if (!well_.isCollision(t)) {
+                                tetromino_ = t;
+                            }
+
+                            lastRotationTime = currentTime; // 마지막 회전 시간 기록
+                        }
+                        break;
+                    }
+                    break;
+
+
+                case SDL_QUIT:
+                    exit(0);
+                    return false;
+                }
+            }
+            // 자동으로 블럭이 내려오도록 설정
+            if (SDL_GetTicks() > moveTime_)
+            {
+                Tetromino t = tetromino_;
+                Tetromino temp = tetromino_;
+                t.move(0, 1);
+                //temp는 move보다 한 칸 더 감
+                temp.move(0, 1);
+                temp.move(0, 1);
+                if (!well_.isCollision(t))
+                {
+                    tetromino_ = t;
+                    moveTime_ = SDL_GetTicks() + 1000; // 다음 내려오는 시간 설정         
+                }
+                else//충돌
+                {
+
+                    check(t);
+                }
+
+                if (well_.isCollision(temp) && !well_.isCollision(t)) {
+                    // 하트 노트 위치 판정
+                    if (heartVisible)
+                    {
+                        if (393 < heartPosX && heartPosX < 471)
+                        {
+                            comboCount += 1;
+                            score += (heartPosX == 432) ? 2000 : 500;
+                            print->setText(9, "       " + std::to_string(score));
+                            if (comboCount >= 30) {
+                                print->setText(500, "Combo: " + std::to_string(comboCount), comboCount);
+                            }
+                            else {
+                                print->setText(500, "Combo: " + std::to_string(comboCount), comboCount % 7);
+                            }
+
+                            //std::cout << "safe!" << std::endl;
+                            heartVisible = false;
+                            print->deletePNG("heartNote.png");
+                            if (heartPosX == 432) {
+                                std::cout << "perfect!" << std::endl;
+                                print->printPNG("Perfect.png", 376, 169, 1);
+                                perfectImageStartTime = timeSinceStart; // 표시 시점 기록
+                                perfectImageVisible = true;
+                            }
+                        }
                         else if (heartPosX <= 393)
                         {
                             // 이 부분에서 하트 노드를 바로 사라지게 처리
                             if (!heartDeduct) {
                                 deductHeart();
                             }
-                            std::cout << "miss" << std::endl;
-                            print->printPNG("Miss.png", 376, 169, 1);
-                            missImageStartTime = timeSinceStart; // 표시 시점 기록
-                            missImageVisible = true;
-                            
                             heartDeduct = true;
                             heartVisible = false;
                             print->deletePNG("heartNote.png");
@@ -294,328 +486,138 @@ bool Game::tick()
                         // 다음 하트 노드 생성 타이밍 설정
                         nextHeartSpawnTime += heartSpawnInterval;
                     }
+
+                    std::cout << "reach!" << std::endl;
                 }
-
-
-                spacePressed = 1;  // 스페이스바가 눌렸음을 기록
             }
-        }
-        else {
-            spacePressed = 0;  // 스페이스바가 눌리지 않은 상태로 리셋
-        }
 
-        if (SDL_WaitEventTimeout(&e, 10))
-        {
-            switch (e.type)
+            int currentLine = well_.getLine();
+            int currentTetris = well_.getTetris();
+
+            if (currentLine > previousLine)
             {
-            case SDL_KEYDOWN:
-                switch (e.key.keysym.sym)
-                {
-            
-                case SDLK_ESCAPE:
-                    soundManager->stopMusic();
-                    soundManager->loadSound("Musics/Selection.mp3", "Selection"); // 효과음 로드
-                    soundManager->playSound("Selection", 0);
-                    sceneManager.changeScene(std::make_unique<MainMenu>(windowManager, sceneManager));
+                soundManager->playSound("LineClear", 0);
+                std::cout << "Line: " << currentLine << std::endl;
+                int linesCleared = currentLine - previousLine;
+                previousLine = currentLine;
+                print->setText(7, "      " + std::to_string(previousLine));
+
+                switch (linesCleared) { // 1, 2, 3줄에 대한 점수 계산
+                case 1:
+                    score += 900;
                     break;
-                case SDLK_DOWN:
-                    if (currentTime > lastMoveTime + moveDelay)
-                    {
-                        Tetromino t = tetromino_;
-                        t.move(0, 1);
-                        if (!well_.isCollision(t)) {
-                            tetromino_ = t;
-                        }
-                        else {
-                            soundManager->playSound("BlockDrop", 0);
-                            // 하트 노트 위치 판정
-                            if (heartVisible)
-                            {
-                                if (393 < heartPosX && heartPosX < 471)
-                                {
-                                    comboCount += 1;
-                                    score += (heartPosX == 432) ? 2000 : 500;
-                                    print->setText(9, "       " + std::to_string(score));
-                                    if (comboCount >= 30) {
-                                        print->setText(500, "Combo: " + std::to_string(comboCount), comboCount);
-                                    }
-                                    else {
-                                        print->setText(500, "Combo: " + std::to_string(comboCount), comboCount % 7);
-                                    };                                    
-                                    //std::cout << "safe!" << std::endl;
-                                    heartVisible = false;
-                                    print->deletePNG("heartNote.png");
-                                    if (heartPosX == 432)
-                                    {
-                                        std::cout << "perfect!" << std::endl;
-                                        print->printPNG("Perfect.png", 376, 169, 1);
-                                        perfectImageStartTime = timeSinceStart; // 표시 시점 기록
-                                        perfectImageVisible = true;
-                                    }
-                                }
-                                else if (heartPosX <= 393)
-                                {
-                                    // 이 부분에서 하트 노드를 바로 사라지게 처리
-                                    if (!heartDeduct) {
-                                        deductHeart();
-                                    }
-                                    heartDeduct = true;
-                                    heartVisible = false;
-                                    print->deletePNG("heartNote.png");
-                                }
-
-                                // 다음 하트 노드 생성 타이밍 설정
-                                nextHeartSpawnTime += heartSpawnInterval;
-                            }
-
-                        }
-                        moveTime_ = SDL_GetTicks() + 400; // 아래로 이동 시 자동 내려오는 시간을 조정
-                        lastMoveTime = currentTime; // 마지막 이동 시간 기록
-                    }
+                case 2:
+                    score += 1700;
                     break;
-
-                case SDLK_RIGHT:
-                case SDLK_LEFT:
-                    if (currentTime > lastMoveTime + moveDelay)
-                    {
-                        Tetromino t = tetromino_;
-                        t.move((e.key.keysym.sym == SDLK_RIGHT) ? 1 : -1, 0);
-                        if (!well_.isCollision(t)) {
-                            tetromino_ = t;
-                        }
-
-                        lastMoveTime = currentTime; // 마지막 이동 시간 기록
-                    }
+                case 3:
+                    score += 2500;
                     break;
-
-                case SDLK_a:
-                case SDLK_z:
-                    if (currentTime > lastRotationTime + rotateDelay)
-                    {
-                        Tetromino t = tetromino_;
-                        t.rotateCounterClockwise();
-                        if (!well_.isCollision(t)) {
-                            tetromino_ = t;
-                        }
-
-                        lastRotationTime = currentTime; // 마지막 회전 시간 기록
-                    }
-                    break;
-
-                case SDLK_d:
-                case SDLK_c:
-                case SDLK_UP:
-                    if (currentTime > lastRotationTime + rotateDelay)
-                    {
-                        Tetromino t = tetromino_;
-                        t.rotate();
-                        if (!well_.isCollision(t)) {
-                            tetromino_ = t;
-                        }
-
-                        lastRotationTime = currentTime; // 마지막 회전 시간 기록
-                    }
+                default:
                     break;
                 }
-                break;
 
 
-            case SDL_QUIT:
-                exit(0);
+                print->setText(9, "       " + std::to_string(score));
+            }
+
+            //테트리스
+            if (currentTetris > previousTetris)
+            {
+                // 4줄 깬 경우
+                seriesTetrisCount += 1;
+                if (seriesTetrisCount % 2 == 0) {
+                    score += 10000;  // 연속 테트리스
+                }
+                else {
+                    score += 4000;  // 단일 테트리스
+                }
+                //하트 맥시멈(3)보다 작을때만, 목숨 추가.
+                if (hearts.size() < Heart::maxHeart && hearts.size() != 0) {
+                    Heart heart{ Heart::paths[hearts.size()], Heart::xPositions[hearts.size()], Heart::yPositions[hearts.size()] };
+                    hearts.push_back(heart);
+                    print->printPNG(heart.path.c_str(), heart.xPosition, heart.yPosition);
+                }
+
+                std::cout << "Tetris: " << currentTetris << std::endl;
+                previousTetris = currentTetris;
+                print->setText(8, "        " + std::to_string(previousTetris));
+
+            }
+            else {
+                seriesTetrisCount = 0;
+            }
+
+
+
+
+            if (timeSinceStart >= 224.0) //클리어 임시 구?현
+            {
+                soundManager->playSound("YouWin", 0);
+                soundManager->stopMusic(); // TetrisScene 객체가 파괴될 때 음악을 중지
+                delete soundManager;
+                isClear = true;
+                gameOver = true;
+
+            }
+
+            if (hearts.size() == 0)
+            {
+                gameOver = true;
+                std::cout << "Game Over!" << std::endl;
+            }
+
+            if (gameOver) {
+                soundManager->stopMusic(); // 다른 창으로 이동하기 전에 음악을 중지합니다.
+                //최대콤보반영
+                comboVector.push_back(comboCount);
+                std::sort(comboVector.begin(), comboVector.end(), std::greater<int>());//내림차순정렬
+                if (fullComboCount != 0)
+                    score += (int)(std::round((float)comboScore * ((float)comboVector[0] / (float)fullComboCount)));
+                maxCombo = comboVector[0];
+                //하트점수반영
+                score += hearts.size() * 50000;
                 return false;
             }
-        }
-        // 자동으로 블럭이 내려오도록 설정
-        if (SDL_GetTicks() > moveTime_)
-        {
-            Tetromino t = tetromino_;
-            Tetromino temp = tetromino_;
-            t.move(0, 1);
-            //temp는 move보다 한 칸 더 감
-            temp.move(0, 1);
-            temp.move(0, 1);
-            if (!well_.isCollision(t))
-            {
-                tetromino_ = t;
-                moveTime_ = SDL_GetTicks() + 1000; // 다음 내려오는 시간 설정         
-            }
-            else//충돌
-            {
 
-                check(t);
-            }
+            if (heartVisible)
+            {
+                SDL_Rect rect = print->getImagePosition("heartNote.png");
+                SDL_Point currentPosition = { rect.x, rect.y };
+                double totalDuration = 4 * beatInterval;
+                double moveDistance = (471 - 60) * (deltaTime.count() / totalDuration);
+                int newPosX = currentPosition.x + moveDistance;
 
-            if (well_.isCollision(temp) && !well_.isCollision(t)) {
-                // 하트 노트 위치 판정
-                if (heartVisible)
+                heartPosX = newPosX;
+                print->moveImage("heartNote.png", heartPosX, currentPosition.y);
+
+                if (heartPosX > 471)
                 {
-                    if (393 < heartPosX && heartPosX < 471)
-                    {
-                        comboCount += 1;
-                        score += (heartPosX == 432) ? 2000 : 500;
-                        print->setText(9, "       " + std::to_string(score));
-                        if (comboCount >= 30) {
-                            print->setText(500, "Combo: " + std::to_string(comboCount), comboCount);
-                        }
-                        else {
-                            print->setText(500, "Combo: " + std::to_string(comboCount), comboCount % 7);
-                        }
-
-                        //std::cout << "safe!" << std::endl;
-                        heartVisible = false;
-                        print->deletePNG("heartNote.png");
-                        if (heartPosX == 432) {
-                            std::cout << "perfect!" << std::endl;
-                            print->printPNG("Perfect.png", 376, 169, 1);
-                            perfectImageStartTime = timeSinceStart; // 표시 시점 기록
-                            perfectImageVisible = true;
-                        }
+                    if (!heartDeduct) {
+                        deductHeart();
                     }
-                    else if (heartPosX <= 393)
-                    {
-                        // 이 부분에서 하트 노드를 바로 사라지게 처리
-                        if (!heartDeduct) {
-                            deductHeart();
-                        }
-                        heartDeduct = true;
-                        heartVisible = false;
-                        print->deletePNG("heartNote.png");
-                    }
-
+                    heartDeduct = true;
+                    heartVisible = false;
+                    print->deletePNG("heartNote.png");
                     // 다음 하트 노드 생성 타이밍 설정
                     nextHeartSpawnTime += heartSpawnInterval;
                 }
-
-                std::cout << "reach!" << std::endl;
             }
-        }
-
-        int currentLine = well_.getLine();
-        int currentTetris = well_.getTetris();
-
-        if (currentLine > previousLine)
-        {
-            soundManager->playSound("LineClear", 0);
-            std::cout << "Line: " << currentLine << std::endl;
-            int linesCleared = currentLine - previousLine;
-            previousLine = currentLine;
-            print->setText(7, "      " + std::to_string(previousLine));
-
-            switch (linesCleared) { // 1, 2, 3줄에 대한 점수 계산
-            case 1:
-                score += 900;
-                break;
-            case 2:
-                score += 1700;
-                break;
-            case 3:
-                score += 2500;
-                break;
-            default:
-                break;
-            }
-
-
-            print->setText(9, "       " + std::to_string(score));
-        }
-
-        //테트리스
-        if (currentTetris > previousTetris)
-        {
-            // 4줄 깬 경우
-            seriesTetrisCount += 1;
-            if (seriesTetrisCount % 2 == 0) {
-                score += 10000;  // 연속 테트리스
-            }
-            else {
-                score += 4000;  // 단일 테트리스
-            }
-            //하트 맥시멈(3)보다 작을때만, 목숨 추가.
-            if (hearts.size() < Heart::maxHeart && hearts.size() != 0) {
-                Heart heart{ Heart::paths[hearts.size()], Heart::xPositions[hearts.size()], Heart::yPositions[hearts.size()] };
-                hearts.push_back(heart);
-                print->printPNG(heart.path.c_str(), heart.xPosition, heart.yPosition);
-            }
-
-            std::cout << "Tetris: " << currentTetris << std::endl;
-            previousTetris = currentTetris;
-            print->setText(8, "        " + std::to_string(previousTetris));
-
-        }
-        else {
-            seriesTetrisCount = 0;
-        }
-
-      
-
-
-        if (timeSinceStart >= 224.0) //클리어 임시 구?현
-        {
-            soundManager->playSound("YouWin", 0);
-            soundManager->stopMusic(); // TetrisScene 객체가 파괴될 때 음악을 중지
-            delete soundManager;
-            isClear = true;
-            gameOver = true;
-
-        }
-
-        if (hearts.size() == 0)
-        {
-            gameOver = true;
-            std::cout << "Game Over!" << std::endl;
-        }
-
-        if (gameOver) {
-            soundManager->stopMusic(); // 다른 창으로 이동하기 전에 음악을 중지합니다.
-            //최대콤보반영
-            comboVector.push_back(comboCount);
-            std::sort(comboVector.begin(), comboVector.end(), std::greater<int>());//내림차순정렬
-            if (fullComboCount != 0)
-            score += (int)(std::round((float)comboScore * ((float)comboVector[0] / (float)fullComboCount)));
-            maxCombo = comboVector[0];
-            //하트점수반영
-            score += hearts.size() * 50000;
-            return false;
-        }
-
-        if (heartVisible)
-        {
-            SDL_Rect rect = print->getImagePosition("heartNote.png");
-            SDL_Point currentPosition = { rect.x, rect.y };
-            double totalDuration = 4 * beatInterval;
-            double moveDistance = (471 - 60) * (deltaTime.count() / totalDuration);
-            int newPosX = currentPosition.x + moveDistance;
-
-            heartPosX = newPosX;
-            print->moveImage("heartNote.png", heartPosX, currentPosition.y);
-
-            if (heartPosX > 471)
+            else if (timeSinceStart >= nextHeartSpawnTime && !heartVisible)
             {
-                if (!heartDeduct) {
-                    deductHeart();
-                }
-                heartDeduct = true;
-                heartVisible = false;
-                print->deletePNG("heartNote.png");
-                // 다음 하트 노드 생성 타이밍 설정
-                nextHeartSpawnTime += heartSpawnInterval;
+                // 다음 하트 노드를 생성할 시간에 도달했을 때만 생성
+                heartVisible = true;
+                heartPosX = 60;
+                print->printPNG("heartNote.png", heartPosX, 280, 11);
             }
-        }
-        else if (timeSinceStart >= nextHeartSpawnTime && !heartVisible)
-        {
-            // 다음 하트 노드를 생성할 시간에 도달했을 때만 생성
-            heartVisible = true;
-            heartPosX = 60;
-            print->printPNG("heartNote.png", heartPosX, 280, 11);
-        }
 
-       
+
+        }
+        SDL_RenderPresent(windowManager.getRenderer());
+
+        heartDeduct = false;
+        return true;
     }
-    SDL_RenderPresent(windowManager.getRenderer());
 
-    heartDeduct = false;
-    return true;
-}
 
 void Game::check(const Tetromino& t)
 {

@@ -132,4 +132,8 @@ private:
     bool fatalImageVisible;
     double hitImageStartTime; // hit.png 표시 시점 기록
     bool hitImageVisible;
+    bool goodImageVisible = false;
+    bool greatImageVisible = false;
+    double goodImageStartTime;
+    double greatImageStartTime;
 };

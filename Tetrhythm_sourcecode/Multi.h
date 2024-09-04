@@ -89,6 +89,7 @@ public:
     ~Multi();
     bool isClear = false;
     bool isReady = false;
+    bool isWaiting = false;
     bool hasCode = false;
     bool hasData = false;
     bool hasTetromino = false;

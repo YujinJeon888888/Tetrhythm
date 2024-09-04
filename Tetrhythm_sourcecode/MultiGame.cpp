@@ -80,6 +80,11 @@ MultiGame::MultiGame(WindowManager& wm, Print* pr, SceneManager& sm)
     oppPreviousLine(0),
     oppPreviousTetris(0)
 {
+    std::string id = UserInfo::getInstance().getUserID();
+    std::string char_img = UserInfo::getInstance().getUserCharacter();
+    Multi::getInstance()->sendID(id, char_img);
+    Multi::getInstance()->sendTetromino(tetromino_);
+    Multi::getInstance()->sendNextTetrominos(opponentNextTetrominos_);
 
     opponentWell_.isOpponent = true;
     const char* textureFiles[7] = {
@@ -126,11 +131,7 @@ MultiGame::MultiGame(WindowManager& wm, Print* pr, SceneManager& sm)
         throw std::runtime_error("Failed to create texture: " + std::string(SDL_GetError()));
     }
 
-    std::string id = UserInfo::getInstance().getUserID();
-    std::string char_img = UserInfo::getInstance().getUserCharacter();
-    Multi::getInstance()->sendID(id, char_img);
-    Multi::getInstance()->sendTetromino(tetromino_);
-    Multi::getInstance()->sendNextTetrominos(opponentNextTetrominos_);
+   
 }
 
 
@@ -192,6 +193,8 @@ bool MultiGame::tick()
         print->setText(-8, "       " + std::to_string(Multi::getInstance()->opponentScore));
     }
     else if (type == 9) {
+
+        isGetId = true;
         std::string opponentID = Multi::getInstance()->opponentId;
         std::string opponentCharacter = Multi::getInstance()->opponentCharacter;
 
@@ -204,11 +207,14 @@ bool MultiGame::tick()
             space += " ";
         }
         print->printText(space + opponentID.c_str(), 327, 610, 32, font2, color); // 상대방 ID 출력
-
-
         print->printPNG(opponentCharacter.c_str(), 329, 478, 131);     // 상대방 캐릭터 사진
     }
 
+    if (!isGetId) {
+        std::string id = UserInfo::getInstance().getUserID();
+        std::string char_img = UserInfo::getInstance().getUserCharacter();
+        Multi::getInstance()->sendID(id, char_img);
+    }
 
     if (Multi::getInstance()->hasData) {
 

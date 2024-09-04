@@ -37,10 +37,12 @@ void MutiMenuScene::handleArrowKey(SDL_Keycode key) {
             Multi::getInstance()->roomCode = 0;
             deleteCode();
             isCodeScene = false;
+            Multi::getInstance()->isWaiting = false;
         }
         else {
             soundManager->loadSound("Musics/Selection.mp3", "Selection"); // 효과음 로드
             soundManager->playSound("Selection", 0);
+            Multi::getInstance()->isWaiting = false;
             sceneManager.goBack();
         }
         break;

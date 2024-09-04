@@ -607,20 +607,30 @@ int Multi::joinRoom(std::string password) {
 void Multi::connetOpponent() {
 
     char buffer[1024];
-    int len = recv(clientSocket, buffer, 1024, 0);
+    isWaiting = true;
+    while (true && isWaiting) {
+        int len = recv(clientSocket, buffer, 1024, 0);
 
+        if (len > 0) {
 
-    if (len > 0) {
+            if (memcmp(buffer, "ready", strlen("ready")) == 0) {
+                std::cout << "The game is ready\n";
+                //한번 더 체크 해야함.
+                isReady = true;
+                isWaiting = false;
+                break;
 
-        if (memcmp(buffer, "ready", strlen("ready")) == 0) {
-            std::cout << "The game is ready\n";
-            //한번 더 체크 해야함.
-            isReady = true;
+            }
+            else if (memcmp(buffer, "ready?", strlen("ready?")) == 0) {
+                std::cout << "Send ready to server\n";
+                
+                send(clientSocket, "ready", strlen("ready"), 0);
 
-        }
-        else {
-            std::cout << buffer << std::endl;
-            return ;
+            }
+            else {
+                std::cout << "oppnent still waiting : " << buffer << "\n" << std::endl;
+
+            }
         }
     }
 
@@ -669,7 +679,7 @@ void Multi::sendMessages() {
 void Multi::closeConnection() {
     shutdown(clientSocket, SD_BOTH);  // 전송 종료
     closesocket(clientSocket);
-    WSACleanup();
+  //  WSACleanup();
   
 }
 
@@ -677,5 +687,5 @@ Multi::~Multi() {
 
     std::cout << "exit";
     send(clientSocket, "exit", strlen("exit"), 0);
-   // closeConnection();
+    closeConnection();
 }

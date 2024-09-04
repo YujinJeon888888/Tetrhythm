@@ -118,6 +118,7 @@ private:
     bool countdown1Displayed = false;
     bool startDisplayed = false;
     bool startDeleted = false;
+    bool isGetId = false;
     double perfectImageStartTime; // Perfect.png 표시 시점 기록
     bool perfectImageVisible;
     double missImageStartTime; // miss.png 표시 시점 기록

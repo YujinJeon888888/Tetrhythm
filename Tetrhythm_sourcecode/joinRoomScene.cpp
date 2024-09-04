@@ -59,6 +59,7 @@ void joinRoomScene::handleArrowKey(SDL_Keycode key) {
     switch (key) {
 
     case SDLK_ESCAPE:
+        Multi::getInstance()->isWaiting = false;
         Multi::getInstance()->closeConnection();
         sceneManager.goBack();
     case SDLK_SPACE:

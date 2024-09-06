@@ -12,12 +12,12 @@ void LoginScene::drawInit()
     //객체 연결
     Print* pt = print;
     //프린트 세팅
-    print->printPNG("BackGround.png", 0, 0, 0);
-    print->printPNG("IDInputBox.png", 375, 337.5, 1);
-    print->printPNG("InputID.png", 271.5, 155.25, 2);
-    print->printPNG("ToCompleteSpace.png", 908.25, 582, 3);
+    print->printPNG("Resources/BackGround.png", 0, 0, 0);
+    print->printPNG("Resources/IDInputBox.png", 375, 337.5, 1);
+    print->printPNG("Resources/InputID.png", 271.5, 155.25, 2);
+    print->printPNG("Resources/ToCompleteSpace.png", 908.25, 582, 3);
     //input text 세팅
-    TTF_Font* font = print->loadFont("DungGeunMo.ttf", 30);
+    TTF_Font* font = print->loadFont("Resources/DungGeunMo.ttf", 30);
     SDL_Color color = { 255, 255, 255 }; // 흰색
     print->InputText(390, 360, 4, font, color);
     SDL_StartTextInput();
@@ -36,14 +36,14 @@ void LoginScene::handleEvents()
 void LoginScene::handleClosePopup(SDL_Keycode key) {
 
     //글자 수 초과 팝업창 닫기
-    if (key == SDLK_ESCAPE && print->getLayeredTextures().back().path == "IDInputExepStmtWords.png") {
-        print->deletePNG("IDInputExepStmtBox.png");
-        print->deletePNG("IDInputExepStmtWords.png");
+    if (key == SDLK_ESCAPE && print->getLayeredTextures().back().path == "Resources/IDInputExepStmtWords.png") {
+        print->deletePNG("Resources/IDInputExepStmtBox.png");
+        print->deletePNG("Resources/IDInputExepStmtWords.png");
     }
     //특수문자 경고 팝업창 닫기
-    if (key == SDLK_ESCAPE && print->getLayeredTextures().back().path == "IDInputExepStmSpecWord.png") {
-        print->deletePNG("IDInputExepStmtBox.png");
-        print->deletePNG("IDInputExepStmSpecWord.png");
+    if (key == SDLK_ESCAPE && print->getLayeredTextures().back().path == "Resources/IDInputExepStmSpecWord.png") {
+        print->deletePNG("Resources/IDInputExepStmtBox.png");
+        print->deletePNG("Resources/IDInputExepStmSpecWord.png");
     }
 
 }
@@ -55,19 +55,19 @@ void LoginScene::whenSpace()
     if (mysql.containsInvalidCharacters(str) && str.size() > 12) {
 
         //12자 초과 && 특수문자 입력시 
-        print->printPNG("IDInputExepStmtBox.png", 308, 185, print->getLayeredTextures().back().layer + 1);
-        print->printPNG("IDInputExepStmtWords.png", 332, 258, print->getLayeredTextures().back().layer + 1);
+        print->printPNG("Resources/IDInputExepStmtBox.png", 308, 185, print->getLayeredTextures().back().layer + 1);
+        print->printPNG("Resources/IDInputExepStmtWords.png", 332, 258, print->getLayeredTextures().back().layer + 1);
     }
     else {
         if (mysql.containsInvalidCharacters(str)) {
             //특수문자 포함 시                        
-            print->printPNG("IDInputExepStmtBox.png", 308, 185, print->getLayeredTextures().back().layer + 1);
-            print->printPNG("IDInputExepStmSpecWord.png", 366, 256, print->getLayeredTextures().back().layer + 1);
+            print->printPNG("Resources/IDInputExepStmtBox.png", 308, 185, print->getLayeredTextures().back().layer + 1);
+            print->printPNG("Resources/IDInputExepStmSpecWord.png", 366, 256, print->getLayeredTextures().back().layer + 1);
         }
         if (str.size() > 12) {
             //12자 초과 시 
-            print->printPNG("IDInputExepStmtBox.png", 308, 185, print->getLayeredTextures().back().layer + 1);
-            print->printPNG("IDInputExepStmtWords.png", 332, 258, print->getLayeredTextures().back().layer + 1);
+            print->printPNG("Resources/IDInputExepStmtBox.png", 308, 185, print->getLayeredTextures().back().layer + 1);
+            print->printPNG("Resources/IDInputExepStmtWords.png", 332, 258, print->getLayeredTextures().back().layer + 1);
         }
 
     }

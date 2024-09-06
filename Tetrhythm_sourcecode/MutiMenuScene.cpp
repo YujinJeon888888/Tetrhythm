@@ -155,25 +155,25 @@ void MutiMenuScene::drawSelection() {
         break;
     }
     // Delete and print the PNG at the calculated position
-    pt->deletePNG("Selection2.png");
-    pt->printPNG("Selection2.png", posX, posY, 3);
+    pt->deletePNG("Resources/Selection2.png");
+    pt->printPNG("Resources/Selection2.png", posX, posY, 3);
 }
 
 void MutiMenuScene::drawInit() {
     Print* pt = print;
-    pt->printPNG("BackGround.png", 0, 0, 0);
-    pt->printPNG("Group 105.png", 92, 92, 1);
-    pt->printPNG("Group 106.png", 742, 92, 1);
-    pt->printPNG("Line 22.png", 600, 0, 3);
-    pt->printPNG("image 38.png", 819, 381, 2);
-    pt->printPNG("image 39.png", 217, 381, 2);
-    pt->printPNG("image 40.png", 789, 459, 2);
-    pt->printPNG("image 16.png", 967, 587, 2);
+    pt->printPNG("Resources/BackGround.png", 0, 0, 0);
+    pt->printPNG("Resources/Group 105.png", 92, 92, 1);
+    pt->printPNG("Resources/Group 106.png", 742, 92, 1);
+    pt->printPNG("Resources/Line 22.png", 600, 0, 3);
+    pt->printPNG("Resources/image 38.png", 819, 381, 2);
+    pt->printPNG("Resources/image 39.png", 217, 381, 2);
+    pt->printPNG("Resources/image 40.png", 789, 459, 2);
+    pt->printPNG("Resources/image 16.png", 967, 587, 2);
 
     // 초기 선택 상태 설정
     int posX = 170;
     int posY = 388;
-    pt->printPNG("Selection2.png", posX, posY, 3);
+    pt->printPNG("Resources/Selection2.png", posX, posY, 3);
 
 }
 
@@ -181,8 +181,8 @@ void MutiMenuScene::drawInit() {
 
 void MutiMenuScene::drawLoading() {
  
-    print->printPNG("BackGround.png", 0, 0, 10);
-    std::vector<std::string> animPaths1 = {"Loading1.png","Loading2.png","Loading3.png"};
+    print->printPNG("Resources/BackGround.png", 0, 0, 10);
+    std::vector<std::string> animPaths1 = {"Resources/Loading1.png","Resources/Loading2.png","Resources/Loading3.png"};
    
    // 현재 인덱스의 이미지를 출력
     print->printAnimationPNG(animPaths1, 917, 572, 11,60);
@@ -198,8 +198,8 @@ void MutiMenuScene::deleteLoading() {
 
 void MutiMenuScene::drawCode() {
 
-    print->printPNG("BackGround.png", 0, 0, 10);
-    TTF_Font* font = print->loadFont("DungGeunMo.ttf", 60);
+    print->printPNG("Resources/BackGround.png", 0, 0, 10);
+    TTF_Font* font = print->loadFont("Resources/DungGeunMo.ttf", 60);
     SDL_Color color = { 255, 255, 255 }; // 흰색
     print->printText("Code: "+std::to_string(Multi::getInstance()->roomCode), 420, 307, 11, font, color);
 }

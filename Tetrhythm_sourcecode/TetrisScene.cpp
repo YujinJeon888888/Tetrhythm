@@ -16,11 +16,11 @@ TetrisScene::~TetrisScene() {
 void TetrisScene::drawInit()
 {
     // 기존 UI 및 배경 이미지 설정
-    print->printPNG("heart1.png", 570, 43, 1);
-    print->printPNG("heart2.png", 623, 43, 2);
-    print->printPNG("heart3.png", 676, 43, 3);
+    print->printPNG("Resources/heart1.png", 570, 43, 1);
+    print->printPNG("Resources/heart2.png", 623, 43, 2);
+    print->printPNG("Resources/heart3.png", 676, 43, 3);
 
-    TTF_Font* font = print->loadFont("DungGeunMo.ttf", 25);
+    TTF_Font* font = print->loadFont("Resources/DungGeunMo.ttf", 25);
     SDL_Color color = { 255, 255, 255 }; // 흰색
     print->printText("Line: ", 777, 526, 4, font, color);
     print->printText("Tetris: ", 777, 556, 5, font, color);
@@ -36,11 +36,11 @@ void TetrisScene::drawInit()
     }
     print->printText(space+UserInfo::getInstance().getUserID(), 317, 570, 10, font, color);
 
-    TTF_Font* fontCombo = print->loadFont("DungGeunMo.ttf", 75,true);
+    TTF_Font* fontCombo = print->loadFont("Resources/DungGeunMo.ttf", 75,true);
 
     print->printText("Combo: ", 80, 90, 500, fontCombo, color);
 
-    print->printPNG("RhythmUIBackground.png", 70, 241, 10); // 리듬게임 UI 배경
+    print->printPNG("Resources/RhythmUIBackground.png", 70, 241, 10); // 리듬게임 UI 배경
 }
 
 void TetrisScene::handleEvents()

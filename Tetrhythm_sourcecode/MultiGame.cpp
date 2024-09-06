@@ -15,16 +15,16 @@
 
 
 const std::string MultiHeart::paths[3] = {
-    "heart1.png",
-    "heart2.png",
-    "heart3.png"
+    "Resources/heart1.png",
+    "Resources/heart2.png",
+    "Resources/heart3.png"
 };
 
 
 const std::string MultiHeart::paths_opponent[3] = {
-    "heart1o.png",
-    "heart2o.png",
-    "heart3o.png"
+    "Resources/heart1o.png",
+    "Resources/heart2o.png",
+    "Resources/heart3o.png"
 };
 
 const int MultiHeart::xPositions[3] = {
@@ -88,13 +88,13 @@ MultiGame::MultiGame(WindowManager& wm, Print* pr, SceneManager& sm)
 
     opponentWell_.isOpponent = true;
     const char* textureFiles[7] = {
-        "Skyblue_I.png",
-        "Blue_J.png",
-        "Orange_L.png",
-        "Yellow_O.png",
-        "Red_S.png",
-        "Purple_T.png",
-        "Green_Z.png"
+        "Resources/Skyblue_I.png",
+        "Resources/Blue_J.png",
+        "Resources/Orange_L.png",
+        "Resources/Yellow_O.png",
+        "Resources/Red_S.png",
+        "Resources/Purple_T.png",
+        "Resources/Green_Z.png"
     };
 
 
@@ -119,7 +119,7 @@ MultiGame::MultiGame(WindowManager& wm, Print* pr, SceneManager& sm)
         }
     }
 
-    SDL_Surface* surface = IMG_Load("Grayblock.png");
+    SDL_Surface* surface = IMG_Load("Resources/Grayblock.png");
     if (!surface)
     {
         throw std::runtime_error("Failed to load image: " + std::string(IMG_GetError()));
@@ -198,7 +198,7 @@ bool MultiGame::tick()
         std::string opponentID = Multi::getInstance()->opponentId;
         std::string opponentCharacter = Multi::getInstance()->opponentCharacter;
 
-        TTF_Font* font2 = print->loadFont("DungGeunMo.ttf", 20);
+        TTF_Font* font2 = print->loadFont("Resources/DungGeunMo.ttf", 20);
         SDL_Color color = { 255, 255, 255 }; // 흰색
         // std::cout << id << cimg;
         int spaceCount = ((12 - opponentID.size()) / 2) + 1;
@@ -291,7 +291,7 @@ bool MultiGame::tick()
 
     //perfect이미지 삭제되게하기 
     if (perfectImageVisible && (timeSinceStart - perfectImageStartTime) >= 0.5) {
-        print->deletePNG("Perfect.png");
+        print->deletePNG("Resources/Perfect.png");
         perfectImageVisible = false;
     }
     //line anim이미지 삭제되게하기 
@@ -313,61 +313,61 @@ bool MultiGame::tick()
     }
     //great이미지 삭제되게하기 
     if (greatImageVisible && (timeSinceStart - greatImageStartTime) >= 0.5) {
-        print->deletePNG("Great.png");
+        print->deletePNG("Resources/Great.png");
         greatImageVisible = false;
     }
 
     //good이미지 삭제되게하기 
     if (goodImageVisible && (timeSinceStart - goodImageStartTime) >= 0.5) {
-        print->deletePNG("Good.png");
+        print->deletePNG("Resources/Good.png");
         goodImageVisible = false;
     }
 
     //miss이미지 삭제되게하기 
     if (missImageVisible && (timeSinceStart - missImageStartTime) >= 0.5) {
-        print->deletePNG("miss.png");
+        print->deletePNG("Resources/miss.png");
         missImageVisible = false;
     }
 
     //hit이미지 삭제되게하기 
     if (hitImageVisible && (timeSinceStart - hitImageStartTime) >= 1) {
-        print->deletePNG("HIT.png");
+        print->deletePNG("Resources/HIT.png");
         hitImageVisible = false;
     }
     //fatal이미지 삭제되게하기 
     if (fatalImageVisible && (timeSinceStart - fatalImageStartTime) >= 1) {
-        print->deletePNG("FATAL.png");
+        print->deletePNG("Resources/FATAL.png");
         fatalImageVisible = false;
     }
     //critical이미지 삭제되게하기 
     if (criticalImageVisible && (timeSinceStart - criticalImageStartTime) >= 1) {
-        print->deletePNG("CRITICAL.png");
+        print->deletePNG("Resources/CRITICAL.png");
         criticalImageVisible = false;
     }
 
     //// 카운트다운 이미지 출력 및 삭제
     if (timeSinceStart >= 0.0 && timeSinceStart < 1.0 && !countdown3Displayed) {
         soundManager->playMusic("Musics/Countdown.mp3", 1); // 배경음악 재생
-        print->printPNG("Countdown3.png", 604, 271, 10);
+        print->printPNG("Resources/Countdown3.png", 604, 271, 10);
         countdown3Displayed = true;
     }
     if (timeSinceStart >= 1.0 && timeSinceStart < 2.0 && !countdown2Displayed) {
-        print->deletePNG("Countdown3.png");
-        print->printPNG("Countdown2.png", 611, 274, 11);
+        print->deletePNG("Resources/Countdown3.png");
+        print->printPNG("Resources/Countdown2.png", 611, 274, 11);
         countdown2Displayed = true;
     }
     if (timeSinceStart >= 2.0 && timeSinceStart < 3.0 && !countdown1Displayed) {
-        print->deletePNG("Countdown2.png");
-        print->printPNG("Countdown1.png", 605, 274, 12);
+        print->deletePNG("Resources/Countdown2.png");
+        print->printPNG("Resources/Countdown1.png", 605, 274, 12);
         countdown1Displayed = true;
     }
     if (timeSinceStart >= 3.0 && timeSinceStart < 4.0 && !startDisplayed) {
-        print->deletePNG("Countdown1.png");
-        print->printPNG("Start.png", 522, 274, 13);
+        print->deletePNG("Resources/Countdown1.png");
+        print->printPNG("Resources/Start.png", 522, 274, 13);
         startDisplayed = true;
     }
     if (timeSinceStart >= 4.0 && !startDeleted) {
-        print->deletePNG("Start.png");
+        print->deletePNG("Resources/Start.png");
         startDeleted = true; // 삭제되었음을 표시
     }
 
@@ -403,22 +403,22 @@ bool MultiGame::tick()
                             }
                             //std::cout << "safe!" << std::endl;
                             heartVisible = false;
-                            print->deletePNG("heartNote.png");
+                            print->deletePNG("Resources/heartNote.png");
                             if ((heartPosX >= 690 && heartPosX <= 710) || (heartPosX >= 748 && heartPosX <= 768)) {
                                 std::cout << "good!" << std::endl;
-                                print->printPNG("Good.png", 710, 156, 1);
+                                print->printPNG("Resources/Good.png", 710, 156, 1);
                                 goodImageStartTime = timeSinceStart; // 표시 시점 기록
                                 goodImageVisible = true;
                             }
                             else if ((heartPosX > 710 && heartPosX < 729) || (heartPosX > 729 && heartPosX < 748)) {
                                 std::cout << "great!" << std::endl;
-                                print->printPNG("Great.png", 700, 156, 1);
+                                print->printPNG("Resources/Great.png", 700, 156, 1);
                                 greatImageStartTime = timeSinceStart; // 표시 시점 기록
                                 greatImageVisible = true;
                             }
                             else if (heartPosX == 729) {
                                 std::cout << "perfect!" << std::endl;
-                                print->printPNG("Perfect.png", 662, 150, 1);
+                                print->printPNG("Resources/Perfect.png", 662, 150, 1);
                                 perfectImageStartTime = timeSinceStart; // 표시 시점 기록
                                 perfectImageVisible = true;
                             }
@@ -432,7 +432,7 @@ bool MultiGame::tick()
 
                             heartDeduct = true;
                             heartVisible = false;
-                            print->deletePNG("heartNote.png");
+                            print->deletePNG("Resources/heartNote.png");
                         }
 
                         // 다음 하트 노드 생성 타이밍 설정
@@ -489,22 +489,22 @@ bool MultiGame::tick()
                                     }
                                     //std::cout << "safe!" << std::endl;
                                     heartVisible = false;
-                                    print->deletePNG("heartNote.png");
+                                    print->deletePNG("Resources/heartNote.png");
                                     if ((heartPosX >= 690 && heartPosX <= 710) || (heartPosX >= 748 && heartPosX <= 768)) {
                                         std::cout << "good!" << std::endl;
-                                        print->printPNG("Good.png", 710, 156, 1);
+                                        print->printPNG("Resources/Good.png", 710, 156, 1);
                                         goodImageStartTime = timeSinceStart; // 표시 시점 기록
                                         goodImageVisible = true;
                                     }
                                     else if ((heartPosX > 710 && heartPosX < 729) || (heartPosX > 729 && heartPosX < 748)) {
                                         std::cout << "great!" << std::endl;
-                                        print->printPNG("Great.png", 700, 156, 1);
+                                        print->printPNG("Resources/Great.png", 700, 156, 1);
                                         greatImageStartTime = timeSinceStart; // 표시 시점 기록
                                         greatImageVisible = true;
                                     }
                                     else if (heartPosX == 729) {
                                         std::cout << "perfect!" << std::endl;
-                                        print->printPNG("Perfect.png", 662, 150, 1);
+                                        print->printPNG("Resources/Perfect.png", 662, 150, 1);
                                         perfectImageStartTime = timeSinceStart; // 표시 시점 기록
                                         perfectImageVisible = true;
                                     }
@@ -518,7 +518,7 @@ bool MultiGame::tick()
 
                                     heartDeduct = true;
                                     heartVisible = false;
-                                    print->deletePNG("heartNote.png");
+                                    print->deletePNG("Resources/heartNote.png");
                                 }
 
                                 // 다음 하트 노드 생성 타이밍 설정
@@ -624,22 +624,22 @@ bool MultiGame::tick()
                         }
                         //std::cout << "safe!" << std::endl;
                         heartVisible = false;
-                        print->deletePNG("heartNote.png");
+                        print->deletePNG("Resources/heartNote.png");
                         if ((heartPosX >= 690 && heartPosX <= 710) || (heartPosX >= 748 && heartPosX <= 768)) {
                             std::cout << "good!" << std::endl;
-                            print->printPNG("Good.png", 710, 156, 1);
+                            print->printPNG("Resources/Good.png", 710, 156, 1);
                             goodImageStartTime = timeSinceStart; // 표시 시점 기록
                             goodImageVisible = true;
                         }
                         else if ((heartPosX > 710 && heartPosX < 729) || (heartPosX > 729 && heartPosX < 748)) {
                             std::cout << "great!" << std::endl;
-                            print->printPNG("Great.png", 700, 156, 1);
+                            print->printPNG("Resources/Great.png", 700, 156, 1);
                             greatImageStartTime = timeSinceStart; // 표시 시점 기록
                             greatImageVisible = true;
                         }
                         else if (heartPosX == 729) {
                             std::cout << "perfect!" << std::endl;
-                            print->printPNG("Perfect.png", 662, 150, 1);
+                            print->printPNG("Resources/Perfect.png", 662, 150, 1);
                             perfectImageStartTime = timeSinceStart; // 표시 시점 기록
                             perfectImageVisible = true;
                         }
@@ -653,7 +653,7 @@ bool MultiGame::tick()
 
                         heartDeduct = true;
                         heartVisible = false;
-                        print->deletePNG("heartNote.png");
+                        print->deletePNG("Resources/heartNote.png");
                     }
 
                     // 다음 하트 노드 생성 타이밍 설정
@@ -687,13 +687,13 @@ bool MultiGame::tick()
                 score += 900;
                 break;
             case 2:
-                print->printPNG("HIT.png", 110, 285, print->getLayeredTextures().back().layer + 1);
+                print->printPNG("Resources/HIT.png", 110, 285, print->getLayeredTextures().back().layer + 1);
                 hitImageStartTime = timeSinceStart; // 표시 시점 기록
                 hitImageVisible = true;
                 score += 1700;
                 break;
             case 3:
-                print->printPNG("FATAL.png", 75, 275, print->getLayeredTextures().back().layer);
+                print->printPNG("Resources/FATAL.png", 75, 275, print->getLayeredTextures().back().layer);
                 fatalImageStartTime = timeSinceStart; // 표시 시점 기록
                 fatalImageVisible = true;
                 score += 2500;
@@ -709,7 +709,7 @@ bool MultiGame::tick()
         //테트리스
         if (currentTetris > previousTetris)
         {
-            print->printPNG("CRITICAL.png", 26, 229, print->getLayeredTextures().back().layer);
+            print->printPNG("Resources/CRITICAL.png", 26, 229, print->getLayeredTextures().back().layer);
             criticalImageStartTime = timeSinceStart; // 표시 시점 기록
             criticalImageVisible = true;
             // 4줄 깬 경우
@@ -795,14 +795,14 @@ bool MultiGame::tick()
 
         if (heartVisible)
         {
-            SDL_Rect rect = print->getImagePosition("heartNote.png");
+            SDL_Rect rect = print->getImagePosition("Resources/heartNote.png");
             SDL_Point currentPosition = { rect.x, rect.y };
             double totalDuration = 4 * beatInterval;
             double moveDistance = (768 - 462) * (deltaTime.count() / totalDuration);
             int newPosX = currentPosition.x + moveDistance;
 
             heartPosX = newPosX;
-            print->moveImage("heartNote.png", heartPosX, currentPosition.y);
+            print->moveImage("Resources/heartNote.png", heartPosX, currentPosition.y);
 
             if (heartPosX > 768)
             {
@@ -811,7 +811,7 @@ bool MultiGame::tick()
                 }
                 heartDeduct = true;
                 heartVisible = false;
-                print->deletePNG("heartNote.png");
+                print->deletePNG("Resources/heartNote.png");
                 // 다음 하트 노드 생성 타이밍 설정
                 nextHeartSpawnTime += heartSpawnInterval;
             }
@@ -821,7 +821,7 @@ bool MultiGame::tick()
             // 다음 하트 노드를 생성할 시간에 도달했을 때만 생성
             heartVisible = true;
             heartPosX = 462;
-            print->printPNG("heartNote.png", heartPosX, 225, 11);
+            print->printPNG("Resources/heartNote.png", heartPosX, 225, 11);
         }
 
 
@@ -875,7 +875,7 @@ SDL_Texture* MultiGame::getBlockTexture(Tetromino::Type type) const
 void MultiGame::deductHeart()
 {
     std::cout << "miss!" << std::endl;
-    print->printPNG("miss.png", 713, 156, 100);
+    print->printPNG("Resources/miss.png", 713, 156, 100);
     missImageStartTime = timeSinceStart; // 표시 시점 기록
     missImageVisible = true;
 

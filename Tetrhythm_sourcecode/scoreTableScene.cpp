@@ -30,12 +30,12 @@ void scoreTableScene::drawInit()
 	print->deleteLayer(1);
 	result = mysql.printTable();
 	tokens = splitString(result, '\n');
-	font = print->loadFont("DungGeunMo.ttf", 18);
-	_1stfont = print->loadFont("DungGeunMo.ttf", 23);
-	_2stfont = print->loadFont("DungGeunMo.ttf", 21);
-	_3stfont = print->loadFont("DungGeunMo.ttf", 20);
+	font = print->loadFont("Resources/DungGeunMo.ttf", 18);
+	_1stfont = print->loadFont("Resources/DungGeunMo.ttf", 23);
+	_2stfont = print->loadFont("Resources/DungGeunMo.ttf", 21);
+	_3stfont = print->loadFont("Resources/DungGeunMo.ttf", 20);
 	//배경
-	print->printPNG("BackGround.png", 0, 0, -1);
+	print->printPNG("Resources/BackGround.png", 0, 0, -1);
 	int y = 0;
 	int x = 0;
 	if (x <= 1200) {

@@ -75,28 +75,28 @@ void MainMenu::drawSelection() {
     int posY = 328 + (MenuSelection * 94); // 선택된 항목에 따라 Y 위치 조정
     Print* pt = print;
     // Delete and print the PNG at the calculated position
-    pt->deletePNG("Selection2.png");
-    pt->printPNG("Selection2.png", posX, posY, 3);
+    pt->deletePNG("Resources/Selection2.png");
+    pt->printPNG("Resources/Selection2.png", posX, posY, 3);
 }
 
 void MainMenu::drawInit() {
     Print* pt = print;
-    pt->printPNG("BackGround.png", 0, 0, 0);
+    pt->printPNG("Resources/BackGround.png", 0, 0, 0);
     //pt->printPNG("PerTitle.png", 300, 102.75, 2);
-    pt->printPNG("Shift_1.png", 930.75, 546.5, 1);
-    pt->printPNG("title.png", 214, 29, 2);
-    pt->printPNG("MainExplain.png", 966.75, 586.5, 3);
-    pt->printPNG("main_esc.png", 65, 586.5, 3);
+    pt->printPNG("Resources/Shift_1.png", 930.75, 546.5, 1);
+    pt->printPNG("Resources/title.png", 214, 29, 2);
+    pt->printPNG("Resources/MainExplain.png", 966.75, 586.5, 3);
+    pt->printPNG("Resources/main_esc.png", 65, 586.5, 3);
 
     // 초기 선택 상태 설정
     int posX = 407;
     int posY = 328;
-    pt->printPNG("Selection2.png", posX, posY, 3);
+    pt->printPNG("Resources/Selection2.png", posX, posY, 3);
 
     // 메뉴 항목들 그리기
-    pt->printPNG("SinglePlay.png", 462, 315, 2); // 싱글 플레이
-    pt->printPNG("MultiPlay.png", 462, 315 + 94, 2); // 멀티 플레이
-    pt->printPNG("MyCharacter.png", 462, 315 + 188, 2); // 나의 캐릭터
+    pt->printPNG("Resources/SinglePlay.png", 462, 315, 2); // 싱글 플레이
+    pt->printPNG("Resources/MultiPlay.png", 462, 315 + 94, 2); // 멀티 플레이
+    pt->printPNG("Resources/MyCharacter.png", 462, 315 + 188, 2); // 나의 캐릭터
 }
 
 

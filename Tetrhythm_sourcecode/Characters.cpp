@@ -88,8 +88,8 @@ void Characters::drawSelection() {
 				int posY = y * (128 + 87) + 178 - 29 - 27;
 
 				// Delete and print the PNG at the calculated position
-				print->deletePNG("selection.png");
-				print->printPNG("selection.png", posX, posY, 2);
+				print->deletePNG("Resources/selection.png");
+				print->printPNG("Resources/selection.png", posX, posY, 2);
 
 				std::ostringstream oss;
 				//오른쪽에 사진 띄우기 및 해금 조건 띄우기
@@ -119,8 +119,8 @@ void Characters::drawSelection() {
 
 				// Delete and print the PNG at the calculated position
 				//선택
-				print->deletePNG("selectedRectang.png");
-				print->printPNG("selectedRectang.png", posX, posY, 4);
+				print->deletePNG("Resources/selectedRectang.png");
+				print->printPNG("Resources/selectedRectang.png", posX, posY, 4);
 				switch (y)
 				{
 					MySQL mysql;
@@ -169,7 +169,7 @@ void Characters::drawSelection() {
 	if (sIndex <= 3) {
 		//잠금상태면 해금 조건 표시
 		if (!data[sIndex][0]) {
-			print->printPNG("openedLock 1.png", 813, 142, 7);
+			print->printPNG("Resources/openedLock 1.png", 813, 142, 7);
 			//텍스트
 			switch (sIndex)
 			{
@@ -192,7 +192,7 @@ void Characters::drawSelection() {
 	else {//아랫줄
 		//잠금상태면 해금 조건 표시
 		if (!data[sIndex % 4][1]) {
-			print->printPNG("openedLock 1.png", 813, 142, 7);
+			print->printPNG("Resources/openedLock 1.png", 813, 142, 7);
 			//텍스트
 			switch (sIndex)
 			{
@@ -227,9 +227,9 @@ void Characters::drawInit() {
 	std::cout << sIndex << "charIndex";
 
 	Print* pt = print;
-	pt->printPNG("BackGround.png", 0, 0, 0);
-	pt->printPNG("explanation.png", 351, 34, 2);
-	pt->printPNG("openedLock 1.png", 813, 142, 7);
+	pt->printPNG("Resources/BackGround.png", 0, 0, 0);
+	pt->printPNG("Resources/explanation.png", 351, 34, 2);
+	pt->printPNG("Resources/openedLock 1.png", 813, 142, 7);
 
 	unlock();
 
@@ -260,7 +260,7 @@ void Characters::drawInit() {
 	//text
 		//text
 	//text 세팅
-	TTF_Font* font = print->loadFont("DungGeunMo.ttf", 25);
+	TTF_Font* font = print->loadFont("Resources/DungGeunMo.ttf", 25);
 	SDL_Color color = { 255, 255, 255 }; // 흰색
 	print->printText("Line: ", 777, 526, 4, font, color);
 	print->printText("Tetris: ", 777, 556, 5, font, color);

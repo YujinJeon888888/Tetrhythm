@@ -115,11 +115,11 @@ private:
 
     double lineImageStartTime = 0.0; // line anim표시 시점 기록
     bool lineImageVisible = false; // line anim 표시 여부  
-    std::vector<std::string> lineAnimPath= { "B1.png","B2.png","B3.png","B4.png","B5.png","B6.png" ,"B7.png" ,"B8.png","B9.png","B10.png" };
+    std::vector<std::string> lineAnimPath= { "Resources/B1.png","Resources/B2.png","Resources/B3.png","Resources/B4.png","Resources/B5.png","Resources/B6.png" ,"Resources/B7.png" ,"Resources/B8.png","Resources/B9.png","Resources/B10.png" };
     double heartImageStartTime=0.0; // heart anim표시 시점 기록
     bool heartImageVisible=false; // heart anim 표시 여부  
     std::vector<std::string> heartAnim = {
-       "tile000.png","tile001.png","tile002.png","tile003.png","tile004.png","tile005.png"
+       "Resources/tile000.png","Resources/tile001.png","Resources/tile002.png","Resources/tile003.png","Resources/tile004.png","Resources/tile005.png"
     };
     bool goodImageVisible = false;
     bool greatImageVisible = false;

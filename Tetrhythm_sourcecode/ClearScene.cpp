@@ -3,8 +3,8 @@
 ClearScene::ClearScene(WindowManager& wm, SceneManager& manager, int line, int tetris, int combo)
 	: windowManager(wm), sceneManager(manager), print(new Print(&wm)), line(line),tetris(tetris),soundManager(new SoundManager()), combo(combo)
 {
-    print->printPNG("BackGround.png", 0, 0, 0);
-    TTF_Font* font = print->loadFont("DungGeunMo.ttf", 30);
+    print->printPNG("Resources/BackGround.png", 0, 0, 0);
+    TTF_Font* font = print->loadFont("Resources/DungGeunMo.ttf", 30);
     SDL_Color color = { 255, 255, 255 }; // 흰색
     print->printText("Score: ", 441, 415, 3, font, color);
     print->printText("Tetris: ", 441, 445, 4, font, color);
@@ -15,7 +15,7 @@ ClearScene::ClearScene(WindowManager& wm, SceneManager& manager, int line, int t
     print->printText("        " + std::to_string(tetris), 441, 445, 7, font, color);
     print->printText("      "  + std::to_string(line), 441, 475, 8, font, color);
     print->printText("       " + std::to_string(combo), 441, 505, 9, font, color);
-    print->printPNG("GameClear.png", 320, 69, 1);
+    print->printPNG("Resources/GameClear.png", 320, 69, 1);
    
     soundManager->loadSound("Musics/YouWin.mp3", "YouWin"); // 효과음 로드
     soundManager->playSound("YouWin", 0);
@@ -28,8 +28,8 @@ ClearScene::ClearScene(WindowManager& wm, SceneManager& manager, int line, int t
     MySQL mysql;
     mysql.setMultiModeWin(UserInfo::getInstance().getUserID(), isMultiModeWin);
 	drawInit();
-    print->printPNG("clearImage.png", 259.5, 157.5, 1);
-    print->printPNG("clearText.png", 259.5, 26.25, 2);
+    print->printPNG("Resources/clearImage.png", 259.5, 157.5, 1);
+    print->printPNG("Resources/clearText.png", 259.5, 26.25, 2);
     soundManager->loadSound("Musics/YouWin.mp3", "YouWin"); // 효과음 로드
     soundManager->playSound("YouWin", 0);
 }
@@ -37,10 +37,10 @@ ClearScene::ClearScene(WindowManager& wm, SceneManager& manager, int line, int t
 void ClearScene::drawInit()
 {
    
-	print->printPNG("BackGround.png", 0, 0, 0);
+	print->printPNG("Resources/BackGround.png", 0, 0, 0);
 
     //text 세팅
-    TTF_Font* font = print->loadFont("DungGeunMo.ttf", 30);
+    TTF_Font* font = print->loadFont("Resources/DungGeunMo.ttf", 30);
     SDL_Color color = { 255, 255, 255 }; // 흰색
     print->printText("Score: ", 739.5, 237, 3, font, color);
     print->printText("Tetris: ", 739.5, 267, 4, font, color);

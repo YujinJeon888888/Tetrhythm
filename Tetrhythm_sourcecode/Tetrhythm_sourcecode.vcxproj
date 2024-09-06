@@ -142,7 +142,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v143</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
     <UseOfMfc>Static</UseOfMfc>
@@ -226,9 +226,12 @@
     <PostBuildEvent>
       <Command>xcopy /y /s "$(ProjectDir)Musics\*" "$(OutDir)Musics\"
 xcopy /y /s "$(ProjectDir)Char_image\*" "$(OutDir)Char_image\"
+xcopy /y /s "$(ProjectDir)Resources\*" "$(OutDir)Resources\"
 for %%F in (png ttf mp3 dll) do (
     for %%G in ("$(ProjectDir)*.%%F") do xcopy /y "%%G" "$(OutDir)"
 )
+
+
 
 </Command>
     </PostBuildEvent>
@@ -254,6 +257,7 @@ for %%F in (png ttf mp3 dll) do (
     <PostBuildEvent>
       <Command>xcopy /y /s "$(ProjectDir)Musics\*" "$(OutDir)Musics\"
 xcopy /y /s "$(ProjectDir)Char_image\*" "$(OutDir)Char_image\"
+xcopy /y /s "$(ProjectDir)Resources\*" "$(OutDir)Resources\"
 for %%F in (png ttf mp3 dll) do (
     for %%G in ("$(ProjectDir)*.%%F") do xcopy /y "%%G" "$(OutDir)"
 )

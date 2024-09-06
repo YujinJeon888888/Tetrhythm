@@ -40,7 +40,7 @@ void LoadingScene::handleArrowKey(SDL_Keycode key) {
 
 void LoadingScene::drawInit() {
 
-    print->printPNG("BackGround.png", 0, 0, 10);
+    print->printPNG("Resources/BackGround.png", 0, 0, 10);
     std::vector<std::string> animPaths1 = { "Loading1.png","Loading2.png","Loading3.png" };
 
     // 현재 인덱스의 이미지를 출력

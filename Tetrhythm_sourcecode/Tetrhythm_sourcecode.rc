@@ -13,7 +13,7 @@
 #undef APSTUDIO_READONLY_SYMBOLS
 
 /////////////////////////////////////////////////////////////////////////////
-// ÇÑ±¹¾î(´ëÇÑ¹Î±¹) resources
+// í•œêµ­ì–´(ëŒ€í•œë¯¼êµ­) resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_KOR)
 LANGUAGE LANG_KOREAN, SUBLANG_DEFAULT
@@ -50,15 +50,15 @@ END
 // PNG
 //
 
-IDB_PNG1                PNG                     "frame1.png"
+IDB_PNG1                PNG                     "Resources/frame1.png"
 
-IDB_PNG2                PNG                     "frame2.png"
+IDB_PNG2                PNG                     "Resources/frame2.png"
 
-IDB_PNG3                PNG                     "pngImage.png"
+IDB_PNG3                PNG                     "Resources/pngImage.png"
 
-IDB_PNG4                PNG                     "testPic.png"
+IDB_PNG4                PNG                     "Resources/testPic.png"
 
-#endif    // ÇÑ±¹¾î(´ëÇÑ¹Î±¹) resources
+#endif    // í•œêµ­ì–´(ëŒ€í•œë¯¼êµ­) resources
 /////////////////////////////////////////////////////////////////////////////
 
 

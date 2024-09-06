@@ -13,15 +13,15 @@ int main2(int argc, char* argv[]) {
     Print* print1 = new Print(&windowManager);
 
     // 여러 이미지를 서로 다른 위치에 출력
-    print1->printPNG("pngImage.png", 300, 300, 1); // 레이어 1
+    print1->printPNG("Resources/pngImage.png", 300, 300, 1); // 레이어 1
 
     // 애니메이션 출력
-    std::vector<std::string> animPaths1 = { "Anim1.png", "Anim2.png" };
+    std::vector<std::string> animPaths1 = { "Resources/Anim1.png", "Resources/Anim2.png" };
     print1->printAnimationPNG(animPaths1, 200, 200, 2, 60); // 1초마다 애니메이션 출력
     /////////////////////////////
     Print* print2 = new Print(&windowManager);
-    print2->printPNG("testPic.png", 50, 50, 1);
-    std::vector<std::string> animPaths2= { "frame1.png", "frame2.png" };
+    print2->printPNG("Resources/testPic.png", 50, 50, 1);
+    std::vector<std::string> animPaths2= { "Resources/frame1.png", "Resources/frame2.png" };
     print2->printAnimationPNG(animPaths2, 200, 200, 2, 60); // 1초마다 애니메이션 출력
 
     ///////////////////////////////
@@ -38,7 +38,7 @@ int main2(int argc, char* argv[]) {
             if (i == 480) {
                 i = 0;
             }
-            print1->moveImage("pngImage.png",(print1->getImagePosition("pngImage.png").x + 1), (print1->getImagePosition("pngImage.png").y + 1));
+            print1->moveImage("Resources/pngImage.png",(print1->getImagePosition("Resources/pngImage.png").x + 1), (print1->getImagePosition("Resources/pngImage.png").y + 1));
             print1->handleEvents();
             print1->updateAnimations(); // 애니메이션 업데이트
             print1->render(); // 렌더링

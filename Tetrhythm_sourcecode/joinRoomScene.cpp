@@ -15,13 +15,13 @@ void joinRoomScene::drawInit()
     //객체 연결
     Print* pt = print;
     //프린트 세팅
-    print->printPNG("background.png", 0, 0, 0);
-    print->printPNG("IDInputBox.png", 375, 337.5, 1);
-    print->printPNG("InputCode.png", 364, 186, 2);
-    print->printPNG("ToCompleteSpace.png", 908.25, 582, 3);
+    print->printPNG("Resources/background.png", 0, 0, 0);
+    print->printPNG("Resources/IDInputBox.png", 375, 337.5, 1);
+    print->printPNG("Resources/InputCode.png", 364, 186, 2);
+    print->printPNG("Resources/ToCompleteSpace.png", 908.25, 582, 3);
 
     //input text 세팅
-    TTF_Font* font = print->loadFont("DungGeunMo.ttf", 30);
+    TTF_Font* font = print->loadFont("Resources/DungGeunMo.ttf", 30);
     SDL_Color color = { 255, 255, 255 }; // 흰색
     print->InputText(390, 360, 4, font, color);
     SDL_StartTextInput();

@@ -227,7 +227,8 @@
       <Command>xcopy /y /s "$(ProjectDir)Musics\*" "$(OutDir)Musics\"
 xcopy /y /s "$(ProjectDir)Char_image\*" "$(OutDir)Char_image\"
 xcopy /y /s "$(ProjectDir)Resources\*" "$(OutDir)Resources\"
-for %%F in (png ttf mp3 dll) do (
+
+for %%F in (dll png ttf mp3) do (
     for %%G in ("$(ProjectDir)*.%%F") do xcopy /y "%%G" "$(OutDir)"
 )
 
@@ -258,7 +259,8 @@ for %%F in (png ttf mp3 dll) do (
       <Command>xcopy /y /s "$(ProjectDir)Musics\*" "$(OutDir)Musics\"
 xcopy /y /s "$(ProjectDir)Char_image\*" "$(OutDir)Char_image\"
 xcopy /y /s "$(ProjectDir)Resources\*" "$(OutDir)Resources\"
-for %%F in (png ttf mp3 dll) do (
+
+for %%F in (dll png ttf mp3) do (
     for %%G in ("$(ProjectDir)*.%%F") do xcopy /y "%%G" "$(OutDir)"
 )
 
